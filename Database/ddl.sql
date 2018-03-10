@@ -6,6 +6,7 @@ create table FSR(
 	isApproved boolean NOT NULL default 0,
 	constraint fsr_id_pk PRIMARY KEY (fsr_id)
 );
+
 create table FACULTY(
 	emp_id varchar(10) not null,
 	emp_type varchar(20) not null,
@@ -69,12 +70,6 @@ create table COWORKER(
 
 	constraint coworker_publication_id foreign key(publication_id) references PUBLICATION(publication_id),
 );
-
-
-
-
-
-
 
 
 create table CONSULTATION(

@@ -1,18 +1,6 @@
-DROP USER IF EXISTS 'skydev'@'localhost';
-CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
-DROP DATABASE IF EXISTS skydev;
-CREATE DATABASE skydev;
-GRANT SUPER ON *.* TO 'skydev'@'localhost';
-GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
-USE skydev;
-
-
-
-create table ADMIN(
-	admin_id varchar(10) not null,
-	username varchar(10) not null,
-	constraint admin_admin_id_pk PRIMARY KEY (admin_id)
-);
+drop database if exists fsr_ms;
+create database fsr_ms;
+use fsr_ms;
 create table FSR(
 	fsr_id INT NOT NULL AUTO_INCREMENT,
 	semester varchar(10) not null,
@@ -21,13 +9,11 @@ create table FSR(
 );
 
 create table FACULTY(
-	emp_id varchar(10) not null,
-	username varchar(20) not null,
-	emp_type varchar(20) not null,
-	department varchar(10) not null,
-	college varchar(20) not null,
-	rank varchar(10) not null,
-	constraint faculty_emp_id_pk PRIMARY KEY (emp_id)
+	emp_id varchar(10),
+	emp_type varchar(20),
+	department varchar (10),
+	college varchar(20)
+
 );
 
 create table FACULTY_NAME(
@@ -126,21 +112,6 @@ create table STUDYLOAD(
 	subject_id int AUTO_INCREMENT not null,
 	school varchar(255) not null,
 	constraint subject_id_pk PRIMARY key (subject_id)
-);
-create table TEACHING_LOAD(
-	section_code varchar(5) not null,
-	room varchar(10) not null,
-	days varchar(10) not null,
-	start_time datetime not null,
-	end_time datetime not null,
-	hours_per_week int not null,
-	course_credit int not null,
-	student_credit int not null,
-	teaching_load_credit int not null,
-
-	constraint teachiing_load_section_code_pk PRIMARY key (section_code)
-
-
 );
 
 

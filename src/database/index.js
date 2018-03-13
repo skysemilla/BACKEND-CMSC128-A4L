@@ -4,7 +4,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'skydev',
   password: 'skydev',
-  db: 'sample',
+  db: 'skydev',
   dateStrings: true
 });
 
@@ -17,6 +17,6 @@ db.connect(err => {
   }
 });
 
-db.query('USE sample');
+db.query('USE skydev');
 
 export default db;

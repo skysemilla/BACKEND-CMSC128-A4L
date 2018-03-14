@@ -1,6 +1,10 @@
-drop database if exists skydev;
-create database skydev;
-use skydev;
+DROP USER IF EXISTS 'skydev'@'localhost';
+CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
+DROP DATABASE IF EXISTS skydev;
+CREATE DATABASE skydev;
+GRANT SUPER ON *.* TO 'skydev'@'localhost';
+GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
+USE skydev;
 
 create table FSR(
   fsr_id INT NOT NULL AUTO_INCREMENT,

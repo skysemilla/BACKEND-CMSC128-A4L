@@ -8,18 +8,37 @@ create table FSR(
 	constraint fsr_id_pk PRIMARY KEY (fsr_id)
 );
 
+create table ADMIN(
+	admin_id int not null AUTO_INCREMENT,
+	username varchar(20),
+	password varchar(20),
+	constraint admin_admin_id_pk PRIMARY key (admin_id)
+);
+
+create table ADMIN_NAME(
+	f_name varchar(255) not null,
+	m_name varchar(255) not null,
+	l_name varchar (255) not null,
+	admin_id varchar(10) not null,
+	constraint admin_name_admin_id_fk foreign key (admin_id)
+);
+
 create table FACULTY(
 	emp_id varchar(10),
 	emp_type varchar(20),
 	department varchar (10),
-	college varchar(20)
-
+	college varchar(20),
+	username varchar(20),
+	password varchar(20),
+	constraint faculty_emp_id_pk PRIMARY KEY (emp_id)
 );
 
 create table FACULTY_NAME(
 	f_name varchar(255) not null,
 	m_name varchar(255) not null,
-	l_name varchar (255) not null
+	l_name varchar (255) not null,
+	emp_id varchar(10) not null,
+	constraint faculty_name_emp_id_fk foreign key (emp_id)
 );
 
 create table ACTIVITY(
@@ -102,7 +121,7 @@ create table SUBJECT(
 	constraint subject_fsr_id_fk foreign key (fsr_id) references FSR(fsr_id)
 );
 
-create table WORKLOAD(
+create table TEACHINGLOAD(
 	subject_id int AUTO_INCREMENT not null,
 	no_of_students int not null,
 	constraint subject_id_pk PRIMARY key (subject_id)

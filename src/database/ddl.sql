@@ -90,7 +90,6 @@ create table CONSULTATION(
   consultation_id int AUTO_INCREMENT,
   consultation_start_time datetime not null,
   consultation_end_time datetime not null,
-  consultation_day date not null,
   consultation_place varchar(255) not null,
   emp_id int not null,
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),

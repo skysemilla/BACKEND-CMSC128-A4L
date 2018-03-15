@@ -20,8 +20,13 @@ create table FACULTY( -- COMBINED FACULTY NAME
 create table USER( -- COMBINED ADMIN AND FACULTY AS ONE USER
   username varchar(20) not null,
   password varchar(20) not null,
-  type varchar(5) not null, -- POSSIBLE VALUES: ADMIN, USER
-  emp_id varchar(10), -- CAN BE NULL IF USER IS ADMIN
+  -- type varchar(5) not null, -- POSSIBLE VALUES: ADMIN, USER
+  isAdmin boolean not null, -- Aaron: Changed to boolean for easier comparison later on in the code
+  emp_id varchar(10) not null, -- CAN BE NULL IF USER IS ADMIN -- Aaron: Mam Kat said that admins are also employees, therefore they will have the emp_id attribute, they just have different roles in the system 
+
+  -- OBTW, there can be multiple admins in the system, as stated by Ma'am Kat as an example that what if the ICS Director(Sir Jim) wants to have a look into the Faculty FSRs
+  -- we can have a new user type called viewing, that just views that FSR of the current faculty members that submitted their fsr
+
   constraint user_username_pk PRIMARY key (username),
   constraint user_emp_id FOREIGN KEY (emp_id) REFERENCES FACULTY(emp_id)
 );
@@ -36,7 +41,7 @@ create table ACTIVITY(
   activity_role varchar(10) not null,
   start_time datetime not null,
   end_time datetime not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
   constraint activity_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -49,7 +54,7 @@ create table SERVICE(
   no_of_participants int(10) not null,
   role varchar(10) not null,
   credits int (10) not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY  
+  emp_id varchar(10) not null,   
   constraint service_service_id_pk PRIMARY KEY (service_id),
   constraint service_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -63,14 +68,14 @@ create table PUBLICATION(
   role varchar(255) not null,
   start_date datetime not null,
   end_date datetime not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table COWORKER(
   coworker_id int AUTO_INCREMENT,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   publication_id int not null,
   constraint coworker_coworker_id PRIMARY KEY (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
@@ -82,7 +87,7 @@ create table CONSULTATION(
   consultation_start_time datetime not null,
   consultation_end_time datetime not null,
   consultation_place varchar(255) not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
   constraint consultation_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -97,7 +102,7 @@ create table POSITIONN(
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
   credit_units int not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
   constraint position_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -108,7 +113,7 @@ create table TEACHINGLOAD(
   isLecture boolean not null,
   noOfStudents int not null,
   units int not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   section_code varchar(255) not null,
   subject_code varchar(255) not null,
   room varchar(255) not null,
@@ -126,7 +131,7 @@ create table TEACHINGLOAD_DAY(
 
 );
 
-create table STUDYLOAD(
+create table STUDYLOAD( 
 
   studyload_id int not null,
   degree varchar(255) not null,
@@ -134,7 +139,7 @@ create table STUDYLOAD(
   isFullTime boolean not null,
   credits int not null,
   units int not null,
-  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
+  emp_id varchar(10) not null, 
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 

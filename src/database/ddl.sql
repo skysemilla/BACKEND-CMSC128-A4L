@@ -6,37 +6,24 @@ GRANT SUPER ON *.* TO 'skydev'@'localhost';
 GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
 USE skydev;
 
-create table ADMIN(
-  admin_id int NOT NULL AUTO_INCREMENT,
-  username varchar(20),
-  password varchar(20),
-  constraint admin_admin_id_pk PRIMARY key (admin_id)
-);
-
-create table ADMIN_NAME(
-  f_name varchar(255) not null,
-  m_name varchar(255) not null,
-  l_name varchar (255) not null,
-  admin_id int not null,
-  constraint admin_name_admin_id_fk foreign key (admin_id) references ADMIN(admin_id)
-);
-
-create table FACULTY(
-  emp_id varchar(10),
-  emp_type varchar(20),
-  department varchar (10),
-  college varchar(20),
-  username varchar(20),
-  password varchar(20),
-  constraint faculty_emp_id_pk PRIMARY KEY (emp_id)
-);
-
-create table FACULTY_NAME(
+create table FACULTY( -- COMBINED FACULTY NAME 
+  emp_id varchar(10) not null,
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
-  emp_id varchar(10) not null,
-  constraint faculty_name_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  emp_type varchar(20),
+  department varchar(10),
+  college varchar(20),
+  constraint faculty_emp_id_pk PRIMARY KEY (emp_id)
+);
+
+create table USER( -- COMBINED ADMIN AND FACULTY AS ONE USER
+  username varchar(20) not null,
+  password varchar(20) not null,
+  type varchar(5) not null, -- POSSIBLE VALUES: ADMIN, USER
+  emp_id varchar(10), -- CAN BE NULL IF USER IS ADMIN
+  constraint user_username_pk PRIMARY key (username),
+  constraint user_emp_id FOREIGN KEY (emp_id) REFERENCES FACULTY(emp_id)
 );
 
 create table ACTIVITY(
@@ -49,7 +36,7 @@ create table ACTIVITY(
   activity_role varchar(10) not null,
   start_time datetime not null,
   end_time datetime not null,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
   constraint activity_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -62,7 +49,7 @@ create table SERVICE(
   no_of_participants int(10) not null,
   role varchar(10) not null,
   credits int (10) not null,
-  emp_id int not null,  
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY  
   constraint service_service_id_pk PRIMARY KEY (service_id),
   constraint service_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -76,14 +63,14 @@ create table PUBLICATION(
   role varchar(255) not null,
   start_date datetime not null,
   end_date datetime not null,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table COWORKER(
   coworker_id int AUTO_INCREMENT,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   publication_id int not null,
   constraint coworker_coworker_id PRIMARY KEY (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
@@ -95,7 +82,7 @@ create table CONSULTATION(
   consultation_start_time datetime not null,
   consultation_end_time datetime not null,
   consultation_place varchar(255) not null,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
   constraint consultation_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -110,7 +97,7 @@ create table POSITIONN(
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
   credit_units int not null,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   constraint position_position_id_pk PRIMARY key (position_id),
   constraint position_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
@@ -121,7 +108,7 @@ create table TEACHINGLOAD(
   isLecture boolean not null,
   noOfStudents int not null,
   units int not null,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   section_code varchar(255) not null,
   subject_code varchar(255) not null,
   room varchar(255) not null,
@@ -147,10 +134,13 @@ create table STUDYLOAD(
   isFullTime boolean not null,
   credits int not null,
   units int not null,
-  emp_id int not null,
+  emp_id varchar(10) not null, -- EDITED TO BE THE VARCHAR(10) WHICH IS SAME AS IN FACULTY
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 
 
 );
 
+-- INSTANTIATE
+INSERT INTO `USER` VALUES ('admin','admin','ADMIN', null);
+INSERT INTO `USER` VALUES ('bea', 'bautista123', 'USER', null);

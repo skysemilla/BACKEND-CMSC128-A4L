@@ -1,16 +1,16 @@
 import db from '../../database';
 
-export const signup = ({ emp_id, username, emp_type, department, college, rank }) => {
+export const signup = ({ username, password, type, emp_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       INSERT INTO
-      FACULTY
-      (emp_id, username, emp_type, department, college, rank)
+      user
+      (username, password, type, emp_id)
       VALUES
-      (?, ?, ?, ?, ?, ?)
+      (?, ?, ?, ?)
     `;
 
-    const values = [emp_id, username, emp_type, department, college, ran];
+    const values = [username, password, type, emp_id];
 
     db.query(queryString, values, (err, rows) => {
       if (err) {

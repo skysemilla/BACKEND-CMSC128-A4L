@@ -6,37 +6,24 @@ GRANT SUPER ON *.* TO 'skydev'@'localhost';
 GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
 USE skydev;
 
-create table ADMIN(
-  admin_id int NOT NULL AUTO_INCREMENT,
-  username varchar(20),
-  password varchar(20),
-  constraint admin_admin_id_pk PRIMARY key (admin_id)
-);
-
-create table ADMIN_NAME(
-  first_name varchar(255) not null,
-  middle_name varchar(255) not null,
-  last_name varchar (255) not null,
-  admin_id int not null,
-  constraint admin_name_admin_id_fk foreign key (admin_id) references ADMIN(admin_id)
-);
-
-create table FACULTY(
-  employee_id varchar(10),
-  employee_type varchar(20),
-  department varchar (10),
+create table FACULTY( 
+  emp_id varchar(10) not null,
+  f_name varchar(255) NOT NULL,
+  m_name varchar(255) not null,
+  l_name varchar (255) not null,
+  emp_type varchar(20),
+  department varchar(10),
   college varchar(20),
-  username varchar(20),
-  password varchar(20),
-  constraint faculty_employee_id_pk PRIMARY KEY (employee_id)
+  constraint faculty_emp_id_pk PRIMARY KEY (emp_id)
 );
 
-create table FACULTY_NAME(
-  first_name varchar(255) NOT NULL,
-  middle_name varchar(255) not null,
-  last_name varchar (255) not null,
-  employee_id varchar(10) not null,
-  constraint faculty_name_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+create table USER(
+  username varchar(20) not null,
+  password varchar(20) not null,
+  type varchar(5) not null, 
+  emp_id varchar(10) not null, 
+  constraint user_username_pk PRIMARY key (username),
+  constraint user_emp_id FOREIGN KEY (emp_id) REFERENCES FACULTY(emp_id)
 );
 
 create table ACTIVITY(
@@ -49,9 +36,9 @@ create table ACTIVITY(
   activity_role varchar(10) not null,
   start_time datetime not null,
   end_time datetime not null,
-  employee_id int not null,
+  emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
-  constraint activity_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint activity_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table SERVICE(
@@ -62,9 +49,9 @@ create table SERVICE(
   no_of_participants int(10) not null,
   role varchar(10) not null,
   credits int (10) not null,
-  employee_id int not null,  
+  emp_id varchar(10) not null,   
   constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint service_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table PUBLICATION(
@@ -76,28 +63,28 @@ create table PUBLICATION(
   role varchar(255) not null,
   start_date datetime not null,
   end_date datetime not null,
-  employee_id int not null,
+  emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
-  constraint publication_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint publication_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table COWORKER(
   coworker_id int AUTO_INCREMENT,
-  employee_id int not null,
+  emp_id varchar(10) not null, 
   publication_id int not null,
   constraint coworker_coworker_id PRIMARY KEY (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
-  constraint coworker_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint coworker_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table CONSULTATION(
   consultation_id int AUTO_INCREMENT,
-  start_time datetime not null,
-  end_time datetime not null,
-  place varchar(255) not null,
-  employee_id int not null,
+  consultation_start_time datetime not null,
+  consultation_end_time datetime not null,
+  consultation_place varchar(255) not null,
+  emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
-  constraint consultation_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint consultation_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table CONSULTATION_DAY(
@@ -109,47 +96,51 @@ create table CONSULTATION_DAY(
 create table POSITIONN(
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
-  units int not null,
-  employee_id int not null,
+  credit_units int not null,
+  emp_id varchar(10) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
-  constraint position_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint position_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 );
 
 create table TEACHINGLOAD(
 
   teachingload_id int AUTO_INCREMENT not null,
   isLecture boolean not null,
-  no_of_students int not null,
+  noOfStudents int not null,
   units int not null,
-  employee_id int not null,
+  emp_id varchar(10) not null, 
   section_code varchar(255) not null,
   subject_code varchar(255) not null,
   room varchar(255) not null,
   no_of_hours int not null,
   constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
-  constraint teachingload_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint teachingload_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
 
 );
 
 create table TEACHINGLOAD_DAY(
 
-  teachingload_id int not null,
   day varchar(255) not null,
+  teachingload_id int not null,
   constraint teachingload_day_teachingload_id_fk foreign key (teachingload_id) references TEACHINGLOAD(teachingload_id)
 
 );
 
-create table STUDYLOAD(
+create table STUDYLOAD( 
 
   studyload_id int not null,
   degree varchar(255) not null,
   university varchar(255) not null,
-  is_full_time boolean not null,
+  isFullTime boolean not null,
   credits int not null,
   units int not null,
-  employee_id int not null,
+  emp_id varchar(10) not null, 
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
-  constraint studyload_employee_id_fk foreign key (employee_id) references FACULTY(employee_id)
+  constraint studyload_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+
 
 );
 
+-- INSTANTIATE
+INSERT INTO `USER` VALUES ('admin','admin','ADMIN', null);
+INSERT INTO `USER` VALUES ('bea', 'bautista123', 'USER', null);

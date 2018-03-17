@@ -6,24 +6,20 @@ GRANT SUPER ON *.* TO 'skydev'@'localhost';
 GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
 USE skydev;
 
-create table FACULTY( 
+
+create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS 
   emp_id varchar(10) not null,
+  username varchar(20) not null,
+  password varchar(20) not null,
+  type varchar(7) not null, -- TYPE OF USER: ADMIN, FACULTY
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
   emp_type varchar(20),
   department varchar(10),
   college varchar(20),
-  constraint faculty_emp_id_pk PRIMARY KEY (emp_id)
-);
-
-create table USER(
-  username varchar(20) not null,
-  password varchar(20) not null,
-  type varchar(5) not null, 
-  emp_id varchar(10) not null, 
-  constraint user_username_pk PRIMARY key (username),
-  constraint user_emp_id FOREIGN KEY (emp_id) REFERENCES FACULTY(emp_id)
+  constraint employee_emp_id_pk PRIMARY KEY (emp_id)
+  constraint employee_username_uk UNIQUE (username)
 );
 
 create table ACTIVITY(
@@ -38,7 +34,7 @@ create table ACTIVITY(
   end_time datetime not null,
   emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
-  constraint activity_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
 create table SERVICE(
@@ -51,7 +47,7 @@ create table SERVICE(
   credits int (10) not null,
   emp_id varchar(10) not null,   
   constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
 create table PUBLICATION(
@@ -65,7 +61,7 @@ create table PUBLICATION(
   end_date datetime not null,
   emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
-  constraint publication_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
 create table COWORKER(
@@ -74,7 +70,7 @@ create table COWORKER(
   publication_id int not null,
   constraint coworker_coworker_id PRIMARY KEY (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
-  constraint coworker_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
 create table CONSULTATION(
@@ -84,7 +80,7 @@ create table CONSULTATION(
   consultation_place varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
-  constraint consultation_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
 create table CONSULTATION_DAY(
@@ -99,46 +95,47 @@ create table POSITIONN(
   credit_units int not null,
   emp_id varchar(10) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
-  constraint position_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
+  constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
-create table TEACHINGLOAD(
-
-  teachingload_id int AUTO_INCREMENT not null,
-  isLecture boolean not null,
-  noOfStudents int not null,
-  units int not null,
-  emp_id varchar(10) not null, 
-  section_code varchar(255) not null,
+create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES
   subject_code varchar(255) not null,
+  section_code varchar(255) not null,
+  isLecture boolean not null,
+  units int not null,
   room varchar(255) not null,
-  no_of_hours int not null,
-  constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
-  constraint teachingload_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
-
+  start_time datetime not null,
+  end_time datetime not null,
+  constraint subject_subject_code_pk PRIMARY key (subject_code)
 );
 
-create table TEACHINGLOAD_DAY(
-
+create table SUBJECT_DAY(
   day varchar(255) not null,
-  teachingload_id int not null,
-  constraint teachingload_day_teachingload_id_fk foreign key (teachingload_id) references TEACHINGLOAD(teachingload_id)
-
+  subject_code varchar(255) not null,
+  constraint subject_day_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
-create table STUDYLOAD( 
+create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED
+  teachingload_id int AUTO_INCREMENT not null,
+  emp_id varchar(10) not null, 
+  noOfStudents int not null,
+  subject_code varchar(255) not null,
+  constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
+  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint teachingload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
+);
 
+create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD 
   studyload_id int not null,
   degree varchar(255) not null,
   university varchar(255) not null,
   isFullTime boolean not null,
   credits int not null,
-  units int not null,
   emp_id varchar(10) not null, 
+  subject_code varchar(255) not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
-  constraint studyload_emp_id_fk foreign key (emp_id) references FACULTY(emp_id)
-
-
+  constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
+  constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
 -- INSTANTIATE

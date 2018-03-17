@@ -138,18 +138,17 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
---view procedure (activity)
-DROP PROCEDURE IF EXISTS viewActivity;
+
+DROP PROCEDURE IF EXISTS viewActivity; 
 DELIMITER GO
 CREATE PROCEDURE viewActivity()
   BEGIN 
-    SELECT * from ACTIVITY
+    SELECT * from ACTIVITY;
 END;
 GO
 DELIMITER ;
 
---insert procedure (activity)
-DROP PROCEDURE IF EXISTS insertActivity;
+DROP PROCEDURE IF EXISTS insertActivity; 
 DELIMITER GO
 CREATE PROCEDURE insertActivity(   credit_unit int (255),
                                    activity_name varchar(20), 
@@ -162,24 +161,24 @@ CREATE PROCEDURE insertActivity(   credit_unit int (255),
                                    emp_id varchar(10) )
   BEGIN 
     INSERT INTO ACTIVITY
-        values (credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
 END;
 GO
 DELIMITER ;
 
---delete procedure (activity)
-DROP PROCEDURE IF EXISTS deleteActivity;
+
+DROP PROCEDURE IF EXISTS deleteActivity; 
 DELIMITER GO
-CREATE PROCEDURE deleteActivity(activity_id_del int)--id to be deleted
-  BEGIN 
+CREATE PROCEDURE deleteActivity(  activity_id_del int)
+BEGIN
     DELETE FROM ACTIVITY
       where activity_id = activity_id_del;
 END;
 GO
 DELIMITER ;
 
---update procedure (activity)
-DROP PROCEDURE IF EXISTS updateActivity;
+
+DROP PROCEDURE IF EXISTS updateActivity; 
 DELIMITER GO
 CREATE PROCEDURE updateActivity(   activity_id_update int,
                                    credit_unit_update int (255),
@@ -207,32 +206,32 @@ END;
 GO
 DELIMITER ;
 
------FOR POSITION
 
-DROP PROCEDURE IF EXISTS viewPosition;
+
+DROP PROCEDURE IF EXISTS viewPosition; 
 DELIMITER GO
 CREATE PROCEDURE viewPosition()
 BEGIN
     SELECT * FROM POSITIONN;
 END;
 GO
-DELIMITER;
+DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insertPositionn;
+DROP PROCEDURE IF EXISTS insertPosition;
 DELIMITER GO
 CREATE PROCEDURE insertPosition(office varchar(255),
-                                credit_units int,
+                                credit_units int(10),
                                 emp_id varchar(10))
 BEGIN
     INSERT INTO POSITIONN
-      values (office, credit_units, emp_id);
+      values (NULL, office, credit_units, emp_id);
 END;
 GO
-DELIMITER;
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS deletePositionn;
 DELIMITER GO
-CREATE PROCEDURE deletePositionn(position_id_del int)--id to be deleted
+CREATE PROCEDURE deletePositionn(position_id_del int)
   BEGIN 
     DELETE FROM POSITIONN
       where position_id = position_id_del;

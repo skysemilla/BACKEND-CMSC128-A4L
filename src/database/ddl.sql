@@ -141,3 +141,72 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
 -- INSTANTIATE
 INSERT INTO `USER` VALUES ('admin','admin','ADMIN', null);
 INSERT INTO `USER` VALUES ('bea', 'bautista123', 'USER', null);
+
+--view procedure (activity)
+DROP PROCEDURE IF EXISTS viewActivity;
+DELIMITER GO
+CREATE PROCEDURE viewActivity()
+  BEGIN 
+    SELECT * from ACTIVITY
+END;
+GO
+DELIMITER ;
+
+--insert procedure (activity)
+DROP PROCEDURE IF EXISTS insertActivity;
+DELIMITER GO
+CREATE PROCEDURE insertActivity(   credit_unit int (255),
+                                   activity_name varchar(20), 
+                                   activity_type varchar(20), 
+                                   no_of_hours int , 
+                                   no_of_participants int (20), 
+                                   activity_role varchar(10), 
+                                   start_time datetime, 
+                                   end_time datetime, 
+                                   emp_id varchar(10) )
+  BEGIN 
+    INSERT INTO ACTIVITY
+        values (credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+END;
+GO
+DELIMITER ;
+
+--delete procedure (activity)
+DROP PROCEDURE IF EXISTS deleteActivity;
+DELIMITER GO
+CREATE PROCEDURE deleteActivity(activity_id_del int)--id to be deleted
+  BEGIN 
+    DELETE FROM ACTIVITY
+      where activity_id = activity_id_del;
+END;
+GO
+DELIMITER ;
+
+--update procedure (activity)
+DROP PROCEDURE IF EXISTS updateActivity;
+DELIMITER GO
+CREATE PROCEDURE updateActivity(   activity_id_update int,
+                                   credit_unit_update int (255),
+                                   activity_name_update varchar(20), 
+                                   activity_type_update varchar(20), 
+                                   no_of_hours_update int , 
+                                   no_of_participants_update int (20), 
+                                   activity_role_update varchar(10), 
+                                   start_time_update datetime, 
+                                   end_time_update datetime, 
+                                   emp_id_update varchar(10) )
+  BEGIN 
+    UPDATE ACTIVITY
+        SET  credit_unit = credit_unit_update, 
+             activity_name = activity_id_update,
+             activity_type = activity_id_update, 
+             no_of_hours = no_of_hours_update, 
+             no_of_participants = no_of_participants_update, 
+             activity_role = activity_role_update, 
+             start_time = start_time_update, 
+             end_time = end_time_update, 
+             emp_id = emp_id_update
+        WHERE activity_id = activity_id_update;
+END;
+GO
+DELIMITER ;

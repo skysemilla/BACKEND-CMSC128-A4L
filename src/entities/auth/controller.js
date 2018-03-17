@@ -1,18 +1,18 @@
 import db from '../../database';
 
-export const login = ({ studNo, password }) => {
+export const login = ({ username, password }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       SELECT 
         *
       FROM
-        user
+        EMPLOYEE
       WHERE
-        studNo = BINARY ? and
+        username = BINARY ? and
         password = BINARY ?
     `;
 
-    const values = [studNo, password];
+    const values = [username, password];
 
     db.query(queryString, values, (err, rows) => {
       if (err) {

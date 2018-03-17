@@ -7,6 +7,9 @@
     "build": "backpack build",
     "seed": "mysql -u root -p < src/database/ddl.sql"
   },
+  "devDependencies": {
+    "backpack-core": "^0.4.3"
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

@@ -138,19 +138,20 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
+---- PROCEDURES FOR ACTIVITY
 
-DROP PROCEDURE IF EXISTS viewActivity; 
+DROP PROCEDURE IF EXISTS view_activity; 
 DELIMITER GO
-CREATE PROCEDURE viewActivity()
+CREATE PROCEDURE view_activity()
   BEGIN 
     SELECT * from ACTIVITY;
 END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insertActivity; 
+DROP PROCEDURE IF EXISTS insert_activity; 
 DELIMITER GO
-CREATE PROCEDURE insertActivity(   credit_unit int (255),
+CREATE PROCEDURE insert_activity(   credit_unit int (255),
                                    activity_name varchar(20), 
                                    activity_type varchar(20), 
                                    no_of_hours int , 
@@ -167,9 +168,9 @@ GO
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS deleteActivity; 
+DROP PROCEDURE IF EXISTS delete_activity; 
 DELIMITER GO
-CREATE PROCEDURE deleteActivity(  activity_id_del int)
+CREATE PROCEDURE delete_activity(  activity_id_del int)
 BEGIN
     DELETE FROM ACTIVITY
       where activity_id = activity_id_del;
@@ -178,9 +179,9 @@ GO
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS updateActivity; 
+DROP PROCEDURE IF EXISTS update_activity; 
 DELIMITER GO
-CREATE PROCEDURE updateActivity(   activity_id_update int,
+CREATE PROCEDURE update_activity(   activity_id_update int,
                                    credit_unit_update int (255),
                                    activity_name_update varchar(20), 
                                    activity_type_update varchar(20), 
@@ -208,18 +209,18 @@ DELIMITER ;
 
 
 
-DROP PROCEDURE IF EXISTS viewPosition; 
+DROP PROCEDURE IF EXISTS view_position; 
 DELIMITER GO
-CREATE PROCEDURE viewPosition()
+CREATE PROCEDURE view_position()
 BEGIN
     SELECT * FROM POSITIONN;
 END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insertPosition;
+DROP PROCEDURE IF EXISTS insert_position;
 DELIMITER GO
-CREATE PROCEDURE insertPosition(office varchar(255),
+CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
                                 emp_id varchar(10))
 BEGIN
@@ -229,9 +230,9 @@ END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS deletePositionn;
+DROP PROCEDURE IF EXISTS delete_position;
 DELIMITER GO
-CREATE PROCEDURE deletePositionn(position_id_del int)
+CREATE PROCEDURE delete_position(position_id_del int)
   BEGIN 
     DELETE FROM POSITIONN
       where position_id = position_id_del;
@@ -239,9 +240,9 @@ END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS updatePosition;
+DROP PROCEDURE IF EXISTS update_position;
 DELIMITER GO
-CREATE PROCEDURE updatePosition(position_id_update int,
+CREATE PROCEDURE update_position(position_id_update int,
                                 office_update varchar(255),
                                 credit_units_update int,
                                 emp_id_update varchar(10))
@@ -255,18 +256,28 @@ END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS viewService; 
+DROP PROCEDURE IF EXISTS view_service; 
 DELIMITER GO
-CREATE PROCEDURE viewService()
+CREATE PROCEDURE view_service()
 BEGIN
     SELECT * FROM SERVICE;
 END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insertService;
+DROP PROCEDURE IF EXISTS view_service_by_ID; 
 DELIMITER GO
-CREATE PROCEDURE insertService( 
+CREATE PROCEDURE view_service_by_ID(view_service_id int)
+BEGIN
+    SELECT * FROM SERVICE
+    where service_id = view_service_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insert_service;
+DELIMITER GO
+CREATE PROCEDURE insert_service( 
                                 category varchar(255),
                                 title varchar(255),
                                 no_of_hours int(10),
@@ -282,9 +293,9 @@ END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS deleteService;
+DROP PROCEDURE IF EXISTS delete_service;
 DELIMITER GO
-CREATE PROCEDURE deleteService(service_id_del int)
+CREATE PROCEDURE delete_service(service_id_del int)
   BEGIN 
     DELETE FROM SERVICE
       where service_id = service_id_del;
@@ -292,9 +303,9 @@ END;
 GO
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS updateService;
+DROP PROCEDURE IF EXISTS update_service;
 DELIMITER GO
-CREATE PROCEDURE updateService( service_id_u int,
+CREATE PROCEDURE update_service( service_id_u int,
                                 category_u varchar(255),
                                 title_u varchar(255),
                                 no_of_hours_u int(10),

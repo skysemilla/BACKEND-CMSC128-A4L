@@ -137,6 +137,15 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
   constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
+DROP PROCEDURE IF EXISTS activityProcedure;
+DELIMITER GO
+CREATE PROCEDURE viewActivity()
+BEGIN
+--select 
+    SELECT * FROM ACTIVITY;
+END;
+GO
+DELIMITER ;
 
 -- INSTANTIATE
 INSERT INTO `USER` VALUES ('admin','admin','ADMIN', null);

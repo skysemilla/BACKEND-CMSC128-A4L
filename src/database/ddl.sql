@@ -38,7 +38,7 @@ create table ACTIVITY(
 );
 
 create table SERVICE(
-  service_id int AUTO_INCREMENT,
+  service_id int not null AUTO_INCREMENT,
   category varchar(255) not null,
   title varchar(255) not null,
   no_of_hours int(10) not null,
@@ -255,6 +255,32 @@ END;
 GO
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS viewService; 
+DELIMITER GO
+CREATE PROCEDURE viewService()
+BEGIN
+    SELECT * FROM SERVICE;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insertService;
+DELIMITER GO
+CREATE PROCEDURE insertService( 
+                                category varchar(255),
+                                title varchar(255),
+                                no_of_hours int(10),
+                                no_of_participants int(10),
+                                role varchar(10),
+                                credits int (10),
+                                emp_id varchar(10)
+)
+BEGIN
+    INSERT INTO SERVICE
+      values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
+END;
+GO
+DELIMITER ;
 
 
 INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');

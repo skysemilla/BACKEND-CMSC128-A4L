@@ -194,8 +194,8 @@ CREATE PROCEDURE updateActivity(   activity_id_update int,
   BEGIN 
     UPDATE ACTIVITY
         SET  credit_unit = credit_unit_update, 
-             activity_name = activity_id_update,
-             activity_type = activity_id_update, 
+             activity_name = activity_name_update,
+             activity_type = activity_type_update, 
              no_of_hours = no_of_hours_update, 
              no_of_participants = no_of_participants_update, 
              activity_role = activity_role_update, 
@@ -206,6 +206,57 @@ CREATE PROCEDURE updateActivity(   activity_id_update int,
 END;
 GO
 DELIMITER ;
+
+-----FOR POSITION
+
+DROP PROCEDURE IF EXISTS viewPosition;
+DELIMITER GO
+CREATE PROCEDURE viewPosition()
+BEGIN
+    SELECT * FROM POSITIONN;
+END;
+GO
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS insertPositionn;
+DELIMITER GO
+CREATE PROCEDURE insertPosition(office varchar(255),
+                                credit_units int,
+                                emp_id varchar(10))
+BEGIN
+    INSERT INTO POSITIONN
+      values (office, credit_units, emp_id);
+END;
+GO
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS deletePositionn;
+DELIMITER GO
+CREATE PROCEDURE deletePositionn(position_id_del int)--id to be deleted
+  BEGIN 
+    DELETE FROM POSITIONN
+      where position_id = position_id_del;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS updatePosition;
+DELIMITER GO
+CREATE PROCEDURE updatePosition(position_id_update int,
+                                office_update varchar(255),
+                                credit_units_update int,
+                                emp_id_update varchar(10))
+  BEGIN 
+    UPDATE POSITIONN
+        SET  office = office_update,
+            credit_units = credit_units_update,
+            emp_id = emp_id_update
+        WHERE position_id = position_id_update;
+END;
+GO
+DELIMITER ;
+
+
 
 INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
 INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');

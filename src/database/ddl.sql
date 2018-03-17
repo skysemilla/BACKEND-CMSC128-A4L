@@ -282,7 +282,38 @@ END;
 GO
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS deleteService;
+DELIMITER GO
+CREATE PROCEDURE deleteService(service_id_del int)
+  BEGIN 
+    DELETE FROM SERVICE
+      where service_id = service_id_del;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS updateService;
+DELIMITER GO
+CREATE PROCEDURE updateService( service_id_u int,
+                                category_u varchar(255),
+                                title_u varchar(255),
+                                no_of_hours_u int(10),
+                                no_of_participants_u int(10),
+                                role_u varchar(10),
+                                credits_u int (10) 
+                                )
+  BEGIN 
+    UPDATE SERVICE
+        SET  category = category_u,
+            title = title_u,
+            no_of_hours = no_of_hours_u,
+            no_of_participants = no_of_participants_u,
+            role = role_u,
+            credits = credits_u
+        WHERE service_id = service_id_u;
+END;
+GO
+DELIMITER ;
 
 INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
 INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');
-

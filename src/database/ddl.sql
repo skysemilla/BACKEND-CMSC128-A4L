@@ -18,8 +18,8 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   emp_type varchar(20),
   department varchar(10),
   college varchar(20),
-  constraint employee_emp_id_pk PRIMARY KEY (emp_id)
-  constraint employee_username_uk UNIQUE (username)
+  constraint employee_emp_id_pk PRIMARY KEY (emp_id),
+  constraint employee_username_uk UNIQUE KEY (username)
 );
 
 create table ACTIVITY(
@@ -121,7 +121,7 @@ create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES 
   noOfStudents int not null,
   subject_code varchar(255) not null,
   constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
-  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
   constraint teachingload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
@@ -148,5 +148,5 @@ GO
 DELIMITER ;
 
 -- INSTANTIATE
-INSERT INTO `USER` VALUES ('admin','admin','ADMIN', null);
-INSERT INTO `USER` VALUES ('bea', 'bautista123', 'USER', null);
+INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
+INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');

@@ -18,8 +18,8 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   emp_type varchar(20),
   department varchar(10),
   college varchar(20),
-  constraint employee_emp_id_pk PRIMARY KEY (emp_id)
-  constraint employee_username_uk UNIQUE (username)
+  constraint employee_emp_id_pk PRIMARY KEY (emp_id),
+  constraint employee_username_uk UNIQUE KEY (username)
 );
 
 create table ACTIVITY(
@@ -121,7 +121,7 @@ create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES 
   noOfStudents int not null,
   subject_code varchar(255) not null,
   constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
-  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
   constraint teachingload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
@@ -138,6 +138,125 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
 
--- INSTANTIATE
-INSERT INTO `USER` VALUES ('admin','admin','ADMIN', null);
-INSERT INTO `USER` VALUES ('bea', 'bautista123', 'USER', null);
+
+DROP PROCEDURE IF EXISTS viewActivity; 
+DELIMITER GO
+CREATE PROCEDURE viewActivity()
+  BEGIN 
+    SELECT * from ACTIVITY;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insertActivity; 
+DELIMITER GO
+CREATE PROCEDURE insertActivity(   credit_unit int (255),
+                                   activity_name varchar(20), 
+                                   activity_type varchar(20), 
+                                   no_of_hours int , 
+                                   no_of_participants int (20), 
+                                   activity_role varchar(10), 
+                                   start_time datetime, 
+                                   end_time datetime, 
+                                   emp_id varchar(10) )
+  BEGIN 
+    INSERT INTO ACTIVITY
+        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+END;
+GO
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS deleteActivity; 
+DELIMITER GO
+CREATE PROCEDURE deleteActivity(  activity_id_del int)
+BEGIN
+    DELETE FROM ACTIVITY
+      where activity_id = activity_id_del;
+END;
+GO
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS updateActivity; 
+DELIMITER GO
+CREATE PROCEDURE updateActivity(   activity_id_update int,
+                                   credit_unit_update int (255),
+                                   activity_name_update varchar(20), 
+                                   activity_type_update varchar(20), 
+                                   no_of_hours_update int , 
+                                   no_of_participants_update int (20), 
+                                   activity_role_update varchar(10), 
+                                   start_time_update datetime, 
+                                   end_time_update datetime, 
+                                   emp_id_update varchar(10) )
+  BEGIN 
+    UPDATE ACTIVITY
+        SET  credit_unit = credit_unit_update, 
+             activity_name = activity_name_update,
+             activity_type = activity_type_update, 
+             no_of_hours = no_of_hours_update, 
+             no_of_participants = no_of_participants_update, 
+             activity_role = activity_role_update, 
+             start_time = start_time_update, 
+             end_time = end_time_update, 
+             emp_id = emp_id_update
+        WHERE activity_id = activity_id_update;
+END;
+GO
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS viewPosition; 
+DELIMITER GO
+CREATE PROCEDURE viewPosition()
+BEGIN
+    SELECT * FROM POSITIONN;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insertPosition;
+DELIMITER GO
+CREATE PROCEDURE insertPosition(office varchar(255),
+                                credit_units int(10),
+                                emp_id varchar(10))
+BEGIN
+    INSERT INTO POSITIONN
+      values (NULL, office, credit_units, emp_id);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS deletePositionn;
+DELIMITER GO
+CREATE PROCEDURE deletePositionn(position_id_del int)
+  BEGIN 
+    DELETE FROM POSITIONN
+      where position_id = position_id_del;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS updatePosition;
+DELIMITER GO
+CREATE PROCEDURE updatePosition(position_id_update int,
+                                office_update varchar(255),
+                                credit_units_update int,
+                                emp_id_update varchar(10))
+  BEGIN 
+    UPDATE POSITIONN
+        SET  office = office_update,
+            credit_units = credit_units_update,
+            emp_id = emp_id_update
+        WHERE position_id = position_id_update;
+END;
+GO
+DELIMITER ;
+
+
+
+INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
+INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');
+

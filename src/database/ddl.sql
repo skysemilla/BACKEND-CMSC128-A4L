@@ -22,7 +22,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   constraint employee_username_uk UNIQUE KEY (username)
 );
 
-create table ACTIVITY(
+create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   activity_id int AUTO_INCREMENT,
   credit_unit int (255) not null,
   activity_name varchar(20) not null,
@@ -37,7 +37,7 @@ create table ACTIVITY(
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
-create table SERVICE(
+create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
   service_id int not null AUTO_INCREMENT,
   category varchar(255) not null,
   title varchar(255) not null,
@@ -50,7 +50,7 @@ create table SERVICE(
   constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
-create table PUBLICATION(
+create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE
   publication_id int not null AUTO_INCREMENT,
   credit_units int not null,
   category varchar(255) not null,
@@ -64,7 +64,7 @@ create table PUBLICATION(
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
-create table COWORKER(
+create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
   coworker_id int AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   publication_id int not null,
@@ -73,7 +73,7 @@ create table COWORKER(
   constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
-create table CONSULTATION(
+create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
   consultation_id int AUTO_INCREMENT,
   consultation_start_time datetime not null,
   consultation_end_time datetime not null,
@@ -83,13 +83,13 @@ create table CONSULTATION(
   constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
 );
 
-create table CONSULTATION_DAY(
+create table CONSULTATION_DAY( -- MULTI-VALUED ATTRIBUTE OF CONSULTATION
   consultation_id int not null,
   day varchar(255) not null,
   constraint consultation_day_consultation_id_fk foreign key (consultation_id) references CONSULTATION(consultation_id)
 );
 
-create table POSITIONN(
+create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardon for the double n, apparently position is a reserved word
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
   credit_units int not null,
@@ -109,7 +109,7 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   constraint subject_subject_code_pk PRIMARY key (subject_code)
 );
 
-create table SUBJECT_DAY(
+create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
   day varchar(255) not null,
   subject_code varchar(255) not null,
   constraint subject_day_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
@@ -137,6 +137,88 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
   constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
 );
+
+---- PROCEDURES FOR EMPLOYEE
+
+DROP PROCEDURE IF EXISTS view_employee; 
+DELIMITER GO
+CREATE PROCEDURE view_employee()
+  BEGIN 
+    SELECT * from EMPLOYEE;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_employee_by_ID; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_by_ID(emp_id_view int)
+  BEGIN 
+    SELECT * from EMPLOYEE
+    where emp_id = emp_id_view;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insert_employee; 
+DELIMITER GO
+CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
+                                  username_insert varchar(20),
+                                  password_insert varchar(20),
+                                  type_insert varchar(7), 
+                                  f_name_insert varchar(255) ,
+                                  m_name_insert varchar(255) ,
+                                  l_name_insert varchar (255) ,
+                                  emp_type_insert varchar(20),
+                                  department_insert varchar(10),
+                                  college_insert varchar(20)
+)
+BEGIN 
+  INSERT INTO EMPLOYEE 
+  VALUES (emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, college_insert);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_employee; 
+DELIMITER GO
+CREATE PROCEDURE delete_employee( emp_id_insert varchar(10) )
+BEGIN 
+  DELETE FROM EMPLOYEE
+  WHERE emp_id = emp_id_insert;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_employee; 
+DELIMITER GO
+CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
+                                  username_insert varchar(20),
+                                  password_insert varchar(20),
+                                  type_insert varchar(7), 
+                                  f_name_insert varchar(255) ,
+                                  m_name_insert varchar(255) ,
+                                  l_name_insert varchar (255) ,
+                                  emp_type_insert varchar(20),
+                                  department_insert varchar(10),
+                                  college_insert varchar(20)
+)
+BEGIN 
+  UPDATE EMPLOYEE
+  SET username = username_insert,
+      password = password_insert,
+      type = type_insert,
+      f_name = f_name_insert,
+      m_name = m_name_insert,
+      l_name = l_name_insert,
+      emp_type = emp_type_insert,
+      department = department_insert,
+      college = college_insert
+    WHERE emp_id = emp_type_insert;
+END;
+GO
+DELIMITER ;
+
+---- END OF PROCEDURES FOR EMPLOYEE
 
 ---- PROCEDURES FOR ACTIVITY
 
@@ -207,7 +289,9 @@ END;
 GO
 DELIMITER ;
 
+---- END OF PROCEDURES FOR ACTIVITY
 
+---- PROCEDURES FOR POSITIONN
 
 DROP PROCEDURE IF EXISTS view_position; 
 DELIMITER GO
@@ -256,6 +340,10 @@ END;
 GO
 DELIMITER ;
 
+---- END OF PROCEDURES FOR POSITIONN
+
+---- PROCEDURES FOR SERVICE
+
 DROP PROCEDURE IF EXISTS view_service; 
 DELIMITER GO
 CREATE PROCEDURE view_service()
@@ -271,6 +359,16 @@ CREATE PROCEDURE view_service_by_ID(view_service_id int)
 BEGIN
     SELECT * FROM SERVICE
     where service_id = view_service_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_employee_service; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_service(emp_id_view varchar(10))
+BEGIN
+    SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
+    WHERE service_id = emp_id_view;
 END;
 GO
 DELIMITER ;
@@ -326,5 +424,9 @@ END;
 GO
 DELIMITER ;
 
+---- END OF PROCEDURES FOR SERVICE
+
 INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
 INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');
+
+call insert_employee('0000000002', 'aaron', 'aaron123', 'USER', 'Aaron', 'Velasco', 'Magnaye', 'FACULTY', 'ICS', 'CAS');

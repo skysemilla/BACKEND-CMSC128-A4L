@@ -36,7 +36,7 @@ create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   end_time time not null,
   emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
-  constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
@@ -49,7 +49,7 @@ create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
   credits int (10) not null,
   emp_id varchar(10) not null,   
   constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE
@@ -63,7 +63,7 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
   end_date datetime not null,
   emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
-  constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
@@ -72,7 +72,7 @@ create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
   publication_id int not null,
   constraint coworker_coworker_id PRIMARY KEY (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
-  constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
@@ -82,13 +82,13 @@ create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
   consultation_place varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
-  constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table CONSULTATION_DAY( -- MULTI-VALUED ATTRIBUTE OF CONSULTATION
   consultation_id int not null,
   day varchar(255) not null,
-  constraint consultation_day_consultation_id_fk foreign key (consultation_id) references CONSULTATION(consultation_id)
+  constraint consultation_day_consultation_id_fk foreign key (consultation_id) references CONSULTATION(consultation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardon for the double n, apparently position is a reserved word
@@ -97,7 +97,7 @@ create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardo
   credit_units int not null,
   emp_id varchar(10) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
-  constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
+  constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES
@@ -109,24 +109,23 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   room varchar(255) not null,
   start_time time not null,
   end_time time not null,
-  constraint subject_subject_id_pk PRIMARY key (subject_id),
-  constraint subject_subject_code_uk UNIQUE key (subject_code)
+  constraint subject_subject_id_pk PRIMARY key (subject_id)
 );
 
 create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
   day varchar(255) not null,
-  subject_code varchar(255) not null,
-  constraint subject_day_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
+  subject_id int not null,
+  constraint subject_day_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED
   teachingload_id int AUTO_INCREMENT not null,
   emp_id varchar(10) not null, 
   no_of_students int not null,
-  subject_code varchar(255) not null,
+  subject_id int not null,
   constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
-  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
-  constraint teachingload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
+  constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  constraint teachingload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD 
@@ -136,10 +135,10 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   isFullTime boolean not null,
   credits int not null,
   emp_id varchar(10) not null, 
-  subject_code varchar(255) not null,
+  subject_id int not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
-  constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
-  constraint studyload_subject_code_fk foreign key (subject_code) references SUBJECT(subject_code)
+  constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 ---- PROCEDURES FOR EMPLOYEE
@@ -431,12 +430,20 @@ DELIMITER ;
 ---- END OF PROCEDURES FOR SERVICE
 
 ---- PROCEDURES FOR TEACHINGLOAD
+DROP PROCEDURE IF EXISTS view_employee_teachingload; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_teachingload(emp_id varchar(20))
+  BEGIN 
+    SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
+END;
+GO
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS view_teachingload; 
 DELIMITER GO
 CREATE PROCEDURE view_teachingload()
   BEGIN 
-    SELECT a.teachingload_id, a.emp_id , b.subject_id, a.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_code = b.subject_code;
+    SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
 END;
 GO
 DELIMITER ;
@@ -456,12 +463,48 @@ BEGIN
     INSERT INTO SUBJECT
     VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
-    VALUES (NULL, emp_id_insert, no_of_students_insert, subject_code_insert);
+    VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
 END;
 GO
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS delete_teachingload;
+DELIMITER GO
+CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
+BEGIN
+  DELETE FROM SUBJECT
+  where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
+END;
+GO
+DELIMITER ;
 
+DROP PROCEDURE IF EXISTS update_teachingload;
+DELIMITER GO
+CREATE PROCEDURE update_teachingload(   to_edit int,
+                                        subject_code_insert varchar(255),
+                                        section_code_insert varchar(255),
+                                        isLecture_insert boolean,
+                                        units_insert int,
+                                        room_insert varchar(255),
+                                        start_time_insert time,
+                                        end_time_insert time,
+                                        no_of_students_insert int)
+BEGIN 
+    UPDATE SUBJECT
+    SET subject_code = subject_code_insert,
+        section_code = section_code_insert, 
+        isLecture = isLecture_insert, 
+        units = units_insert, 
+        room = room_insert, 
+        start_time = start_time_insert, 
+        end_time = end_time_insert
+    where subject_id = (Select subject_id from teachingload where teachingload_id = to_edit);
+    UPDATE teachingload
+    SET no_of_students = no_of_students_insert
+    where teachingload_id = to_edit;
+END;
+GO
+DELIMITER ;
 
 ---- END OF PROCEDURES FOR TEACHINGLOAD
 
@@ -510,3 +553,12 @@ call insert_position("aaron", 2, "0000000006");
 call insert_position("aaron", 2, "0000000000");
 
 call insert_teachingload("cmsc 111", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000001", 12);
+call insert_teachingload("cmsc 11", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000002", 12);
+call insert_teachingload("cmsc 12", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000000", 12);
+call insert_teachingload("cmsc 131", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000000", 12);
+call insert_teachingload("cmsc 141", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000001", 12);
+call insert_teachingload("cmsc 151", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000003", 12);
+call insert_teachingload("cmsc 1161", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000004", 12);
+call insert_teachingload("cmsc 17", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000005", 12);
+call insert_teachingload("math 170", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000006", 12);
+call insert_teachingload("cmsc 125", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000007", 12);

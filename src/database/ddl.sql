@@ -369,7 +369,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS view_employee_service; 
 DELIMITER GO
-CREATE PROCEDURE view_employee_service(emp_id_view varchar(10))
+CREATE PROCEDURE view_employee_service(emp_id_view_service varchar(10))
 BEGIN
     SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
     WHERE emp_id = emp_id_view;
@@ -461,9 +461,96 @@ END;
 GO
 DELIMITER ;
 
-
-
 ---- END OF PROCEDURES FOR TEACHINGLOAD
+
+
+---- PROCEDURES FOR PUBLICATIONS
+
+DROP PROCEDURE IF EXISTS view_publication; 
+DELIMITER GO
+CREATE PROCEDURE view_publication()
+BEGIN
+    SELECT * FROM PUBLICATION;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_publication_by_ID; 
+DELIMITER GO
+CREATE PROCEDURE view_service_by_ID(view_publication_id int)
+BEGIN
+    SELECT * FROM PUBLICATION
+    where publication_id = view_publication_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_employee_publication; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_publication(emp_id_view_publication varchar(10))
+BEGIN
+    SELECT title, credit_units, category, funding, role, start_date, end_date FROM PUBLICATION 
+    WHERE emp_id = emp_id_view_publication;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insert_publication;
+DELIMITER GO
+CREATE PROCEDURE insert_publication( 
+								credit_units int,
+								category varchar(255),
+								funding varchar(255),
+								title varchar(255),
+								role varchar(255),
+								start_date datetime,
+								end_date datetime,
+								emp_id varchar(10)
+)
+BEGIN
+    INSERT INTO PUBLICATION
+      values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_publication;
+DELIMITER GO
+CREATE PROCEDURE delete_service(publication_id_del int)
+  BEGIN 
+    DELETE FROM PUBLICATION
+      where publication_id = publication_id_del;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_publication;
+DELIMITER GO
+CREATE PROCEDURE update_service(
+								publication_id_u int,  
+								credit_units_u int,
+								category_u varchar(255),
+								funding_u varchar(255),
+								title_u varchar(255),
+								role_u varchar(255),
+								start_date_u datetime,
+								end_date_u datetime
+								)
+  BEGIN 
+    UPDATE SERVICE
+        SET  credit_units = credit_units_u,
+        	category = category_u,
+        	funding = funding_u,
+        	title = title_u,
+        	role = role_u,
+        	start_date = start_date_u,
+        	end_date = end_date_u
+        WHERE publication_id = publication_id_u;
+END;
+GO
+DELIMITER ;
+---END OF PUBLICATION PROCEDURE
+
 
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden","1st");
 CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich","1st");

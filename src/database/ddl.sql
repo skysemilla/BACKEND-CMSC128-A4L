@@ -8,6 +8,7 @@ USE skydev;
 
 
 create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS 
+  emp_id_increment int not null AUTO_INCREMENT,
   emp_id varchar(10) not null,
   username varchar(20) not null,
   password varchar(20) not null,
@@ -15,9 +16,9 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
-  emp_type varchar(20),
   department varchar(10),
   college varchar(20),
+  semester varchar(20) not null,
   constraint employee_emp_id_pk PRIMARY KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
 );
@@ -75,8 +76,8 @@ create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
 
 create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
   consultation_id int AUTO_INCREMENT,
-  consultation_start_time datetime not null,
-  consultation_end_time datetime not null,
+  consultation_start_time time not null,
+  consultation_end_time time not null,
   consultation_place varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
@@ -104,8 +105,8 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   isLecture boolean not null,
   units int not null,
   room varchar(255) not null,
-  start_time datetime not null,
-  end_time datetime not null,
+  start_time time not null,
+  end_time time not null,
   constraint subject_subject_code_pk PRIMARY key (subject_code)
 );
 
@@ -174,7 +175,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
 )
 BEGIN 
   INSERT INTO EMPLOYEE 
-  VALUES (emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, college_insert);
+  VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, college_insert);
 END;
 GO
 DELIMITER ;
@@ -426,7 +427,6 @@ DELIMITER ;
 
 ---- END OF PROCEDURES FOR SERVICE
 
-INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
-INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');
-
+call insert_employee('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
+call insert_employee('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');
 call insert_employee('0000000002', 'aaron', 'aaron123', 'USER', 'Aaron', 'Velasco', 'Magnaye', 'FACULTY', 'ICS', 'CAS');

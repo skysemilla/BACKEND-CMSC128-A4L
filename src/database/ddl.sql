@@ -8,6 +8,7 @@ USE skydev;
 
 
 create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS 
+  emp_id_increment int not null AUTO_INCREMENT,
   emp_id varchar(10) not null,
   username varchar(20) not null,
   password varchar(20) not null,
@@ -15,10 +16,11 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
-  emp_type varchar(20),
   department varchar(10),
   college varchar(20),
-  constraint employee_emp_id_pk PRIMARY KEY (emp_id),
+  semester varchar(20) not null,
+  constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
+  constraint emp_id UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
 );
 
@@ -30,8 +32,8 @@ create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   no_of_hours int not null,
   no_of_participants int (20) not null,
   activity_role varchar(10) not null,
-  start_time datetime not null,
-  end_time datetime not null,
+  start_time time not null,
+  end_time time not null,
   emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)
@@ -75,8 +77,8 @@ create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
 
 create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
   consultation_id int AUTO_INCREMENT,
-  consultation_start_time datetime not null,
-  consultation_end_time datetime not null,
+  consultation_start_time time not null,
+  consultation_end_time time not null,
   consultation_place varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
@@ -104,8 +106,8 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   isLecture boolean not null,
   units int not null,
   room varchar(255) not null,
-  start_time datetime not null,
-  end_time datetime not null,
+  start_time time not null,
+  end_time time not null,
   constraint subject_subject_code_pk PRIMARY key (subject_code)
 );
 
@@ -174,7 +176,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
 )
 BEGIN 
   INSERT INTO EMPLOYEE 
-  VALUES (emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, college_insert);
+  VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, college_insert);
 END;
 GO
 DELIMITER ;
@@ -239,8 +241,8 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
                                    no_of_hours int , 
                                    no_of_participants int (20), 
                                    activity_role varchar(10), 
-                                   start_time datetime, 
-                                   end_time datetime, 
+                                   start_time time, 
+                                   end_time time, 
                                    emp_id varchar(10) )
   BEGIN 
     INSERT INTO ACTIVITY
@@ -270,8 +272,8 @@ CREATE PROCEDURE update_activity(   activity_id_update int,
                                    no_of_hours_update int , 
                                    no_of_participants_update int (20), 
                                    activity_role_update varchar(10), 
-                                   start_time_update datetime, 
-                                   end_time_update datetime, 
+                                   start_time_update time, 
+                                   end_time_update time, 
                                    emp_id_update varchar(10) )
   BEGIN 
     UPDATE ACTIVITY
@@ -368,7 +370,7 @@ DELIMITER GO
 CREATE PROCEDURE view_employee_service(emp_id_view varchar(10))
 BEGIN
     SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
-    WHERE service_id = emp_id_view;
+    WHERE emp_id = emp_id_view;
 END;
 GO
 DELIMITER ;
@@ -426,7 +428,46 @@ DELIMITER ;
 
 ---- END OF PROCEDURES FOR SERVICE
 
-INSERT INTO `EMPLOYEE` VALUES ('0000000000', 'admin','admin','ADMIN', 'hello', 'world', '!', 'ADMIN', 'ICS', 'CAS');
-INSERT INTO `EMPLOYEE` VALUES ('0000000001', 'bea', 'bautista123', 'USER', 'Bianca', 'B?', 'Bautista', 'FACULTY', 'ICS', 'CAS');
+CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden","1st");
+CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich","1st");
+CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie","1st");
+CALL insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg","1st");
+CALL insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed","1st");
+CALL insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome","1st");
+CALL insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo","1st");
+CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles","1st");
+CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery","1st");
+CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene","1st");
 
-call insert_employee('0000000002', 'aaron', 'aaron123', 'USER', 'Aaron', 'Velasco', 'Magnaye', 'FACULTY', 'ICS', 'CAS');
+call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
+call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
+call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'), "0000000002");
+call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'), "0000000003");
+call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'), "0000000004");
+call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'), "0000000005");
+call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'), "0000000006");
+call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "0000000007");
+call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
+call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
+
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+
+call insert_position("aaron", 2, "0000000000");
+call insert_position("aaron", 2, "0000000002");
+call insert_position("aaron", 2, "0000000001");
+call insert_position("aaron", 2, "0000000000");
+call insert_position("aaron", 2, "0000000003");
+call insert_position("aaron", 2, "0000000004");
+call insert_position("aaron", 2, "0000000005");
+call insert_position("aaron", 2, "0000000006");
+call insert_position("aaron", 2, "0000000006");
+call insert_position("aaron", 2, "0000000000");

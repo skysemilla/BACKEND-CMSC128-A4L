@@ -20,7 +20,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   college varchar(20),
   semester varchar(20) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
-  constraint emp_id UNIQUE KEY (emp_id),
+  constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
 );
 
@@ -101,6 +101,7 @@ create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardo
 );
 
 create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES
+  subject_id int not null AUTO_INCREMENT,
   subject_code varchar(255) not null,
   section_code varchar(255) not null,
   isLecture boolean not null,
@@ -108,7 +109,8 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   room varchar(255) not null,
   start_time time not null,
   end_time time not null,
-  constraint subject_subject_code_pk PRIMARY key (subject_code)
+  constraint subject_subject_id_pk PRIMARY key (subject_id),
+  constraint subject_subject_code_uk UNIQUE key (subject_code)
 );
 
 create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
@@ -120,7 +122,7 @@ create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
 create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED
   teachingload_id int AUTO_INCREMENT not null,
   emp_id varchar(10) not null, 
-  noOfStudents int not null,
+  no_of_students int not null,
   subject_code varchar(255) not null,
   constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
   constraint teachingload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id),
@@ -428,6 +430,41 @@ DELIMITER ;
 
 ---- END OF PROCEDURES FOR SERVICE
 
+---- PROCEDURES FOR TEACHINGLOAD
+
+DROP PROCEDURE IF EXISTS view_teachingload; 
+DELIMITER GO
+CREATE PROCEDURE view_teachingload()
+  BEGIN 
+    SELECT a.teachingload_id, a.emp_id , b.subject_id, a.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_code = b.subject_code;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insert_teachingload; 
+DELIMITER GO
+CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
+                                        section_code_insert varchar(255),
+                                        isLecture_insert boolean,
+                                        units_insert int,
+                                        room_insert varchar(255),
+                                        start_time_insert time,
+                                        end_time_insert time,
+                                        emp_id_insert varchar(10), 
+                                        no_of_students_insert int)
+BEGIN 
+    INSERT INTO SUBJECT
+    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
+    INSERT INTO TEACHINGLOAD
+    VALUES (NULL, emp_id_insert, no_of_students_insert, subject_code_insert);
+END;
+GO
+DELIMITER ;
+
+
+
+---- END OF PROCEDURES FOR TEACHINGLOAD
+
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden","1st");
 CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich","1st");
 CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie","1st");
@@ -471,3 +508,5 @@ call insert_position("aaron", 2, "0000000005");
 call insert_position("aaron", 2, "0000000006");
 call insert_position("aaron", 2, "0000000006");
 call insert_position("aaron", 2, "0000000000");
+
+call insert_teachingload("cmsc 111", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000001", 12);

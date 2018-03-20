@@ -1,4 +1,4 @@
-ROP USER IF EXISTS 'skydev'@'localhost';
+DROP USER IF EXISTS 'skydev'@'localhost';
 CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
 DROP DATABASE IF EXISTS skydev;
 CREATE DATABASE skydev;
@@ -68,8 +68,10 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
 );
 
 create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
+  coworker_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   publication_id int not null,
+  constraint coworker_coworker_id_pk PRIMARY key (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
   constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -139,6 +141,36 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+create table LOG(
+  log_no int not null AUTO_INCREMENT,
+  datemade timestamp not null,
+  log_info varchar(255) not null,
+  constraint log_log_no_pk PRIMARY key (log_no)
+);
+
+---- PROCEDURES FOR LOG
+DROP PROCEDURE IF EXISTS view_logs;
+DROP PROCEDURE IF EXISTS insert_log;
+
+DELIMITER GO
+
+CREATE PROCEDURE view_logs()
+  BEGIN
+    SELECT * FROM LOG;
+  END;
+GO
+
+CREATE PROCEDURE insert_log(to_insert varchar(255))
+  BEGIN
+    INSERT INTO LOG
+    VALUES (null, now(), to_insert);
+  END;
+GO
+
+DELIMITER ;
+
+---- END OF LOG PROCEDURES
+
 ---- PROCEDURES FOR EMPLOYEE
 DROP PROCEDURE IF EXISTS view_employee; 
 DROP PROCEDURE IF EXISTS view_employee_by_ID; 
@@ -176,6 +208,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
   BEGIN 
     INSERT INTO EMPLOYEE 
     VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, is_full_time_insert, college_insert);
+    call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
 
@@ -488,71 +521,68 @@ DELIMITER ;
 
 --START OF COWORKER PROCEDURE
 DROP PROCEDURE IF EXISTS view_coworker; 
-DELIMITER GO
-CREATE PROCEDURE view_coworker()
-BEGIN
-    SELECT * FROM COWORKER;
-END;
-GO
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS view_coworker_by_ID; 
-DELIMITER GO
-CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
-BEGIN
-    SELECT * FROM COWORKER
-    where coworker_id = view_coworker_id;
-END;
-GO
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS view_employee_coworker; 
-DELIMITER GO
-CREATE PROCEDURE view_employee_coworker(emp_id_view_coworker varchar(10))
-BEGIN
-    SELECT publication_id 
-    WHERE emp_id = emp_id_view_coworker;
-END;
-GO
-DELIMITER ;
-
-
 DROP PROCEDURE IF EXISTS insert_coworker;
+DROP PROCEDURE IF EXISTS delete_coworker;
+DROP PROCEDURE IF EXISTS update_coworker;
+
 DELIMITER GO
+
+CREATE PROCEDURE view_coworker()
+  BEGIN
+      SELECT * FROM COWORKER;
+  END;
+GO
+
+CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
+  BEGIN
+      SELECT * FROM COWORKER
+      where coworker_id = view_coworker_id;
+  END;
+GO
+
+CREATE PROCEDURE view_employee_coworker(emp_id_view_coworker varchar(10))
+  BEGIN
+      SELECT * from coworker  
+      WHERE emp_id = emp_id_view_coworker;
+  END;
+GO
+
+CREATE PROCEDURE view_publication_coworkers(to_view int)
+  BEGIN
+    SELECT * FROM COWORKER
+    WHERE COWORKER.emp_id in (select emp_id from publication where publication.emp_id = to_view);
+  END;
+GO
+
 CREATE PROCEDURE insert_coworker( 
                 emp_id varchar(10), 
                 publication_id int
 )
-BEGIN
-    INSERT INTO COWORKER
-      values (NULL, emp_id, publication_id);
-END;
+  BEGIN
+      INSERT INTO COWORKER
+        values (NULL, emp_id, publication_id);
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_coworker;
-DELIMITER GO
 CREATE PROCEDURE delete_coworker(coworker_id_del int)
   BEGIN 
     DELETE FROM COWORKER
       where coworker_id = coworker_id_del;
-END;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_coworker;
-DELIMITER GO
-CREATE PROCEDURE update_coworker(   coworker_id_u int,
-                  emp_id_u varchar(10), 
-                  publication_id_u int 
-)
+CREATE PROCEDURE update_coworker( emp_id_u varchar(10), 
+                                  publication_id_u int )
   BEGIN 
     UPDATE COWORKER
         SET  emp_id = emp_id_u,
           publication_id = publication_id_u
         WHERE coworker_id = coworker_id_u;
-END;
+  END;
 GO
+
 DELIMITER ;
 
 
@@ -644,13 +674,13 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
   END;
 GO
 
 CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id where a.emp_id = emp_id_view;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
     END;
 GO
 
@@ -684,16 +714,6 @@ CREATE PROCEDURE insert_studyload_use_subject(    subject_id_insert int,
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
   END;
 GO
-
-
-DROP PROCEDURE IF EXISTS delete_publication;
-DELIMITER GO
-CREATE PROCEDURE delete_service(publication_id_del int)
-  BEGIN 
-    DELETE FROM PUBLICATION
-      where publication_id = publication_id_del;
-END;
-GOITER ;
 
 CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
@@ -814,20 +834,6 @@ DELIMITER ;
 
 ---- END OF PROCEDURES FOR CONSULTATION
 
-
-CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden","1st");
-CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich","1st");
-CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie","1st");
-CALL insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg","1st");
-CALL insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed","1st");
-CALL insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome","1st");
-CALL insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo","1st");
-CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles","1st");
-CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery","1st");
-CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene","1st");
-
-
-
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
 CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");
 CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie",FALSE,"1st");
@@ -909,7 +915,7 @@ call insert_publication(8,"3",17520,"mauris","Head","2018-03-24 00:59:11","2018-
 call insert_coworker("0000000001",5);
 call insert_coworker("0000000005",2);
 call insert_coworker("0000000004",6);
-call insert_coworker("0000000005",1);
+call insert_coworker("0000000006",1);
 call insert_coworker("0000000001",1);
 call insert_coworker("0000000001",3);
 call insert_coworker("0000000002",6);

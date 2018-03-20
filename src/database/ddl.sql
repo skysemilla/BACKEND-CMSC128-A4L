@@ -18,6 +18,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   l_name varchar (255) not null,
   department varchar(10),
   college varchar(20),
+  is_full_time boolean not null, -- IS STUDYING FULLTIME
   semester varchar(20) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
@@ -67,10 +68,8 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
 );
 
 create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
-  coworker_id int AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   publication_id int not null,
-  constraint coworker_coworker_id PRIMARY KEY (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
   constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -129,10 +128,9 @@ create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES 
 );
 
 create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD 
-  studyload_id int not null,
+  studyload_id int not null AUTO_INCREMENT,
   degree varchar(255) not null,
   university varchar(255) not null,
-  isFullTime boolean not null,
   credits int not null,
   emp_id varchar(10) not null, 
   subject_id int not null,
@@ -142,28 +140,27 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
 );
 
 ---- PROCEDURES FOR EMPLOYEE
-
 DROP PROCEDURE IF EXISTS view_employee; 
+DROP PROCEDURE IF EXISTS view_employee_by_ID; 
+DROP PROCEDURE IF EXISTS insert_employee; 
+DROP PROCEDURE IF EXISTS delete_employee;
+DROP PROCEDURE IF EXISTS update_employee; 
+
 DELIMITER GO
+
 CREATE PROCEDURE view_employee()
   BEGIN 
     SELECT * from EMPLOYEE;
-END;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_employee_by_ID; 
-DELIMITER GO
 CREATE PROCEDURE view_employee_by_ID(emp_id_view int)
   BEGIN 
     SELECT * from EMPLOYEE
     where emp_id = emp_id_view;
-END;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_employee; 
-DELIMITER GO
 CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
                                   password_insert varchar(20),
@@ -173,27 +170,22 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   l_name_insert varchar (255) ,
                                   emp_type_insert varchar(20),
                                   department_insert varchar(10),
+                                  is_full_time_insert boolean,
                                   college_insert varchar(20)
 )
-BEGIN 
-  INSERT INTO EMPLOYEE 
-  VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, college_insert);
-END;
+  BEGIN 
+    INSERT INTO EMPLOYEE 
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, is_full_time_insert, college_insert);
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_employee; 
-DELIMITER GO
 CREATE PROCEDURE delete_employee( emp_id_insert varchar(10) )
-BEGIN 
-  DELETE FROM EMPLOYEE
-  WHERE emp_id = emp_id_insert;
-END;
+  BEGIN 
+    DELETE FROM EMPLOYEE
+    WHERE emp_id = emp_id_insert;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_employee; 
-DELIMITER GO
 CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
                                   password_insert varchar(20),
@@ -203,39 +195,42 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   l_name_insert varchar (255) ,
                                   emp_type_insert varchar(20),
                                   department_insert varchar(10),
+                                  is_full_time_insert boolean,
                                   college_insert varchar(20)
 )
-BEGIN 
-  UPDATE EMPLOYEE
-  SET username = username_insert,
-      password = password_insert,
-      type = type_insert,
-      f_name = f_name_insert,
-      m_name = m_name_insert,
-      l_name = l_name_insert,
-      emp_type = emp_type_insert,
-      department = department_insert,
-      college = college_insert
-    WHERE emp_id = emp_type_insert;
-END;
+  BEGIN 
+    UPDATE EMPLOYEE
+    SET username = username_insert,
+        password = password_insert,
+        type = type_insert,
+        f_name = f_name_insert,
+        m_name = m_name_insert,
+        l_name = l_name_insert,
+        emp_type = emp_type_insert,
+        department = department_insert,
+        is_full_time = is_full_time_insert,
+        college = college_insert
+      WHERE emp_id = emp_type_insert;
+  END;
 GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR EMPLOYEE
 
 ---- PROCEDURES FOR ACTIVITY
-
 DROP PROCEDURE IF EXISTS view_activity; 
+DROP PROCEDURE IF EXISTS insert_activity; 
+DROP PROCEDURE IF EXISTS delete_activity; 
+DROP PROCEDURE IF EXISTS update_activity; 
+
 DELIMITER GO
 CREATE PROCEDURE view_activity()
   BEGIN 
     SELECT * from ACTIVITY;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_activity; 
-DELIMITER GO
 CREATE PROCEDURE insert_activity(   credit_unit int (255),
                                    activity_name varchar(20), 
                                    activity_type varchar(20), 
@@ -248,24 +243,18 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
   BEGIN 
     INSERT INTO ACTIVITY
         values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
-END;
+  END;
 GO
-DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS delete_activity; 
-DELIMITER GO
 CREATE PROCEDURE delete_activity(  activity_id_del int)
-BEGIN
-    DELETE FROM ACTIVITY
-      where activity_id = activity_id_del;
-END;
+  BEGIN
+      DELETE FROM ACTIVITY
+        where activity_id = activity_id_del;
+  END;
 GO
-DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS update_activity; 
-DELIMITER GO
 CREATE PROCEDURE update_activity(   activity_id_update int,
                                    credit_unit_update int (255),
                                    activity_name_update varchar(20), 
@@ -288,25 +277,27 @@ CREATE PROCEDURE update_activity(   activity_id_update int,
              end_time = end_time_update, 
              emp_id = emp_id_update
         WHERE activity_id = activity_id_update;
-END;
+  END;
 GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR ACTIVITY
 
 ---- PROCEDURES FOR POSITIONN
+DROP PROCEDURE IF EXISTS view_position;
+DROP PROCEDURE IF EXISTS insert_position;
+DROP PROCEDURE IF EXISTS delete_position;
+DROP PROCEDURE IF EXISTS update_position;
 
-DROP PROCEDURE IF EXISTS view_position; 
 DELIMITER GO
+
 CREATE PROCEDURE view_position()
 BEGIN
     SELECT * FROM POSITIONN;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_position;
-DELIMITER GO
 CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
                                 emp_id varchar(10))
@@ -315,20 +306,14 @@ BEGIN
       values (NULL, office, credit_units, emp_id);
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_position;
-DELIMITER GO
 CREATE PROCEDURE delete_position(position_id_del int)
   BEGIN 
     DELETE FROM POSITIONN
       where position_id = position_id_del;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_position;
-DELIMITER GO
 CREATE PROCEDURE update_position(position_id_update int,
                                 office_update varchar(255),
                                 credit_units_update int,
@@ -341,43 +326,41 @@ CREATE PROCEDURE update_position(position_id_update int,
         WHERE position_id = position_id_update;
 END;
 GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR POSITIONN
 
 ---- PROCEDURES FOR SERVICE
-
 DROP PROCEDURE IF EXISTS view_service; 
+DROP PROCEDURE IF EXISTS view_service_by_ID; 
+DROP PROCEDURE IF EXISTS view_employee_service; 
+DROP PROCEDURE IF EXISTS insert_service;
+DROP PROCEDURE IF EXISTS delete_service;
+DROP PROCEDURE IF EXISTS update_service;
+
 DELIMITER GO
+
 CREATE PROCEDURE view_service()
 BEGIN
     SELECT * FROM SERVICE;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_service_by_ID; 
-DELIMITER GO
 CREATE PROCEDURE view_service_by_ID(view_service_id int)
 BEGIN
     SELECT * FROM SERVICE
     where service_id = view_service_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_employee_service; 
-DELIMITER GO
 CREATE PROCEDURE view_employee_service(emp_id_view_service varchar(10))
 BEGIN
     SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
     WHERE emp_id = emp_id_view;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_service;
-DELIMITER GO
 CREATE PROCEDURE insert_service( 
                                 category varchar(255),
                                 title varchar(255),
@@ -392,20 +375,14 @@ BEGIN
       values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_service;
-DELIMITER GO
 CREATE PROCEDURE delete_service(service_id_del int)
   BEGIN 
     DELETE FROM SERVICE
       where service_id = service_id_del;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_service;
-DELIMITER GO
 CREATE PROCEDURE update_service( service_id_u int,
                                 category_u varchar(255),
                                 title_u varchar(255),
@@ -425,31 +402,183 @@ CREATE PROCEDURE update_service( service_id_u int,
         WHERE service_id = service_id_u;
 END;
 GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR SERVICE
 
+---- PROCEDURES FOR PUBLICATIONS
+DROP PROCEDURE IF EXISTS view_publication; 
+DROP PROCEDURE IF EXISTS view_publication_by_ID; 
+DROP PROCEDURE IF EXISTS view_employee_publication; 
+DROP PROCEDURE IF EXISTS insert_publication;
+DROP PROCEDURE IF EXISTS delete_publication;
+DROP PROCEDURE IF EXISTS update_publication;
+
+DELIMITER GO
+CREATE PROCEDURE view_publication()
+BEGIN
+    SELECT * FROM PUBLICATION;
+END;
+GO
+
+CREATE PROCEDURE view_publication_by_ID(view_publication_id int)
+  BEGIN
+      SELECT * FROM PUBLICATION
+      where publication_id = view_publication_id;
+  END;
+GO
+
+CREATE PROCEDURE view_employee_publication(emp_id_view_publication varchar(10))
+  BEGIN
+      SELECT title, credit_units, category, funding, role, start_date, end_date FROM PUBLICATION 
+      WHERE emp_id = emp_id_view_publication;
+  END;
+GO
+
+CREATE PROCEDURE insert_publication( 
+                credit_units int,
+                category varchar(255),
+                funding varchar(255),
+                title varchar(255),
+                role varchar(255),
+                start_date datetime,
+                end_date datetime,
+                emp_id varchar(10)
+)
+  BEGIN
+      INSERT INTO PUBLICATION
+        values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
+  END;
+GO
+
+CREATE PROCEDURE delete_publication(publication_id_del int)
+  BEGIN 
+    DELETE FROM PUBLICATION
+      where publication_id = publication_id_del;
+  END;
+GO
+
+CREATE PROCEDURE update_publication(
+                publication_id_u int,  
+                credit_units_u int,
+                category_u varchar(255),
+                funding_u varchar(255),
+                title_u varchar(255),
+                role_u varchar(255),
+                start_date_u datetime,
+                end_date_u datetime
+                )
+  BEGIN 
+    UPDATE PUBLICATION
+        SET  credit_units = credit_units_u,
+          category = category_u,
+          funding = funding_u,
+          title = title_u,
+          role = role_u,
+          start_date = start_date_u,
+          end_date = end_date_u
+        WHERE publication_id = publication_id_u;
+  END;
+GO
+
+DELIMITER ;
+
+---END OF PUBLICATION PROCEDURE
+
+--START OF COWORKER PROCEDURE
+DROP PROCEDURE IF EXISTS view_coworker; 
+DELIMITER GO
+CREATE PROCEDURE view_coworker()
+BEGIN
+    SELECT * FROM COWORKER;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_coworker_by_ID; 
+DELIMITER GO
+CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
+BEGIN
+    SELECT * FROM COWORKER
+    where coworker_id = view_coworker_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_employee_coworker; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_coworker(emp_id_view_coworker varchar(10))
+BEGIN
+    SELECT publication_id 
+    WHERE emp_id = emp_id_view_coworker;
+END;
+GO
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS insert_coworker;
+DELIMITER GO
+CREATE PROCEDURE insert_coworker( 
+                emp_id varchar(10), 
+                publication_id int
+)
+BEGIN
+    INSERT INTO COWORKER
+      values (NULL, emp_id, publication_id);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_coworker;
+DELIMITER GO
+CREATE PROCEDURE delete_coworker(coworker_id_del int)
+  BEGIN 
+    DELETE FROM COWORKER
+      where coworker_id = coworker_id_del;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_coworker;
+DELIMITER GO
+CREATE PROCEDURE update_coworker(   coworker_id_u int,
+                  emp_id_u varchar(10), 
+                  publication_id_u int 
+)
+  BEGIN 
+    UPDATE COWORKER
+        SET  emp_id = emp_id_u,
+          publication_id = publication_id_u
+        WHERE coworker_id = coworker_id_u;
+END;
+GO
+DELIMITER ;
+
+
+--END OF COWORKER PROCEDURE
+
 ---- PROCEDURES FOR TEACHINGLOAD
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
+DROP PROCEDURE IF EXISTS view_teachingload; 
+DROP PROCEDURE IF EXISTS insert_teachingload; 
+DROP PROCEDURE IF EXISTS delete_teachingload;
+DROP PROCEDURE IF EXISTS update_teachingload;
+
 DELIMITER GO
+
 CREATE PROCEDURE view_employee_teachingload(emp_id varchar(20))
   BEGIN 
     SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
-END;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_teachingload; 
-DELIMITER GO
 CREATE PROCEDURE view_teachingload()
   BEGIN 
     SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
-END;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_teachingload; 
-DELIMITER GO
 CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
                                         section_code_insert varchar(255),
                                         isLecture_insert boolean,
@@ -459,27 +588,21 @@ CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
                                         end_time_insert time,
                                         emp_id_insert varchar(10), 
                                         no_of_students_insert int)
-BEGIN 
+  BEGIN 
     INSERT INTO SUBJECT
     VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
     VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
-END;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_teachingload;
-DELIMITER GO
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
-BEGIN
-  DELETE FROM SUBJECT
-  where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
-END;
+  BEGIN
+    DELETE FROM SUBJECT
+    where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_teachingload;
-DELIMITER GO
 CREATE PROCEDURE update_teachingload(   to_edit int,
                                         subject_code_insert varchar(255),
                                         section_code_insert varchar(255),
@@ -489,74 +612,79 @@ CREATE PROCEDURE update_teachingload(   to_edit int,
                                         start_time_insert time,
                                         end_time_insert time,
                                         no_of_students_insert int)
-BEGIN 
-    UPDATE SUBJECT
-    SET subject_code = subject_code_insert,
-        section_code = section_code_insert, 
-        isLecture = isLecture_insert, 
-        units = units_insert, 
-        room = room_insert, 
-        start_time = start_time_insert, 
-        end_time = end_time_insert
-    where subject_id = (Select subject_id from teachingload where teachingload_id = to_edit);
-    UPDATE teachingload
-    SET no_of_students = no_of_students_insert
-    where teachingload_id = to_edit;
-END;
+  BEGIN 
+      UPDATE SUBJECT
+      SET subject_code = subject_code_insert,
+          section_code = section_code_insert, 
+          isLecture = isLecture_insert, 
+          units = units_insert, 
+          room = room_insert, 
+          start_time = start_time_insert, 
+          end_time = end_time_insert
+      where subject_id = (Select subject_id from teachingload where teachingload_id = to_edit);
+      UPDATE teachingload
+      SET no_of_students = no_of_students_insert
+      where teachingload_id = to_edit;
+  END;
 GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR TEACHINGLOAD
 
----- PROCEDURES FOR PUBLICATIONS
+---- PROCEDURES FOR STUDYLOAD
+DROP PROCEDURE IF EXISTS view_studyload; 
+DROP PROCEDURE IF EXISTS view_employee_studyload;
+DROP PROCEDURE IF EXISTS insert_studyload_new_subject;
+DROP PROCEDURE IF EXISTS insert_studyload_use_subject; 
+DROP PROCEDURE IF EXISTS delete_studyload;
+DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
 
-DROP PROCEDURE IF EXISTS view_publication; 
 DELIMITER GO
-CREATE PROCEDURE view_publication()
-BEGIN
-    SELECT * FROM PUBLICATION;
-END;
-GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_publication_by_ID; 
-DELIMITER GO
-CREATE PROCEDURE view_service_by_ID(view_publication_id int)
-BEGIN
-    SELECT * FROM PUBLICATION
-    where publication_id = view_publication_id;
-END;
+CREATE PROCEDURE view_studyload()
+  BEGIN 
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
+  END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_employee_publication; 
-DELIMITER GO
-CREATE PROCEDURE view_employee_publication(emp_id_view_publication varchar(10))
-BEGIN
-    SELECT title, credit_units, category, funding, role, start_date, end_date FROM PUBLICATION 
-    WHERE emp_id = emp_id_view_publication;
-END;
+CREATE PROCEDURE view_employee_studyload(emp_id_view int)
+  BEGIN
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id where a.emp_id = emp_id_view;
+    END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_publication;
-DELIMITER GO
-CREATE PROCEDURE insert_publication( 
-								credit_units int,
-								category varchar(255),
-								funding varchar(255),
-								title varchar(255),
-								role varchar(255),
-								start_date datetime,
-								end_date datetime,
-								emp_id varchar(10)
-)
-BEGIN
-    INSERT INTO PUBLICATION
-      values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
-END;
+
+CREATE PROCEDURE insert_studyload_new_subject(    emp_id_insert varchar(10) , 
+                                                  degree_insert varchar(255) ,
+                                                  university_insert varchar(255) ,
+                                                  credits_insert int ,
+                                                  subject_code_insert varchar(255) ,
+                                                  section_code_insert varchar(255) ,
+                                                  isLecture_insert boolean ,
+                                                  units_insert int ,
+                                                  room_insert varchar(255) ,
+                                                  start_time_insert time ,
+                                                  end_time_insert time )
+  BEGIN 
+      INSERT INTO SUBJECT
+      VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
+      INSERT INTO STUDYLOAD
+      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, LAST_INSERT_ID());
+  END;
 GO
-DELIMITER ;
+
+CREATE PROCEDURE insert_studyload_use_subject(    subject_id_insert int,
+                                                  degree_insert varchar(255) ,
+                                                  university_insert varchar(255) ,
+                                                  credits_insert int ,
+                                                  emp_id_insert varchar(10) )
+  BEGIN
+      INSERT INTO STUDYLOAD
+      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
+  END;
+GO
+
 
 DROP PROCEDURE IF EXISTS delete_publication;
 DELIMITER GO
@@ -567,32 +695,54 @@ CREATE PROCEDURE delete_service(publication_id_del int)
 END;
 GOITER ;
 
-DROP PROCEDURE IF EXISTS update_publication;
-DELIMITER GO
-CREATE PROCEDURE update_service(
-								publication_id_u int,  
-								credit_units_u int,
-								category_u varchar(255),
-								funding_u varchar(255),
-								title_u varchar(255),
-								role_u varchar(255),
-								start_date_u datetime,
-								end_date_u datetime
-								)
-  BEGIN 
-    UPDATE SERVICE
-        SET  credit_units = credit_units_u,
-        	category = category_u,
-        	funding = funding_u,
-        	title = title_u,
-        	role = role_u,
-        	start_date = start_date_u,
-        	end_date = end_date_u
-        WHERE publication_id = publication_id_u;
-END;
+CREATE PROCEDURE delete_studyload( studyload_id_delete int )
+  BEGIN
+    DELETE FROM STUDYLOAD
+    where studyload_id = studyload_id_delete;
+  END;
 GO
+
+
+CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
+  BEGIN
+    DELETE FROM SUBJECT
+    where subject_id = (Select subject_id from studyload where studyload_id = studyload_id_delete);
+  END;
+GO
+
+CREATE PROCEDURE update_studyload (   to_edit int,
+                                      degree_insert varchar(255) ,
+                                      university_insert varchar(255) ,
+                                      credits_insert int ,
+                                      subject_code_insert varchar(255) ,
+                                      section_code_insert varchar(255) ,
+                                      isLecture_insert boolean ,
+                                      units_insert int ,
+                                      room_insert varchar(255) ,
+                                      start_time_insert time ,
+                                      end_time_insert time )
+  BEGIN
+    UPDATE SUBJECT
+    SET subject_code = subject_code_insert,
+          section_code = section_code_insert, 
+          isLecture = isLecture_insert, 
+          units = units_insert, 
+          room = room_insert, 
+          start_time = start_time_insert, 
+          end_time = end_time_insert
+    where subject_id = (Select subject_id from STUDYLOAD where studyload_id = to_edit);
+    UPDATE STUDYLOAD
+    SET degree = degree_insert,
+        university = university_insert ,
+        credits = credits_insert
+    where studyload_id = to_edit;
+  END;
+GO
+
 DELIMITER ;
----END OF PUBLICATION PROCEDURE
+
+---- END OF PROCEDURES FOR STUDYLOAD
+
 
 
 ---- PROCEDURES FOR CONSULTATION
@@ -676,6 +826,20 @@ CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Pe
 CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery","1st");
 CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene","1st");
 
+
+
+CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
+CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");
+CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie",FALSE,"1st");
+CALL insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg",FALSE,"1st");
+CALL insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed",FALSE,"1st");
+CALL insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome",FALSE,"1st");
+CALL insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo",FALSE,"1st");
+CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles",FALSE,"1st");
+CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery",FALSE,"1st");
+CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene",FALSE,"1st");
+
+
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
 call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'), "0000000002");
@@ -719,3 +883,14 @@ call insert_teachingload("cmsc 1161", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0
 call insert_teachingload("cmsc 17", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000005", 12);
 call insert_teachingload("math 170", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000006", 12);
 call insert_teachingload("cmsc 125", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'), "0000000007", 12);
+
+call insert_studyload_new_subject("0000000000", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000001", "MSCS", "UPLB", 2, "CMSC 252", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000002", "MSCS", "UPLB", 2, "CMSC 253", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000000", "MSCS", "UPLB", 2, "CMSC 254", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000000", "MSCS", "UPLB", 2, "CMSC 255", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000005", "MSCS", "UPLB", 2, "CMSC 256", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000006", "MSCS", "UPLB", 2, "CMSC 257", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000007", "MSCS", "UPLB", 2, "CMSC 258", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000008", "MSCS", "UPLB", 2, "CMSC 259", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload_new_subject("0000000009", "MSCS", "UPLB", 2, "CMSC 250", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));

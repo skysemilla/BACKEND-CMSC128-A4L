@@ -470,7 +470,7 @@ CREATE PROCEDURE update_publication(
                 end_date_u datetime
                 )
   BEGIN 
-    UPDATE SERVICE
+    UPDATE PUBLICATION
         SET  credit_units = credit_units_u,
           category = category_u,
           funding = funding_u,
@@ -485,6 +485,78 @@ GO
 DELIMITER ;
 
 ---END OF PUBLICATION PROCEDURE
+
+--START OF COWORKER PROCEDURE
+DROP PROCEDURE IF EXISTS view_coworker; 
+DELIMITER GO
+CREATE PROCEDURE view_coworker()
+BEGIN
+    SELECT * FROM COWORKER;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_coworker_by_ID; 
+DELIMITER GO
+CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
+BEGIN
+    SELECT * FROM COWORKER
+    where coworker_id = view_coworker_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_employee_coworker; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_coworker(emp_id_view_coworker varchar(10))
+BEGIN
+    SELECT publication_id 
+    WHERE emp_id = emp_id_view_coworker;
+END;
+GO
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS insert_coworker;
+DELIMITER GO
+CREATE PROCEDURE insert_coworker( 
+                emp_id varchar(10), 
+                publication_id int
+)
+BEGIN
+    INSERT INTO COWORKER
+      values (NULL, emp_id, publication_id);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_coworker;
+DELIMITER GO
+CREATE PROCEDURE delete_coworker(coworker_id_del int)
+  BEGIN 
+    DELETE FROM COWORKER
+      where coworker_id = coworker_id_del;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_coworker;
+DELIMITER GO
+CREATE PROCEDURE update_coworker(   coworker_id_u int,
+                  emp_id_u varchar(10), 
+                  publication_id_u int 
+)
+  BEGIN 
+    UPDATE COWORKER
+        SET  emp_id = emp_id_u,
+          publication_id = publication_id_u
+        WHERE coworker_id = coworker_id_u;
+END;
+GO
+DELIMITER ;
+
+
+--END OF COWORKER PROCEDURE
 
 ---- PROCEDURES FOR TEACHINGLOAD
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
@@ -659,6 +731,8 @@ GO
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR STUDYLOAD
+
+
 
 
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");

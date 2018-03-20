@@ -1,4 +1,4 @@
-DROP USER IF EXISTS 'skydev'@'localhost';
+ROP USER IF EXISTS 'skydev'@'localhost';
 CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
 DROP DATABASE IF EXISTS skydev;
 CREATE DATABASE skydev;
@@ -565,8 +565,7 @@ CREATE PROCEDURE delete_service(publication_id_del int)
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
 END;
-GO
-DELIMITER ;
+GOITER ;
 
 DROP PROCEDURE IF EXISTS update_publication;
 DELIMITER GO
@@ -594,6 +593,76 @@ END;
 GO
 DELIMITER ;
 ---END OF PUBLICATION PROCEDURE
+
+
+---- PROCEDURES FOR CONSULTATION
+DROP PROCEDURE IF EXISTS view_employee_consultation; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
+  BEGIN 
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_consultation; 
+DELIMITER GO
+CREATE PROCEDURE view_consultation()
+  BEGIN 
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insert_consultation; 
+DELIMITER GO
+CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
+                                        consultation_end_time_insert time,
+                                        consultation_place_insert varchar(255),
+                                        emp_id_insert varchar(10),
+                                        day_insert varchar(255))
+BEGIN 
+    INSERT INTO CONSULTATION
+    VALUES (NULL, consultation_place_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
+    INSERT INTO CONSULTATION_DAY
+    VALUES (LAST_INSERT_ID(), day_insert);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_consultation;
+DELIMITER GO
+CREATE PROCEDURE delete_consultation( consultation_id_delete int )
+BEGIN
+  DELETE FROM CONSULTATION
+  where consultation_id = consultation_id_delete;
+  DELETE FROM CONSULTATION_DAY
+  WHERE consultation_id = consultation_id_delete;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_consultation;
+DELIMITER GO
+CREATE PROCEDURE update_consultation(   consultation_id_edit int,
+                                        consultation_start_time_edit time,
+                                        consultation_end_time_edit time,
+                                        consultation_place_edit varchar(255),
+                                        day_edit varchar(255))
+BEGIN 
+    UPDATE CONSULTATION
+    SET consultation_start_time = consultation_start_time_edit,     
+        consultation_end_time = consultation_end_time_edit,
+        consultation_place = consultation_place_edit
+    where consultation_id = consultation_id_edit;
+    UPDATE CONSULTATION_DAY
+    SET day = day_edit
+    where consultation_id = consultation_id_edit;
+END;
+GO
+DELIMITER ;
+
+---- END OF PROCEDURES FOR CONSULTATION
 
 
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden","1st");

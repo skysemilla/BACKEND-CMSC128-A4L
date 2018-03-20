@@ -1,4 +1,4 @@
-DROP USER IF EXISTS 'skydev'@'localhost';
+ROP USER IF EXISTS 'skydev'@'localhost';
 CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
 DROP DATABASE IF EXISTS skydev;
 CREATE DATABASE skydev;
@@ -685,12 +685,23 @@ CREATE PROCEDURE insert_studyload_use_subject(    subject_id_insert int,
   END;
 GO
 
+
+DROP PROCEDURE IF EXISTS delete_publication;
+DELIMITER GO
+CREATE PROCEDURE delete_service(publication_id_del int)
+  BEGIN 
+    DELETE FROM PUBLICATION
+      where publication_id = publication_id_del;
+END;
+GOITER ;
+
 CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
     DELETE FROM STUDYLOAD
     where studyload_id = studyload_id_delete;
   END;
 GO
+
 
 CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
   BEGIN
@@ -734,6 +745,88 @@ DELIMITER ;
 
 
 
+---- PROCEDURES FOR CONSULTATION
+DROP PROCEDURE IF EXISTS view_employee_consultation; 
+DELIMITER GO
+CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
+  BEGIN 
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS view_consultation; 
+DELIMITER GO
+CREATE PROCEDURE view_consultation()
+  BEGIN 
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insert_consultation; 
+DELIMITER GO
+CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
+                                        consultation_end_time_insert time,
+                                        consultation_place_insert varchar(255),
+                                        emp_id_insert varchar(10),
+                                        day_insert varchar(255))
+BEGIN 
+    INSERT INTO CONSULTATION
+    VALUES (NULL, consultation_place_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
+    INSERT INTO CONSULTATION_DAY
+    VALUES (LAST_INSERT_ID(), day_insert);
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_consultation;
+DELIMITER GO
+CREATE PROCEDURE delete_consultation( consultation_id_delete int )
+BEGIN
+  DELETE FROM CONSULTATION
+  where consultation_id = consultation_id_delete;
+  DELETE FROM CONSULTATION_DAY
+  WHERE consultation_id = consultation_id_delete;
+END;
+GO
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_consultation;
+DELIMITER GO
+CREATE PROCEDURE update_consultation(   consultation_id_edit int,
+                                        consultation_start_time_edit time,
+                                        consultation_end_time_edit time,
+                                        consultation_place_edit varchar(255),
+                                        day_edit varchar(255))
+BEGIN 
+    UPDATE CONSULTATION
+    SET consultation_start_time = consultation_start_time_edit,     
+        consultation_end_time = consultation_end_time_edit,
+        consultation_place = consultation_place_edit
+    where consultation_id = consultation_id_edit;
+    UPDATE CONSULTATION_DAY
+    SET day = day_edit
+    where consultation_id = consultation_id_edit;
+END;
+GO
+DELIMITER ;
+
+---- END OF PROCEDURES FOR CONSULTATION
+
+
+CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden","1st");
+CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich","1st");
+CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie","1st");
+CALL insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg","1st");
+CALL insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed","1st");
+CALL insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome","1st");
+CALL insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo","1st");
+CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles","1st");
+CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery","1st");
+CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene","1st");
+
+
 
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
 CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");
@@ -745,6 +838,7 @@ CALL insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vinc
 CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles",FALSE,"1st");
 CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery",FALSE,"1st");
 CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene",FALSE,"1st");
+
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");

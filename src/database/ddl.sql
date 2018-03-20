@@ -894,3 +894,26 @@ call insert_studyload_new_subject("0000000006", "MSCS", "UPLB", 2, "CMSC 257", "
 call insert_studyload_new_subject("0000000007", "MSCS", "UPLB", 2, "CMSC 258", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
 call insert_studyload_new_subject("0000000008", "MSCS", "UPLB", 2, "CMSC 259", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
 call insert_studyload_new_subject("0000000009", "MSCS", "UPLB", 2, "CMSC 250", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+
+call insert_publication(8,"9",30392,"Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
+call insert_publication(1,"8",76858,"a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
+call insert_publication(9,"5",49725,"sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
+call insert_publication(5,"10",33757,"nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
+call insert_publication(3,"6",30792,"vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
+call insert_publication(6,"10",98341,"condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
+call insert_publication(9,"5",32088,"est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
+call insert_publication(10,"10",16871,"sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
+call insert_publication(9,"1",82070,"quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
+call insert_publication(8,"3",17520,"mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
+
+call insert_coworker("0000000001",5);
+call insert_coworker("0000000005",2);
+call insert_coworker("0000000004",6);
+call insert_coworker("0000000005",1);
+call insert_coworker("0000000001",1);
+call insert_coworker("0000000001",3);
+call insert_coworker("0000000002",6);
+call insert_coworker("0000000004",7);
+call insert_coworker("0000000005",7);
+call insert_coworker("0000000001",5);
+

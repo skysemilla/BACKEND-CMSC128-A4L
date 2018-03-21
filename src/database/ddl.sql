@@ -418,6 +418,7 @@ CREATE PROCEDURE insert_service(
 BEGIN
     INSERT INTO SERVICE
       values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
+      call insert_log(concat("Service ", LAST_INSERT_ID(), " ", title, " has been added to the table SERVICE"));
 END;
 GO
 
@@ -425,6 +426,7 @@ CREATE PROCEDURE delete_service(service_id_del int)
   BEGIN 
     DELETE FROM SERVICE
       where service_id = service_id_del;
+      call insert_log(concat("Service", service_id_del, " has been deleted from the table SERVICE"));
 END;
 GO
 
@@ -445,6 +447,7 @@ CREATE PROCEDURE update_service( service_id_u int,
             role = role_u,
             credits = credits_u
         WHERE service_id = service_id_u;
+        call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
 END;
 GO
 
@@ -821,13 +824,13 @@ DELIMITER GO
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),
-                                        emp_id_insert varchar(10),
                                         day_insert varchar(255))
 BEGIN 
     INSERT INTO CONSULTATION
-    VALUES (NULL, consultation_place_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
+    VALUES (NULL, consultation_start_time_insert, consultation_end_time_insert, consultation_place_insert);
     INSERT INTO CONSULTATION_DAY
     VALUES (LAST_INSERT_ID(), day_insert);
+    call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
 DELIMITER ;
@@ -840,6 +843,7 @@ BEGIN
   where consultation_id = consultation_id_delete;
   DELETE FROM CONSULTATION_DAY
   WHERE consultation_id = consultation_id_delete;
+  call insert_log(concat("Consultation id ",consultation_id_delete, " has been deleted from the table CONSULTATION"));
 END;
 GO
 DELIMITER ;
@@ -860,6 +864,7 @@ BEGIN
     UPDATE CONSULTATION_DAY
     SET day = day_edit
     where consultation_id = consultation_id_edit;
+    call insert_log(concat("Consultation id ",consultation_id_edit, " has been updated from the table CONSULTATION"));
 END;
 GO
 DELIMITER ;
@@ -888,6 +893,17 @@ call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'), "00
 call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "0000000007");
 call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
 call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
+
+call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" );
 
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");

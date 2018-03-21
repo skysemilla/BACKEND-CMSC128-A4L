@@ -216,6 +216,7 @@ CREATE PROCEDURE delete_employee( emp_id_insert varchar(10) )
   BEGIN 
     DELETE FROM EMPLOYEE
     WHERE emp_id = emp_id_insert;
+    call insert_log(concat("Employee #", emp_id_insert, " has been deleted from the table EMPLOYEE"));
   END;
 GO
 
@@ -243,7 +244,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         is_full_time = is_full_time_insert,
         college = college_insert
-      WHERE emp_id = emp_type_insert;
+    WHERE emp_id = emp_type_insert;
+    call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
 GO
 
@@ -276,6 +278,7 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
   BEGIN 
     INSERT INTO ACTIVITY
         values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+    call insert_log(concat("Activity #", LAST_INSERT_ID(), " ", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
 
@@ -288,7 +291,7 @@ CREATE PROCEDURE delete_activity(  activity_id_del int)
 GO
 
 
-CREATE PROCEDURE update_activity(   activity_id_update int,
+CREATE PROCEDURE update_activity(  activity_id_update int,
                                    credit_unit_update int (255),
                                    activity_name_update varchar(20), 
                                    activity_type_update varchar(20), 
@@ -310,6 +313,7 @@ CREATE PROCEDURE update_activity(   activity_id_update int,
              end_time = end_time_update, 
              emp_id = emp_id_update
         WHERE activity_id = activity_id_update;
+    call insert_log(concat("Activity #", activity_id_update, " with name ", activity_name_update, " has been edited in the table ACTIVITY"));
   END;
 GO
 
@@ -643,6 +647,7 @@ CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
     VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
     VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
+    call insert_log(concat("Teachingload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
   END;
 GO
 
@@ -650,6 +655,7 @@ CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
     DELETE FROM SUBJECT
     where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
+    call insert_log(concat("Teachingload #", teachingload_id_delete, " has been deleted from the table TEACHINGLOAD"));
   END;
 GO
 
@@ -675,6 +681,7 @@ CREATE PROCEDURE update_teachingload(   to_edit int,
       UPDATE teachingload
       SET no_of_students = no_of_students_insert
       where teachingload_id = to_edit;
+    call insert_log(concat("Teachingload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table TEACHINGLOAD"));   
   END;
 GO
 
@@ -721,6 +728,7 @@ CREATE PROCEDURE insert_studyload_new_subject(    emp_id_insert varchar(10) ,
       VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, LAST_INSERT_ID());
+    call insert_log(concat("Studyload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
   END;
 GO
 
@@ -732,6 +740,7 @@ CREATE PROCEDURE insert_studyload_use_subject(    subject_id_insert int,
   BEGIN
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
+    call insert_log(concat("Studyload #", LAST_INSERT_ID(), " with code ", (Select subject_code from Subject where subject_id = subject_id_insert;), " and section ", (Select section_code from Subject where subject_id = subject_id_insert;)," has been added to the table TEACHINGLOAD"));   
   END;
 GO
 
@@ -739,6 +748,7 @@ CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
     DELETE FROM STUDYLOAD
     where studyload_id = studyload_id_delete;
+    call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
   END;
 GO
 
@@ -747,6 +757,7 @@ CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
   BEGIN
     DELETE FROM SUBJECT
     where subject_id = (Select subject_id from studyload where studyload_id = studyload_id_delete);
+    call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
   END;
 GO
 
@@ -776,6 +787,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
         university = university_insert ,
         credits = credits_insert
     where studyload_id = to_edit;
+    call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
   END;
 GO
 

@@ -328,6 +328,7 @@ DELIMITER GO
 CREATE PROCEDURE view_position()
 BEGIN
     SELECT * FROM POSITIONN;
+
 END;
 GO
 
@@ -337,6 +338,9 @@ CREATE PROCEDURE insert_position(office varchar(255),
 BEGIN
     INSERT INTO POSITIONN
       values (NULL, office, credit_units, emp_id);
+      call insert_log(concat("Position #", LAST_INSERT_ID(), "with ", office, "and", credit_units," has been added to the table POSITIONN"));
+
+
 END;
 GO
 
@@ -344,6 +348,8 @@ CREATE PROCEDURE delete_position(position_id_del int)
   BEGIN 
     DELETE FROM POSITIONN
       where position_id = position_id_del;
+     call insert_log(concat("Position #", position_id_del," has been deleted to the table POSITIONN"));
+
 END;
 GO
 
@@ -357,6 +363,8 @@ CREATE PROCEDURE update_position(position_id_update int,
             credit_units = credit_units_update,
             emp_id = emp_id_update
         WHERE position_id = position_id_update;
+        call insert_log(concat("Position #", position_id_update, " has been updated"));
+
 END;
 GO
 
@@ -482,6 +490,8 @@ CREATE PROCEDURE insert_publication(
   BEGIN
       INSERT INTO PUBLICATION
         values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
+        call insert_log(concat("Publication #", LAST_INSERT_ID(), " has been added to the table PUBLICATION"));
+
   END;
 GO
 
@@ -489,6 +499,7 @@ CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
+       call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
 
@@ -512,6 +523,9 @@ CREATE PROCEDURE update_publication(
           start_date = start_date_u,
           end_date = end_date_u
         WHERE publication_id = publication_id_u;
+        call insert_log(concat("Publication #", publication_id, " has been updated."));
+
+
   END;
 GO
 
@@ -563,6 +577,8 @@ CREATE PROCEDURE insert_coworker(
   BEGIN
       INSERT INTO COWORKER
         values (NULL, emp_id, publication_id);
+        call insert_log(concat("Coworker #", LAST_INSERT_ID(), " has been added to the table COWORKER"));
+
   END;
 GO
 
@@ -570,16 +586,20 @@ CREATE PROCEDURE delete_coworker(coworker_id_del int)
   BEGIN 
     DELETE FROM COWORKER
       where coworker_id = coworker_id_del;
+      call insert_log(concat("Coworker #", coworker_id_del, " has been deleted to the table COWORKER"));
+
   END;
 GO
 
-CREATE PROCEDURE update_coworker( emp_id_u varchar(10), 
+CREATE PROCEDURE update_coworker( coworker_id_u int,
+								emp_id_u varchar(10), 
                                   publication_id_u int )
   BEGIN 
     UPDATE COWORKER
         SET  emp_id = emp_id_u,
           publication_id = publication_id_u
         WHERE coworker_id = coworker_id_u;
+        call insert_log(concat("Coworker #", coworker_id, " has been updated."));
   END;
 GO
 

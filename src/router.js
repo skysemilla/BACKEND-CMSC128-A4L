@@ -4,7 +4,7 @@ import { Router } from 'express';
 import authRouter from './entities/auth/router';
 import extensionRouter from './entities/extensions/router';
 import publicationsRouter from './entities/publications/router';
-import signupRouter from './entities/signup/router';
+//import signupRouter from './entities/signup/router';
 import studyRouter from './entities/studyload/router';
 import teachRouter from './entities/teachload/router';
 
@@ -14,7 +14,7 @@ const router = Router();
 router.use('/', authRouter);
 router.use(extensionRouter);
 router.use(publicationsRouter);
-router.use(signupRouter);
+//router.use(signupRouter);
 router.use(studyRouter);
 router.use(teachRouter);
 

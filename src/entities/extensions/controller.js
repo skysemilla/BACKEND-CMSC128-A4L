@@ -22,7 +22,7 @@ export const getService = ({ id }) => {
         return reject(404);
       }
 
-        return resolve(rows[0]);
+      return resolve(rows[0]);
     });
   });
 };
@@ -46,17 +46,31 @@ export const getServices = () => {
   });
 };
 
-
-
 // adds a service
-export const addService = ({ category, title, no_of_hours, no_of_participants, role, credits, emp_id }) => {
+export const addService = ({
+  category,
+  title,
+  no_of_hours,
+  no_of_participants,
+  role,
+  credits,
+  emp_id
+}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
             INSERT INTO sample
             VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)
         `;
 
-    const values = [category, title, no_of_hours, no_of_participants, role, credits, emp_id];
+    const values = [
+      category,
+      title,
+      no_of_hours,
+      no_of_participants,
+      role,
+      credits,
+      emp_id
+    ];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
@@ -95,7 +109,14 @@ export const removeService = ({ id }) => {
 };
 
 // edits a sample
-export const editSample = ({ category, title, no_of_hours, no_of_participants, role, credits }) => {
+export const editService = ({
+  category,
+  title,
+  no_of_hours,
+  no_of_participants,
+  role,
+  credits
+}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       UPDATE sample
@@ -110,7 +131,14 @@ export const editSample = ({ category, title, no_of_hours, no_of_participants, r
         service_id = ?
     `;
 
-    const values = [category, title, no_of_hours, no_of_participants, role, credits];
+    const values = [
+      category,
+      title,
+      no_of_hours,
+      no_of_participants,
+      role,
+      credits
+    ];
 
     db.query(queryString, values, (err, res) => {
       if (err) {

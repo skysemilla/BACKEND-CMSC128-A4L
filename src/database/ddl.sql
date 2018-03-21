@@ -406,6 +406,7 @@ CREATE PROCEDURE insert_service(
 BEGIN
     INSERT INTO SERVICE
       values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
+      call insert_log(concat("Service ", LAST_INSERT_ID(), " ", title, " has been added to the table SERVICE"));
 END;
 GO
 
@@ -413,6 +414,7 @@ CREATE PROCEDURE delete_service(service_id_del int)
   BEGIN 
     DELETE FROM SERVICE
       where service_id = service_id_del;
+      call insert_log(concat("Service", service_id_del, " has been deleted from the table SERVICE"));
 END;
 GO
 
@@ -433,6 +435,7 @@ CREATE PROCEDURE update_service( service_id_u int,
             role = role_u,
             credits = credits_u
         WHERE service_id = service_id_u;
+        call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
 END;
 GO
 
@@ -793,9 +796,10 @@ CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         day_insert varchar(255))
 BEGIN 
     INSERT INTO CONSULTATION
-    VALUES (NULL, consultation_place_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
+    VALUES (NULL, consultation_start_time_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
     INSERT INTO CONSULTATION_DAY
     VALUES (LAST_INSERT_ID(), day_insert);
+    call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
 DELIMITER ;
@@ -808,6 +812,7 @@ BEGIN
   where consultation_id = consultation_id_delete;
   DELETE FROM CONSULTATION_DAY
   WHERE consultation_id = consultation_id_delete;
+  call insert_log(concat("Consultation id ",consultation_id_delete, " has been deleted from the table CONSULTATION"));
 END;
 GO
 DELIMITER ;
@@ -828,6 +833,7 @@ BEGIN
     UPDATE CONSULTATION_DAY
     SET day = day_edit
     where consultation_id = consultation_id_edit;
+    call insert_log(concat("Consultation id ",consultation_id_edit, " has been updated from the table CONSULTATION"));
 END;
 GO
 DELIMITER ;

@@ -278,7 +278,7 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
   BEGIN 
     INSERT INTO ACTIVITY
         values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
-    call insert_log(concat("Activity #", LAST_INSERT_ID(), " ", activity_name, " has been added to the table ACTIVITY"));
+    call insert_log(concat("Activity name", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
 
@@ -342,7 +342,7 @@ CREATE PROCEDURE insert_position(office varchar(255),
 BEGIN
     INSERT INTO POSITIONN
       values (NULL, office, credit_units, emp_id);
-      call insert_log(concat("Position #", LAST_INSERT_ID(), "with ", office, "and", credit_units," has been added to the table POSITIONN"));
+      call insert_log(concat("Position ", office, "and", credit_units," has been added to the table POSITIONN"));
 
 
 END;
@@ -418,7 +418,7 @@ CREATE PROCEDURE insert_service(
 BEGIN
     INSERT INTO SERVICE
       values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
-      call insert_log(concat("Service ", LAST_INSERT_ID(), " ", title, " has been added to the table SERVICE"));
+      call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
 END;
 GO
 
@@ -497,7 +497,7 @@ CREATE PROCEDURE insert_publication(
   BEGIN
       INSERT INTO PUBLICATION
         values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
-        call insert_log(concat("Publication #", LAST_INSERT_ID(), " has been added to the table PUBLICATION"));
+        call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;
 GO
@@ -584,7 +584,7 @@ CREATE PROCEDURE insert_coworker(
   BEGIN
       INSERT INTO COWORKER
         values (NULL, emp_id, publication_id);
-        call insert_log(concat("Coworker #", LAST_INSERT_ID(), " has been added to the table COWORKER"));
+        call insert_log(concat("Coworker with emp_id ", emp_id, " has been added to the table COWORKER"));
 
   END;
 GO
@@ -599,7 +599,7 @@ CREATE PROCEDURE delete_coworker(coworker_id_del int)
 GO
 
 CREATE PROCEDURE update_coworker( coworker_id_u int,
-								emp_id_u varchar(10), 
+                emp_id_u varchar(10), 
                                   publication_id_u int )
   BEGIN 
     UPDATE COWORKER
@@ -650,7 +650,7 @@ CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
     VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
     VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
-    call insert_log(concat("Teachingload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
+    call insert_log(concat("Teachingload with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
   END;
 GO
 
@@ -731,7 +731,7 @@ CREATE PROCEDURE insert_studyload_new_subject(    emp_id_insert varchar(10) ,
       VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, LAST_INSERT_ID());
-    call insert_log(concat("Studyload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
+    call insert_log(concat("Studyload with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
   END;
 GO
 
@@ -894,16 +894,16 @@ call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "00
 call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
 call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
 
-call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "000000005");
-call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "000000004");
-call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "000000003");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "000000002");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "000000001");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
+call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "0000000004");
+call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "0000000003");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");

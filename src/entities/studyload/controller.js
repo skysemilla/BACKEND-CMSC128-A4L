@@ -85,13 +85,13 @@ export const editStudyLoad = ({
       `;
 
     const values = [
-      studyload_id,
       degree,
       university,
       isFullTime,
       credits,
       emp_id,
-      subject_code
+      subject_code,
+      studyload_id
     ];
 
     db.query(queryString, values, (err, res) => {
@@ -109,7 +109,7 @@ export const editStudyLoad = ({
   });
 };
 
-export const getStudyLoad = ({ emp_id }) => {
+export const getStudyLoad = ({ studyload_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
           SELECT 
@@ -117,7 +117,32 @@ export const getStudyLoad = ({ emp_id }) => {
           FROM 
             STUDYLOAD
           WHERE
-            emp_id = ?
+          studyload_id = ?
+        `;
+
+    db.query(queryString, studyload_id, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+export const getStudyEmp = ({ emp_id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT 
+            *
+          FROM 
+            STUDYLOAD
+          WHERE
+          emp_id = ?
         `;
 
     db.query(queryString, emp_id, (err, rows) => {
@@ -134,7 +159,6 @@ export const getStudyLoad = ({ emp_id }) => {
     });
   });
 };
-
 export const getAllStudyLoad = () => {
   return new Promise((resolve, reject) => {
     const queryString = `

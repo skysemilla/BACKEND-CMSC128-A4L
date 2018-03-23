@@ -161,7 +161,8 @@ create table LIMITED_PRACTICE(
   haveApplied boolean not null,
   date_submitted date,
   emp_id varchar(10) not null,
-  constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  constraint limited_practice_id_pk PRIMARY key (limited_practice_id),
+  constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
 
@@ -995,7 +996,7 @@ CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
 )
   BEGIN 
     UPDATE LIMITED_PRACTICE
-        SET date_submitted = date_submitted_u,
+        SET date_submitted = date_submitted_u
         WHERE limited_practice_id = limited_practice_id_u;
       --- call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
 END;
@@ -1161,6 +1162,7 @@ call insert_coworker("0000000002",6);
 call insert_coworker("0000000004",7);
 call insert_coworker("0000000005",7);
 call insert_coworker("0000000001",5);
+
 
 call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
 call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );

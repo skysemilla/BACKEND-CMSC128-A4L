@@ -7,21 +7,23 @@ router.post('/api/signup', async (req, res) => {
   if (
     req.body.emp_id &&
     req.body.username &&
-    req.body.emp_type &&
+    req.body.password &&
+    req.body.type &&
+    req.body.f_name &&
+    req.body.m_name &&
+    req.body.l_name &&
     req.body.department &&
     req.body.college &&
-    req.body.rank
+    req.body.semester
   ) {
-    try {
-     // await Ctrl.checkUser(req.body.empNo);
-    // this checks if the empno is already assigned to a faculty     
-      const id = await Ctrl.addSample(req.body);
-      const sample = await Ctrl.getSample({ id: id });
+    try {  
+      const id = await Ctrl.addEmployee(req.body);
+      const employee = await Ctrl.getEmployee({ id: id });
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully created sample',
-        data: sample
+        message: 'Successfully created employee',
+        data: employee
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });

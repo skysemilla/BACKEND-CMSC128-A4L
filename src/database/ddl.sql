@@ -69,7 +69,6 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
 
 create table FACULTYGRANT (
   faculty_grant_id int not null AUTO_INCREMENT,
-  emp_id varchar(10),
   type varchar(255) not null,
   is_approved boolean not null,
   professional_chair varchar(255) not null,
@@ -943,11 +942,12 @@ CREATE PROCEDURE insert_faculty_grant(
                     grants varchar(255),
                     grant_title varchar(255),
                     start_date datetime,
-                    end_date datetime)
+                    end_date datetime,
+                    empid varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
-        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date);
-    call insert_log(concat("faculty grant # ", LAST_INSERT_ID(), " has been added to the table facultygrant"));
+        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, empid);
+    call insert_log(concat("faculty grant with title ", grant_title, " has been added to the table facultygrant"));
   END;
 GO
 
@@ -956,7 +956,7 @@ CREATE PROCEDURE delete_faculty_grant(  faculty_grant_id_del int)
   BEGIN
       DELETE FROM FACULTYGRANT
         where faculty_grant_id = faculty_grant_id_del;
-        call insert_log(concat("faculty grant # ", LAST_INSERT_ID(), " has been deleted from the table facultygrant"));
+        call insert_log(concat("faculty grant # ", faculty_grant_id_del, " has been deleted from the table facultygrant"));
   END;
 GO
 
@@ -1145,16 +1145,16 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 11 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 12 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 13 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 14 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 15 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 16 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 17 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 18 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 19 );
-call insert_studyload("MSCS", "UPLB", 2, "0000000001", 20 );
+call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(12, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001" );
+call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001");
 
 call insert_publication(8,"9",30392,"Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8",76858,"a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
@@ -1179,13 +1179,13 @@ call insert_coworker("0000000005",7);
 call insert_coworker("0000000001",5);
 
 
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
-call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000007");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000001");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000002");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000003");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000004");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000005");
+call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000006");

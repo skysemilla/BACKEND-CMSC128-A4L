@@ -929,7 +929,7 @@ CREATE PROCEDURE insert_faculty_grant(
 GO
 
 
-CREATE PROCEDURE delete_activity(  faculty_grant_id_del int)
+CREATE PROCEDURE delete_faculty_grant(  faculty_grant_id_del int)
   BEGIN
       DELETE FROM FACULTYGRANT
         where faculty_grant_id = faculty_grant_id_del;
@@ -938,7 +938,7 @@ CREATE PROCEDURE delete_activity(  faculty_grant_id_del int)
 GO
 
 
-CREATE PROCEDURE update_activity(  	faculty_grant_id_update,
+CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
 									type_update varchar(255),
   									is_approved_update boolean,
  									professional_chair_update varchar(255),

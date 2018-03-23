@@ -155,6 +155,15 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+create table LIMITED_PRACTICE(
+  limited_practice_id int not null AUTO_INCREMENT,
+  haveApplied boolean not null,
+  date_submitted date,
+  emp_id varchar(10) not null,
+  constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
+
+);
+
 create table LOG(
   log_no int not null AUTO_INCREMENT,
   datemade timestamp not null,
@@ -957,6 +966,79 @@ GO
 DELIMITER ;
 
 --- END OF FACULTYGRANT PROCEDURES
+--start of limited practice
+DROP PROCEDURE IF EXISTS view_limited_practice; 
+DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
+DROP PROCEDURE IF EXISTS insert_limited_practice; 
+DROP PROCEDURE IF EXISTS delete_limited_practice;
+DROP PROCEDURE IF EXISTS update_employee; 
+
+DELIMITER GO
+
+CREATE PROCEDURE view_limited_practice()
+  BEGIN 
+    SELECT * from LIMITED_PRACTICE;
+  END;
+GO
+
+CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice int)
+  BEGIN 
+    SELECT * from LIMITED_PRACTICE
+    where emp_id = emp_id_view_limited_practice;
+  END;
+GO
+
+
+CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
+                  date_submitted_u date
+)
+  BEGIN 
+    UPDATE LIMITED_PRACTICE
+        SET date_submitted = date_submitted_u,
+        WHERE limited_practice_id = limited_practice_id_u;
+      --- call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+END;
+GO
+
+CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
+                      emp_id varchar(10)
+                                
+)
+BEGIN
+    INSERT INTO LIMITED_PRACTICE
+      values (NULL, haveApplied, NULL,emp_id);
+
+      call insert_log(concat("Limited practice of profession with emp_id ", emp_id, " has been added to the table LIMITED PRACTICE"));
+
+END;
+GO
+
+CREATE PROCEDURE delete_limited_practice(limited_practice_id_del int)
+  BEGIN 
+    DELETE FROM LIMITED_PRACTICE
+      where limited_practice_id = limited_practice_id_del;
+      call insert_log(concat("Limited practice", limited_practice_id_del, " has been deleted from the table LIMITED PRACTICE"));
+END;
+GO
+
+
+CREATE PROCEDURE update_limited_practice( limited_practice_id_u int,
+                                haveApplied_u boolean,
+                                date_submitted_u date,
+                                emp_id_u varchar(10)
+                                )
+  BEGIN 
+    UPDATE LIMITED_PRACTICE
+        SET  limited_practice_id = limited_practice_id_u,
+          haveApplied = haveApplied_u,
+          date_submitted = date_submitted_u,
+          emp_id = emp_id_u
+        WHERE limited_practice_id = limited_practice_id_u;
+        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+END;
+GO
+DELIMITER ;
+--end of limited practice
 
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
 CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");

@@ -69,7 +69,7 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
 
 create table FACULTYGRANT (
   faculty_grant_id int not null AUTO_INCREMENT,
-
+  emp_id varchar(10),
   type varchar(255) not null,
   is_approved boolean not null,
   professional_chair varchar(255) not null,
@@ -77,6 +77,7 @@ create table FACULTYGRANT (
   grant_title varchar(255) not null,
   start_date datetime not null,
   end_date datetime not null,
+  emp_id varchar(10) not null,
   constraint faculty_grant_id_pk PRIMARY key (faculty_grant_id),
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -153,6 +154,16 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table LIMITED_PRACTICE(
+  limited_practice_id int not null AUTO_INCREMENT,
+  haveApplied boolean not null,
+  date_submitted date,
+  emp_id varchar(10) not null,
+  constraint limited_practice_id_pk PRIMARY key (limited_practice_id),
+  constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
 create table LOG(
@@ -662,6 +673,27 @@ CREATE PROCEDURE delete_subject(  subject_id_delete int )
   END;
 GO
 
+CREATE PROCEDURE update_subject( subject_id_edit int,
+                                  subject_code_insert varchar(255),
+                                        section_code_insert varchar(255),
+                                        isLecture_insert boolean,
+                                        units_insert int,
+                                        room_insert varchar(255),
+                                        start_time_insert time,
+                                        end_time_insert time )
+  BEGIN
+    UPDATE SUBJECT
+    set   subject_code = subject_code_insert,
+          section_code = section_code_insert, 
+          isLecture = isLecture_insert, 
+          units = units_insert, 
+          room = room_insert, 
+          start_time = start_time_insert, 
+          end_time = end_time_insert
+    where subject_id = subject_id_edit;
+  END;
+GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR SUBJECT
@@ -820,8 +852,6 @@ DELIMITER ;
 
 ---- END OF PROCEDURES FOR STUDYLOAD
 
-
-
 ---- PROCEDURES FOR CONSULTATION
 DROP PROCEDURE IF EXISTS view_employee_consultation; 
 DELIMITER GO
@@ -957,17 +987,90 @@ GO
 DELIMITER ;
 
 --- END OF FACULTYGRANT PROCEDURES
+--start of limited practice
+DROP PROCEDURE IF EXISTS view_limited_practice; 
+DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
+DROP PROCEDURE IF EXISTS insert_limited_practice; 
+DROP PROCEDURE IF EXISTS delete_limited_practice;
+DROP PROCEDURE IF EXISTS update_employee; 
 
-CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
-CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");
-CALL insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie",FALSE,"1st");
-CALL insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg",FALSE,"1st");
-CALL insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed",FALSE,"1st");
-CALL insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome",FALSE,"1st");
-CALL insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo",FALSE,"1st");
-CALL insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles",FALSE,"1st");
-CALL insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery",FALSE,"1st");
-CALL insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene",FALSE,"1st");
+DELIMITER GO
+
+CREATE PROCEDURE view_limited_practice()
+  BEGIN 
+    SELECT * from LIMITED_PRACTICE;
+  END;
+GO
+
+CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice int)
+  BEGIN 
+    SELECT * from LIMITED_PRACTICE
+    where emp_id = emp_id_view_limited_practice;
+  END;
+GO
+
+
+CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
+                  date_submitted_u date
+)
+  BEGIN 
+    UPDATE LIMITED_PRACTICE
+        SET date_submitted = date_submitted_u
+        WHERE limited_practice_id = limited_practice_id_u;
+      --- call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+END;
+GO
+
+CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
+                      emp_id varchar(10)
+                                
+)
+BEGIN
+    INSERT INTO LIMITED_PRACTICE
+      values (NULL, haveApplied, NULL,emp_id);
+
+      call insert_log(concat("Limited practice of profession with emp_id ", emp_id, " has been added to the table LIMITED PRACTICE"));
+
+END;
+GO
+
+CREATE PROCEDURE delete_limited_practice(limited_practice_id_del int)
+  BEGIN 
+    DELETE FROM LIMITED_PRACTICE
+      where limited_practice_id = limited_practice_id_del;
+      call insert_log(concat("Limited practice", limited_practice_id_del, " has been deleted from the table LIMITED PRACTICE"));
+END;
+GO
+
+
+CREATE PROCEDURE update_limited_practice( limited_practice_id_u int,
+                                haveApplied_u boolean,
+                                date_submitted_u date,
+                                emp_id_u varchar(10)
+                                )
+  BEGIN 
+    UPDATE LIMITED_PRACTICE
+        SET  limited_practice_id = limited_practice_id_u,
+          haveApplied = haveApplied_u,
+          date_submitted = date_submitted_u,
+          emp_id = emp_id_u
+        WHERE limited_practice_id = limited_practice_id_u;
+        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+END;
+GO
+DELIMITER ;
+--end of limited practice
+
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie",FALSE,"1st");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg",FALSE,"1st");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed",FALSE,"1st");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome",FALSE,"1st");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo",FALSE,"1st");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles",FALSE,"1st");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery",FALSE,"1st");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene",FALSE,"1st");
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
@@ -1024,16 +1127,16 @@ call add_subject("cmsc 17", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 call add_subject("math 170", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 call add_subject("cmsc 125", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 
-call add_subject("0000000001", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000002", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000003", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000004", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000005", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000006", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000007", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000008", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000009", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
-call add_subject("0000000010", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
 
 call insert_teachingload(1, "0000000001", 12);
 call insert_teachingload(2, "0000000002", 12);
@@ -1046,16 +1149,16 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload(11, ('9:0:0'), ('10:0:0'));
-call insert_studyload(12, ('9:0:0'), ('10:0:0'));
-call insert_studyload(13, ('9:0:0'), ('10:0:0'));
-call insert_studyload(14, ('9:0:0'), ('10:0:0'));
-call insert_studyload(15, ('9:0:0'), ('10:0:0'));
-call insert_studyload(16, ('9:0:0'), ('10:0:0'));
-call insert_studyload(17, ('9:0:0'), ('10:0:0'));
-call insert_studyload(18, ('9:0:0'), ('10:0:0'));
-call insert_studyload(19, ('9:0:0'), ('10:0:0'));
-call insert_studyload(20, ('9:0:0'), ('10:0:0'));
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 11 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 12 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 13 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 14 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 15 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 16 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 17 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 18 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 19 );
+call insert_studyload("MSCS", "UPLB", 2, "0000000001", 20 );
 
 call insert_publication(8,"9",30392,"Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8",76858,"a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
@@ -1078,3 +1181,15 @@ call insert_coworker("0000000002",6);
 call insert_coworker("0000000004",7);
 call insert_coworker("0000000005",7);
 call insert_coworker("0000000001",5);
+
+
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );
+call insert_faculty_grant ("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48"  );

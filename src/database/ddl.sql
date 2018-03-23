@@ -67,6 +67,20 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+create table FACULTYGRANT (
+  faculty_grant_id int not null AUTO_INCREMENT,
+
+  type varchar(255) not null,
+  is_approved boolean not null,
+  professional_chair varchar(255) not null,
+  grants varchar(255) not null,
+  grant_title varchar(255) not null,
+  start_date datetime not null,
+  end_date datetime not null,
+  constraint faculty_grant_id_pk PRIMARY key (faculty_grant_id),
+  constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
   coworker_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
@@ -724,8 +738,7 @@ DELIMITER ;
 ---- PROCEDURES FOR STUDYLOAD
 DROP PROCEDURE IF EXISTS view_studyload; 
 DROP PROCEDURE IF EXISTS view_employee_studyload;
-DROP PROCEDURE IF EXISTS insert_studyload_new_subject;
-DROP PROCEDURE IF EXISTS insert_studyload_use_subject; 
+DROP PROCEDURE IF EXISTS insert_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
 
@@ -744,27 +757,8 @@ CREATE PROCEDURE view_employee_studyload(emp_id_view int)
 GO
 
 
-CREATE PROCEDURE insert_studyload_new_subject(    emp_id_insert varchar(10) , 
-                                                  degree_insert varchar(255) ,
-                                                  university_insert varchar(255) ,
-                                                  credits_insert int ,
-                                                  subject_code_insert varchar(255) ,
-                                                  section_code_insert varchar(255) ,
-                                                  isLecture_insert boolean ,
-                                                  units_insert int ,
-                                                  room_insert varchar(255) ,
-                                                  start_time_insert time ,
-                                                  end_time_insert time )
-  BEGIN 
-      INSERT INTO SUBJECT
-      VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
-      INSERT INTO STUDYLOAD
-      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, LAST_INSERT_ID());
-    call insert_log(concat("Studyload with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
-  END;
-GO
 
-CREATE PROCEDURE insert_studyload_use_subject(    subject_id_insert int,
+CREATE PROCEDURE insert_studyload(    			subject_id_insert int,
                                                   degree_insert varchar(255) ,
                                                   university_insert varchar(255) ,
                                                   credits_insert int ,
@@ -1030,6 +1024,17 @@ call add_subject("cmsc 17", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 call add_subject("math 170", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 call add_subject("cmsc 125", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 
+call add_subject("0000000001", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000002", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000003", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000004", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000005", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000006", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000007", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000008", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000009", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+call add_subject("0000000010", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5");
+
 call insert_teachingload(1, "0000000001", 12);
 call insert_teachingload(2, "0000000002", 12);
 call insert_teachingload(3, "0000000000", 12);
@@ -1041,16 +1046,16 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload_new_subject("0000000000", "MSCS", "UPLB", 2, "CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000001", "MSCS", "UPLB", 2, "CMSC 252", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000002", "MSCS", "UPLB", 2, "CMSC 253", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000000", "MSCS", "UPLB", 2, "CMSC 254", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000000", "MSCS", "UPLB", 2, "CMSC 255", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000005", "MSCS", "UPLB", 2, "CMSC 256", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000006", "MSCS", "UPLB", 2, "CMSC 257", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000007", "MSCS", "UPLB", 2, "CMSC 258", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000008", "MSCS", "UPLB", 2, "CMSC 259", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call insert_studyload_new_subject("0000000009", "MSCS", "UPLB", 2, "CMSC 250", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call insert_studyload(11, ('9:0:0'), ('10:0:0'));
+call insert_studyload(12, ('9:0:0'), ('10:0:0'));
+call insert_studyload(13, ('9:0:0'), ('10:0:0'));
+call insert_studyload(14, ('9:0:0'), ('10:0:0'));
+call insert_studyload(15, ('9:0:0'), ('10:0:0'));
+call insert_studyload(16, ('9:0:0'), ('10:0:0'));
+call insert_studyload(17, ('9:0:0'), ('10:0:0'));
+call insert_studyload(18, ('9:0:0'), ('10:0:0'));
+call insert_studyload(19, ('9:0:0'), ('10:0:0'));
+call insert_studyload(20, ('9:0:0'), ('10:0:0'));
 
 call insert_publication(8,"9",30392,"Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8",76858,"a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

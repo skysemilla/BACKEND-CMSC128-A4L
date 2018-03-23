@@ -292,7 +292,7 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
   BEGIN 
     INSERT INTO ACTIVITY
         values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
-    call insert_log(concat("Activity #", LAST_INSERT_ID(), " ", activity_name, " has been added to the table ACTIVITY"));
+    call insert_log(concat("Activity name", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
 
@@ -356,7 +356,7 @@ CREATE PROCEDURE insert_position(office varchar(255),
 BEGIN
     INSERT INTO POSITIONN
       values (NULL, office, credit_units, emp_id);
-      call insert_log(concat("Position #", LAST_INSERT_ID(), "with ", office, "and", credit_units," has been added to the table POSITIONN"));
+      call insert_log(concat("Position ", office, "and", credit_units," has been added to the table POSITIONN"));
 
 
 END;
@@ -432,7 +432,9 @@ CREATE PROCEDURE insert_service(
 BEGIN
     INSERT INTO SERVICE
       values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
-      call insert_log(concat("Szervice ", LAST_INSERT_ID(), " ", title, " has been added to the table SERVICE"));
+
+      call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
+
 END;
 GO
 
@@ -511,7 +513,7 @@ CREATE PROCEDURE insert_publication(
   BEGIN
       INSERT INTO PUBLICATION
         values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
-        call insert_log(concat("Publication #", LAST_INSERT_ID(), " has been added to the table PUBLICATION"));
+        call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;
 GO
@@ -598,7 +600,7 @@ CREATE PROCEDURE insert_coworker(
   BEGIN
       INSERT INTO COWORKER
         values (NULL, emp_id, publication_id);
-        call insert_log(concat("Coworker #", LAST_INSERT_ID(), " has been added to the table COWORKER"));
+        call insert_log(concat("Coworker with emp_id ", emp_id, " has been added to the table COWORKER"));
 
   END;
 GO
@@ -613,7 +615,7 @@ CREATE PROCEDURE delete_coworker(coworker_id_del int)
 GO
 
 CREATE PROCEDURE update_coworker( coworker_id_u int,
-								emp_id_u varchar(10), 
+                emp_id_u varchar(10), 
                                   publication_id_u int )
   BEGIN 
     UPDATE COWORKER
@@ -628,6 +630,43 @@ DELIMITER ;
 
 
 --END OF COWORKER PROCEDURE
+
+---- PROCEDURES FOR SUBJECT
+DROP PROCEDURE IF EXISTS view_subjects;
+
+DELIMITER GO
+
+CREATE PROCEDURE view_subjects()
+  BEGIN
+    Select * from subject
+  END;
+GO
+
+CREATE PROCEDURE add_subject(     subject_code_insert varchar(255),
+                                  section_code_insert varchar(255),
+                                  isLecture_insert boolean,
+                                  units_insert int,
+                                  room_insert varchar(255),
+                                  start_time_insert time,
+                                  end_time_insert time )
+  BEGIN
+    INSERT INTO SUBJECT
+    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
+    call insert_log(concat("Subject with code ", subject_code_insert, " and section ", section_code_insert, " has been inserted to the DATABASE"));
+  END;
+GO
+
+CREATE PROCEDURE delete_subject(  subject_id_delete int )
+  BEGIN
+    DELETE FROM SUBJECT
+      where subject_id = subject_id_delete;
+  END;
+  call insert_log(concat("Subject with id ", subject_id_delete, " has been deleted from the DATABASE"));
+GO
+
+DELIMITER ;
+
+---- END OF PROCEDURES FOR SUBJECT
 
 ---- PROCEDURES FOR TEACHINGLOAD
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
@@ -650,28 +689,20 @@ CREATE PROCEDURE view_teachingload()
   END;
 GO
 
-CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
-                                        section_code_insert varchar(255),
-                                        isLecture_insert boolean,
-                                        units_insert int,
-                                        room_insert varchar(255),
-                                        start_time_insert time,
-                                        end_time_insert time,
+CREATE PROCEDURE insert_teachingload(   subject_id int,
                                         emp_id_insert varchar(10), 
                                         no_of_students_insert int)
   BEGIN 
-    INSERT INTO SUBJECT
-    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
-    VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
-    call insert_log(concat("Teachingload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
+    VALUES (NULL, emp_id_insert, no_of_students_insert, subject_id);
+    call insert_log(concat("Teachingload with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
   END;
 GO
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
-    DELETE FROM SUBJECT
-    where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
+    DELETE FROM TEACHINGLOAD
+    where teachingload_id = teachingload_id_delete;
     call insert_log(concat("Teachingload #", teachingload_id_delete, " has been deleted from the table TEACHINGLOAD"));
   END;
 GO
@@ -745,7 +776,7 @@ CREATE PROCEDURE insert_studyload_new_subject(    emp_id_insert varchar(10) ,
       VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, LAST_INSERT_ID());
-    call insert_log(concat("Studyload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
+    call insert_log(concat("Studyload with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
   END;
 GO
 
@@ -1064,4 +1095,3 @@ call insert_coworker("0000000002",6);
 call insert_coworker("0000000004",7);
 call insert_coworker("0000000005",7);
 call insert_coworker("0000000001",5);
-

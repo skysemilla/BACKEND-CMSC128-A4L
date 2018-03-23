@@ -163,7 +163,6 @@ create table LIMITED_PRACTICE(
   emp_id varchar(10) not null,
   constraint limited_practice_id_pk PRIMARY key (limited_practice_id),
   constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
-
 );
 
 create table LOG(
@@ -1011,13 +1010,12 @@ GO
 
 
 CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
-                  date_submitted_u date
-)
+                                      date_submitted_u date )
   BEGIN 
     UPDATE LIMITED_PRACTICE
         SET date_submitted = date_submitted_u
         WHERE limited_practice_id = limited_practice_id_u;
-      --- call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
 END;
 GO
 
@@ -1028,9 +1026,7 @@ CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
 BEGIN
     INSERT INTO LIMITED_PRACTICE
       values (NULL, haveApplied, NULL,emp_id);
-
       call insert_log(concat("Limited practice of profession with emp_id ", emp_id, " has been added to the table LIMITED PRACTICE"));
-
 END;
 GO
 

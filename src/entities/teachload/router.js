@@ -24,53 +24,50 @@ router.post('/api/teachload/add', async (req, res) => {
   }
 });
 
-router.delete('/api/teachload/delete/:teachingload_id', async (req, res) => {
-  try {
-    const book = await Ctrl.getTeachLoad(req.params);
-   await Ctrl.removeTeachLoad(req.params);
-
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully removed teach load',
-      data: book
-    });
-  } catch (status) {
-    let message = '';
-    switch (status) {
-      case 404:
-        message = 'Teach Load not found';
-        break;
-      case 500:
-        message = 'Internal server error';
-        break;
+router.post('/api/teachload/delete/', async (req, res) => {
+  if (
+    req.body.teachingload_id
+  ) {
+    try {
+      const book = await Ctrl.getTeachLoad(req.body);
+      await Ctrl.removeTeachLoad(req.body);
+    
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully removed teach load',
+        data: book
+      });
+      } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
     }
-    res.status(status).json({ status, message });
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
 
-router.put('/api/teachload/edit/', async (req, res) => {
-  try {
-    await Ctrl.editTeachLoad(req.body);
-    const sample = await Ctrl.getTeachLoad({
-      teachingload_id: req.body.teachingload_id
-    });
-
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully edited teach load',
-      data: sample
-    });
-  } catch (status) {
-    let message = '';
-    switch (status) {
-      case 404:
-        message = 'Teach load not found';
-        break;
-      case 500:
-        message = 'Internal server error';
-        break;
+router.post('/api/teachload/edit/', async (req, res) => {
+  if (
+    req.body.teachingload_id &&
+    req.body.emp_id &&
+    req.body.noOfStudents &&
+    req.body.subject_code
+  ) {
+    try {
+      await Ctrl.editTeachLoad(req.body);
+      const sample = await Ctrl.getTeachLoad({
+        teachingload_id: req.body.teachingload_id
+      });
+    
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully edited teach load',
+        data: sample
+      });
+      } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
     }
-    res.status(status).json({ status, message });
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
 

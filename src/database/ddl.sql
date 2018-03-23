@@ -67,6 +67,20 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+create table FACULTYGRANT (
+  faculty_grant_id not null AUTO_INCREMENT,
+
+  type varchar(255) not null,
+  is_approved boolean not null,
+  professional_chair varchar(255) not null,
+  grants varchar(255) not null,
+  grant_title varchar(255) not null,
+  start_date datetime not null,
+  end_date datetime not null,
+  constraint faculty_grant_id_pk PRIMARY key (faculty_grant_id),
+  constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
   coworker_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
@@ -418,7 +432,7 @@ CREATE PROCEDURE insert_service(
 BEGIN
     INSERT INTO SERVICE
       values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
-      call insert_log(concat("Service ", LAST_INSERT_ID(), " ", title, " has been added to the table SERVICE"));
+      call insert_log(concat("Szervice ", LAST_INSERT_ID(), " ", title, " has been added to the table SERVICE"));
 END;
 GO
 
@@ -885,6 +899,71 @@ GO
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR CONSULTATION
+
+---- START OF PROCEDURES FOR FACULTYGRANT
+DROP PROCEDURE IF EXISTS view_faculty_grant; 
+DROP PROCEDURE IF EXISTS insert_faculty_grant; 
+DROP PROCEDURE IF EXISTS delete_faculty_grant; 
+DROP PROCEDURE IF EXISTS update_faculty_grant; 
+
+DELIMITER GO
+CREATE PROCEDURE view_faculty_grant()
+  BEGIN 
+    SELECT * from FACULTYGRANT;
+END;
+GO
+
+CREATE PROCEDURE insert_faculty_grant(  
+									type varchar(255),
+  									is_approved boolean,
+ 									professional_chair varchar(255),
+  									grants varchar(255),
+  									grant_title varchar(255),
+  									start_date datetime,
+  									end_date datetime)
+  BEGIN 
+    INSERT INTO FACULTYGRANT
+        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date);
+    call insert_log(concat("faculty grant # ", LAST_INSERT_ID(), " has been added to the table facultygrant"));
+  END;
+GO
+
+
+CREATE PROCEDURE delete_activity(  faculty_grant_id_del int)
+  BEGIN
+      DELETE FROM FACULTYGRANT
+        where faculty_grant_id = faculty_grant_id_del;
+        call insert_log(concat("faculty grant # ", LAST_INSERT_ID(), " has been deleted from the table facultygrant"));
+  END;
+GO
+
+
+CREATE PROCEDURE update_activity(  	faculty_grant_id_update,
+									type_update varchar(255),
+  									is_approved_update boolean,
+ 									professional_chair_update varchar(255),
+  									grants_update varchar(255),
+  									grant_title_update varchar(255),
+  									start_date_update datetime,
+  									end_date_update datetime)
+  BEGIN 
+    UPDATE FACULTYGRANT
+        SET  
+        	type = type_update,
+        	is_approved = is_approved_update,
+        	professional_chair = professional_chair_update,
+        	grants = grants_update,
+        	grant_title = grant_title_update,
+        	start_date = start_date_update,
+        	end_date = end_date_update
+        WHERE faculty_grant_id = faculty_grant_id_update;
+    call insert_log(concat("faculty grant id ", faculty_grant_id_update, " has been updated in the table FACULTYGRANT"));
+  END;
+GO
+DELIMITER ;
+
+--- END OF FACULTYGRANT PROCEDURES
+
 
 CALL insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
 CALL insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");

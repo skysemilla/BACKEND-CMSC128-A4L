@@ -69,7 +69,7 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
 
 create table FACULTYGRANT (
   faculty_grant_id int not null AUTO_INCREMENT,
-
+  emp_id varchar(10),
   type varchar(255) not null,
   is_approved boolean not null,
   professional_chair varchar(255) not null,
@@ -819,8 +819,6 @@ GO
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR STUDYLOAD
-
-
 
 ---- PROCEDURES FOR CONSULTATION
 DROP PROCEDURE IF EXISTS view_employee_consultation; 

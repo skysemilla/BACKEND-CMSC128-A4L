@@ -801,25 +801,27 @@ DELIMITER ;
 
 ---- PROCEDURES FOR CONSULTATION
 DROP PROCEDURE IF EXISTS view_employee_consultation; 
+DROP PROCEDURE IF EXISTS view_consultation; 
+DROP PROCEDURE IF EXISTS insert_consultation; 
+DROP PROCEDURE IF EXISTS delete_consultation;
+DROP PROCEDURE IF EXISTS update_consultation;
+
+
 DELIMITER GO
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_consultation; 
-DELIMITER GO
+
 CREATE PROCEDURE view_consultation()
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_consultation; 
-DELIMITER GO
+
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),
@@ -833,10 +835,8 @@ BEGIN
     call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_consultation;
-DELIMITER GO
+
 CREATE PROCEDURE delete_consultation( consultation_id_delete int )
 BEGIN
   DELETE FROM CONSULTATION
@@ -846,10 +846,8 @@ BEGIN
   call insert_log(concat("Consultation id ",consultation_id_delete, " has been deleted from the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_consultation;
-DELIMITER GO
+
 CREATE PROCEDURE update_consultation(   consultation_id_edit int,
                                         consultation_start_time_edit time,
                                         consultation_end_time_edit time,
@@ -894,16 +892,16 @@ call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "00
 call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
 call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
 
-call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "000000005");
-call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "000000004");
-call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "000000003");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "000000002");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "000000001");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
+call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "0000000004");
+call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "0000000003");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");

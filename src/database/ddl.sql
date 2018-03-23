@@ -829,13 +829,30 @@ CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         emp_id_insert varchar(10))
 BEGIN 
     INSERT INTO CONSULTATION
+
     VALUES (NULL, consultation_start_time_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
-    INSERT INTO CONSULTATION_DAY
-    VALUES (LAST_INSERT_ID(), day_insert);
+
     call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
+DELIMITER ;
 
+DROP PROCEDURE IF EXISTS insert_consultation_day; 
+DELIMITER GO
+CREATE PROCEDURE insert_consultation_day(day_insert varchar(255))
+BEGIN 
+
+    INSERT INTO CONSULTATION_DAY
+    VALUES (LAST_INSERT_ID(), day_insert);
+    call insert_log(concat("Consultation day ",day_insert, " has been inserted to the table CONSULTATION"));
+END;
+GO
+
+
+
+
+DROP PROCEDURE IF EXISTS delete_consultation;
+DELIMITER GO
 
 CREATE PROCEDURE delete_consultation( consultation_id_delete int )
 BEGIN

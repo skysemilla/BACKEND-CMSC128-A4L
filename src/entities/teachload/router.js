@@ -24,10 +24,10 @@ router.post('/api/teachload/add', async (req, res) => {
   }
 });
 
-router.delete('/api/teachload/delete/:teachload_id', async (req, res) => {
+router.delete('/api/teachload/delete/:teachingload_id', async (req, res) => {
   try {
     const book = await Ctrl.getTeachLoad(req.params);
-    await Ctrl.removeTeachLoad(req.params);
+   await Ctrl.removeTeachLoad(req.params);
 
     res.status(200).json({
       status: 200,
@@ -52,7 +52,7 @@ router.put('/api/teachload/edit/', async (req, res) => {
   try {
     await Ctrl.editTeachLoad(req.body);
     const sample = await Ctrl.getTeachLoad({
-      teachload_id: req.body.teachload_id
+      teachingload_id: req.body.teachingload_id
     });
 
     res.status(200).json({

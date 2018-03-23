@@ -81,9 +81,9 @@ router.put('/api/studyload/edit', async (req, res) => {
   }
 });
 
-router.get('/api/studyload/view/:studyload_id', async (req, res) => {
+router.post('/api/studyload/view', async (req, res) => {
   try {
-    const book = await Ctrl.getStudyLoad(req.params);
+    const book = await Ctrl.getStudyEmp(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched study load',

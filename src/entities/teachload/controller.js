@@ -64,7 +64,7 @@ export const editTeachLoad = ({
           teachingload_id = ?
       `;
 
-    const values = [teachingload_id, emp_id, noOfStudents, subject_code];
+    const values = [noOfStudents, emp_id, subject_code,teachingload_id];
 
     db.query(queryString, values, (err, res) => {
       if (err) {
@@ -81,7 +81,33 @@ export const editTeachLoad = ({
   });
 };
 
-export const getTeachLoad = ({ emp_id }) => {
+export const getTeachLoad = ({ teachingload_id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT 
+            *
+          FROM 
+            TEACHINGLOAD
+          WHERE
+          teachingload_id = ?
+        `;
+
+    db.query(queryString, teachingload_id, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+export const getTeachEmp = ({ emp_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
           SELECT 
@@ -106,7 +132,6 @@ export const getTeachLoad = ({ emp_id }) => {
     });
   });
 };
-
 export const getAllTeachLoad = () => {
   return new Promise((resolve, reject) => {
     const queryString = `

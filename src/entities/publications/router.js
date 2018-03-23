@@ -4,9 +4,9 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets a publication by id
-router.get('/api/publication/:id', async (req, res) => {
+router.post('/api/publication/view', async (req, res) => {
   try {
-    const publication = await Ctrl.getPublication(req.params);
+    const publication = await Ctrl.getPublication(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched publication',
@@ -27,7 +27,7 @@ router.get('/api/publication/:id', async (req, res) => {
 });
 
 // gets publications
-router.get('/api/publication', async (req, res) => {
+router.get('/api/publication/viewAll', async (req, res) => {
   try {
     const publications = await Ctrl.getPublications();
     res.status(200).json({
@@ -48,11 +48,10 @@ router.get('/api/publication', async (req, res) => {
   }
 });
 
-
 // add a publication
-router.post('/api/publication', async (req, res) => {
+router.post('/api/publication/add', async (req, res) => {
   if (
-    req.body.credit_units >=0 &&
+    req.body.credit_units >= 0 &&
     req.body.category &&
     req.body.funding &&
     req.body.title &&
@@ -78,10 +77,8 @@ router.post('/api/publication', async (req, res) => {
 });
 
 // add a coworker
-router.post('/api/publication', async (req, res) => {
-  if (
-    req.body.publication_id
-  ) {
+router.post('/api/publication/add', async (req, res) => {
+  if (req.body.publication_id) {
     try {
       await Ctrl.addCoworker(req.body);
       const row = Ctrl.checkIfExisting(req.body);
@@ -100,10 +97,10 @@ router.post('/api/publication', async (req, res) => {
 });
 
 // removes a publication
-router.delete('/api/publication/:id', async (req, res) => {
+router.post('/api/publication/delete', async (req, res) => {
   try {
-    const publication = await Ctrl.getPublication(req.params);
-    await Ctrl.removePublication(req.params);
+    const publication = await Ctrl.getPublication(req.body);
+    await Ctrl.removePublication(req.body);
 
     res.status(200).json({
       status: 200,
@@ -124,12 +121,13 @@ router.delete('/api/publication/:id', async (req, res) => {
   }
 });
 
-
 // edits a publication
-router.put('/api/publication/', async (req, res) => {
+router.post('/api/publication/edit', async (req, res) => {
   try {
     await Ctrl.editPublication(req.body);
-    const publication = await Ctrl.getPublication({ id: req.body.id });
+    const publication = await Ctrl.getPublication({
+      id: req.body.publication_id
+    });
 
     res.status(200).json({
       status: 200,

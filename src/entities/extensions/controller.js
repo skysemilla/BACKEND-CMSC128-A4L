@@ -31,8 +31,8 @@ export const getService = ({ id }) => {
 export const getServices = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      SELECT *
-      FROM SERVICE
+      CALL
+      view_service()
     `;
 
     db.query(queryString, (err, rows) => {
@@ -58,7 +58,7 @@ export const addService = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            INSERT INTO sample
+            INSERT INTO SERVICE
             VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)
         `;
 
@@ -115,11 +115,12 @@ export const editService = ({
   no_of_hours,
   no_of_participants,
   role,
-  credits
+  credits,
+  service_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      UPDATE sample
+      UPDATE SERVICE
       SET
         category = ?,
         title = ?,
@@ -137,7 +138,8 @@ export const editService = ({
       no_of_hours,
       no_of_participants,
       role,
-      credits
+      credits,
+      service_id
     ];
 
     db.query(queryString, values, (err, res) => {

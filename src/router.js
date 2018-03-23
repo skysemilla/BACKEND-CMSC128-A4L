@@ -7,6 +7,8 @@ import publicationsRouter from './entities/publications/router';
 //import signupRouter from './entities/signup/router';
 import studyRouter from './entities/studyload/router';
 import teachRouter from './entities/teachload/router';
+import facultyRouter from './entities/facultylist/router';
+import fsrRouter from './entities/fsrlist/router';
 
 const router = Router();
 
@@ -17,5 +19,7 @@ router.use(publicationsRouter);
 //router.use(signupRouter);
 router.use(studyRouter);
 router.use(teachRouter);
+router.use(facultyRouter);
+router.use(fsrRouter);
 
 export default router;

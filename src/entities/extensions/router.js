@@ -4,7 +4,7 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets services
-router.get('/api/service', async (req, res) => {
+router.get('/api/service/viewAll', async (req, res) => {
   try {
     const services = await Ctrl.getServices();
     res.status(200).json({
@@ -26,9 +26,9 @@ router.get('/api/service', async (req, res) => {
 });
 
 // get a service
-router.get('/api/service/:id', async (req, res) => {
+router.post('/api/service/view', async (req, res) => {
   try {
-    const service = await Ctrl.getService(req.params);
+    const service = await Ctrl.getService(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched service',
@@ -49,7 +49,7 @@ router.get('/api/service/:id', async (req, res) => {
 });
 
 // add a service
-router.post('/api/service', async (req, res) => {
+router.post('/api/service/add', async (req, res) => {
   if (
     req.body.category &&
     req.body.title &&
@@ -76,10 +76,10 @@ router.post('/api/service', async (req, res) => {
 });
 
 // removes a service
-router.delete('/api/service/:id', async (req, res) => {
+router.post('/api/service/delete', async (req, res) => {
   try {
-    const service = await Ctrl.getService(req.params);
-    await Ctrl.removeService(req.params);
+    const service = await Ctrl.getService(req.body);
+    await Ctrl.removeService(req.body);
 
     res.status(200).json({
       status: 200,
@@ -100,12 +100,11 @@ router.delete('/api/service/:id', async (req, res) => {
   }
 });
 
-
 // edits a service
-router.put('/api/service/', async (req, res) => {
+router.post('/api/service/edit', async (req, res) => {
   try {
     await Ctrl.editService(req.body);
-    const serviceEdited = await Ctrl.getService({ id: req.body.id });
+    const serviceEdited = await Ctrl.getService({ id: req.body.service_id });
 
     res.status(200).json({
       status: 200,

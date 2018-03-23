@@ -162,7 +162,8 @@ export const editPublication = ({
   title,
   role,
   start_date,
-  end_date
+  end_date,
+  publication_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -186,7 +187,8 @@ export const editPublication = ({
       title,
       role,
       start_date,
-      end_date
+      end_date,
+      publication_id
     ];
 
     db.query(queryString, values, (err, res) => {

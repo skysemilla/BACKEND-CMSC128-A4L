@@ -59,8 +59,8 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
   funding varchar(255) not null,
   title varchar(255) not null,
   role varchar(255) not null,
-  start_date datetime not null,
-  end_date datetime not null,
+  start_date varchar(255) not null,
+  end_date varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id)

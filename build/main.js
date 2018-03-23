@@ -91,7 +91,7 @@ var db = __WEBPACK_IMPORTED_MODULE_0_mysql___default.a.createConnection({
 db.connect(function (err) {
   if (err) {
     console.log('Error in connecting to database');
-    console.log(err);
+    console.log(err.message);
   } else {
     console.log('Success in connecting to database');
   }
@@ -210,8 +210,8 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entities_auth_router__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities_extensions_router__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entities_publications_router__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_studyload_router__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_teachload_router__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_studyload_router__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_teachload_router__ = __webpack_require__(20);
 
 
 // put import routers here
@@ -389,7 +389,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets services
-router.get('/api/service', function () {
+router.get('/api/service/viewAll', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var services, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -441,7 +441,7 @@ router.get('/api/service', function () {
 }());
 
 // get a service
-router.get('/api/service/:id', function () {
+router.post('/api/service/view', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var service, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
@@ -450,7 +450,7 @@ router.get('/api/service/:id', function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */](req.body);
 
           case 3:
             service = _context2.sent;
@@ -496,7 +496,7 @@ router.get('/api/service/:id', function () {
 }());
 
 // add a service
-router.post('/api/service', function () {
+router.post('/api/service/add', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var id, serviceAdded;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
@@ -556,7 +556,7 @@ router.post('/api/service', function () {
 }());
 
 // removes a service
-router.delete('/api/service/:id', function () {
+router.post('/api/service/delete', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var service, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
@@ -565,12 +565,12 @@ router.delete('/api/service/:id', function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */](req.body);
 
           case 3:
             service = _context4.sent;
             _context4.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeService */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeService */](req.body);
 
           case 6:
 
@@ -615,7 +615,7 @@ router.delete('/api/service/:id', function () {
 }());
 
 // edits a service
-router.put('/api/service/', function () {
+router.post('/api/service/edit', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var serviceEdited, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
@@ -628,7 +628,7 @@ router.put('/api/service/', function () {
 
           case 3:
             _context5.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */]({ id: req.body.id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */]({ id: req.body.service_id });
 
           case 5:
             serviceEdited = _context5.sent;
@@ -714,7 +714,7 @@ var getService = function getService(_ref) {
 // gets all services
 var getServices = function getServices() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      SELECT *\n      FROM SERVICE\n    ';
+    var queryString = '\n      CALL\n      view_service()\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -738,7 +738,7 @@ var addService = function addService(_ref2) {
       emp_id = _ref2.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n            INSERT INTO sample\n            VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)\n        ';
+    var queryString = '\n            INSERT INTO SERVICE\n            VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)\n        ';
 
     var values = [category, title, no_of_hours, no_of_participants, role, credits, emp_id];
 
@@ -782,12 +782,13 @@ var editService = function editService(_ref4) {
       no_of_hours = _ref4.no_of_hours,
       no_of_participants = _ref4.no_of_participants,
       role = _ref4.role,
-      credits = _ref4.credits;
+      credits = _ref4.credits,
+      service_id = _ref4.service_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      UPDATE sample\n      SET\n        category = ?,\n        title = ?,\n        no_of_hours = ?,\n        no_of_participants = ?,\n        role = ?,\n        credits = ?\n      WHERE\n        service_id = ?\n    ';
+    var queryString = '\n      UPDATE SERVICE\n      SET\n        category = ?,\n        title = ?,\n        no_of_hours = ?,\n        no_of_participants = ?,\n        role = ?,\n        credits = ?\n      WHERE\n        service_id = ?\n    ';
 
-    var values = [category, title, no_of_hours, no_of_participants, role, credits];
+    var values = [category, title, no_of_hours, no_of_participants, role, credits, service_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -826,7 +827,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets a publication by id
-router.get('/api/publication/:id', function () {
+router.post('/api/publication/view', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var publication, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -835,7 +836,7 @@ router.get('/api/publication/:id', function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPublication */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPublication */](req.body);
 
           case 3:
             publication = _context.sent;
@@ -881,7 +882,7 @@ router.get('/api/publication/:id', function () {
 }());
 
 // gets publications
-router.get('/api/publication', function () {
+router.get('/api/publication/viewAll', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var publications, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
@@ -933,7 +934,7 @@ router.get('/api/publication', function () {
 }());
 
 // add a publication
-router.post('/api/publication', function () {
+router.post('/api/publication/add', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var id, publication;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
@@ -993,7 +994,7 @@ router.post('/api/publication', function () {
 }());
 
 // add a coworker
-router.post('/api/publication', function () {
+router.post('/api/publication/add', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var row;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
@@ -1048,7 +1049,7 @@ router.post('/api/publication', function () {
 }());
 
 // removes a publication
-router.delete('/api/publication/:id', function () {
+router.post('/api/publication/delete', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var publication, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
@@ -1057,12 +1058,12 @@ router.delete('/api/publication/:id', function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPublication */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPublication */](req.body);
 
           case 3:
             publication = _context5.sent;
             _context5.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* removePublication */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* removePublication */](req.body);
 
           case 6:
 
@@ -1107,7 +1108,7 @@ router.delete('/api/publication/:id', function () {
 }());
 
 // edits a publication
-router.put('/api/publication/', function () {
+router.post('/api/publication/edit', function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
     var publication, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
@@ -1120,7 +1121,9 @@ router.put('/api/publication/', function () {
 
           case 3:
             _context6.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPublication */]({ id: req.body.id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPublication */]({
+              id: req.body.publication_id
+            });
 
           case 5:
             publication = _context6.sent;
@@ -1320,12 +1323,13 @@ var editPublication = function editPublication(_ref6) {
       title = _ref6.title,
       role = _ref6.role,
       start_date = _ref6.start_date,
-      end_date = _ref6.end_date;
+      end_date = _ref6.end_date,
+      publication_id = _ref6.publication_id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      UPDATE PUBLICATION\n      SET\n        credit_units = ?,\n        category = ?,\n        funding = ?,\n        title = ?,\n        role = ?,\n        start_date = ?,\n        end_date = ?\n      WHERE\n        publication_id = ?\n    ';
 
-    var values = [credit_units, category, funding, title, role, start_date, end_date];
+    var values = [credit_units, category, funding, title, role, start_date, end_date, publication_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -1343,9 +1347,7 @@ var editPublication = function editPublication(_ref6) {
 };
 
 /***/ }),
-/* 18 */,
-/* 19 */,
-/* 20 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1353,7 +1355,7 @@ var editPublication = function editPublication(_ref6) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(19);
 
 
 var _this = this;
@@ -1651,7 +1653,7 @@ router.get('/api/studyload/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 21 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1774,7 +1776,7 @@ var getAllStudyLoad = function getAllStudyLoad() {
 };
 
 /***/ }),
-/* 22 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1782,7 +1784,7 @@ var getAllStudyLoad = function getAllStudyLoad() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
 
 
 var _this = this;
@@ -2080,7 +2082,7 @@ router.get('/api/teachload/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

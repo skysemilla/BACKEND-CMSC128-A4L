@@ -69,7 +69,7 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
 
 create table FACULTYGRANT (
   faculty_grant_id int not null AUTO_INCREMENT,
-
+  emp_id varchar(10),
   type varchar(255) not null,
   is_approved boolean not null,
   professional_chair varchar(255) not null,
@@ -673,6 +673,27 @@ CREATE PROCEDURE delete_subject(  subject_id_delete int )
   END;
 GO
 
+CREATE PROCEDURE update_subject( subject_id_edit int,
+                                  subject_code_insert varchar(255),
+                                        section_code_insert varchar(255),
+                                        isLecture_insert boolean,
+                                        units_insert int,
+                                        room_insert varchar(255),
+                                        start_time_insert time,
+                                        end_time_insert time )
+  BEGIN
+    UPDATE SUBJECT
+    set   subject_code = subject_code_insert,
+          section_code = section_code_insert, 
+          isLecture = isLecture_insert, 
+          units = units_insert, 
+          room = room_insert, 
+          start_time = start_time_insert, 
+          end_time = end_time_insert
+    where subject_id = subject_id_edit;
+  END;
+GO
+
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR SUBJECT
@@ -830,8 +851,6 @@ GO
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR STUDYLOAD
-
-
 
 ---- PROCEDURES FOR CONSULTATION
 DROP PROCEDURE IF EXISTS view_employee_consultation; 

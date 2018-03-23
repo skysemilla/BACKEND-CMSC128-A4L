@@ -615,6 +615,43 @@ DELIMITER ;
 
 --END OF COWORKER PROCEDURE
 
+---- PROCEDURES FOR SUBJECT
+DROP PROCEDURE IF EXISTS view_subjects;
+
+DELIMITER GO
+
+CREATE PROCEDURE view_subjects()
+  BEGIN
+    Select * from subject
+  END;
+GO
+
+CREATE PROCEDURE add_subject(     subject_code_insert varchar(255),
+                                  section_code_insert varchar(255),
+                                  isLecture_insert boolean,
+                                  units_insert int,
+                                  room_insert varchar(255),
+                                  start_time_insert time,
+                                  end_time_insert time )
+  BEGIN
+    INSERT INTO SUBJECT
+    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
+    call insert_log(concat("Subject with code ", subject_code_insert, " and section ", section_code_insert, " has been inserted to the DATABASE"));
+  END;
+GO
+
+CREATE PROCEDURE delete_subject(  subject_id_delete int )
+  BEGIN
+    DELETE FROM SUBJECT
+      where subject_id = subject_id_delete;
+  END;
+  call insert_log(concat("Subject with id ", subject_id_delete, " has been deleted from the DATABASE"));
+GO
+
+DELIMITER ;
+
+---- END OF PROCEDURES FOR SUBJECT
+
 ---- PROCEDURES FOR TEACHINGLOAD
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
 DROP PROCEDURE IF EXISTS view_teachingload; 
@@ -636,28 +673,20 @@ CREATE PROCEDURE view_teachingload()
   END;
 GO
 
-CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
-                                        section_code_insert varchar(255),
-                                        isLecture_insert boolean,
-                                        units_insert int,
-                                        room_insert varchar(255),
-                                        start_time_insert time,
-                                        end_time_insert time,
+CREATE PROCEDURE insert_teachingload(   subject_id int,
                                         emp_id_insert varchar(10), 
                                         no_of_students_insert int)
   BEGIN 
-    INSERT INTO SUBJECT
-    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
-    VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
+    VALUES (NULL, emp_id_insert, no_of_students_insert, subject_id);
     call insert_log(concat("Teachingload with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
   END;
 GO
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
-    DELETE FROM SUBJECT
-    where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
+    DELETE FROM TEACHINGLOAD
+    where teachingload_id = teachingload_id_delete;
     call insert_log(concat("Teachingload #", teachingload_id_delete, " has been deleted from the table TEACHINGLOAD"));
   END;
 GO
@@ -970,4 +999,3 @@ call insert_coworker("0000000002",6);
 call insert_coworker("0000000004",7);
 call insert_coworker("0000000005",7);
 call insert_coworker("0000000001",5);
-

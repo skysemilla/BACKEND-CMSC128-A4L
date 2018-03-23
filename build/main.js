@@ -212,6 +212,7 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entities_publications_router__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_studyload_router__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_teachload_router__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_facultylist_router__ = __webpack_require__(22);
 
 
 // put import routers here
@@ -222,6 +223,8 @@ module.exports = require("mysql");
 
 
 
+//import fsrRouter from './entities/fsrlist/router';
+
 var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 
 // put use statements here
@@ -231,6 +234,8 @@ router.use(__WEBPACK_IMPORTED_MODULE_3__entities_publications_router__["a" /* de
 //router.use(signupRouter);
 router.use(__WEBPACK_IMPORTED_MODULE_4__entities_studyload_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_5__entities_teachload_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_6__entities_facultylist_router__["a" /* default */]);
+//router.use(fsrRouter);
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
@@ -1386,7 +1391,7 @@ router.post('/api/studyload/add', function () {
           case 4:
             id = _context.sent;
             _context.next = 7;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyLoad */]({ studyload_id: id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getStudyLoad */]({ studyload_id: id });
 
           case 7:
             sample = _context.sent;
@@ -1426,57 +1431,56 @@ router.post('/api/studyload/add', function () {
   };
 }());
 
-router.delete('/api/studyload/delete/:studyload_id', function () {
+router.post('/api/studyload/delete', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var book, message;
+    var book;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyLoad */](req.params);
+            if (!req.body.studyload_id) {
+              _context2.next = 15;
+              break;
+            }
 
-          case 3:
+            _context2.prev = 1;
+            _context2.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getStudyLoad */](req.body);
+
+          case 4:
             book = _context2.sent;
-            _context2.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeStudyLoad */](req.params);
+            _context2.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* removeStudyLoad */](req.body);
 
-          case 6:
+          case 7:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed study load',
               data: book
             });
-            _context2.next = 20;
+            _context2.next = 13;
             break;
 
-          case 9:
-            _context2.prev = 9;
-            _context2.t0 = _context2['catch'](0);
-            message = '';
-            _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 404 ? 15 : _context2.t1 === 500 ? 17 : 19;
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 13:
+            _context2.next = 16;
             break;
 
           case 15:
-            message = 'Study Load not found';
-            return _context2.abrupt('break', 19);
+            res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 17:
-            message = 'Internal server error';
-            return _context2.abrupt('break', 19);
-
-          case 19:
-            res.status(_context2.t0).json({ status: _context2.t0, message: message });
-
-          case 20:
+          case 16:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 9]]);
+    }, _callee2, _this, [[1, 10]]);
   }));
 
   return function (_x3, _x4) {
@@ -1484,60 +1488,58 @@ router.delete('/api/studyload/delete/:studyload_id', function () {
   };
 }());
 
-router.put('/api/studyload/edit', function () {
+router.post('/api/studyload/edit', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var sample, message;
+    var sample;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
+            if (!(req.body.studyload_id && req.body.degree && req.body.university && req.body.isFullTime && req.body.credits && req.body.emp_id && req.body.subject_code)) {
+              _context3.next = 15;
+              break;
+            }
+
+            _context3.prev = 1;
+            _context3.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editStudyLoad */](req.body);
 
-          case 3:
-            _context3.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyLoad */]({
+          case 4:
+            _context3.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getStudyLoad */]({
               studyload_id: req.body.studyload_id
             });
 
-          case 5:
+          case 6:
             sample = _context3.sent;
-
 
             res.status(200).json({
               status: 200,
               message: 'Successfully edited study load',
               data: sample
             });
-            _context3.next = 20;
+            _context3.next = 13;
             break;
 
-          case 9:
-            _context3.prev = 9;
-            _context3.t0 = _context3['catch'](0);
-            message = '';
-            _context3.t1 = _context3.t0;
-            _context3.next = _context3.t1 === 404 ? 15 : _context3.t1 === 500 ? 17 : 19;
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 13:
+            _context3.next = 16;
             break;
 
           case 15:
-            message = 'Study load not found';
-            return _context3.abrupt('break', 19);
+            res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 17:
-            message = 'Internal server error';
-            return _context3.abrupt('break', 19);
-
-          case 19:
-            res.status(_context3.t0).json({ status: _context3.t0, message: message });
-
-          case 20:
+          case 16:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[0, 9]]);
+    }, _callee3, _this, [[1, 10]]);
   }));
 
   return function (_x5, _x6) {
@@ -1545,7 +1547,7 @@ router.put('/api/studyload/edit', function () {
   };
 }());
 
-router.get('/api/studyload/view/:studyload_id', function () {
+router.post('/api/studyload/view', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var book, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
@@ -1554,7 +1556,7 @@ router.get('/api/studyload/view/:studyload_id', function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyLoad */](req.params);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyEmp */](req.body);
 
           case 3:
             book = _context4.sent;
@@ -1658,9 +1660,10 @@ router.get('/api/studyload/viewAll', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addStudyLoad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeStudyLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeStudyLoad; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editStudyLoad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getStudyLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getStudyLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getStudyEmp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllStudyLoad; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
@@ -1722,7 +1725,7 @@ var editStudyLoad = function editStudyLoad(_ref3) {
   return new Promise(function (resolve, reject) {
     var queryString = '\n        UPDATE STUDYLOAD\n        SET\n          degree = ?,\n          university = ?,\n          isFullTime = ?,\n          credits = ?,\n          emp_id = ?, \n          subject_code = ?\n        WHERE\n          studyload_id = ?\n      ';
 
-    var values = [studyload_id, degree, university, isFullTime, credits, emp_id, subject_code];
+    var values = [degree, university, isFullTime, credits, emp_id, subject_code, studyload_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -1740,10 +1743,30 @@ var editStudyLoad = function editStudyLoad(_ref3) {
 };
 
 var getStudyLoad = function getStudyLoad(_ref4) {
-  var emp_id = _ref4.emp_id;
+  var studyload_id = _ref4.studyload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            STUDYLOAD\n          WHERE\n            emp_id = ?\n        ';
+    var queryString = '\n          SELECT \n            *\n          FROM \n            STUDYLOAD\n          WHERE\n          studyload_id = ?\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, studyload_id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+var getStudyEmp = function getStudyEmp(_ref5) {
+  var emp_id = _ref5.emp_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            STUDYLOAD\n          WHERE\n          emp_id = ?\n        ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
       if (err) {
@@ -1759,7 +1782,6 @@ var getStudyLoad = function getStudyLoad(_ref4) {
     });
   });
 };
-
 var getAllStudyLoad = function getAllStudyLoad() {
   return new Promise(function (resolve, reject) {
     var queryString = '\n        SELECT *\n        FROM STUDYLOAD\n      ';
@@ -1855,57 +1877,56 @@ router.post('/api/teachload/add', function () {
   };
 }());
 
-router.delete('/api/teachload/delete/:teachload_id', function () {
+router.post('/api/teachload/delete/', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var book, message;
+    var book;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachLoad */](req.params);
+            if (!req.body.teachingload_id) {
+              _context2.next = 15;
+              break;
+            }
 
-          case 3:
+            _context2.prev = 1;
+            _context2.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachLoad */](req.body);
+
+          case 4:
             book = _context2.sent;
-            _context2.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeTeachLoad */](req.params);
+            _context2.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeTeachLoad */](req.body);
 
-          case 6:
+          case 7:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed teach load',
               data: book
             });
-            _context2.next = 20;
+            _context2.next = 13;
             break;
 
-          case 9:
-            _context2.prev = 9;
-            _context2.t0 = _context2['catch'](0);
-            message = '';
-            _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 404 ? 15 : _context2.t1 === 500 ? 17 : 19;
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 13:
+            _context2.next = 16;
             break;
 
           case 15:
-            message = 'Teach Load not found';
-            return _context2.abrupt('break', 19);
+            res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 17:
-            message = 'Internal server error';
-            return _context2.abrupt('break', 19);
-
-          case 19:
-            res.status(_context2.t0).json({ status: _context2.t0, message: message });
-
-          case 20:
+          case 16:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 9]]);
+    }, _callee2, _this, [[1, 10]]);
   }));
 
   return function (_x3, _x4) {
@@ -1913,24 +1934,29 @@ router.delete('/api/teachload/delete/:teachload_id', function () {
   };
 }());
 
-router.put('/api/teachload/edit/', function () {
+router.post('/api/teachload/edit/', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var sample, message;
+    var sample;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
+            if (!(req.body.teachingload_id && req.body.emp_id && req.body.noOfStudents && req.body.subject_code)) {
+              _context3.next = 15;
+              break;
+            }
+
+            _context3.prev = 1;
+            _context3.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editTeachLoad */](req.body);
 
-          case 3:
-            _context3.next = 5;
+          case 4:
+            _context3.next = 6;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachLoad */]({
-              teachload_id: req.body.teachload_id
+              teachingload_id: req.body.teachingload_id
             });
 
-          case 5:
+          case 6:
             sample = _context3.sent;
 
 
@@ -1939,34 +1965,28 @@ router.put('/api/teachload/edit/', function () {
               message: 'Successfully edited teach load',
               data: sample
             });
-            _context3.next = 20;
+            _context3.next = 13;
             break;
 
-          case 9:
-            _context3.prev = 9;
-            _context3.t0 = _context3['catch'](0);
-            message = '';
-            _context3.t1 = _context3.t0;
-            _context3.next = _context3.t1 === 404 ? 15 : _context3.t1 === 500 ? 17 : 19;
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 13:
+            _context3.next = 16;
             break;
 
           case 15:
-            message = 'Teach load not found';
-            return _context3.abrupt('break', 19);
+            res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 17:
-            message = 'Internal server error';
-            return _context3.abrupt('break', 19);
-
-          case 19:
-            res.status(_context3.t0).json({ status: _context3.t0, message: message });
-
-          case 20:
+          case 16:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[0, 9]]);
+    }, _callee3, _this, [[1, 10]]);
   }));
 
   return function (_x5, _x6) {
@@ -2090,6 +2110,7 @@ router.get('/api/teachload/viewAll', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeTeachLoad; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editTeachLoad; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getTeachLoad; });
+/* unused harmony export getTeachEmp */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllTeachLoad; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
@@ -2145,7 +2166,7 @@ var editTeachLoad = function editTeachLoad(_ref3) {
   return new Promise(function (resolve, reject) {
     var queryString = '\n        UPDATE TEACHINGLOAD\n        SET\n          noOfStudents = ?,\n          emp_id = ?,\n          subject_code = ?\n        WHERE\n          teachingload_id = ?\n      ';
 
-    var values = [teachingload_id, emp_id, noOfStudents, subject_code];
+    var values = [noOfStudents, emp_id, subject_code, teachingload_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -2163,7 +2184,28 @@ var editTeachLoad = function editTeachLoad(_ref3) {
 };
 
 var getTeachLoad = function getTeachLoad(_ref4) {
-  var emp_id = _ref4.emp_id;
+  var teachingload_id = _ref4.teachingload_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n          teachingload_id = ?\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+var getTeachEmp = function getTeachEmp(_ref5) {
+  var emp_id = _ref5.emp_id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            emp_id = ?\n        ';
@@ -2182,7 +2224,6 @@ var getTeachLoad = function getTeachLoad(_ref4) {
     });
   });
 };
-
 var getAllTeachLoad = function getAllTeachLoad() {
   return new Promise(function (resolve, reject) {
     var queryString = '\n          SELECT *\n          FROM TEACHINGLOAD\n        ';
@@ -2191,6 +2232,188 @@ var getAllTeachLoad = function getAllTeachLoad() {
       if (err) {
         console.log(err);
         return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+// gets one faculty
+router.post('/api/faculty/view', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var faculty, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getFaculty */](req.body);
+
+          case 3:
+            faculty = _context.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched faculty',
+              data: faculty
+            });
+            _context.next = 18;
+            break;
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context['catch'](0);
+            message = '';
+            _context.t1 = _context.t0;
+            _context.next = _context.t1 === 404 ? 13 : _context.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty not found';
+            return _context.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context.abrupt('break', 17);
+
+          case 17:
+            res.status(_context.t0).json({ status: _context.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[0, 7]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+// gets all faculty
+router.get('/api/faculty/viewAll', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var faculty, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* getAllFaculty */]();
+
+          case 3:
+            faculty = _context2.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched all faculty',
+              data: faculty
+            });
+            _context2.next = 16;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context2.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 7]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getFaculty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getAllFaculty; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+// gets one faculty
+var getFaculty = function getFaculty(_ref) {
+  var id = _ref.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            EMPLOYEE\n          WHERE\n            emp_id = ? and\n            type = \'FACULTY\'\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+// gets all faculty
+var getAllFaculty = function getAllFaculty() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      SELECT \n        *\n      FROM \n        EMPLOYEE\n      WHERE\n        type = \'FACULTY\'\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
       }
 
       return resolve(rows);

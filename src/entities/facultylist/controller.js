@@ -9,7 +9,8 @@ export const getFaculty = ({ id }) => {
           FROM 
             EMPLOYEE
           WHERE
-            emp_id = ?
+            emp_id = ? and
+            type = 'FACULTY'
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -31,11 +32,13 @@ export const getFaculty = ({ id }) => {
 export const getAllFaculty = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            SELECT 
-              *
-            FROM 
-              EMPLOYEE
-          `;
+      SELECT 
+        *
+      FROM 
+        EMPLOYEE
+      WHERE
+        type = 'FACULTY'
+    `;
 
     db.query(queryString, (err, rows) => {
       if (err) {

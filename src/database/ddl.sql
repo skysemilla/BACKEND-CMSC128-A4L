@@ -216,6 +216,7 @@ CREATE PROCEDURE delete_employee( emp_id_insert varchar(10) )
   BEGIN 
     DELETE FROM EMPLOYEE
     WHERE emp_id = emp_id_insert;
+    call insert_log(concat("Employee #", emp_id_insert, " has been deleted from the table EMPLOYEE"));
   END;
 GO
 
@@ -243,7 +244,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         is_full_time = is_full_time_insert,
         college = college_insert
-      WHERE emp_id = emp_type_insert;
+    WHERE emp_id = emp_type_insert;
+    call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
 GO
 
@@ -276,6 +278,7 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
   BEGIN 
     INSERT INTO ACTIVITY
         values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+    call insert_log(concat("Activity #", LAST_INSERT_ID(), " ", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
 
@@ -288,7 +291,7 @@ CREATE PROCEDURE delete_activity(  activity_id_del int)
 GO
 
 
-CREATE PROCEDURE update_activity(   activity_id_update int,
+CREATE PROCEDURE update_activity(  activity_id_update int,
                                    credit_unit_update int (255),
                                    activity_name_update varchar(20), 
                                    activity_type_update varchar(20), 
@@ -310,6 +313,7 @@ CREATE PROCEDURE update_activity(   activity_id_update int,
              end_time = end_time_update, 
              emp_id = emp_id_update
         WHERE activity_id = activity_id_update;
+    call insert_log(concat("Activity #", activity_id_update, " with name ", activity_name_update, " has been edited in the table ACTIVITY"));
   END;
 GO
 
@@ -328,6 +332,7 @@ DELIMITER GO
 CREATE PROCEDURE view_position()
 BEGIN
     SELECT * FROM POSITIONN;
+
 END;
 GO
 
@@ -337,6 +342,9 @@ CREATE PROCEDURE insert_position(office varchar(255),
 BEGIN
     INSERT INTO POSITIONN
       values (NULL, office, credit_units, emp_id);
+      call insert_log(concat("Position #", LAST_INSERT_ID(), "with ", office, "and", credit_units," has been added to the table POSITIONN"));
+
+
 END;
 GO
 
@@ -344,6 +352,8 @@ CREATE PROCEDURE delete_position(position_id_del int)
   BEGIN 
     DELETE FROM POSITIONN
       where position_id = position_id_del;
+     call insert_log(concat("Position #", position_id_del," has been deleted to the table POSITIONN"));
+
 END;
 GO
 
@@ -357,6 +367,8 @@ CREATE PROCEDURE update_position(position_id_update int,
             credit_units = credit_units_update,
             emp_id = emp_id_update
         WHERE position_id = position_id_update;
+        call insert_log(concat("Position #", position_id_update, " has been updated"));
+
 END;
 GO
 
@@ -485,6 +497,8 @@ CREATE PROCEDURE insert_publication(
   BEGIN
       INSERT INTO PUBLICATION
         values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
+        call insert_log(concat("Publication #", LAST_INSERT_ID(), " has been added to the table PUBLICATION"));
+
   END;
 GO
 
@@ -492,6 +506,7 @@ CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
+       call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
 
@@ -515,6 +530,9 @@ CREATE PROCEDURE update_publication(
           start_date = start_date_u,
           end_date = end_date_u
         WHERE publication_id = publication_id_u;
+        call insert_log(concat("Publication #", publication_id, " has been updated."));
+
+
   END;
 GO
 
@@ -566,6 +584,8 @@ CREATE PROCEDURE insert_coworker(
   BEGIN
       INSERT INTO COWORKER
         values (NULL, emp_id, publication_id);
+        call insert_log(concat("Coworker #", LAST_INSERT_ID(), " has been added to the table COWORKER"));
+
   END;
 GO
 
@@ -573,16 +593,20 @@ CREATE PROCEDURE delete_coworker(coworker_id_del int)
   BEGIN 
     DELETE FROM COWORKER
       where coworker_id = coworker_id_del;
+      call insert_log(concat("Coworker #", coworker_id_del, " has been deleted to the table COWORKER"));
+
   END;
 GO
 
-CREATE PROCEDURE update_coworker( emp_id_u varchar(10), 
+CREATE PROCEDURE update_coworker( coworker_id_u int,
+								emp_id_u varchar(10), 
                                   publication_id_u int )
   BEGIN 
     UPDATE COWORKER
         SET  emp_id = emp_id_u,
           publication_id = publication_id_u
         WHERE coworker_id = coworker_id_u;
+        call insert_log(concat("Coworker #", coworker_id, " has been updated."));
   END;
 GO
 
@@ -626,6 +650,7 @@ CREATE PROCEDURE insert_teachingload(   subject_code_insert varchar(255),
     VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     INSERT INTO TEACHINGLOAD
     VALUES (NULL, emp_id_insert, no_of_students_insert, LAST_INSERT_ID());
+    call insert_log(concat("Teachingload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table TEACHINGLOAD"));    
   END;
 GO
 
@@ -633,6 +658,7 @@ CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
     DELETE FROM SUBJECT
     where subject_id = (Select subject_id from teachingload where teachingload_id = teachingload_id_delete);
+    call insert_log(concat("Teachingload #", teachingload_id_delete, " has been deleted from the table TEACHINGLOAD"));
   END;
 GO
 
@@ -658,6 +684,7 @@ CREATE PROCEDURE update_teachingload(   to_edit int,
       UPDATE teachingload
       SET no_of_students = no_of_students_insert
       where teachingload_id = to_edit;
+    call insert_log(concat("Teachingload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table TEACHINGLOAD"));   
   END;
 GO
 
@@ -704,6 +731,7 @@ CREATE PROCEDURE insert_studyload_new_subject(    emp_id_insert varchar(10) ,
       VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, LAST_INSERT_ID());
+    call insert_log(concat("Studyload #", LAST_INSERT_ID(), " with code ", subject_code_insert, " and section ", section_code_insert," has been added to the table STUDYLOAD"));   
   END;
 GO
 
@@ -722,6 +750,7 @@ CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
     DELETE FROM STUDYLOAD
     where studyload_id = studyload_id_delete;
+    call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
   END;
 GO
 
@@ -730,6 +759,7 @@ CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
   BEGIN
     DELETE FROM SUBJECT
     where subject_id = (Select subject_id from studyload where studyload_id = studyload_id_delete);
+    call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
   END;
 GO
 
@@ -759,6 +789,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
         university = university_insert ,
         credits = credits_insert
     where studyload_id = to_edit;
+    call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
   END;
 GO
 
@@ -770,32 +801,37 @@ DELIMITER ;
 
 ---- PROCEDURES FOR CONSULTATION
 DROP PROCEDURE IF EXISTS view_employee_consultation; 
+DROP PROCEDURE IF EXISTS view_consultation; 
+DROP PROCEDURE IF EXISTS insert_consultation; 
+DROP PROCEDURE IF EXISTS delete_consultation;
+DROP PROCEDURE IF EXISTS update_consultation;
+
+
 DELIMITER GO
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_consultation; 
-DELIMITER GO
+
 CREATE PROCEDURE view_consultation()
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_consultation; 
-DELIMITER GO
+
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),
-                                        day_insert varchar(255))
+                                        day_insert varchar(255),
+                                        emp_id_insert varchar(10))
 BEGIN 
     INSERT INTO CONSULTATION
-    VALUES (NULL, consultation_start_time_insert, consultation_end_time_insert, consultation_place_insert);
+
+    VALUES (NULL, consultation_start_time_insert, consultation_end_time_insert, consultation_place_insert, emp_id_insert);
+
     call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
@@ -805,17 +841,19 @@ DROP PROCEDURE IF EXISTS insert_consultation_day;
 DELIMITER GO
 CREATE PROCEDURE insert_consultation_day(day_insert varchar(255))
 BEGIN 
+
     INSERT INTO CONSULTATION_DAY
     VALUES (LAST_INSERT_ID(), day_insert);
     call insert_log(concat("Consultation day ",day_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
+
 
 
 
 DROP PROCEDURE IF EXISTS delete_consultation;
 DELIMITER GO
+
 CREATE PROCEDURE delete_consultation( consultation_id_delete int )
 BEGIN
   DELETE FROM CONSULTATION
@@ -825,10 +863,8 @@ BEGIN
   call insert_log(concat("Consultation id ",consultation_id_delete, " has been deleted from the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_consultation;
-DELIMITER GO
+
 CREATE PROCEDURE update_consultation(   consultation_id_edit int,
                                         consultation_start_time_edit time,
                                         consultation_end_time_edit time,
@@ -873,16 +909,16 @@ call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "00
 call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
 call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
 
-call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" );
-call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" );
+call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
+call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "0000000004");
+call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "0000000003");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");

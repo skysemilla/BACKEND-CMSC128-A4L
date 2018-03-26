@@ -31,7 +31,7 @@ create table EMPLOYEE_FSR(
   year varchar(20) not null,
   path_to_fsr varchar(255) not null,
   emp_id varchar(10) not null,
-  constraint employee_employee_fsr foreign key (emp_id) references employee(emp_id)
+  constraint employee_employee_fsr_fk foreign key (emp_id) references employee(emp_id)
 );
 
 create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE

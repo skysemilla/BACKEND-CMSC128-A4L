@@ -295,7 +295,7 @@ CREATE PROCEDURE view_fsrs()
   END;
 GO
 
-CREATE PROCEDURE insert_fsr( emp_id_insert varchar(10), path_to_fsr varchar(255), semester, year )
+CREATE PROCEDURE insert_fsr( emp_id_insert varchar(10), path_to_fsr varchar(255), semester int , year int )
   BEGIN 
     INSERT INTO EMPLOYEE_FSR
     VALUES (semester, year, path_to_fsr, emp_id_insert);

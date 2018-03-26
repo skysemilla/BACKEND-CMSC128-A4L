@@ -392,6 +392,13 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE view_position_by_ID( emp_id_v varchar(10) )
+  BEGIN
+    SELECT * FROM POSITIONN
+    WHERE emp_id = emp_id_v;
+  END;
+GO
+
 CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
                                 emp_id varchar(10))
@@ -606,7 +613,7 @@ DROP PROCEDURE IF EXISTS view_employee_coworker;
 DROP PROCEDURE IF EXISTS insert_coworker;
 DROP PROCEDURE IF EXISTS delete_coworker;
 DROP PROCEDURE IF EXISTS update_coworker;
-
+DROP PROCEDURE IF EXISTS view_publication_coworkers;
 DELIMITER GO
 
 CREATE PROCEDURE view_coworker()
@@ -670,7 +677,9 @@ DELIMITER ;
 
 ---- PROCEDURES FOR SUBJECT
 DROP PROCEDURE IF EXISTS view_subjects;
-
+DROP PROCEDURE IF EXISTS add_subject;
+DROP PROCEDURE IF EXISTS delete_subject;
+DROP PROCEDURE IF EXISTS update_subject;
 DELIMITER GO
 
 CREATE PROCEDURE view_subjects()
@@ -732,6 +741,7 @@ DROP PROCEDURE IF EXISTS view_teachingload;
 DROP PROCEDURE IF EXISTS insert_teachingload; 
 DROP PROCEDURE IF EXISTS delete_teachingload;
 DROP PROCEDURE IF EXISTS update_teachingload;
+DROP PROCEDURE IF EXISTS view_by_teachingload_id;
 
 DELIMITER GO
 
@@ -807,6 +817,8 @@ DROP PROCEDURE IF EXISTS view_employee_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
+DROP PROCEDURE IF EXISTS view_by_studyload_id;
+DROP PROCEDURE IF EXISTS update_studyload;
 
 DELIMITER GO
 
@@ -1032,7 +1044,8 @@ DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id;
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
 DROP PROCEDURE IF EXISTS delete_limited_practice;
 DROP PROCEDURE IF EXISTS update_employee; 
-
+DROP PROCEDURE IF EXISTS insert_date_if_yes;
+DROP PROCEDURE IF EXISTS update_limited_practice;
 DELIMITER GO
 
 CREATE PROCEDURE view_limited_practice()

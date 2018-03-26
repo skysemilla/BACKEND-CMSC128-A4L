@@ -61,12 +61,12 @@ router.post('/api/publication/add', async (req, res) => {
   ) {
     try {
       const id = await Ctrl.addPublication(req.body);
-      const publication = await Ctrl.getPublication({ id: id });
+      // const publication = await Ctrl.getPublication({ id: id });
 
       res.status(200).json({
         status: 200,
         message: 'Successfully created publication',
-        data: publication
+        // data: publication
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });

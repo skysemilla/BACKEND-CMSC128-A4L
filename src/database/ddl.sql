@@ -392,6 +392,13 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE view_position_by_ID( emp_id_v varchar(10) )
+  BEGIN
+    SELECT * FROM POSITIONN
+    WHERE emp_id = emp_id_v;
+  END;
+GO
+
 CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
                                 emp_id varchar(10))

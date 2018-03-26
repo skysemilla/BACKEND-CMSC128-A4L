@@ -31,7 +31,7 @@ create table EMPLOYEE_FSR(
   year varchar(20) not null,
   path_to_fsr varchar(255) not null,
   emp_id varchar(10) not null,
-  constraint employee_emp_id_fk foreign key (emp_id) references employee(emp_id)
+  constraint employee_fsr_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
@@ -297,10 +297,10 @@ CREATE PROCEDURE view_fsrs()
   END;
 GO
 
-CREATE PROCEDURE insert_fsr( emp_id varchar(10), path_to_fsr varchar(255) )
+CREATE PROCEDURE insert_fsr( emp_id_insert varchar(10), path_to_fsr varchar(255) )
   BEGIN 
     INSERT INTO EMPLOYEE_FSR
-    VALUES ((SELECT semester, year from employee), path_to_fsr, emp_id);
+    VALUES ((SELECT semester, year from employee where emp_id = emp_id_insert), path_to_fsr, emp_id_insert);
     call insert_log(concat("FSR from semester and year ",(SELECT semester, year from employee), " has been added to the table EMPLOYEE_FSR" ));
   END;
 GO
@@ -562,9 +562,12 @@ CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
+       call delete_coworker(publication_id_del);
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
+
+
 
 CREATE PROCEDURE update_publication(
                 publication_id_u int,  
@@ -638,11 +641,12 @@ CREATE PROCEDURE insert_coworker(
   END;
 GO
 
-CREATE PROCEDURE delete_coworker(coworker_id_del int)
+CREATE PROCEDURE delete_coworker( publication_id_del int
+                                )
   BEGIN 
     DELETE FROM COWORKER
-      where coworker_id = coworker_id_del;
-      call insert_log(concat("Coworker #", coworker_id_del, " has been deleted to the table COWORKER"));
+      where publication_id = publication_id_del;
+      call insert_log(concat("Coworkers of publication ", publication_id_del, " have been deleted to the table COWORKER"));
 
   END;
 GO

@@ -11,12 +11,12 @@ router.post('/api/position/add', async (req, res) => {
   ) {
     try {  
       const id = await Ctrl.addPosition(req.body);
-      const sample = await Ctrl.getPosition({ id });
+      // const sample = await Ctrl.getPosition({ id });
 
       res.status(200).json({
         status: 200,
         message: 'Successfully added position',
-        data: sample
+        // data: sample
 
       });
     } catch (status) {

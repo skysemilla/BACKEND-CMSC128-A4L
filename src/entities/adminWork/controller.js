@@ -4,11 +4,7 @@ import db from '../../database';
 export const addPosition = ({office, credit_units, emp_id}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      INSERT INTO
-      POSITIONN
-      (position_id, office, credit_units, emp_id)
-      VALUES
-      (DEFAULT, ?, ?, ?);
+      CALL insert_position(?, ?, ?);
     `;
 
     const values = [office, credit_units, emp_id];
@@ -51,15 +47,34 @@ export const getPosition = ({ id }) => {
   });
 };
 
+// get all positions
+export const getPositions = ({ id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          CALL view_position();
+        `;
+
+    db.query(queryString, [id, id], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
 // removes position
 export const removePosition = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       
-      DELETE 
-        FROM POSITIONN
-      WHERE 
-        position_id  = ?;
+      CALL delete_position(?);
      
     `;
 
@@ -78,21 +93,13 @@ export const removePosition = ({ id }) => {
   });
 };
 
-// edit position
-
 // edits a position
 export const editPosition = ({
-  office, credit_units, emp_id
+  position_id, office, credit_units, emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      UPDATE POSITIONN
-      SET
-        office = ?,
-        credit_units = ?,
-        emp_id = ?,
-      WHERE
-        position_id = ?
+      CALL update_position(?, ?, ?, ?);
     `;
 
     const values = [

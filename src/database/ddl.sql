@@ -18,11 +18,21 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   l_name varchar (255) not null,
   department varchar(10),
   college varchar(20),
+  emp_type varchar(255),
   is_full_time boolean not null, -- IS STUDYING FULLTIME
   semester varchar(20) not null,
+  year varchar(20) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
+);
+
+create table EMPLOYEE_FSR(
+  semester varchar(20) not null,
+  year varchar(20) not null,
+  path_to_fsr varchar(255) not null,
+  emp_id varchar(10) not null,
+  constraint employee_fsr_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
@@ -134,7 +144,7 @@ create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
 );
 
 create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED
-  teachingload_id int AUTO_INCREMENT not null,
+  teachingload_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   no_of_students int not null,
   subject_id int not null,
@@ -223,14 +233,16 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
-                                  emp_type_insert varchar(20),
                                   department_insert varchar(10),
+                                  college_insert varchar(20),
+                                  emp_type_insert varchar(255),
                                   is_full_time_insert boolean,
-                                  college_insert varchar(20)
+                                  semester_insert varchar(20),
+                                  year_insert varchar(20)
 )
   BEGIN 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, emp_type_insert, department_insert, is_full_time_insert, college_insert);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, semester_insert, year_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -250,10 +262,12 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
-                                  emp_type_insert varchar(20),
                                   department_insert varchar(10),
+                                  college_insert varchar(20),
+                                  emp_type_insert varchar(255),
                                   is_full_time_insert boolean,
-                                  college_insert varchar(20)
+                                  semester_insert varchar(20),
+                                  year_insert varchar(20)
 )
   BEGIN 
     UPDATE EMPLOYEE
@@ -263,10 +277,12 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         f_name = f_name_insert,
         m_name = m_name_insert,
         l_name = l_name_insert,
-        emp_type = emp_type_insert,
         department = department_insert,
+        college = college_insert,
+        emp_type = emp_type_insert,
         is_full_time = is_full_time_insert,
-        college = college_insert
+        semester = semester_insert,
+        year = year_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
@@ -275,7 +291,30 @@ GO
 DELIMITER ;
 
 ---- END OF PROCEDURES FOR EMPLOYEE
+---- PROCEDURES FOR EMPLOYEE_FSR
+DROP PROCEDURE IF EXISTS view_fsrs;
+DROP PROCEDURE IF EXISTS insert_fsr;
 
+DELIMITER GO
+
+CREATE PROCEDURE view_fsrs()
+  BEGIN
+    SELECT * FROM EMPLOYEE_FSR;
+  END;
+GO
+
+CREATE PROCEDURE insert_fsr( emp_id_insert varchar(10), path_to_fsr varchar(255) )
+  BEGIN 
+    INSERT INTO EMPLOYEE_FSR
+    VALUES ((SELECT semester, year from employee where emp_id = emp_id_insert), path_to_fsr, emp_id_insert);
+    call insert_log(concat("FSR from semester and year ",(SELECT semester, year from employee), " has been added to the table EMPLOYEE_FSR" ));
+  END;
+GO
+
+DELIMITER ;
+
+
+---- END OF PROCEDURES FOR EMPLOYEE_FSR
 ---- PROCEDURES FOR ACTIVITY
 DROP PROCEDURE IF EXISTS view_activity; 
 DROP PROCEDURE IF EXISTS insert_activity; 
@@ -357,6 +396,13 @@ BEGIN
     SELECT * FROM POSITIONN;
 
 END;
+GO
+
+CREATE PROCEDURE view_position_by_ID( emp_id_v varchar(10) )
+  BEGIN
+    SELECT * FROM POSITIONN
+    WHERE emp_id = emp_id_v;
+  END;
 GO
 
 CREATE PROCEDURE insert_position(office varchar(255),
@@ -529,9 +575,12 @@ CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
+       call delete_coworker(publication_id_del);
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
+
+
 
 CREATE PROCEDURE update_publication(
                 publication_id_u int,  
@@ -570,7 +619,7 @@ DROP PROCEDURE IF EXISTS view_employee_coworker;
 DROP PROCEDURE IF EXISTS insert_coworker;
 DROP PROCEDURE IF EXISTS delete_coworker;
 DROP PROCEDURE IF EXISTS update_coworker;
-
+DROP PROCEDURE IF EXISTS view_publication_coworkers;
 DELIMITER GO
 
 CREATE PROCEDURE view_coworker()
@@ -586,17 +635,10 @@ CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
   END;
 GO
 
-CREATE PROCEDURE view_employee_coworker(emp_id_view_coworker varchar(10))
-  BEGIN
-      SELECT * from coworker  
-      WHERE emp_id = emp_id_view_coworker;
-  END;
-GO
-
-CREATE PROCEDURE view_publication_coworkers(to_view int)
+CREATE PROCEDURE view_publication_coworkers( emp_id_v varchar(10), publication_id_v int )
   BEGIN
     SELECT * FROM COWORKER
-    WHERE COWORKER.emp_id in (select emp_id from publication where publication.emp_id = to_view);
+    WHERE emp_id = emp_id_v and publication_id = publication_id_v;
   END;
 GO
 
@@ -612,11 +654,12 @@ CREATE PROCEDURE insert_coworker(
   END;
 GO
 
-CREATE PROCEDURE delete_coworker(coworker_id_del int)
+CREATE PROCEDURE delete_coworker( publication_id_del int
+                                )
   BEGIN 
     DELETE FROM COWORKER
-      where coworker_id = coworker_id_del;
-      call insert_log(concat("Coworker #", coworker_id_del, " has been deleted to the table COWORKER"));
+      where publication_id = publication_id_del;
+      call insert_log(concat("Coworkers of publication ", publication_id_del, " have been deleted to the table COWORKER"));
 
   END;
 GO
@@ -640,7 +683,9 @@ DELIMITER ;
 
 ---- PROCEDURES FOR SUBJECT
 DROP PROCEDURE IF EXISTS view_subjects;
-
+DROP PROCEDURE IF EXISTS add_subject;
+DROP PROCEDURE IF EXISTS delete_subject;
+DROP PROCEDURE IF EXISTS update_subject;
 DELIMITER GO
 
 CREATE PROCEDURE view_subjects()
@@ -702,12 +747,19 @@ DROP PROCEDURE IF EXISTS view_teachingload;
 DROP PROCEDURE IF EXISTS insert_teachingload; 
 DROP PROCEDURE IF EXISTS delete_teachingload;
 DROP PROCEDURE IF EXISTS update_teachingload;
+DROP PROCEDURE IF EXISTS view_by_teachingload_id;
 
 DELIMITER GO
 
 CREATE PROCEDURE view_employee_teachingload(emp_id varchar(20))
   BEGIN 
     SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
+  END;
+GO
+
+CREATE PROCEDURE view_by_teachingload_id(teachingload_id int)
+  BEGIN 
+    SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.teachingload_id = teachingload_id;
   END;
 GO
 
@@ -771,6 +823,8 @@ DROP PROCEDURE IF EXISTS view_employee_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
+DROP PROCEDURE IF EXISTS view_by_studyload_id;
+DROP PROCEDURE IF EXISTS update_studyload;
 
 DELIMITER GO
 
@@ -786,7 +840,11 @@ CREATE PROCEDURE view_employee_studyload(emp_id_view int)
     END;
 GO
 
-
+CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
+  BEGIN
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
+    END;
+GO
 
 CREATE PROCEDURE insert_studyload(    			subject_id_insert int,
                                                   degree_insert varchar(255) ,
@@ -992,7 +1050,8 @@ DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id;
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
 DROP PROCEDURE IF EXISTS delete_limited_practice;
 DROP PROCEDURE IF EXISTS update_employee; 
-
+DROP PROCEDURE IF EXISTS insert_date_if_yes;
+DROP PROCEDURE IF EXISTS update_limited_practice;
 DELIMITER GO
 
 CREATE PROCEDURE view_limited_practice()
@@ -1057,16 +1116,16 @@ GO
 DELIMITER ;
 --end of limited practice
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina","Arden",FALSE,"1st");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","Erich",FALSE,"1st");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","Keelie",FALSE,"1st");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Jin","Oleg",FALSE,"1st");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","Ahmed",FALSE,"1st");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Ariel","Jerome",FALSE,"1st");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Delilah","Leo",FALSE,"1st");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Sandra","Myles",FALSE,"1st");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Sade","Emery",FALSE,"1st");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Zachary","Imogene",FALSE,"1st");
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE,"2nd","2017-2018");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"2nd","2017-2018");
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");

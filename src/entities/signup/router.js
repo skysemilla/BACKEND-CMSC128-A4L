@@ -14,16 +14,17 @@ router.post('/api/signup', async (req, res) => {
     req.body.l_name &&
     req.body.department &&
     req.body.college &&
+    req.body.is_full_time &&
     req.body.semester
   ) {
-    try {  
+    try {
       const id = await Ctrl.addEmployee(req.body);
-      const employee = await Ctrl.getEmployee({ id: id });
+      // const employee = await Ctrl.getEmployee({ id: id });
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully created employee',
-        data: employee
+        message: 'Successfully created employee'
+        // data: employee
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });

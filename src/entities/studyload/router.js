@@ -7,10 +7,9 @@ router.post('/api/studyload/add', async (req, res) => {
   if (
     req.body.degree &&
     req.body.university &&
-    req.body.isFullTime &&
     req.body.credits &&
     req.body.emp_id &&
-    req.body.subject_code
+    req.body.subject_id
   ) {
     try {
       // await Ctrl.checkUser(req.body.empNo);
@@ -57,11 +56,15 @@ router.post('/api/studyload/edit', async (req, res) => {
     req.body.studyload_id &&
     req.body.degree &&
     req.body.university &&
-    req.body.isFullTime &&
     req.body.credits &&
-    req.body.emp_id &&
-    req.body.subject_code
-  ) {
+    req.body.subject_code &&
+    req.body.section_code &&
+    req.body.isLecture &&
+    req.body.units &&
+    req.body.room &&
+    req.body.start_time &&
+    req.body.end_time
+) {
     try {
       await Ctrl.editStudyLoad(req.body);
       const sample = await Ctrl.getStudyLoad({

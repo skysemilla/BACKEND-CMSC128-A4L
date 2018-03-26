@@ -37,7 +37,7 @@ router.post('/api/subject/add', async (req, res) => {
   ) {
     try {
       const id = await Ctrl.addSubject(req.body);
-      const subject = await Ctrl.getSubject({ id: id });
+      //const subject = await Ctrl.getSubject({ id: id });
 
       res.status(200).json({
         status: 200,

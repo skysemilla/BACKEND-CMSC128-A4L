@@ -60,7 +60,7 @@ router.post('/api/service/add', async (req, res) => {
   ) {
     try {
       const id = await Ctrl.addService(req.body);
-      const serviceAdded = await Ctrl.getService({ id: id });
+      // const serviceAdded = await Ctrl.getService({ id: id });
 
       res.status(200).json({
         status: 200,

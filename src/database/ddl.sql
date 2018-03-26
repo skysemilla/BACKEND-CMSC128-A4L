@@ -31,7 +31,7 @@ create table EMPLOYEE_FSR(
   year varchar(20) not null,
   path_to_fsr varchar(255) not null,
   emp_id varchar(10) not null,
-  constraint employee_employee_fsr_fk foreign key (emp_id) references employee(emp_id)
+  constraint employee_fsr_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
@@ -297,10 +297,10 @@ CREATE PROCEDURE view_fsrs()
   END;
 GO
 
-CREATE PROCEDURE insert_fsr( emp_id varchar(10), path_to_fsr varchar(255) )
+CREATE PROCEDURE insert_fsr( emp_id_insert varchar(10), path_to_fsr varchar(255) )
   BEGIN 
     INSERT INTO EMPLOYEE_FSR
-    VALUES ((SELECT semester, year from employee), path_to_fsr, emp_id);
+    VALUES ((SELECT semester, year from employee where emp_id = emp_id_insert), path_to_fsr, emp_id_insert);
     call insert_log(concat("FSR from semester and year ",(SELECT semester, year from employee), " has been added to the table EMPLOYEE_FSR" ));
   END;
 GO
@@ -741,12 +741,11 @@ CREATE PROCEDURE view_employee_teachingload(emp_id varchar(20))
   END;
 GO
 
-CREATE PROCEDURE view_by_teachingload_id(teachingload_id int) ----added
+CREATE PROCEDURE view_by_teachingload_id(teachingload_id int)
   BEGIN 
     SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.teachingload_id = teachingload_id;
   END;
 GO
-
 
 CREATE PROCEDURE view_teachingload()
   BEGIN 

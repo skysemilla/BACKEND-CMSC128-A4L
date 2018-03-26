@@ -562,9 +562,12 @@ CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
+       call delete_coworker(publication_id_del);
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
+
+
 
 CREATE PROCEDURE update_publication(
                 publication_id_u int,  
@@ -638,11 +641,12 @@ CREATE PROCEDURE insert_coworker(
   END;
 GO
 
-CREATE PROCEDURE delete_coworker(coworker_id_del int)
+CREATE PROCEDURE delete_coworker( publication_id_del int
+                                )
   BEGIN 
     DELETE FROM COWORKER
-      where coworker_id = coworker_id_del;
-      call insert_log(concat("Coworker #", coworker_id_del, " has been deleted to the table COWORKER"));
+      where publication_id = publication_id_del;
+      call insert_log(concat("Coworkers of publication ", publication_id_del, " have been deleted to the table COWORKER"));
 
   END;
 GO

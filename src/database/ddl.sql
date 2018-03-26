@@ -744,6 +744,13 @@ CREATE PROCEDURE view_employee_teachingload(emp_id varchar(20))
   END;
 GO
 
+CREATE PROCEDURE view_by_teachingload_id(teachingload_id int) ----added
+  BEGIN 
+    SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.teachingload_id = teachingload_id;
+  END;
+GO
+
+
 CREATE PROCEDURE view_teachingload()
   BEGIN 
     SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
@@ -819,7 +826,11 @@ CREATE PROCEDURE view_employee_studyload(emp_id_view int)
     END;
 GO
 
-
+CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
+  BEGIN
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
+    END;
+GO
 
 CREATE PROCEDURE insert_studyload(    			subject_id_insert int,
                                                   degree_insert varchar(255) ,

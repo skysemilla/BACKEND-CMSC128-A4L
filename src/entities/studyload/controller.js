@@ -3,27 +3,21 @@ import db from '../../database';
 export const addStudyLoad = ({
   degree,
   university,
-  isFullTime,
   credits,
   emp_id,
-  subject_code
+  subject_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      INSERT INTO
-      STUDYLOAD
-      (degree, university, isFullTime, credits, emp_id, subject_code)
-      VALUES
-      (?, ?, ?, ?, ?, ?)
+    call insert_studyload(?,?,?,?,?)
     `;
 
     const values = [
+      subject_id,
       degree,
       university,
-      isFullTime,
       credits,
-      emp_id,
-      subject_code
+      emp_id
     ];
 
     db.query(queryString, values, (err, results) => {
@@ -40,11 +34,8 @@ export const addStudyLoad = ({
 export const removeStudyLoad = ({ studyload_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        DELETE 
-          FROM STUDYLOAD
-        WHERE 
-          studyload_id = ?
-      `;
+    call delete_studyload(?)
+    `;
 
     db.query(queryString, studyload_id, (err, results) => {
       if (err) {
@@ -65,33 +56,32 @@ export const editStudyLoad = ({
   studyload_id,
   degree,
   university,
-  isFullTime,
   credits,
-  emp_id,
-  subject_code
+  subject_code,
+  section_code,
+  isLecture,
+  units,
+  room,
+  start_time,
+  end_time
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        UPDATE STUDYLOAD
-        SET
-          degree = ?,
-          university = ?,
-          isFullTime = ?,
-          credits = ?,
-          emp_id = ?, 
-          subject_code = ?
-        WHERE
-          studyload_id = ?
-      `;
+    call update_studyload(?,?,?,?,?,?,?,?,?,?,?)
+    `;
 
     const values = [
+      studyload_id,
       degree,
       university,
-      isFullTime,
       credits,
-      emp_id,
       subject_code,
-      studyload_id
+      section_code,
+      isLecture,
+      units,
+      room,
+      start_time,
+      end_time
     ];
 
     db.query(queryString, values, (err, res) => {
@@ -112,12 +102,7 @@ export const editStudyLoad = ({
 export const getStudyLoad = ({ studyload_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            STUDYLOAD
-          WHERE
-          studyload_id = ?
+      call view_by_studyload_id(?)
         `;
 
     db.query(queryString, studyload_id, (err, rows) => {
@@ -137,12 +122,7 @@ export const getStudyLoad = ({ studyload_id }) => {
 export const getStudyEmp = ({ emp_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            STUDYLOAD
-          WHERE
-          emp_id = ?
+        call view_employee_studyload(?)
         `;
 
     db.query(queryString, emp_id, (err, rows) => {
@@ -162,9 +142,8 @@ export const getStudyEmp = ({ emp_id }) => {
 export const getAllStudyLoad = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        SELECT *
-        FROM STUDYLOAD
-      `;
+    call view_studyload()
+    `;
 
     db.query(queryString, (err, rows) => {
       if (err) {

@@ -11,7 +11,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   emp_id_increment int not null AUTO_INCREMENT,
   emp_id varchar(10) not null,
   username varchar(20) not null,
-  password varchar(255) not null,
+  password varchar(256) not null,
   type varchar(7) not null, -- TYPE OF USER: ADMIN, FACULTY
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,

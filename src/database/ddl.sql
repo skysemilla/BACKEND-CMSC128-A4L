@@ -1001,10 +1001,10 @@ CREATE PROCEDURE insert_faculty_grant(
                     grant_title varchar(255),
                     start_date datetime,
                     end_date datetime,
-                    empid varchar(10))
+                    emp_id varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
-        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, empid);
+        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
     call insert_log(concat("faculty grant with title ", grant_title, " has been added to the table facultygrant"));
   END;
 GO

@@ -308,8 +308,8 @@ GO
 DELIMITER ;
 
 
----- END OF PROCEDURES FOR EMPLOYEE_FSR
----- PROCEDURES FOR ACTIVITY
+
+
 DROP PROCEDURE IF EXISTS view_activity; 
 DROP PROCEDURE IF EXISTS insert_activity; 
 DROP PROCEDURE IF EXISTS delete_activity; 
@@ -375,9 +375,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR ACTIVITY
 
----- PROCEDURES FOR POSITIONN
+
+
 DROP PROCEDURE IF EXISTS view_position;
 DROP PROCEDURE IF EXISTS insert_position;
 DROP PROCEDURE IF EXISTS delete_position;
@@ -430,9 +430,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR POSITIONN
 
----- PROCEDURES FOR SERVICE
+
+
 DROP PROCEDURE IF EXISTS view_service; 
 DROP PROCEDURE IF EXISTS view_service_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_service; 
@@ -509,9 +509,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR SERVICE
 
----- PROCEDURES FOR PUBLICATIONS
+
+
 DROP PROCEDURE IF EXISTS view_publication; 
 DROP PROCEDURE IF EXISTS view_publication_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_publication; 
@@ -597,9 +597,9 @@ GO
 
 DELIMITER ;
 
----END OF PUBLICATION PROCEDURE
 
---START OF COWORKER PROCEDURE
+
+
 DROP PROCEDURE IF EXISTS view_coworker; 
 DROP PROCEDURE IF EXISTS view_coworker_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_coworker; 
@@ -666,9 +666,9 @@ GO
 DELIMITER ;
 
 
---END OF COWORKER PROCEDURE
 
----- PROCEDURES FOR SUBJECT
+
+
 DROP PROCEDURE IF EXISTS view_subjects;
 
 DELIMITER GO
@@ -724,9 +724,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR SUBJECT
 
----- PROCEDURES FOR TEACHINGLOAD
+
+
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
 DROP PROCEDURE IF EXISTS view_teachingload; 
 DROP PROCEDURE IF EXISTS insert_teachingload; 
@@ -799,9 +799,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR TEACHINGLOAD
 
----- PROCEDURES FOR STUDYLOAD
+
+
 DROP PROCEDURE IF EXISTS view_studyload; 
 DROP PROCEDURE IF EXISTS view_employee_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
@@ -888,9 +888,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR STUDYLOAD
 
----- PROCEDURES FOR CONSULTATION
+
+
 DROP PROCEDURE IF EXISTS view_employee_consultation; 
 DELIMITER GO
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
@@ -960,9 +960,9 @@ END;
 GO
 DELIMITER ;
 
----- END OF PROCEDURES FOR CONSULTATION
 
------ START OF PROCEDURES FOR FACULTYGRANT
+
+
 DROP PROCEDURE IF EXISTS view_faculty_grant; 
 DROP PROCEDURE IF EXISTS insert_faculty_grant; 
 DROP PROCEDURE IF EXISTS delete_faculty_grant; 
@@ -983,10 +983,10 @@ CREATE PROCEDURE insert_faculty_grant(
                     grant_title varchar(255),
                     start_date datetime,
                     end_date datetime,
-                    empid varchar(10))
+                    emp_id varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
-        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, empid);
+        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
     call insert_log(concat("faculty grant with title ", grant_title, " has been added to the table facultygrant"));
   END;
 GO
@@ -1025,8 +1025,8 @@ CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
 GO
 DELIMITER ;
 
---- END OF FACULTYGRANT PROCEDURES
---start of limited practice
+
+
 DROP PROCEDURE IF EXISTS view_limited_practice; 
 DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
@@ -1095,7 +1095,7 @@ CREATE PROCEDURE update_limited_practice( limited_practice_id_u int,
 END;
 GO
 DELIMITER ;
---end of limited practice
+
 
 call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina",FALSE,"CAS","2nd","2017-2018");
 call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor",FALSE,"CAS","2nd","2017-2018");

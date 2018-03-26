@@ -1,27 +1,45 @@
 import db from '../../database';
 
-
-
 //adds an employee
-export const addEmployee = ({emp_id, username, password, type, f_name, m_name, l_name, department, college, semester}) => {
+export const addEmployee = ({
+  emp_id,
+  username,
+  password,
+  type,
+  f_name,
+  m_name,
+  l_name,
+  department,
+  college,
+  is_full_time,
+  semester
+}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      INSERT INTO
-      EMPLOYEE
-      (emp_id_increment, emp_id, username, password, type, f_name, m_name, l_name, department, college, semester)
-      VALUES
-      (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
-    const values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, semester];
+    const values = [
+      emp_id,
+      username,
+      password,
+      type,
+      f_name,
+      m_name,
+      l_name,
+      department,
+      college,
+      is_full_time,
+      semester
+    ];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
       }
-      
-      console.log(results);
+
+      // console.log(results);
       return resolve(results.insertId);
     });
   });
@@ -36,10 +54,10 @@ export const getEmployee = ({ id }) => {
           FROM 
             EMPLOYEE
           WHERE
-            emp_id = ?;
+            emp_id_increment = ?;
         `;
 
-    db.query(queryString, [id, id], (err, rows) => {
+    db.query(queryString, id, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

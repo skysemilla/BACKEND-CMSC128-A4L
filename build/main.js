@@ -210,20 +210,25 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entities_auth_router__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities_extensions_router__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entities_publications_router__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_studyload_router__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_teachload_router__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_facultylist_router__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_signup_router__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__ = __webpack_require__(28);
 
 
 // put import routers here
 
 
 
-//import signupRouter from './entities/signup/router';
+
 
 
 
 //import fsrRouter from './entities/fsrlist/router';
+
+
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 
@@ -231,11 +236,13 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 router.use('/', __WEBPACK_IMPORTED_MODULE_1__entities_auth_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_2__entities_extensions_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_3__entities_publications_router__["a" /* default */]);
-//router.use(signupRouter);
-router.use(__WEBPACK_IMPORTED_MODULE_4__entities_studyload_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_5__entities_teachload_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_6__entities_facultylist_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_4__entities_signup_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__["a" /* default */]);
 //router.use(fsrRouter);
+router.use(__WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
@@ -1372,6 +1379,147 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
+router.post('/api/signup', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var id;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!(req.body.emp_id && req.body.username && req.body.password && req.body.type && req.body.f_name && req.body.m_name && req.body.l_name && req.body.department && req.body.college && req.body.is_full_time && req.body.semester)) {
+              _context.next = 13;
+              break;
+            }
+
+            _context.prev = 1;
+            _context.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addEmployee */](req.body);
+
+          case 4:
+            id = _context.sent;
+
+            // const employee = await Ctrl.getEmployee({ id: id });
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully created employee'
+              // data: employee
+            });
+            _context.next = 11;
+            break;
+
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 11:
+            _context.next = 14;
+            break;
+
+          case 13:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 14:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[1, 8]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addEmployee; });
+/* unused harmony export getEmployee */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+//adds an employee
+var addEmployee = function addEmployee(_ref) {
+  var emp_id = _ref.emp_id,
+      username = _ref.username,
+      password = _ref.password,
+      type = _ref.type,
+      f_name = _ref.f_name,
+      m_name = _ref.m_name,
+      l_name = _ref.l_name,
+      department = _ref.department,
+      college = _ref.college,
+      is_full_time = _ref.is_full_time,
+      semester = _ref.semester;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+
+    var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, is_full_time, semester];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      // console.log(results);
+      return resolve(results.insertId);
+    });
+  });
+};
+
+// gets an employee
+var getEmployee = function getEmployee(_ref2) {
+  var id = _ref2.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            EMPLOYEE\n          WHERE\n            emp_id_increment = ?;\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
 router.post('/api/studyload/add', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id, sample;
@@ -1655,7 +1803,7 @@ router.get('/api/studyload/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1798,7 +1946,7 @@ var getAllStudyLoad = function getAllStudyLoad() {
 };
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1806,7 +1954,7 @@ var getAllStudyLoad = function getAllStudyLoad() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
 
 
 var _this = this;
@@ -2102,7 +2250,7 @@ router.get('/api/teachload/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2240,7 +2388,7 @@ var getAllTeachLoad = function getAllTeachLoad() {
 };
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2248,7 +2396,7 @@ var getAllTeachLoad = function getAllTeachLoad() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(25);
 
 
 var _this = this;
@@ -2370,7 +2518,7 @@ router.get('/api/faculty/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2417,6 +2565,562 @@ var getAllFaculty = function getAllFaculty() {
       }
 
       return resolve(rows);
+    });
+  });
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(27);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+router.post('/api/position/add', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var id, sample;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!(req.body.office && req.body.credit_units && req.body.emp_id)) {
+              _context.next = 16;
+              break;
+            }
+
+            _context.prev = 1;
+            _context.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addPosition */](req.body);
+
+          case 4:
+            id = _context.sent;
+            _context.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getPosition */]({ id: id });
+
+          case 7:
+            sample = _context.sent;
+
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully added position',
+              data: sample
+
+            });
+            _context.next = 14;
+            break;
+
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 14:
+            _context.next = 17;
+            break;
+
+          case 16:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 17:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[1, 11]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+router.post('/api/position/remove', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var consultation, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getPosition */](req.body);
+
+          case 3:
+            consultation = _context2.sent;
+            _context2.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* removePosition */](req.body);
+
+          case 6:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully removed position',
+              data: consultation
+            });
+            _context2.next = 20;
+            break;
+
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 404 ? 15 : _context2.t1 === 500 ? 17 : 19;
+            break;
+
+          case 15:
+            message = 'Position not found';
+            return _context2.abrupt('break', 19);
+
+          case 17:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 19);
+
+          case 19:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 20:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 9]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+//edit a position
+router.put('/api/position/edit', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+    var positionEdited, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editPosition */](req.body);
+
+          case 3:
+            _context3.next = 5;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getPosition */]({ id: req.body.id });
+
+          case 5:
+            positionEdited = _context3.sent;
+
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully edited service',
+              data: positionEdited
+            });
+            _context3.next = 20;
+            break;
+
+          case 9:
+            _context3.prev = 9;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 15 : _context3.t1 === 500 ? 17 : 19;
+            break;
+
+          case 15:
+            message = 'Service not found';
+            return _context3.abrupt('break', 19);
+
+          case 17:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 19);
+
+          case 19:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 20:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 9]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return removePosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editPosition; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+// add position
+var addPosition = function addPosition(_ref) {
+  var office = _ref.office,
+      credit_units = _ref.credit_units,
+      emp_id = _ref.emp_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      INSERT INTO\n      POSITIONN\n      (position_id, office, credit_units, emp_id)\n      VALUES\n      (DEFAULT, ?, ?, ?);\n    ';
+
+    var values = [office, credit_units, emp_id];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+      if (err) {
+        console.log(err.message);
+        return reject(500);
+      }
+
+      return resolve(results.insertId);
+    });
+  });
+};
+
+// get position
+var getPosition = function getPosition(_ref2) {
+  var id = _ref2.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            POSITIONN\n          WHERE\n            position_id = ?;\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [id, id], function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+// removes position
+var removePosition = function removePosition(_ref3) {
+  var id = _ref3.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      \n      DELETE \n        FROM POSITIONN\n      WHERE \n        position_id  = ?;\n     \n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!results.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// edit position
+
+// edits a position
+var editPosition = function editPosition(_ref4) {
+  var office = _ref4.office,
+      credit_units = _ref4.credit_units,
+      emp_id = _ref4.emp_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      UPDATE POSITIONN\n      SET\n        office = ?,\n        credit_units = ?,\n        emp_id = ?,\n      WHERE\n        position_id = ?\n    ';
+
+    var values = [office, credit_units, emp_id];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(29);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+router.post('/api/addconsulHours', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var id, sample;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!(req.body.consultation_start_time && req.body.consultation_end_time && req.body.consultation_place && req.body.emp_id && req.body.day)) {
+              _context.next = 16;
+              break;
+            }
+
+            _context.prev = 1;
+            _context.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addConsulHours */](req.body);
+
+          case 4:
+            id = _context.sent;
+            _context.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getConsulHours */]({ id: id });
+
+          case 7:
+            sample = _context.sent;
+
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully added consultation hours',
+              data: sample
+
+            });
+            _context.next = 14;
+            break;
+
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 14:
+            _context.next = 17;
+            break;
+
+          case 16:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 17:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[1, 11]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+router.post('/api/deleteconsulHours/', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var consultation, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getConsulHours */](req.body);
+
+          case 3:
+            consultation = _context2.sent;
+            _context2.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* removeConsulHoursDay */](req.body);
+
+          case 6:
+            _context2.next = 8;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* removeConsulHours */](req.body);
+
+          case 8:
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully removed consulation hours',
+              data: consultation
+            });
+            _context2.next = 22;
+            break;
+
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 404 ? 17 : _context2.t1 === 500 ? 19 : 21;
+            break;
+
+          case 17:
+            message = 'Consultation hours not found';
+            return _context2.abrupt('break', 21);
+
+          case 19:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 21);
+
+          case 21:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 22:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 11]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConsulHours; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return removeConsulHours; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return removeConsulHoursDay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getConsulHours; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+var addConsulHours = function addConsulHours(_ref) {
+  var consultation_start_time = _ref.consultation_start_time,
+      consultation_end_time = _ref.consultation_end_time,
+      consultation_place = _ref.consultation_place,
+      emp_id = _ref.emp_id,
+      day = _ref.day;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      INSERT INTO\n      CONSULTATION\n      (consultation_id, consultation_start_time, consultation_end_time, consultation_place, emp_id)\n      VALUES\n      (DEFAULT, ?, ?, ?, ?);\n      INSERT INTO\n      CONSULTATION_DAY\n      (consultation_id, day)\n      VALUES\n      (DEFAULT, ?)\n    ';
+
+    var values = [consultation_start_time, consultation_end_time, consultation_place, emp_id, day];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+      if (err) {
+        console.log(err.message);
+        return reject(500);
+      }
+
+      return resolve(results.insertId);
+    });
+  });
+};
+
+// removes consultation hours
+var removeConsulHours = function removeConsulHours(_ref2) {
+  var id = _ref2.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      \n      DELETE \n        FROM CONSULTATION\n      WHERE \n        consultation_id  = ?;\n     \n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!results.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// removes consultation hours
+var removeConsulHoursDay = function removeConsulHoursDay(_ref3) {
+  var id = _ref3.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      \n      DELETE \n        FROM CONSULTATION_DAY\n      WHERE \n        consultation_id  = ?;\n     \n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!results.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+/* DELETE 
+        FROM CONSULTATION_DAY
+      WHERE 
+        consultation_id  = ?;  */
+
+// gets a consultation hours
+var getConsulHours = function getConsulHours(_ref4) {
+  var id = _ref4.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            CONSULTATION\n          WHERE\n            consultation_id = ?;\n          SELECT \n            *\n          FROM \n            CONSULTATION_DAY\n          WHERE\n            consultation_id = ?\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [id, id], function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
     });
   });
 };

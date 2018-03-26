@@ -35,7 +35,7 @@ router.post('/api/facultygrant/add', async (req, res) => {
     req.body.professional_chair &&
     req.body.grants &&
     req.body.grant_title &&
-    req.body.start_data &&
+    req.body.start_date &&
     req.body.end_date &&
     req.body.emp_id 
   ) {

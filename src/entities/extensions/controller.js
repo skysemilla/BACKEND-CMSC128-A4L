@@ -4,12 +4,7 @@ import db from '../../database';
 export const getService = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            SERVICE
-          WHERE
-            service_id = ?
+          CALL view_service_by_ID(?) 
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -58,8 +53,7 @@ export const addService = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            INSERT INTO SERVICE
-            VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)
+            CALL insert_service(?, ?, ?, ?, ?, ?, ?)
         `;
 
     const values = [
@@ -87,10 +81,7 @@ export const addService = ({
 export const removeService = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      DELETE 
-        FROM SERVICE
-      WHERE 
-        service_id = ?
+      CALL delete_service(?)
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -110,36 +101,27 @@ export const removeService = ({ id }) => {
 
 // edits a sample
 export const editService = ({
+  service_id,
   category,
   title,
   no_of_hours,
   no_of_participants,
   role,
-  credits,
-  service_id
+  credits
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      UPDATE SERVICE
-      SET
-        category = ?,
-        title = ?,
-        no_of_hours = ?,
-        no_of_participants = ?,
-        role = ?,
-        credits = ?
-      WHERE
-        service_id = ?
+      CALL update_service(?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
+      service_id, 
       category,
       title,
       no_of_hours,
       no_of_participants,
       role,
-      credits,
-      service_id
+      credits
     ];
 
     db.query(queryString, values, (err, res) => {

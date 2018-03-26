@@ -17,6 +17,7 @@
     "express-session": "^1.15.6",
     "morgan": "^1.9.0",
     "mysql": "^2.15.0",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "js-sha256": "^0.9.0"
   }
 }

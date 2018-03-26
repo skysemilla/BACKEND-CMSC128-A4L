@@ -4,13 +4,7 @@ import db from '../../database';
 export const getFaculty = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            EMPLOYEE
-          WHERE
-            emp_id = ? and
-            type = 'FACULTY'
+          call view_employee_by_id(?);
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -32,12 +26,7 @@ export const getFaculty = ({ id }) => {
 export const getAllFaculty = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      SELECT 
-        *
-      FROM 
-        EMPLOYEE
-      WHERE
-        type = 'FACULTY'
+      call view_employee();
     `;
 
     db.query(queryString, (err, rows) => {

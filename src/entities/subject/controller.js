@@ -1,10 +1,15 @@
 import db from '../../database';
 
-// gets a service
-export const getService = ({ id }) => {
+
+export const getSubject = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          CALL view_service_by_ID(?) 
+          SELECT 
+            *
+          FROM 
+            SUBJECT
+          WHERE
+            id = ?
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -22,12 +27,11 @@ export const getService = ({ id }) => {
   });
 };
 
-// gets all services
-export const getServices = () => {
+// gets all subjects
+export const getSubjects = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL
-      view_service()
+      CALL view_subjects()
     `;
 
     db.query(queryString, (err, rows) => {
@@ -41,30 +45,13 @@ export const getServices = () => {
   });
 };
 
-// adds a service
-export const addService = ({
-  category,
-  title,
-  no_of_hours,
-  no_of_participants,
-  role,
-  credits,
-  emp_id
-}) => {
+// adds a sample
+export const addSubject = ({ subject_code, section_code, isLecture, units, room, start_time, end_time }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            CALL insert_service(?, ?, ?, ?, ?, ?, ?)
-        `;
+            CALL add_subject(?,?,?,?,?,?,?)`;
 
-    const values = [
-      category,
-      title,
-      no_of_hours,
-      no_of_participants,
-      role,
-      credits,
-      emp_id
-    ];
+    const values = [subject_code, section_code, isLecture, units, room, start_time, end_time];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
@@ -77,11 +64,11 @@ export const addService = ({
   });
 };
 
-// removes a service
-export const removeService = ({ id }) => {
+// removes a sample
+export const removeSubject = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL delete_service(?)
+      CALL delete_subject(?)
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -98,31 +85,12 @@ export const removeService = ({ id }) => {
     });
   });
 };
-
-// edits a sample
-export const editService = ({
-  service_id,
-  category,
-  title,
-  no_of_hours,
-  no_of_participants,
-  role,
-  credits
-}) => {
+export const editSubject = ({subject_id, subject_code, section_code, isLecture, units, room, start_time, end_time}) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-      CALL update_service(?, ?, ?, ?, ?, ?, ?)
+    const queryString = `CALL update_subject(?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const values = [
-      service_id, 
-      category,
-      title,
-      no_of_hours,
-      no_of_participants,
-      role,
-      credits
-    ];
+    const values = [subject_id, subject_code, section_code, isLecture, units, room, start_time, end_time];
 
     db.query(queryString, values, (err, res) => {
       if (err) {

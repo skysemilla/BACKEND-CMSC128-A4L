@@ -31,7 +31,7 @@ create table EMPLOYEE_FSR(
   year varchar(20) not null,
   path_to_fsr varchar(255) not null,
   emp_id varchar(10) not null,
-  constraint employee_employee_fsr foreign key (emp_id) references employee(emp_id)
+  constraint employee_employee_fsr_fk foreign key (emp_id) references employee(emp_id)
 );
 
 create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
@@ -619,17 +619,10 @@ CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
   END;
 GO
 
-CREATE PROCEDURE view_employee_coworker(emp_id_view_coworker varchar(10))
-  BEGIN
-      SELECT * from coworker  
-      WHERE emp_id = emp_id_view_coworker;
-  END;
-GO
-
-CREATE PROCEDURE view_publication_coworkers(to_view int)
+CREATE PROCEDURE view_publication_coworkers( emp_id_v varchar(10), publication_id_v int )
   BEGIN
     SELECT * FROM COWORKER
-    WHERE COWORKER.emp_id in (select emp_id from publication where publication.emp_id = to_view);
+    WHERE emp_id = emp_id_v and publication_id = publication_id_v;
   END;
 GO
 

@@ -1,6 +1,48 @@
-  import db from '../../database';
+import db from '../../database';
 
-
+//adds a faculty grant
+  export const addFacultyGrant = ({type, isapproved, professional_chair, grants, grant_title, start_date, emp_date, emp_id}) => {
+    return new Promise((resolve, reject) => {
+      const queryString = `
+        CALL 
+        insert_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);
+      `;
+  
+      const values = [type, isapproved, professional_chair, grants, grant_title, start_date, emp_date, emp_id];
+  
+      db.query(queryString, values, (err, results) => {
+        if (err) {
+          console.log(err.message);
+          return reject(500);
+        }
+  
+        return resolve(results.insertId);
+      });
+    });
+  };
+  
+// gets all faculty
+  export const getAllFacultyGrant = () => {
+    return new Promise((resolve, reject) => {
+      const queryString = `
+        call view_faculty_grant();
+      `;
+  
+      db.query(queryString, (err, rows) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
+  
+        if (!rows.length) {
+          return reject(404);
+        }
+  
+        return resolve(rows);
+      });
+    });
+  };
+  
 // gets a faculty grant by id
 export const getFacultyGrant = ({ id }) => {
   return new Promise((resolve, reject) => {
@@ -28,77 +70,12 @@ export const getFacultyGrant = ({ id }) => {
   });
 };
 
-// gets all faculty grants
-export const getFacultyGrants = () => {
-  return new Promise((resolve, reject) => {
-    const queryString = `
-      SELECT *
-      FROM FACULTYGRANT
-    `;
-
-    db.query(queryString, (err, rows) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      return resolve(rows);
-    });
-  });
-};
-
-// adds a faculty grant
-export const addFacultyGrant = ({
-  type,
-  is_approved,
-  professional_chair,
-  grants,
-  grant_title,
-  start_date,
-  end_date,
-  emp_id
-}) => { 
-  return new Promise((resolve, reject) => {
-    const queryString = `
-      INSERT INTO FACULTYGRANT
-      (type,  is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id)
-      VALUES 
-      (?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-
-    const values = [
-    	type,
-    	is_approved,
-    	professional_chair,
-    	grants,
-    	grant_title,
-    	start_date,
-    	end_date,
-      emp_id
-	   ];
-
-    db.query(queryString, values, (err, results) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      return resolve(results.insertId);
-    });
-  });
-};
-
-
-
-
 // removes a faculty grant
 export const removeFacultyGrant = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      DELETE 
-        FROM FACULTYGRANT
-      WHERE 
-        faculty_grant_id = ?
+      CALL
+      delete_faculty_grant();
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -130,31 +107,11 @@ export const editFacultyGrant = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      UPDATE FACULTYGRANT
-      SET
-        type = ?,
-        is_approved = ?,
-        professional_chair = ?,
-        grants = ?,
-        grant_title = ?,
-        start_date = ?,
-        end_date = ?,
-        emp_id = ?
-      WHERE
-        faculty_grant_id = ?
+      CALL 
+      update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
-    const values = [
-      type,
-      is_approved,
-      professional_chair,
-      grants,
-      grant_title,
-      start_date,
-      end_date,
-      emp_id,
-      faculty_grant_id
-    ];
+    const values = [type, isapproved, professional_chair, grants, grant_title, start_date, emp_date, emp_id];
 
     db.query(queryString, values, (err, res) => {
       if (err) {

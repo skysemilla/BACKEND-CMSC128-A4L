@@ -7,11 +7,8 @@ export const addLimitedPractice = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      INSERT INTO
-      LIMITED_PRACTICE
-      (haveApplied,date_submitted,emp_id)
-      VALUES
-      (?, ?, ?)
+    CALL  
+    insert_limited_practice(?, ?, ?)
     `;
     
     const values = [
@@ -35,10 +32,8 @@ export const addLimitedPractice = ({
 export const removeLimitedPractice = ({ limited_practice_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        DELETE 
-          FROM LIMITED_PRACTICE
-        WHERE 
-          limited_practice_id = ?
+        CALL
+        delete_limited_practice(?);
       `;
 
     db.query(queryString, limited_practice_id, (err, results) => {
@@ -65,13 +60,8 @@ export const editLimitedPractice = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        UPDATE LIMITED_PRACTICE
-        SET
-          haveApplied = ?,
-          date_submitted = ?,
-          emp_id = ?
-        WHERE
-          limited_practice_id = ?
+        CALL
+        update_limited_practice(?, ?, ?, ?)
       `;
 
     const values = [
@@ -99,12 +89,8 @@ export const editLimitedPractice = ({
 export const getLimitedPractice = ({ limited_practice_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            LIMITED_PRACTICE
-          WHERE
-          limited_practice_id = ?
+          CALL
+          view_limited_practice_by_emp_id(?)
         `;
 
     db.query(queryString, limited_practice_id, (err, rows) => {
@@ -122,14 +108,11 @@ export const getLimitedPractice = ({ limited_practice_id }) => {
   });
 };
 
-
-
-
 export const getAllLimitedPractice = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        SELECT *
-        FROM LIMITED_PRACTICE
+        CALL
+        view_limited_practice()
       `;
 
     db.query(queryString, (err, rows) => {

@@ -3,7 +3,7 @@ import * as Ctrl from './controller';
 
 const router = Router();
 
-router.post('/api/addconsulHours', async (req, res) => {
+router.post('/api/consulHours/add', async (req, res) => {
   if (
     req.body.consultation_start_time &&
     req.body.consultation_end_time &&
@@ -11,16 +11,11 @@ router.post('/api/addconsulHours', async (req, res) => {
     req.body.emp_id &&
     req.body.day
   ) {
-    try {
-     // await Ctrl.checkUser(req.body.empNo);
-    // this checks if the empno is already assigned to a faculty     
+    try {     
       const id = await Ctrl.addConsulHours(req.body);
-      const sample = await Ctrl.getConsulHours({ id });
-
       res.status(200).json({
         status: 200,
         message: 'Successfully added consultation hours',
-        data: sample
 
       });
     } catch (status) {
@@ -33,12 +28,13 @@ router.post('/api/addconsulHours', async (req, res) => {
 
 
 
-router.post('/api/deleteconsulHours/', async (req, res) => {
+
+
+router.post('/api/consulHours/delete', async (req, res) => {
   try {
     const consultation = await Ctrl.getConsulHours(req.body);
-    
-    await Ctrl.removeConsulHoursDay(req.body);
     await Ctrl.removeConsulHours(req.body);
+  
     res.status(200).json({
       status: 200,
       message: 'Successfully removed consulation hours',

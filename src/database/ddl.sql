@@ -20,6 +20,8 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   college varchar(20),
   emp_type varchar(255),
   is_full_time boolean not null, -- IS STUDYING FULLTIME
+  current_study_units int,
+  current_teaching_units int,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
@@ -209,6 +211,8 @@ DROP PROCEDURE IF EXISTS view_employee_by_ID;
 DROP PROCEDURE IF EXISTS insert_employee; 
 DROP PROCEDURE IF EXISTS delete_employee;
 DROP PROCEDURE IF EXISTS update_employee; 
+DROP PROCEDURE IF EXISTS update_employee_teachingload;
+DROP PROCEDURE IF EXISTS update_employee_studyload;
 
 DELIMITER GO
 
@@ -239,7 +243,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
 )
   BEGIN 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -278,6 +282,24 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         is_full_time = is_full_time_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
+  END;
+GO
+
+CREATE PROCEDURE update_employee_teachingload( emp_id_update varchar(10) )
+  BEGIN
+    UPDATE EMPLOYEE
+    SET current_teaching_units = (SELECT SUM(b.units)from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_update)
+    WHERE emp_id = emp_id_update;
+    call insert_log(concat("Employee # ", emp_id_update, "'s teaching load has been updated"));
+  END;
+GO
+
+CREATE PROCEDURE update_employee_studyload( emp_id_update varchar(10) )
+  BEGIN
+    UPDATE EMPLOYEE
+    SET current_study_units = (SELECT SUM(b.units)from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_update)
+    WHERE emp_id = emp_id_update;
+    call insert_log(concat("Employee # ", emp_id_update, "'s teaching load has been updated"));
   END;
 GO
 
@@ -772,13 +794,16 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
     INSERT INTO TEACHINGLOAD
     VALUES (NULL, emp_id_insert, no_of_students_insert, subject_id);
     call insert_log(concat("Teachingload with id ", subject_id ," has been added to the table TEACHINGLOAD"));    
+    call update_employee_teachingload( emp_id_insert );
   END;
 GO
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
+    SET @emp_id_update = (Select a.emp_id from employee as a join teachingload as b on a.emp_id = b.emp_id where b.teachingload_id = teachingload_id_delete);
     DELETE FROM TEACHINGLOAD
     where teachingload_id = teachingload_id_delete;
+    call update_employee_teachingload( @emp_id_update );
     call insert_log(concat("Teachingload #", teachingload_id_delete, " has been deleted from the table TEACHINGLOAD"));
   END;
 GO
@@ -850,13 +875,17 @@ CREATE PROCEDURE insert_studyload(    			subject_id_insert int,
   BEGIN
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
+      call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
+      call update_employee_studyload(emp_id_insert);
   END;
 GO
 
 CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
+    SET @emp_id_update = (Select a.emp_id from employee as a join studyload as b on a.emp_id = b.emp_id where b.teachingload_id = studyload_id_delete);
     DELETE FROM STUDYLOAD
     where studyload_id = studyload_id_delete;
+    call update_employee_teachingload( @emp_id_update );
     call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
   END;
 GO
@@ -1211,16 +1240,16 @@ call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001" );
 call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001" );
 call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001");
 
-call insert_publication(8,"9",30392,"Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
-call insert_publication(1,"8",76858,"a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
-call insert_publication(9,"5",49725,"sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
-call insert_publication(5,"10",33757,"nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
-call insert_publication(3,"6",30792,"vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
-call insert_publication(6,"10",98341,"condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
-call insert_publication(9,"5",32088,"est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
-call insert_publication(10,"10",16871,"sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
-call insert_publication(9,"1",82070,"quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
-call insert_publication(8,"3",17520,"mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
+call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
+call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
+call insert_publication(9,"5","49725","whatever","sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
+call insert_publication(5,"10","33757","whatever","nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
+call insert_publication(3,"6","30792","whatever","vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
+call insert_publication(6,"10","98341","whatever","condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
+call insert_publication(9,"5","32088","whatever","est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
+call insert_publication(10,"10","16871","whatever","sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
+call insert_publication(9,"1","82070","whatever","quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
+call insert_publication(8,"3","17520","whatever","mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
 
 call insert_coworker("0000000001",5);
 call insert_coworker("0000000005",2);

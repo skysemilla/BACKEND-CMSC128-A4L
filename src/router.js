@@ -11,6 +11,8 @@ import facultyRouter from './entities/facultylist/router';
 //import fsrRouter from './entities/fsrlist/router';
 import adminWorkRouter from './entities/adminWork/router';
 import consulHourRouter from './entities/consulHours/router';
+import facultygrantRouter from './entities/facultygrant/router';
+import limitedpracticeRouter from './entities/limitedpractice/router';
 
 const router = Router();
 
@@ -25,5 +27,7 @@ router.use(facultyRouter);
 //router.use(fsrRouter);
 router.use(adminWorkRouter);
 router.use(consulHourRouter);
+router.use(facultygrantRouter);
+router.use(limitedpracticeRouter);
 
 export default router;

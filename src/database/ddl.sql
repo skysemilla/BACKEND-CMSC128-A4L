@@ -67,6 +67,7 @@ create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPL
   category varchar(255) not null,
   funding varchar(255) not null,
   title varchar(255) not null,
+  type varchar(255) not null,
   role varchar(255) not null,
   start_date varchar(255) not null,
   end_date varchar(255) not null,
@@ -550,6 +551,7 @@ CREATE PROCEDURE insert_publication(
                 category varchar(255),
                 funding varchar(255),
                 title varchar(255),
+                type varchar(255),
                 role varchar(255),
                 start_date datetime,
                 end_date datetime,
@@ -557,7 +559,7 @@ CREATE PROCEDURE insert_publication(
 )
   BEGIN
       INSERT INTO PUBLICATION
-        values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
+        values (NULL, credit_units, category, funding, title, type, role, start_date, end_date, emp_id);
         call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;
@@ -580,6 +582,7 @@ CREATE PROCEDURE update_publication(
                 category_u varchar(255),
                 funding_u varchar(255),
                 title_u varchar(255),
+                type_u varchar(255),
                 role_u varchar(255),
                 start_date_u datetime,
                 end_date_u datetime
@@ -590,6 +593,7 @@ CREATE PROCEDURE update_publication(
           category = category_u,
           funding = funding_u,
           title = title_u,
+          type = type_u,
           role = role_u,
           start_date = start_date_u,
           end_date = end_date_u

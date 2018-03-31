@@ -19,9 +19,11 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   department varchar(10),
   college varchar(20),
   emp_type varchar(255),
-  is_full_time boolean not null, -- IS STUDYING FULLTIME
+  is_studying boolean not null, 
   current_study_units int,
+  max_study_units int,
   current_teaching_units int,
+  min_teaching_units int,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
@@ -239,11 +241,20 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-                                  is_full_time_insert boolean
-)
+                                  is_studying boolean)
   BEGIN 
+
+    IF is_studying THEN
+      SET @min_teaching_units = 6,
+          @max_study_units = 6;
+    ELSE
+      SET @min_teaching_units = 12,
+          @max_study_units = 0;
+
+    END IF;
+
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -867,11 +878,11 @@ CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
     END;
 GO
 
-CREATE PROCEDURE insert_studyload(    			subject_id_insert int,
-                                                  degree_insert varchar(255) ,
-                                                  university_insert varchar(255) ,
-                                                  credits_insert int ,
-                                                  emp_id_insert varchar(10) )
+CREATE PROCEDURE insert_studyload(  subject_id_insert int,
+                                    degree_insert varchar(255) ,
+                                    university_insert varchar(255) ,
+                                    credits_insert int ,
+                                    emp_id_insert varchar(10) )
   BEGIN
       INSERT INTO STUDYLOAD
       VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
@@ -1104,9 +1115,7 @@ END;
 GO
 
 CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
-                      emp_id varchar(10)
-                                
-)
+                      emp_id varchar(10) )
 BEGIN
     INSERT INTO LIMITED_PRACTICE
       values (NULL, haveApplied, NULL,emp_id);
@@ -1141,15 +1150,15 @@ GO
 DELIMITER ;
 
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE);
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE);
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE);
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE);
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE);
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE);
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE);
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE);
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE);
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE);
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE);
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE);
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE);
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE);
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE);
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE);
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE);
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE);
 call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE);
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
@@ -1231,14 +1240,14 @@ call insert_teachingload(10, "0000000007", 12);
 
 call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001");
 call insert_studyload(12, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001" );
-call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(13, "MSCS", "UPLB", 2, "0000000002" );
+call insert_studyload(14, "MSCS", "UPLB", 2, "0000000003" );
+call insert_studyload(15, "MSCS", "UPLB", 2, "0000000004" );
+call insert_studyload(16, "MSCS", "UPLB", 2, "0000000005" );
+call insert_studyload(17, "MSCS", "UPLB", 2, "0000000006" );
+call insert_studyload(18, "MSCS", "UPLB", 2, "0000000007" );
+call insert_studyload(19, "MSCS", "UPLB", 2, "0000000008" );
+call insert_studyload(20, "MSCS", "UPLB", 2, "0000000009");
 
 call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

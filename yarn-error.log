@@ -1,8 +1,8 @@
 Arguments: 
-  /home/jomajomajoma/.nvm/versions/node/v8.6.0/bin/node /usr/local/bin/yarn seed
+  /home/infidave/.nvm/versions/node/v8.6.0/bin/node /home/infidave/.nvm/versions/node/v8.6.0/bin/yarn seed
 
 PATH: 
-  /home/jomajomajoma/.nvm/versions/node/v8.6.0/bin:/home/jomajomajoma/.local/share/umake/bin:/home/jomajomajoma/bin:/home/jomajomajoma/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /home/infidave/.nvm/versions/node/v8.6.0/bin:/home/infidave/bin:/home/infidave/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.5.1
@@ -33,7 +33,8 @@ npm manifest:
       "express-session": "^1.15.6",
       "morgan": "^1.9.0",
       "mysql": "^2.15.0",
-      "socket.io": "^2.0.3"
+      "socket.io": "^2.0.3",
+      "js-sha256": "^0.9.0"
     }
   }
 
@@ -2187,6 +2188,8 @@ Lockfile:
   is-extendable@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/is-extendable/-/is-extendable-1.0.1.tgz#a7470f9e426733d81bd81e1155264e3a3507cab4"
+    dependencies:
+      is-plain-object "^2.0.4"
   
   is-extglob@^2.1.0, is-extglob@^2.1.1:
     version "2.1.1"
@@ -2257,7 +2260,7 @@ Lockfile:
     dependencies:
       path-is-inside "^1.0.1"
   
-  is-plain-object@^2.0.1, is-plain-object@^2.0.3, is-plain-object@^2.0.4:
+  is-plain-object@^2.0.1, is-plain-object@^2.0.3:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
     dependencies:
@@ -2308,6 +2311,10 @@ Lockfile:
   isstream@~0.1.2:
     version "0.1.2"
     resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
+  
+  js-sha256@^0.9.0:
+    version "0.9.0"
+    resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.9.0.tgz#0b89ac166583e91ef9123644bd3c5334ce9d0966"
   
   js-tokens@^3.0.0, js-tokens@^3.0.2:
     version "3.0.2"
@@ -3483,28 +3490,6 @@ Lockfile:
     version "0.6.1"
     resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   
-  spdx-correct@^3.0.0:
-    version "3.0.0"
-    resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.0.0.tgz#05a5b4d7153a195bc92c3c425b69f3b2a9524c82"
-    dependencies:
-      spdx-expression-parse "^3.0.0"
-      spdx-license-ids "^3.0.0"
-  
-  spdx-exceptions@^2.1.0:
-    version "2.1.0"
-    resolved "https://registry.yarnpkg.com/spdx-exceptions/-/spdx-exceptions-2.1.0.tgz#2c7ae61056c714a5b9b9b2b2af7d311ef5c78fe9"
-  
-  spdx-expression-parse@^3.0.0:
-    version "3.0.0"
-    resolved "https://registry.yarnpkg.com/spdx-expression-parse/-/spdx-expression-parse-3.0.0.tgz#99e119b7a5da00e05491c9fa338b7904823b41d0"
-    dependencies:
-      spdx-exceptions "^2.1.0"
-      spdx-license-ids "^3.0.0"
-  
-  spdx-license-ids@^3.0.0:
-    version "3.0.0"
-    resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.0.tgz#7a7cd28470cc6d3a1cfe6d66886f6bc430d3ac87"
-  
   split-string@^3.0.1, split-string@^3.0.2:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
@@ -3911,6 +3896,9 @@ Lockfile:
   validate-npm-package-license@^3.0.1:
     version "3.0.3"
     resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.3.tgz#81643bcbef1bdfecd4623793dc4648948ba98338"
+    dependencies:
+      spdx-correct "^3.0.0"
+      spdx-expression-parse "^3.0.0"
   
   vary@~1.1.2:
     version "1.1.2"
@@ -4095,12 +4083,12 @@ Trace:
   Exit code: 1
   Command: sh
   Arguments: -c mysql -u root -p < src/database/ddl.sql
-  Directory: /home/jomajomajoma/Desktop/BACKEND-CMSC128-A4L
+  Directory: /home/infidave/Desktop/temp/BACKEND-CMSC128-A4L
   Output:
   
-      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
+      at ProcessTermError.MessageError (/home/infidave/.nvm/versions/node/v8.6.0/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/home/infidave/.nvm/versions/node/v8.6.0/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/home/infidave/.nvm/versions/node/v8.6.0/lib/node_modules/yarn/lib/cli.js:30281:17)
       at emitTwo (events.js:125:13)
       at ChildProcess.emit (events.js:213:7)
       at maybeClose (internal/child_process.js:927:16)

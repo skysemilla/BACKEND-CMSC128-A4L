@@ -11,7 +11,7 @@ export const addTeachLoad = ({ emp_id, no_of_students, subject_code, section_cod
                         section_code = ? ));
     `;
     //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
-    console.log(no_of_students);
+    // console.log(no_of_students);
     const values = [emp_id, no_of_students, subject_code, section_code];
 
     db.query(queryString, values, (err, results) => {
@@ -49,24 +49,20 @@ export const removeTeachLoad = ({ teachingload_id }) => {
   });
 };
 
-export const editTeachLoad = ({
-  teachingload_id,
-  emp_id,
-  noOfStudents,
-  subject_code
-}) => {
+export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_code, room, days, start_time, end_time, creditw}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-        UPDATE TEACHINGLOAD
+      UPDATE TEACHINGLOAD
         SET
-          noOfStudents = ?,
-          emp_id = ?,
-          subject_code = ?
+          no_of_students = ?
         WHERE
-          teachingload_id = ?
-      `;
-
-    const values = [noOfStudents, emp_id, subject_code,teachingload_id];
+          emp_id = ? AND
+          subject_id = (SELECT subject_id FROM SUBJECT 
+                        WHERE subject_code = ? AND
+                              section_code = ? );
+    `;
+   
+    const values = [no_of_students, emp_id, subject_code, section_code];
 
     db.query(queryString, values, (err, res) => {
       if (err) {
@@ -91,7 +87,7 @@ export const getTeachLoad = ({ teachingload_id }) => {
           FROM 
             TEACHINGLOAD
           WHERE
-          teachingload_id = ?
+            teachingload_id = ?;
         `;
 
     db.query(queryString, teachingload_id, (err, rows) => {
@@ -134,6 +130,7 @@ export const getTeachEmp = ({ emp_id }) => {
     });
   });
 };
+
 export const getAllTeachLoad = () => {
   return new Promise((resolve, reject) => {
     const queryString = `

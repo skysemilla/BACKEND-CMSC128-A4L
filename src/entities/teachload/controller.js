@@ -1,16 +1,18 @@
 import db from '../../database';
 
-export const addTeachLoad = ({ emp_id, noOfStudents, subject_code }) => {
+export const addTeachLoad = ({ emp_id, no_of_students, subject_code, section_code, room, days, start_time, end_time, creditw}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      INSERT INTO
-      TEACHINGLOAD
-      (emp_id, noOfStudents, subject_code)
-      VALUES
-      (?, ?, ?)
+      INSERT INTO TEACHINGLOAD
+          (emp_id, no_of_students, subject_id)
+        VALUES
+          (?, ?, (SELECT subject_id FROM SUBJECT 
+                  WHERE subject_code = ? AND
+                        section_code = ? ));
     `;
-
-    const values = [emp_id, noOfStudents, subject_code];
+    //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
+    console.log(no_of_students);
+    const values = [emp_id, no_of_students, subject_code, section_code];
 
     db.query(queryString, values, (err, results) => {
       if (err) {

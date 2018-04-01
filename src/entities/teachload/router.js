@@ -4,7 +4,18 @@ import * as Ctrl from './controller';
 const router = Router();
 
 router.post('/api/teachload/add', async (req, res) => {
-  if (req.body.emp_id && req.body.noOfStudents && req.body.subject_code) {
+   if (
+      req.body.emp_id &&
+      req.body.no_of_students && 
+      req.body.subject_code &&
+      req.body.section_code &&
+      req.body.room &&
+      req.body.days &&
+      req.body.start_time &&
+      req.body.end_time &&
+      req.body.hours &&
+      req.body.creditw
+      ) {
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
@@ -22,6 +33,24 @@ router.post('/api/teachload/add', async (req, res) => {
   } else {
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
+  // if (req.body.emp_id && req.body.noOfStudents && req.body.subject_code) {
+  //   try {
+  //     // await Ctrl.checkUser(req.body.empNo);
+  //     // this checks if the empno is already assigned to a faculty
+  //     const id = await Ctrl.addTeachLoad(req.body);
+  //     const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
+
+  //     res.status(200).json({
+  //       status: 200,
+  //       message: 'Successfully created teaching load',
+  //       data: sample
+  //     });
+  //   } catch (status) {
+  //     res.status(500).json({ status: 500, message: 'Internal server error' });
+  //   }
+  // } else {
+  //   res.status(400).json({ status: 400, message: 'Bad request' });
+  // }
 });
 
 router.post('/api/teachload/delete/', async (req, res) => {

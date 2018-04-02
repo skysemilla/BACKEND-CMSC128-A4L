@@ -48,7 +48,7 @@ export const getPosition = ({ id }) => {
 };
 
 // get all positions
-export const getPositions = ({ id }) => {
+export const getAllPositions = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
           CALL view_position();
@@ -73,9 +73,7 @@ export const getPositions = ({ id }) => {
 export const removePosition = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      
       CALL delete_position(?);
-     
     `;
 
     db.query(queryString, id, (err, results) => {

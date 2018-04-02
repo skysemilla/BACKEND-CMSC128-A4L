@@ -3,6 +3,7 @@ import * as Ctrl from './controller';
 
 const router = Router();
 
+//add a consultation hours
 router.post('/api/consulHours/add', async (req, res) => {
   if (
     req.body.consultation_start_time &&
@@ -26,10 +27,7 @@ router.post('/api/consulHours/add', async (req, res) => {
   }
 });
 
-
-
-
-
+//delete a consultation hours
 router.post('/api/consulHours/delete', async (req, res) => {
   try {
     const consultation = await Ctrl.getConsulHours(req.body);
@@ -45,6 +43,76 @@ router.post('/api/consulHours/delete', async (req, res) => {
     switch (status) {
       case 404:
         message = 'Consultation hours not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+
+//edit a consultation hours
+router.put('/api/consulHours/edit', async (req, res) => {
+  try {
+    await Ctrl.editPosition(req.body);
+    const positionEdited = await Ctrl.getPosition({ id: req.body.id });
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully edited consultation hour',
+      data: positionEdited
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Service not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+//view all consultation hours
+router.get('/api/consulHours/viewAll', async (req, res) => {
+  try {
+    const subjects = await Ctrl.getAllConsulHours();
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched all consultations',
+      data: subjects
+    });
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(200).json({ status, message });
+  }
+});
+
+router.post('/api/consulHours/view', async (req, res) => {
+  try {
+    const book = await Ctrl.getConsultation(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched consultation',
+      data: book
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Consultation not found';
         break;
       case 500:
         message = 'Internal server error';

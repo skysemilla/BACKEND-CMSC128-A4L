@@ -4,7 +4,18 @@ import * as Ctrl from './controller';
 const router = Router();
 
 router.post('/api/teachload/add', async (req, res) => {
-  if (req.body.emp_id && req.body.noOfStudents && req.body.subject_code) {
+   if (
+      req.body.emp_id &&
+      req.body.no_of_students && 
+      req.body.subject_code &&
+      req.body.section_code &&
+      req.body.room &&
+      req.body.days &&
+      req.body.start_time &&
+      req.body.end_time &&
+      req.body.hours &&
+      req.body.creditw
+      ) {
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
@@ -47,15 +58,21 @@ router.post('/api/teachload/delete/', async (req, res) => {
 
 router.post('/api/teachload/edit/', async (req, res) => {
   if (
-    req.body.teachingload_id &&
-    req.body.emp_id &&
-    req.body.noOfStudents &&
-    req.body.subject_code
+      req.body.emp_id &&
+      req.body.no_of_students && 
+      req.body.subject_code &&
+      req.body.section_code &&
+      req.body.room &&
+      req.body.days &&
+      req.body.start_time &&
+      req.body.end_time &&
+      req.body.hours &&
+      req.body.creditw
   ) {
     try {
       await Ctrl.editTeachLoad(req.body);
-      const sample = await Ctrl.getTeachLoad({
-        teachingload_id: req.body.teachingload_id
+      const sample = await Ctrl.getTeachEmp({
+        emp_id: req.body.emp_id
       });
     
       res.status(200).json({

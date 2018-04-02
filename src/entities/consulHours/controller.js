@@ -45,8 +45,35 @@ export const removeConsulHours = ({ id }) => {
   });
 };
 
+// get a consultation hour
+export const getConsultation = ({ id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT 
+            *
+          FROM 
+            CONSULTATION
+          WHERE
+            consultation_id = ?;
+        `;
+
+    db.query(queryString, [id, id], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
 //gets all consultation hours
-export const getConsulHours = ({ id }) => {
+export const getAllConsulHours = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       CALL
@@ -72,7 +99,8 @@ export const getConsulHours = ({ id }) => {
 export const editConsulHours = ({consultation_start_time, consultation_end_time, consultation_place, day, emp_id}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-     
+     CALL 
+     update_consultation(?, ?, ?, ?, ?)
     `;
 
     const values = [

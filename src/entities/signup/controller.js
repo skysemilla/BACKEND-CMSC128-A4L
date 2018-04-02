@@ -11,14 +11,14 @@ export const addEmployee = ({
   m_name,
   l_name,
   department,
-  is_full_time,
   college,
-  semester,
-  year
+  emp_type,
+  is_full_time,
+  email
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
     const hpassword = sha256(password);
@@ -26,16 +26,16 @@ export const addEmployee = ({
     const values = [
       emp_id,
       username,
-      hpassword,
+      password,
       type,
       f_name,
       m_name,
       l_name,
       department,
-      is_full_time,
       college,
-      semester,
-      year
+      emp_type,
+      is_full_time,
+      email
     ];
 
     db.query(queryString, values, (err, results) => {

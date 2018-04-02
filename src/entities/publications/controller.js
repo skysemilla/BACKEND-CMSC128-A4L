@@ -4,12 +4,7 @@ import db from '../../database';
 export const getPublication = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            PUBLICATION
-          WHERE
-            publication_id = ?
+          CALL view_publication_by_ID(?);
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -31,8 +26,7 @@ export const getPublication = ({ id }) => {
 export const getPublications = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      SELECT *
-      FROM PUBLICATION
+      CALL view_publication();
     `;
 
     db.query(queryString, (err, rows) => {
@@ -47,20 +41,10 @@ export const getPublications = () => {
 };
 
 // adds a publication
-export const addPublication = ({
-  credit_units,
-  category,
-  funding,
-  title,
-  role,
-  start_date,
-  end_date,
-  emp_id
-}) => {
+export const addPublication = ({ credit_units, category, funding, title, role, start_date, end_date, emp_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            INSERT INTO PUBLICATION
-            VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)
+            CALL insert_publication(?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
     const values = [
@@ -86,14 +70,13 @@ export const addPublication = ({
 };
 
 // adds a coworker
-export const addCoworker = ({ publication_id, coworker_id }) => {
+export const addCoworker = ({ coworker_id, publication_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            INSERT INTO COWORKER
-            VALUES (?, ?)
+            CALL insert_coworker(?, ?);
         `;
 
-    const values = [publication_id, coworker_id];
+    const values = [coworker_id, publication_id];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
@@ -107,16 +90,13 @@ export const addCoworker = ({ publication_id, coworker_id }) => {
 };
 
 // checks if publication_id and coworker_id exists
-export const checkIfExisting = ({ publication_id, coworker_id }) => {
+export const checkIfExisting = ({ coworker_id, publication_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            SELECT * 
-            FROM COWORKER
-            WHERE
-            publication_id = ? AND coworker_id = ?
+            CALL view_publication_coworkers(?, ?);
         `;
 
-    const values = [publication_id, coworker_id];
+    const values = [coworker_id, publication_id];
 
     db.query(queryString, values, (err, rows) => {
       if (err) {
@@ -133,10 +113,7 @@ export const checkIfExisting = ({ publication_id, coworker_id }) => {
 export const removePublication = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      DELETE 
-        FROM PUBLICATION
-      WHERE 
-        publication_id = ?
+      CALL delete_publication(?);
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -156,39 +133,29 @@ export const removePublication = ({ id }) => {
 
 // edits a publication
 export const editPublication = ({
+  publication_id,
   credit_units,
   category,
   funding,
   title,
   role,
   start_date,
-  end_date,
-  publication_id
+  end_date
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      UPDATE PUBLICATION
-      SET
-        credit_units = ?,
-        category = ?,
-        funding = ?,
-        title = ?,
-        role = ?,
-        start_date = ?,
-        end_date = ?
-      WHERE
-        publication_id = ?
+      CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
     const values = [
+      publication_id,
       credit_units,
       category,
       funding,
       title,
       role,
       start_date,
-      end_date,
-      publication_id
+      end_date
     ];
 
     db.query(queryString, values, (err, res) => {

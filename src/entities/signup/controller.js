@@ -1,4 +1,5 @@
 import db from '../../database';
+import sha256 from '../../hash';
 
 //adds an employee
 export const addEmployee = ({
@@ -11,13 +12,16 @@ export const addEmployee = ({
   l_name,
   department,
   college,
+  emp_type,
   is_full_time,
-  semester
+  email
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
+
+    const hpassword = sha256(password);
 
     const values = [
       emp_id,
@@ -29,8 +33,9 @@ export const addEmployee = ({
       l_name,
       department,
       college,
+      emp_type,
       is_full_time,
-      semester
+      email
     ];
 
     db.query(queryString, values, (err, results) => {

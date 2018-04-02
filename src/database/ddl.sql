@@ -54,23 +54,6 @@ create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-<<<<<<< HEAD
-=======
-create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
-  service_id int not null AUTO_INCREMENT,
-  category varchar(255) not null,
-  title varchar(255) not null,
-  no_of_hours int(10) not null,
-  no_of_participants int(10) not null,
-  role varchar(10) not null,
-  start_date varchar(255) not null,
-  end_date varchar(255) not null,
-  credits int (10) not null,
-  emp_id varchar(10) not null,   
-  constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
->>>>>>> 47fb5c5911a961f60419089e49c27705aed176df
 
 create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE
   publication_id int not null AUTO_INCREMENT,
@@ -487,96 +470,6 @@ GO
 DELIMITER ;
 
 
-<<<<<<< HEAD
-=======
-
-
-DROP PROCEDURE IF EXISTS view_service; 
-DROP PROCEDURE IF EXISTS view_service_by_ID; 
-DROP PROCEDURE IF EXISTS view_employee_service; 
-DROP PROCEDURE IF EXISTS insert_service;
-DROP PROCEDURE IF EXISTS delete_service;
-DROP PROCEDURE IF EXISTS update_service;
-
-DELIMITER GO
-
-CREATE PROCEDURE view_service()
-BEGIN
-    SELECT * FROM SERVICE;
-END;
-GO
-
-CREATE PROCEDURE view_service_by_ID(view_service_id int)
-BEGIN
-    SELECT * FROM SERVICE
-    where service_id = view_service_id;
-END;
-GO
-
-CREATE PROCEDURE view_employee_service(emp_id_view_service varchar(10))
-BEGIN
-    SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
-    WHERE emp_id = emp_id_view;
-END;
-GO
-
-CREATE PROCEDURE insert_service( 
-                                category varchar(255),
-                                title varchar(255),
-                                no_of_hours int(10),
-                                no_of_participants int(10),
-                                role varchar(10),
-                                start_date varchar(255),
-                                end_date varchar(255),
-                                credits int (10),
-                                emp_id varchar(10)
-)
-BEGIN
-    INSERT INTO SERVICE
-      values (NULL, category, title, no_of_hours, no_of_participants, role, start_date, end_date, credits, emp_id);
-      call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE delete_service(service_id_del int)
-  BEGIN 
-    DELETE FROM SERVICE
-      where service_id = service_id_del;
-      call insert_log(concat("Service", service_id_del, " has been deleted from the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE update_service( service_id_u int,
-                                category_u varchar(255),
-                                title_u varchar(255),
-                                no_of_hours_u int(10),
-                                no_of_participants_u int(10),
-                                role_u varchar(10),
-                                credits_u int (10),
-                                start_date_u varchar(255),
-                                end_date_u varchar(255),
-                                )
-  BEGIN 
-    UPDATE SERVICE
-        SET  category = category_u,
-            title = title_u,
-            no_of_hours = no_of_hours_u,
-            no_of_participants = no_of_participants_u,
-            role = role_u,
-            credits = credits_u,
-            start_date = start_date_u,
-            end_date = end_date_u
-        WHERE service_id = service_id_u;
-        call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
-END;
-GO
-
-DELIMITER ;
-
-
-
-
->>>>>>> 47fb5c5911a961f60419089e49c27705aed176df
 DROP PROCEDURE IF EXISTS view_publication; 
 DROP PROCEDURE IF EXISTS view_publication_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_publication; 
@@ -1189,16 +1082,16 @@ call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Pe
 call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE);
 call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE);
 
-call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
-call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
-call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'), "0000000002");
-call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'), "0000000003");
-call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'), "0000000004");
-call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'), "0000000005");
-call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'), "0000000006");
-call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "0000000007");
-call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
-call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
+call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
+call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");
+call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'),"agency3", "0000000002");
+call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'),"agency1", "0000000003");
+call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'),"agency1", "0000000004");
+call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'),"agency1", "0000000005");
+call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'),"agency1", "0000000006");
+call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'),"agency1", "0000000007");
+call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'),"agency1", "0000000008");
+call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'),"agency3", "0000000009");
 
 call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
@@ -1210,17 +1103,6 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
-
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 
 call insert_position("aaron", 2, "0000000000");
 call insert_position("aaron", 2, "0000000002");

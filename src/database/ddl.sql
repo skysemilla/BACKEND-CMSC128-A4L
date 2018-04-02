@@ -59,6 +59,8 @@ create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
   no_of_hours int(10) not null,
   no_of_participants int(10) not null,
   role varchar(10) not null,
+  start_date varchar(255) not null,
+  end_date varchar(255) not null,
   credits int (10) not null,
   emp_id varchar(10) not null,   
   constraint service_service_id_pk PRIMARY KEY (service_id),
@@ -507,12 +509,14 @@ CREATE PROCEDURE insert_service(
                                 no_of_hours int(10),
                                 no_of_participants int(10),
                                 role varchar(10),
+                                start_date varchar(255),
+                                end_date varchar(255),
                                 credits int (10),
                                 emp_id varchar(10)
 )
 BEGIN
     INSERT INTO SERVICE
-      values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
+      values (NULL, category, title, no_of_hours, no_of_participants, role, start_date, end_date, credits, emp_id);
       call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
 END;
 GO
@@ -531,7 +535,9 @@ CREATE PROCEDURE update_service( service_id_u int,
                                 no_of_hours_u int(10),
                                 no_of_participants_u int(10),
                                 role_u varchar(10),
-                                credits_u int (10) 
+                                credits_u int (10),
+                                start_date_u varchar(255) not null,
+                                end_date_u varchar(255) not null,
                                 )
   BEGIN 
     UPDATE SERVICE
@@ -540,7 +546,9 @@ CREATE PROCEDURE update_service( service_id_u int,
             no_of_hours = no_of_hours_u,
             no_of_participants = no_of_participants_u,
             role = role_u,
-            credits = credits_u
+            credits = credits_u,
+            start_date = start_date_u,
+            end_date = end_date_u
         WHERE service_id = service_id_u;
         call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
 END;
@@ -846,8 +854,6 @@ CREATE PROCEDURE update_teachingload(   to_edit int,
 GO
 
 DELIMITER ;
-
-
 
 
 DROP PROCEDURE IF EXISTS view_studyload; 

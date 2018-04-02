@@ -22,6 +22,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   is_full_time boolean not null, -- IS STUDYING FULLTIME
   current_study_units int,
   current_teaching_units int,
+  email varchar(255) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
@@ -240,11 +241,12 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-                                  is_full_time_insert boolean
+                                  is_full_time_insert boolean,
+                                  email_insert varchar(255)
 )
   BEGIN 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0, email_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -267,7 +269,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-                                  is_full_time_insert boolean
+                                  is_full_time_insert boolean, 
+                                  email_insert varchar(255)
 )
   BEGIN 
     UPDATE EMPLOYEE
@@ -280,7 +283,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         college = college_insert,
         emp_type = emp_type_insert,
-        is_full_time = is_full_time_insert
+        is_full_time = is_full_time_insert,
+        email = email_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;

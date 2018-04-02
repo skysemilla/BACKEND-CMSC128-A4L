@@ -22,6 +22,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   is_full_time boolean not null, -- IS STUDYING FULLTIME
   current_study_units int,
   current_teaching_units int,
+  email varchar(255) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username)
@@ -240,11 +241,12 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-                                  is_full_time_insert boolean
+                                  is_full_time_insert boolean,
+                                  email_insert varchar(255)
 )
   BEGIN 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0, email_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -267,7 +269,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-                                  is_full_time_insert boolean
+                                  is_full_time_insert boolean, 
+                                  email_insert varchar(255)
 )
   BEGIN 
     UPDATE EMPLOYEE
@@ -280,7 +283,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         college = college_insert,
         emp_type = emp_type_insert,
-        is_full_time = is_full_time_insert
+        is_full_time = is_full_time_insert,
+        email = email_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
@@ -1145,16 +1149,16 @@ GO
 DELIMITER ;
 
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE);
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE);
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE);
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE);
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE);
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE);
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE);
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE);
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE);
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE);
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"aaronmagnaye@up.edu.ph");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"beajeje123xD@up.edu.ph");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"gnash@up.edu.ph");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE,"mrichard@up.edu.ph");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE,"hdenton@up.edu.ph");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE,"iherman@up.edu.ph");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE,"vxanthus@up.edu.ph");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE,"bhonorato@up.edu.ph");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE,"ngareth@up.edu.ph");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"rkeaton@up.edu.ph");
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
@@ -1233,16 +1237,16 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001", TRUE);
-call insert_studyload(12, "MSCS", "UPLB", 2, "0000000001", TRUE );
-call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
-call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001",TRUE );
-call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
-call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
-call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001",TRUE );
-call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001",TRUE);
-call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001",TRUE );
-call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001",TRUE);
+--call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001", TRUE);
+--call insert_studyload(12, "MSCS", "UPLB", 2, "0000000001", TRUE );
+--call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
+--call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001",TRUE );
+--call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
+--call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
+--call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001",TRUE );
+--call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001",TRUE);
+--call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001",TRUE );
+--call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001",TRUE);
 
 call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

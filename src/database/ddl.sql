@@ -23,10 +23,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   current_study_units int,
   max_study_units int,
   current_teaching_units int,
-<<<<<<< HEAD
-=======
   min_teaching_units int,
->>>>>>> 0063e06dbbd69d82bcb79321a4f2fa75a48dfb64
   email varchar(255) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),

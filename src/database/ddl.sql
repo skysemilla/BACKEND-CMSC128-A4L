@@ -545,7 +545,7 @@ CREATE PROCEDURE update_service( service_id_u int,
                                 role_u varchar(10),
                                 credits_u int (10),
                                 start_date_u varchar(255),
-                                end_date_u varchar(255),
+                                end_date_u varchar(255)
                                 )
   BEGIN 
     UPDATE SERVICE
@@ -1168,7 +1168,6 @@ GO
 DELIMITER ;
 
 
-<<<<<<< HEAD
 call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"aaronmagnaye@up.edu.ph");
 call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"beajeje123xD@up.edu.ph");
 call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"gnash@up.edu.ph");
@@ -1202,16 +1201,16 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 
 call insert_position("aaron", 2, "0000000000");
 call insert_position("aaron", 2, "0000000002");

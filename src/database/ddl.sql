@@ -46,23 +46,12 @@ create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   activity_role varchar(10) not null,
   start_time time not null,
   end_time time not null,
+  funding_agency varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
-  service_id int not null AUTO_INCREMENT,
-  category varchar(255) not null,
-  title varchar(255) not null,
-  no_of_hours int(10) not null,
-  no_of_participants int(10) not null,
-  role varchar(10) not null,
-  credits int (10) not null,
-  emp_id varchar(10) not null,   
-  constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 
 create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE
   publication_id int not null AUTO_INCREMENT,
@@ -356,10 +345,11 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
                                    activity_role varchar(10), 
                                    start_time time, 
                                    end_time time, 
+                                   funding_agency varchar(255),
                                    emp_id varchar(10) )
   BEGIN 
     INSERT INTO ACTIVITY
-        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, funding_agency, emp_id);
     call insert_log(concat("Activity name", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
@@ -382,6 +372,7 @@ CREATE PROCEDURE update_activity(  activity_id_update int,
                                    activity_role_update varchar(10), 
                                    start_time_update time, 
                                    end_time_update time, 
+                                   funding_agency_update varchar(255),
                                    emp_id_update varchar(10) )
   BEGIN 
     UPDATE ACTIVITY
@@ -393,6 +384,7 @@ CREATE PROCEDURE update_activity(  activity_id_update int,
              activity_role = activity_role_update, 
              start_time = start_time_update, 
              end_time = end_time_update, 
+             funding_agency = funding_agency_update,
              emp_id = emp_id_update
         WHERE activity_id = activity_id_update;
     call insert_log(concat("Activity #", activity_id_update, " with name ", activity_name_update, " has been edited in the table ACTIVITY"));
@@ -462,87 +454,6 @@ END;
 GO
 
 DELIMITER ;
-
-
-
-
-DROP PROCEDURE IF EXISTS view_service; 
-DROP PROCEDURE IF EXISTS view_service_by_ID; 
-DROP PROCEDURE IF EXISTS view_employee_service; 
-DROP PROCEDURE IF EXISTS insert_service;
-DROP PROCEDURE IF EXISTS delete_service;
-DROP PROCEDURE IF EXISTS update_service;
-
-DELIMITER GO
-
-CREATE PROCEDURE view_service()
-BEGIN
-    SELECT * FROM SERVICE;
-END;
-GO
-
-CREATE PROCEDURE view_service_by_ID(view_service_id int)
-BEGIN
-    SELECT * FROM SERVICE
-    where service_id = view_service_id;
-END;
-GO
-
-CREATE PROCEDURE view_employee_service(emp_id_view_service varchar(10))
-BEGIN
-    SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
-    WHERE emp_id = emp_id_view;
-END;
-GO
-
-CREATE PROCEDURE insert_service( 
-                                category varchar(255),
-                                title varchar(255),
-                                no_of_hours int(10),
-                                no_of_participants int(10),
-                                role varchar(10),
-                                credits int (10),
-                                emp_id varchar(10)
-)
-BEGIN
-    INSERT INTO SERVICE
-      values (NULL, category, title, no_of_hours, no_of_participants, role, credits, emp_id);
-      call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE delete_service(service_id_del int)
-  BEGIN 
-    DELETE FROM SERVICE
-      where service_id = service_id_del;
-      call insert_log(concat("Service", service_id_del, " has been deleted from the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE update_service( service_id_u int,
-                                category_u varchar(255),
-                                title_u varchar(255),
-                                no_of_hours_u int(10),
-                                no_of_participants_u int(10),
-                                role_u varchar(10),
-                                credits_u int (10) 
-                                )
-  BEGIN 
-    UPDATE SERVICE
-        SET  category = category_u,
-            title = title_u,
-            no_of_hours = no_of_hours_u,
-            no_of_participants = no_of_participants_u,
-            role = role_u,
-            credits = credits_u
-        WHERE service_id = service_id_u;
-        call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
-END;
-GO
-
-DELIMITER ;
-
-
 
 
 DROP PROCEDURE IF EXISTS view_publication; 

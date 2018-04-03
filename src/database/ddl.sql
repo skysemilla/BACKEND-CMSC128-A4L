@@ -23,10 +23,7 @@ create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS
   current_study_units int,
   max_study_units int,
   current_teaching_units int,
-<<<<<<< HEAD
-=======
   min_teaching_units int,
->>>>>>> 0063e06dbbd69d82bcb79321a4f2fa75a48dfb64
   email varchar(255) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
@@ -169,7 +166,6 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   credits int not null,
   emp_id varchar(10) not null, 
   subject_id int not null,
-  is_faculty_fellowship_recipient boolean not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -240,7 +236,7 @@ GO
 
 CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
-                                  password_insert varchar(20),
+                                  password_insert varchar(256),
                                   type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
@@ -248,11 +244,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-<<<<<<< HEAD
-                                  is_full_time_insert boolean,
-=======
                                   is_studying boolean,
->>>>>>> 0063e06dbbd69d82bcb79321a4f2fa75a48dfb64
                                   email_insert varchar(255)
 )
 
@@ -268,12 +260,8 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-<<<<<<< HEAD
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_full_time_insert, 0, 0, email_insert);
-=======
 
     VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_studying, 0, @max_study_units,0, @min_teaching_units, email_insert);
->>>>>>> 0063e06dbbd69d82bcb79321a4f2fa75a48dfb64
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -288,7 +276,7 @@ GO
 
 CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
-                                  password_insert varchar(20),
+                                  password_insert varchar(256),
                                   type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
@@ -296,11 +284,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-<<<<<<< HEAD
-                                  is_full_time_insert boolean, 
-=======
                                   is_studying_insert boolean, 
->>>>>>> 0063e06dbbd69d82bcb79321a4f2fa75a48dfb64
                                   email_insert varchar(255)
 )
   BEGIN 
@@ -314,11 +298,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         college = college_insert,
         emp_type = emp_type_insert,
-<<<<<<< HEAD
-        is_full_time = is_full_time_insert,
-=======
         is_studying = is_studying_insert,
->>>>>>> 0063e06dbbd69d82bcb79321a4f2fa75a48dfb64
         email = email_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
@@ -564,7 +544,7 @@ CREATE PROCEDURE update_service( service_id_u int,
                                 role_u varchar(10),
                                 credits_u int (10),
                                 start_date_u varchar(255),
-                                end_date_u varchar(255),
+                                end_date_u varchar(255)
                                 )
   BEGIN 
     UPDATE SERVICE
@@ -895,19 +875,19 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,b.is_faculty_fellowship_recipient, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
+    SELECT a.studyload_id, a.degree, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
   END;
 GO
 
 CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,b.is_faculty_fellowship_recipient, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
     END;
 GO
 
 CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,b.is_faculty_fellowship_recipient,  a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,  a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
     END;
 GO
 
@@ -916,11 +896,10 @@ CREATE PROCEDURE insert_studyload(  subject_id_insert int,
                                     degree_insert varchar(255) ,
                                     university_insert varchar(255) ,
                                     credits_insert int ,
-                                    emp_id_insert varchar(10),
-                                    is_faculty_fellowship_recipient_insert boolean)
+                                    emp_id_insert varchar(10) )
   BEGIN
       INSERT INTO STUDYLOAD
-      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert, is_faculty_fellowship_recipient_insert);
+      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
       call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
       call update_employee_studyload(emp_id_insert);
   END;
@@ -955,8 +934,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
                                       units_insert int ,
                                       room_insert varchar(255) ,
                                       start_time_insert time ,
-                                      end_time_insert time,
-                                      is_faculty_fellowship_recipient_insert boolean )
+                                      end_time_insert time)
   BEGIN
     UPDATE SUBJECT
     SET subject_code = subject_code_insert,
@@ -970,8 +948,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
     UPDATE STUDYLOAD
     SET degree = degree_insert,
         university = university_insert ,
-        credits = credits_insert,
-        is_faculty_fellowship_recipient = is_faculty_fellowship_recipient_insert
+        credits = credits_insert
     where studyload_id = to_edit;
     call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
   END;
@@ -1187,7 +1164,6 @@ GO
 DELIMITER ;
 
 
-<<<<<<< HEAD
 call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"aaronmagnaye@up.edu.ph");
 call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"beajeje123xD@up.edu.ph");
 call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"gnash@up.edu.ph");
@@ -1221,16 +1197,16 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 
 call insert_position("aaron", 2, "0000000000");
 call insert_position("aaron", 2, "0000000002");
@@ -1276,16 +1252,17 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
---call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001", TRUE);
---call insert_studyload(12, "MSCS", "UPLB", 2, "0000000001", TRUE );
---call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
---call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001",TRUE );
---call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
---call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
---call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001",TRUE );
---call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001",TRUE);
---call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001",TRUE );
---call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001",TRUE);
+call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(12, "MSCS", "UPLB", 2,  "0000000001");
+call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001");
+
 
 call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

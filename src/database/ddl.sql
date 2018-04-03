@@ -6,13 +6,13 @@ GRANT SUPER ON *.* TO 'skydev'@'localhost';
 GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
 USE skydev;
 
-
-create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS 
+/* REPRESENTS FACULTY MEMBERS */
+create table EMPLOYEE( 
   emp_id_increment int not null AUTO_INCREMENT,
   emp_id varchar(10) not null,
   username varchar(20) not null,
   password varchar(256) not null,
-  type varchar(7) not null, -- TYPE OF USER: ADMIN, FACULTY
+  type varchar(7) not null, 
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
@@ -37,7 +37,8 @@ create table EMPLOYEE_FSR(
   constraint employee_fsr_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
+/* REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE */
+create table ACTIVITY( 
   activity_id int AUTO_INCREMENT,
   credit_unit int (255) not null,
   activity_name varchar(20) not null,
@@ -52,7 +53,8 @@ create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
+/* REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE */
+create table SERVICE(
   service_id int not null AUTO_INCREMENT,
   category varchar(255) not null,
   title varchar(255) not null,
@@ -67,7 +69,8 @@ create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
   constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE
+/* REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE */
+create table PUBLICATION(
   publication_id int not null AUTO_INCREMENT,
   credit_units int not null,
   category varchar(255) not null,
@@ -96,7 +99,8 @@ create table FACULTYGRANT (
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
+/* REPRESENTS A COWORKER PRESENT IN A PUBLICATION */
+create table COWORKER(
   coworker_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   publication_id int not null,
@@ -105,7 +109,8 @@ create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
   constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
+/* REPRESENTS CONSULTATION HOURS */
+create table CONSULTATION( 
   consultation_id int AUTO_INCREMENT,
   consultation_start_time time not null,
   consultation_end_time time not null,
@@ -115,13 +120,15 @@ create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
   constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table CONSULTATION_DAY( -- MULTI-VALUED ATTRIBUTE OF CONSULTATION
+/* MULTI-VALUED ATTRIBUTE OF CONSULTATION */
+create table CONSULTATION_DAY( 
   consultation_id int not null,
   day varchar(255) not null,
   constraint consultation_day_consultation_id_fk foreign key (consultation_id) references CONSULTATION(consultation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardon for the double n, apparently position is a reserved word
+/* REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardon for the double n, apparently position is a reserved word */
+create table POSITIONN(
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
   credit_units int not null,
@@ -130,7 +137,8 @@ create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardo
   constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES
+/* SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES */
+create table SUBJECT(
   subject_id int not null AUTO_INCREMENT,
   subject_code varchar(255) not null,
   section_code varchar(255) not null,
@@ -142,13 +150,15 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   constraint subject_subject_id_pk PRIMARY key (subject_id)
 );
 
-create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
+/* REPRESENTS THE SUBJECTS OF A USER */
+create table SUBJECT_DAY(
   day varchar(255) not null,
   subject_id int not null,
   constraint subject_day_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED
+/* THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED */
+create table TEACHINGLOAD(
   teachingload_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   no_of_students int not null,
@@ -158,16 +168,23 @@ create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES 
   constraint teachingload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD 
+/* SAME CONCEPT AS THE TEACHINGLOAD */
+create table STUDYLOAD(
   studyload_id int not null AUTO_INCREMENT,
-  degree varchar(255) not null,
-  university varchar(255) not null,
   credits int not null,
   emp_id varchar(10) not null, 
   subject_id int not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/* CONTAINS STATIC DATA RELATED TO STUDYLOAD OF AN EMPLOYEE */
+create table STUDY_CREDENTIALS (
+  degree varchar(255) not null,
+  university varchar(255) not null,
+  emp_id varchar(10) not null,
+  constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table LIMITED_PRACTICE(
@@ -186,7 +203,7 @@ create table LOG(
   constraint log_log_no_pk PRIMARY key (log_no)
 );
 
----- PROCEDURES FOR LOG
+/* PROCEDURES FOR LOGS */
 DROP PROCEDURE IF EXISTS view_logs;
 DROP PROCEDURE IF EXISTS insert_log;
 
@@ -207,9 +224,9 @@ GO
 
 DELIMITER ;
 
----- END OF LOG PROCEDURES
+/* END OF LOG PROCEDURES */
 
----- PROCEDURES FOR EMPLOYEE
+/* PROCEDURES FOR EMPLOYEE */
 DROP PROCEDURE IF EXISTS view_employee; 
 DROP PROCEDURE IF EXISTS view_employee_by_ID; 
 DROP PROCEDURE IF EXISTS insert_employee; 
@@ -318,8 +335,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR EMPLOYEE
----- PROCEDURES FOR EMPLOYEE_FSR
+/* -- END OF PROCEDURES FOR EMPLOYEE */
+
+/* PROCEDURES FOR EMPLOYEE_FSR */
 DROP PROCEDURE IF EXISTS view_fsrs;
 DROP PROCEDURE IF EXISTS insert_fsr;
 
@@ -471,9 +489,9 @@ GO
 
 DELIMITER ;
 
+/* END OF POSITION PROCEDURES */
 
-
-
+/* PROCEDURE FOR SERVICES */
 DROP PROCEDURE IF EXISTS view_service; 
 DROP PROCEDURE IF EXISTS view_service_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_service; 
@@ -536,8 +554,8 @@ CREATE PROCEDURE update_service( service_id_u int,
                                 no_of_participants_u int(10),
                                 role_u varchar(10),
                                 credits_u int (10),
-                                start_date_u varchar(255) not null,
-                                end_date_u varchar(255) not null,
+                                start_date_u varchar(255),
+                                end_date_u varchar(255)
                                 )
   BEGIN 
     UPDATE SERVICE
@@ -556,9 +574,9 @@ GO
 
 DELIMITER ;
 
+/* END OF PROCEDURE FOR SERVICES */
 
-
-
+/* PROCEDURE FOR PUBLICATION */
 DROP PROCEDURE IF EXISTS view_publication; 
 DROP PROCEDURE IF EXISTS view_publication_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_publication; 
@@ -647,9 +665,9 @@ GO
 
 DELIMITER ;
 
+/* END OF PROCEDURE FOR PUBLICATION */
 
-
-
+/* COWORKER PROCEDURES */
 DROP PROCEDURE IF EXISTS view_coworker; 
 DROP PROCEDURE IF EXISTS view_coworker_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_coworker; 
@@ -715,10 +733,9 @@ GO
 
 DELIMITER ;
 
+/* END OF COWORKER PROCEDURES */
 
-
-
-
+/* SUBJECT PROCEDURES */
 DROP PROCEDURE IF EXISTS view_subjects;
 DROP PROCEDURE IF EXISTS add_subject;
 DROP PROCEDURE IF EXISTS delete_subject;
@@ -776,9 +793,9 @@ GO
 
 DELIMITER ;
 
+/* END OF SUBJECT PROCEDURES */
 
-
-
+/* PROCEDURES FOR TEACHINGLOAD */
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
 DROP PROCEDURE IF EXISTS view_teachingload; 
 DROP PROCEDURE IF EXISTS insert_teachingload; 
@@ -855,7 +872,9 @@ GO
 
 DELIMITER ;
 
+/* END OF TEACHINGLOAD PROCEDURES */
 
+/* STUDYLOAD PROCEDURES */
 DROP PROCEDURE IF EXISTS view_studyload; 
 DROP PROCEDURE IF EXISTS view_employee_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
@@ -868,7 +887,7 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, c.university, c.degree , a.credits from STUDYLOAD as a join ( SUBJECT as b, STUDY_CREDENTIALS as c) on (a.subject_id = b.subject_id and a.emp_id = c.emp_id);
   END;
 GO
 
@@ -948,29 +967,67 @@ GO
 
 DELIMITER ;
 
+/* END OF STUDYLOAD PROCEDURES */
 
+/* STUDY_CREDENTIALS PROCEDURES */
+DROP PROCEDURE IF EXISTS insert_study_credentials;
+DROP PROCEDURE IF EXISTS update_study_credentials;
 
-
-DROP PROCEDURE IF EXISTS view_employee_consultation; 
 DELIMITER GO
+
+CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),
+                                            degree_insert varchar(255),
+                                            university_insert varchar(255) )
+  BEGIN
+    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+      INSERT INTO STUDY_CREDENTIALS
+      VALUES ( degree_insert,
+                university_insert,
+                emp_id_insert );
+      call insert_log(concat("Study Credentials of ", emp_id_insert, " has been added to the DATABASE"));
+    END IF;
+  END;
+GO
+
+CREATE PROCEDURE update_study_credentials( emp_id_insert varchar(10),
+                                            degree_insert varchar(255),
+                                            university_insert varchar(255) )
+  BEGIN
+    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+      UPDATE STUDY_CREDENTIALS
+      SET degree = degree_insert,
+          university = university_insert
+      WHERE emp_id = emp_id_insert;
+      call insert_log(concat("Study Credentials of ", emp_id_insert, " has been edited in the DATABASE"));
+    END IF;
+  END;
+GO
+
+DELIMITER ;
+
+/* END OF STUDY CREDENTIALS PROCEDURES */
+
+/* CONSULTATION PROCEDURES */
+DROP PROCEDURE IF EXISTS view_employee_consultation; 
+DROP PROCEDURE IF EXISTS insert_consultation; 
+DROP PROCEDURE IF EXISTS view_consultation; 
+DROP PROCEDURE IF EXISTS delete_consultation;
+DROP PROCEDURE IF EXISTS update_consultation;
+
+DELIMITER GO
+
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_consultation; 
-DELIMITER GO
 CREATE PROCEDURE view_consultation()
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_consultation; 
-DELIMITER GO
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),
@@ -984,10 +1041,7 @@ BEGIN
     call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_consultation;
-DELIMITER GO
 CREATE PROCEDURE delete_consultation( consultation_id_delete int )
 BEGIN
   DELETE FROM CONSULTATION
@@ -997,10 +1051,7 @@ BEGIN
   call insert_log(concat("Consultation id ",consultation_id_delete, " has been deleted from the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_consultation;
-DELIMITER GO
 CREATE PROCEDURE update_consultation(   consultation_id_edit int,
                                         consultation_start_time_edit time,
                                         consultation_end_time_edit time,
@@ -1018,11 +1069,12 @@ BEGIN
     call insert_log(concat("Consultation id ",consultation_id_edit, " has been updated from the table CONSULTATION"));
 END;
 GO
+
 DELIMITER ;
 
+/* END OF CONSULATATION PROCEDURE */
 
-
-
+/* FACULTY GRANT PROCEDURES */
 DROP PROCEDURE IF EXISTS view_faculty_grant; 
 DROP PROCEDURE IF EXISTS insert_faculty_grant; 
 DROP PROCEDURE IF EXISTS delete_faculty_grant; 
@@ -1085,8 +1137,9 @@ CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
 GO
 DELIMITER ;
 
+/* END OF FACULTY GRANT PROCEDURES */
 
-
+/* LIMITED PRACTICE PROCEDURES */
 DROP PROCEDURE IF EXISTS view_limited_practice; 
 DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
@@ -1155,7 +1208,9 @@ END;
 GO
 DELIMITER ;
 
+/* END OF LIMITED PRACTICE PROCEDURES */
 
+/* POPULATE DATA */
 call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE);
 call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE);
 call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE);

@@ -236,7 +236,7 @@ GO
 
 CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
-                                  password_insert varchar(20),
+                                  password_insert varchar(256),
                                   type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
@@ -276,7 +276,7 @@ GO
 
 CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
-                                  password_insert varchar(20),
+                                  password_insert varchar(256),
                                   type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,

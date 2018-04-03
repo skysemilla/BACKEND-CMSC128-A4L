@@ -216,7 +216,7 @@ DELIMITER ;
 /* PROCEDURES FOR EMPLOYEE */
 DROP PROCEDURE IF EXISTS view_employee; 
 DROP PROCEDURE IF EXISTS view_employee_by_ID; 
-DROP PROCEDURE IF EXISTS insert_employee; 
+DROP PROCEDURE IF EXISTS insert_study_credentials; 
 DROP PROCEDURE IF EXISTS delete_employee;
 DROP PROCEDURE IF EXISTS update_employee; 
 DROP PROCEDURE IF EXISTS update_employee_teachingload;
@@ -795,19 +795,19 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, c.university, c.degree , a.credits from STUDYLOAD as a join ( SUBJECT as b, STUDY_CREDENTIALS as c) on (a.subject_id = b.subject_id and a.emp_id = c.emp_id);
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
   END;
 GO
 
 CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.emp_id = emp_id_view;
     END;
 GO
 
 CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.studyload_id = studyload_id_view;
     END;
 GO
 
@@ -1121,14 +1121,25 @@ DELIMITER ;
 
 call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE,"email1@gmail.com");
 call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE,"email2@gmail.com");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"email1@gmail.com");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE,"email3@gmail.com");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE,"email4@gmail.com");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE,"email5@gmail.com");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE,"email6@gmail.com");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE,"email7@gmail.com");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE,"email8@gmail.com");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE,"email9@gmail.com");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"email10@gmail.com");
+
+call insert_study_credentials("0000000001","MSCS", "UPLB");
+call insert_study_credentials("0000000002","MSCS", "UPLB");
+call insert_study_credentials("0000000003","MSCS", "UPLB");
+call insert_study_credentials("0000000004","MSCS", "UPLB");
+call insert_study_credentials("0000000005","MSCS", "UPLB");
+call insert_study_credentials("0000000006","MSCS", "UPLB");
+call insert_study_credentials("0000000007","MSCS", "UPLB");
+call insert_study_credentials("0000000008","MSCS", "UPLB");
+call insert_study_credentials("0000000009","MSCS", "UPLB");
+call insert_study_credentials("0000000000","MSCS", "UPLB");
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");

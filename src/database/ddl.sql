@@ -252,7 +252,7 @@ GO
 
 CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
-                                  password_insert varchar(20),
+                                  password_insert varchar(256),
                                   type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
@@ -288,7 +288,7 @@ GO
 
 CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
-                                  password_insert varchar(20),
+                                  password_insert varchar(256),
                                   type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
@@ -945,7 +945,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
                                       units_insert int ,
                                       room_insert varchar(255) ,
                                       start_time_insert time ,
-                                      end_time_insert time )
+                                      end_time_insert time)
   BEGIN
     UPDATE SUBJECT
     SET subject_code = subject_code_insert,
@@ -1211,16 +1211,16 @@ DELIMITER ;
 /* END OF LIMITED PRACTICE PROCEDURES */
 
 /* POPULATE DATA */
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE);
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE);
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE);
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE);
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE);
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE);
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE);
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE);
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE);
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE);
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"aaronmagnaye@up.edu.ph");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"beajeje123xD@up.edu.ph");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"gnash@up.edu.ph");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE,"mrichard@up.edu.ph");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE,"hdenton@up.edu.ph");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE,"iherman@up.edu.ph");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE,"vxanthus@up.edu.ph");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE,"bhonorato@up.edu.ph");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE,"ngareth@up.edu.ph");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"rkeaton@up.edu.ph");
 
 call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
 call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
@@ -1244,16 +1244,16 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
-call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
+-- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 
 call insert_position("aaron", 2, "0000000000");
 call insert_position("aaron", 2, "0000000002");

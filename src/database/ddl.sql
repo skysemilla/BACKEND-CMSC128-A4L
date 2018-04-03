@@ -26,7 +26,8 @@ create table EMPLOYEE(
   min_teaching_units int,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
-  constraint employee_username_uk UNIQUE KEY (username)
+  constraint employee_username_uk UNIQUE KEY (username),
+  constraint employee_email_uk UNIQUE KEY (email)
 );
 
 create table EMPLOYEE_FSR(
@@ -48,25 +49,10 @@ create table ACTIVITY(
   activity_role varchar(10) not null,
   start_time time not null,
   end_time time not null,
+  funding_agency varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-/* REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE */
-create table SERVICE(
-  service_id int not null AUTO_INCREMENT,
-  category varchar(255) not null,
-  title varchar(255) not null,
-  no_of_hours int(10) not null,
-  no_of_participants int(10) not null,
-  role varchar(10) not null,
-  start_date varchar(255) not null,
-  end_date varchar(255) not null,
-  credits int (10) not null,
-  emp_id varchar(10) not null,   
-  constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /* REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE */
@@ -382,10 +368,11 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
                                    activity_role varchar(10), 
                                    start_time time, 
                                    end_time time, 
+                                   funding_agency varchar(255),
                                    emp_id varchar(10) )
   BEGIN 
     INSERT INTO ACTIVITY
-        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, funding_agency, emp_id);
     call insert_log(concat("Activity name", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
@@ -408,6 +395,7 @@ CREATE PROCEDURE update_activity(  activity_id_update int,
                                    activity_role_update varchar(10), 
                                    start_time_update time, 
                                    end_time_update time, 
+                                   funding_agency_update varchar(255),
                                    emp_id_update varchar(10) )
   BEGIN 
     UPDATE ACTIVITY
@@ -419,6 +407,7 @@ CREATE PROCEDURE update_activity(  activity_id_update int,
              activity_role = activity_role_update, 
              start_time = start_time_update, 
              end_time = end_time_update, 
+             funding_agency = funding_agency_update,
              emp_id = emp_id_update
         WHERE activity_id = activity_id_update;
     call insert_log(concat("Activity #", activity_id_update, " with name ", activity_name_update, " has been edited in the table ACTIVITY"));
@@ -490,91 +479,6 @@ GO
 DELIMITER ;
 
 /* END OF POSITION PROCEDURES */
-
-/* PROCEDURE FOR SERVICES */
-DROP PROCEDURE IF EXISTS view_service; 
-DROP PROCEDURE IF EXISTS view_service_by_ID; 
-DROP PROCEDURE IF EXISTS view_employee_service; 
-DROP PROCEDURE IF EXISTS insert_service;
-DROP PROCEDURE IF EXISTS delete_service;
-DROP PROCEDURE IF EXISTS update_service;
-
-DELIMITER GO
-
-CREATE PROCEDURE view_service()
-BEGIN
-    SELECT * FROM SERVICE;
-END;
-GO
-
-CREATE PROCEDURE view_service_by_ID(view_service_id int)
-BEGIN
-    SELECT * FROM SERVICE
-    where service_id = view_service_id;
-END;
-GO
-
-CREATE PROCEDURE view_employee_service(emp_id_view_service varchar(10))
-BEGIN
-    SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
-    WHERE emp_id = emp_id_view;
-END;
-GO
-
-CREATE PROCEDURE insert_service( 
-                                category varchar(255),
-                                title varchar(255),
-                                no_of_hours int(10),
-                                no_of_participants int(10),
-                                role varchar(10),
-                                start_date varchar(255),
-                                end_date varchar(255),
-                                credits int (10),
-                                emp_id varchar(10)
-)
-BEGIN
-    INSERT INTO SERVICE
-      values (NULL, category, title, no_of_hours, no_of_participants, role, start_date, end_date, credits, emp_id);
-      call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE delete_service(service_id_del int)
-  BEGIN 
-    DELETE FROM SERVICE
-      where service_id = service_id_del;
-      call insert_log(concat("Service", service_id_del, " has been deleted from the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE update_service( service_id_u int,
-                                category_u varchar(255),
-                                title_u varchar(255),
-                                no_of_hours_u int(10),
-                                no_of_participants_u int(10),
-                                role_u varchar(10),
-                                credits_u int (10),
-                                start_date_u varchar(255),
-                                end_date_u varchar(255)
-                                )
-  BEGIN 
-    UPDATE SERVICE
-        SET  category = category_u,
-            title = title_u,
-            no_of_hours = no_of_hours_u,
-            no_of_participants = no_of_participants_u,
-            role = role_u,
-            credits = credits_u,
-            start_date = start_date_u,
-            end_date = end_date_u
-        WHERE service_id = service_id_u;
-        call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
-END;
-GO
-
-DELIMITER ;
-
-/* END OF PROCEDURE FOR SERVICES */
 
 /* PROCEDURE FOR PUBLICATION */
 DROP PROCEDURE IF EXISTS view_publication; 
@@ -1210,28 +1114,31 @@ DELIMITER ;
 
 /* END OF LIMITED PRACTICE PROCEDURES */
 
-/* POPULATE DATA */
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"aaronmagnaye@up.edu.ph");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"beajeje123xD@up.edu.ph");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"gnash@up.edu.ph");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE,"mrichard@up.edu.ph");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE,"hdenton@up.edu.ph");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE,"iherman@up.edu.ph");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE,"vxanthus@up.edu.ph");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE,"bhonorato@up.edu.ph");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE,"ngareth@up.edu.ph");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"rkeaton@up.edu.ph");
 
-call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
-call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
-call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'), "0000000002");
-call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'), "0000000003");
-call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'), "0000000004");
-call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'), "0000000005");
-call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'), "0000000006");
-call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "0000000007");
-call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
-call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
+/* POPULATE DATA */
+
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE,"email2@gmail.com");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"email1@gmail.com");
+
+call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
+call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");
+call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'),"agency3", "0000000002");
+call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'),"agency1", "0000000003");
+call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'),"agency1", "0000000004");
+call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'),"agency1", "0000000005");
+call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'),"agency1", "0000000006");
+call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'),"agency1", "0000000007");
+call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'),"agency1", "0000000008");
+call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'),"agency3", "0000000009");
+
 
 call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
@@ -1243,17 +1150,6 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
-
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 
 call insert_position("aaron", 2, "0000000000");
 call insert_position("aaron", 2, "0000000002");
@@ -1310,16 +1206,16 @@ call insert_studyload(18, "MSCS", "UPLB", 2, "0000000007" );
 call insert_studyload(19, "MSCS", "UPLB", 2, "0000000008" );
 call insert_studyload(20, "MSCS", "UPLB", 2, "0000000009");
 
-call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
-call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
-call insert_publication(9,"5","49725","whatever","sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
-call insert_publication(5,"10","33757","whatever","nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
-call insert_publication(3,"6","30792","whatever","vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
-call insert_publication(6,"10","98341","whatever","condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
-call insert_publication(9,"5","32088","whatever","est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
-call insert_publication(10,"10","16871","whatever","sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
-call insert_publication(9,"1","82070","whatever","quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
-call insert_publication(8,"3","17520","whatever","mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
+call insert_publication(8,"9","agency1","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
+call insert_publication(1,"8","agency1","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
+call insert_publication(9,"5","agency1","whatever","sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
+call insert_publication(5,"10","agency1","whatever","nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
+call insert_publication(3,"6","agency1","whatever","vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
+call insert_publication(6,"10","agency1","whatever","condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
+call insert_publication(9,"5","agency1","whatever","est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
+call insert_publication(10,"10","agency1","whatever","sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
+call insert_publication(9,"1","agency1","whatever","quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
+call insert_publication(8,"3","agency1","whatever","mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
 
 call insert_coworker("0000000001",5);
 call insert_coworker("0000000005",2);

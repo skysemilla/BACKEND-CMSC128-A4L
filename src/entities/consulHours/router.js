@@ -12,12 +12,11 @@ router.post('/api/consulHours/add', async (req, res) => {
     req.body.emp_id &&
     req.body.day
   ) {
-    try {     
+    try {
       const id = await Ctrl.addConsulHours(req.body);
       res.status(200).json({
         status: 200,
-        message: 'Successfully added consultation hours',
-
+        message: 'Successfully added consultation hours'
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -30,9 +29,9 @@ router.post('/api/consulHours/add', async (req, res) => {
 //delete a consultation hours
 router.post('/api/consulHours/delete', async (req, res) => {
   try {
-    const consultation = await Ctrl.getConsulHours(req.body);
-    await Ctrl.removeConsulHours(req.body);
-  
+    const consultation = await Ctrl.getConsultation({ id: req.body.id });
+    await Ctrl.removeConsulHours({ id: req.body.id });
+
     res.status(200).json({
       status: 200,
       message: 'Successfully removed consulation hours',
@@ -52,12 +51,11 @@ router.post('/api/consulHours/delete', async (req, res) => {
   }
 });
 
-
 //edit a consultation hours
 router.put('/api/consulHours/edit', async (req, res) => {
   try {
-    await Ctrl.editPosition(req.body);
-    const positionEdited = await Ctrl.getPosition({ id: req.body.id });
+    await Ctrl.editConsulHours(req.body);
+    const positionEdited = await Ctrl.getConsultation({ id: req.body.id });
 
     res.status(200).json({
       status: 200,
@@ -121,6 +119,5 @@ router.post('/api/consulHours/view', async (req, res) => {
     res.status(status).json({ status, message });
   }
 });
-
 
 export default router;

@@ -119,13 +119,14 @@ export const getStudyLoad = ({ studyload_id }) => {
     });
   });
 };
-export const getStudyEmp = ({ emp_id }) => {
+export const getStudyEmp = ( json ) => {
   return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
     const queryString = `
         call view_employee_studyload(?)
         `;
 
-    db.query(queryString, emp_id, (err, rows) => {
+    db.query(queryString, [emp_id], (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

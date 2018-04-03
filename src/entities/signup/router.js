@@ -13,10 +13,10 @@ router.post('/api/signup', async (req, res) => {
     req.body.m_name &&
     req.body.l_name &&
     req.body.department &&
-    req.body.is_full_time &&
     req.body.college &&
-    req.body.semester &&
-    req.body.year
+    req.body.emp_type &&
+    req.body.is_full_time &&
+    req.body.email
   ) {
     try {
       const id = await Ctrl.addEmployee(req.body);

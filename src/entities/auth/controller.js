@@ -1,4 +1,5 @@
 import db from '../../database';
+import sha256 from '../../hash';
 
 export const login = ({ username, password }) => {
   return new Promise((resolve, reject) => {
@@ -12,7 +13,8 @@ export const login = ({ username, password }) => {
         password = BINARY ?
     `;
 
-    const values = [username, password];
+    const hpassword = sha256(password);
+    const values = [username, hpassword];
 
     db.query(queryString, values, (err, rows) => {
       if (err) {

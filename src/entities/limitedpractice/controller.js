@@ -7,8 +7,8 @@ export const addLimitedPractice = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-    CALL  
-    insert_limited_practice(?, ?, ?)
+      CALL  
+      insert_limited_practice(?, ?, ?)
     `;
     
     const values = [

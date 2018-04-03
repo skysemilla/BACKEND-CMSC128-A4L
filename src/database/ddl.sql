@@ -166,7 +166,6 @@ create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD
   credits int not null,
   emp_id varchar(10) not null, 
   subject_id int not null,
-  is_faculty_fellowship_recipient boolean not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -876,19 +875,19 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,b.is_faculty_fellowship_recipient, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
+    SELECT a.studyload_id, a.degree, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
   END;
 GO
 
 CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,b.is_faculty_fellowship_recipient, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
     END;
 GO
 
 CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,b.is_faculty_fellowship_recipient,  a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
+    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,  a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
     END;
 GO
 
@@ -897,11 +896,10 @@ CREATE PROCEDURE insert_studyload(  subject_id_insert int,
                                     degree_insert varchar(255) ,
                                     university_insert varchar(255) ,
                                     credits_insert int ,
-                                    emp_id_insert varchar(10),
-                                    is_faculty_fellowship_recipient_insert boolean)
+                                    emp_id_insert varchar(10) )
   BEGIN
       INSERT INTO STUDYLOAD
-      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert, is_faculty_fellowship_recipient_insert);
+      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
       call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
       call update_employee_studyload(emp_id_insert);
   END;
@@ -936,8 +934,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
                                       units_insert int ,
                                       room_insert varchar(255) ,
                                       start_time_insert time ,
-                                      end_time_insert time,
-                                      is_faculty_fellowship_recipient_insert boolean )
+                                      end_time_insert time)
   BEGIN
     UPDATE SUBJECT
     SET subject_code = subject_code_insert,
@@ -951,8 +948,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
     UPDATE STUDYLOAD
     SET degree = degree_insert,
         university = university_insert ,
-        credits = credits_insert,
-        is_faculty_fellowship_recipient = is_faculty_fellowship_recipient_insert
+        credits = credits_insert
     where studyload_id = to_edit;
     call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
   END;
@@ -1256,16 +1252,17 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
---call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001", TRUE);
---call insert_studyload(12, "MSCS", "UPLB", 2, "0000000001", TRUE );
---call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
---call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001",TRUE );
---call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
---call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001" ,TRUE);
---call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001",TRUE );
---call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001",TRUE);
---call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001",TRUE );
---call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001",TRUE);
+call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(12, "MSCS", "UPLB", 2,  "0000000001");
+call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001");
+
 
 call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

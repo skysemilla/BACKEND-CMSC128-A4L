@@ -885,7 +885,7 @@ CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),
                                             degree_insert varchar(255),
                                             university_insert varchar(255) )
   BEGIN
-    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+    IF (select is_studying from EMPLOYEE where emp_id = emp_id_insert) = 1 THEN
       INSERT INTO STUDY_CREDENTIALS
       VALUES ( degree_insert,
                 university_insert,

@@ -63,10 +63,10 @@ create table PUBLICATION(
   publication_id int not null AUTO_INCREMENT,
   credit_units int not null,
   category varchar(255) not null,
-  funding varchar(255) not null,
+  funding varchar(255),
   title varchar(255) not null,
   type varchar(255) not null,
-  role varchar(255) not null,
+  role varchar(255),
   start_date varchar(255) not null,
   end_date varchar(255) not null,
   emp_id varchar(10) not null, 
@@ -576,7 +576,7 @@ CREATE PROCEDURE update_publication(
           start_date = start_date_u,
           end_date = end_date_u
         WHERE publication_id = publication_id_u;
-        call insert_log(concat("Publication #", publication_id, " has been updated."));
+        call insert_log(concat("Publication #", publication_id_u, " has been updated."));
 
 
   END;
@@ -914,7 +914,7 @@ CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),
                                             degree_insert varchar(255),
                                             university_insert varchar(255) )
   BEGIN
-    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+    IF (select is_studying from EMPLOYEE where emp_id = emp_id_insert) = 1 THEN
       INSERT INTO STUDY_CREDENTIALS
       VALUES ( degree_insert,
                 university_insert,

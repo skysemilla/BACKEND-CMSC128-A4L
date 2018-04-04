@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,7 +76,7 @@ module.exports = require("express");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mysql__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mysql__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mysql___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mysql__);
 
 
@@ -105,34 +105,43 @@ db.query('USE skydev');
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(13);
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+"use strict";
+var sha256 = __webpack_require__(15).sha256;
 
+/* harmony default export */ __webpack_exports__["a"] = (sha256);
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(5);
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_body_parser__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_body_parser__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_morgan__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_morgan__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express_session__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express_session__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_express_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_express_session__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_express_mysql_session__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_express_mysql_session__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_express_mysql_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_express_mysql_session__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__database__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__router__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__router__ = __webpack_require__(11);
 
 
 
@@ -171,49 +180,49 @@ var server = app.listen(port, function () {
 /* harmony default export */ __webpack_exports__["default"] = (server);
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = require("morgan");
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("express-session");
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("express-mysql-session");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("mysql");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entities_auth_router__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities_extensions_router__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entities_publications_router__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_signup_router__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entities_auth_router__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities_extensions_router__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entities_publications_router__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_signup_router__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__ = __webpack_require__(32);
@@ -253,7 +262,7 @@ router.use(__WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__["a" /
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -261,7 +270,7 @@ router.use(__WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__["a" /
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(14);
 
 
 var _this = this;
@@ -347,18 +356,20 @@ router.post('/api/session', function (req, res) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("regenerator-runtime");
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return login; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__hash__ = __webpack_require__(3);
+
 
 
 var login = function login(_ref) {
@@ -368,7 +379,8 @@ var login = function login(_ref) {
   return new Promise(function (resolve, reject) {
     var queryString = '\n      SELECT \n        *\n      FROM\n        EMPLOYEE\n      WHERE\n        username = BINARY ? and\n        password = BINARY ?\n    ';
 
-    var values = [username, password];
+    var hpassword = Object(__WEBPACK_IMPORTED_MODULE_1__hash__["a" /* default */])(password);
+    var values = [username, hpassword];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, rows) {
       if (err) {
@@ -386,7 +398,13 @@ var login = function login(_ref) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("js-sha256");
+
+/***/ }),
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -394,7 +412,7 @@ var login = function login(_ref) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(17);
 
 
 var _this = this;
@@ -407,7 +425,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets services
-router.get('/api/service/viewAll', function () {
+router.get('/api/activity/viewAll', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var services, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -416,14 +434,14 @@ router.get('/api/service/viewAll', function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getServices */]();
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getActivities */]();
 
           case 3:
             services = _context.sent;
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully fetched all services',
+              message: 'Successfully fetched all Activities',
               data: services
             });
             _context.next = 16;
@@ -461,22 +479,22 @@ router.get('/api/service/viewAll', function () {
 // get a service
 router.post('/api/service/view', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var service, message;
+    var activity, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getActivity */](req.body);
 
           case 3:
-            service = _context2.sent;
+            activity = _context2.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully fetched service',
-              data: service
+              data: activity
             });
             _context2.next = 18;
             break;
@@ -514,54 +532,58 @@ router.post('/api/service/view', function () {
 }());
 
 // add a service
-router.post('/api/service/add', function () {
+router.post('/api/activity/add', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var id;
+    var id, serviceAdded;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             if (!(req.body.category && req.body.title && req.body.no_of_hours >= 0 && req.body.no_of_participants >= 0 && req.body.role && req.body.credits >= 0)) {
-              _context3.next = 13;
+              _context3.next = 16;
               break;
             }
 
             _context3.prev = 1;
             _context3.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addService */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addActivity */](req.body);
 
           case 4:
             id = _context3.sent;
+            _context3.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getActivity */]({ id: id });
 
-            // const serviceAdded = await Ctrl.getService({ id: id });
+          case 7:
+            serviceAdded = _context3.sent;
+
 
             res.status(200).json({
               status: 200,
               message: 'Successfully created sample',
               data: serviceAdded
             });
-            _context3.next = 11;
+            _context3.next = 14;
             break;
 
-          case 8:
-            _context3.prev = 8;
+          case 11:
+            _context3.prev = 11;
             _context3.t0 = _context3['catch'](1);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 11:
-            _context3.next = 14;
+          case 14:
+            _context3.next = 17;
             break;
 
-          case 13:
+          case 16:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 14:
+          case 17:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[1, 8]]);
+    }, _callee3, _this, [[1, 11]]);
   }));
 
   return function (_x5, _x6) {
@@ -570,7 +592,7 @@ router.post('/api/service/add', function () {
 }());
 
 // removes a service
-router.post('/api/service/delete', function () {
+router.post('/api/activity/delete', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var service, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
@@ -579,12 +601,12 @@ router.post('/api/service/delete', function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getActivity */](req.body);
 
           case 3:
             service = _context4.sent;
             _context4.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeService */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeActivity */](req.body);
 
           case 6:
 
@@ -628,8 +650,8 @@ router.post('/api/service/delete', function () {
   };
 }());
 
-// edits a service
-router.post('/api/service/edit', function () {
+// edits a Activity
+router.post('/api/activity/edit', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var serviceEdited, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
@@ -638,11 +660,11 @@ router.post('/api/service/edit', function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editService */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editActivity */](req.body);
 
           case 3:
             _context5.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getService */]({ id: req.body.service_id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getActivity */]({ id: req.body.activity_id });
 
           case 5:
             serviceEdited = _context5.sent;
@@ -691,24 +713,24 @@ router.post('/api/service/edit', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getService; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getServices; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addService; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeService; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getActivity; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getActivities; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addActivity; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeActivity; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editActivity; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
 // gets a service
-var getService = function getService(_ref) {
+var getActivity = function getActivity(_ref) {
   var id = _ref.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL view_service_by_ID(?) \n        ';
+    var queryString = '\n          SELECT * from ACTIVITY where activity_id = ?\n        ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -725,10 +747,10 @@ var getService = function getService(_ref) {
   });
 };
 
-// gets all services
-var getServices = function getServices() {
+// gets all Activity
+var getActivities = function getActivities() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL\n      view_service()\n    ';
+    var queryString = '\n      CALL\n      view_Activity()\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -741,20 +763,23 @@ var getServices = function getServices() {
   });
 };
 
-// adds a service
-var addService = function addService(_ref2) {
-  var category = _ref2.category,
+// adds a Activity
+var addActivity = function addActivity(_ref2) {
+  var credits = _ref2.credits,
       title = _ref2.title,
+      category = _ref2.category,
       no_of_hours = _ref2.no_of_hours,
       no_of_participants = _ref2.no_of_participants,
       role = _ref2.role,
-      credits = _ref2.credits,
+      start_date = _ref2.start_date,
+      end_date = _ref2.end_date,
+      funding_agency = _ref2.funding_agency,
       emp_id = _ref2.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n            CALL insert_service(?, ?, ?, ?, ?, ?, ?)\n        ';
+    var queryString = '\n            CALL insert_activity(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n        ';
 
-    var values = [category, title, no_of_hours, no_of_participants, role, credits, emp_id];
+    var values = [credits, title, category, no_of_hours, no_of_participants, role, start_date, end_date, funding_agency, emp_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
@@ -767,12 +792,12 @@ var addService = function addService(_ref2) {
   });
 };
 
-// removes a service
-var removeService = function removeService(_ref3) {
+// removes a Activity
+var removeActivity = function removeActivity(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL delete_service(?)\n    ';
+    var queryString = '\n      CALL delete_activity(?)\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
       if (err) {
@@ -789,20 +814,24 @@ var removeService = function removeService(_ref3) {
   });
 };
 
-// edits a sample
-var editService = function editService(_ref4) {
-  var service_id = _ref4.service_id,
-      category = _ref4.category,
+// edits a Activity
+var editActivity = function editActivity(_ref4) {
+  var activity_id = _ref4.activity_id,
+      credits = _ref4.credits,
       title = _ref4.title,
+      category = _ref4.category,
       no_of_hours = _ref4.no_of_hours,
       no_of_participants = _ref4.no_of_participants,
       role = _ref4.role,
-      credits = _ref4.credits;
+      start_date = _ref4.start_date,
+      end_date = _ref4.end_date,
+      funding_agency = _ref4.funding_agency,
+      emp_id = _ref4.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL update_service(?, ?, ?, ?, ?, ?, ?)\n    ';
+    var queryString = '\n      CALL update_activity(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n    ';
 
-    var values = [service_id, category, title, no_of_hours, no_of_participants, role, credits];
+    var values = [activity_id, credits, title, category, no_of_hours, no_of_participants, role, start_date, end_date, funding_agency, emp_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -820,7 +849,7 @@ var editService = function editService(_ref4) {
 };
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -828,7 +857,7 @@ var editService = function editService(_ref4) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(19);
 
 
 var _this = this;
@@ -1182,7 +1211,7 @@ router.post('/api/publication/edit', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1357,461 +1386,6 @@ var editPublication = function editPublication(_ref6) {
 };
 
 /***/ }),
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(19);
-
-
-var _this = this;
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-
-
-
-var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
-
-router.post('/api/teachload/add', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
-    var id, sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            if (!(req.body.emp_id && req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw)) {
-              _context.next = 16;
-              break;
-            }
-
-            _context.prev = 1;
-            _context.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addTeachLoad */](req.body);
-
-          case 4:
-            id = _context.sent;
-            _context.next = 7;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getTeachLoad */]({ teachingload_id: id });
-
-          case 7:
-            sample = _context.sent;
-
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully created teaching load',
-              data: sample
-            });
-            _context.next = 14;
-            break;
-
-          case 11:
-            _context.prev = 11;
-            _context.t0 = _context['catch'](1);
-
-            res.status(500).json({ status: 500, message: 'Internal server error' });
-
-          case 14:
-            _context.next = 17;
-            break;
-
-          case 16:
-            res.status(400).json({ status: 400, message: 'Bad request' });
-
-          case 17:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, _this, [[1, 11]]);
-  }));
-
-  return function (_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}());
-
-router.post('/api/teachload/delete/', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var book;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!req.body.teachingload_id) {
-              _context2.next = 15;
-              break;
-            }
-
-            _context2.prev = 1;
-            _context2.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getTeachLoad */](req.body);
-
-          case 4:
-            book = _context2.sent;
-            _context2.next = 7;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* removeTeachLoad */](req.body);
-
-          case 7:
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully removed teach load',
-              data: book
-            });
-            _context2.next = 13;
-            break;
-
-          case 10:
-            _context2.prev = 10;
-            _context2.t0 = _context2['catch'](1);
-
-            res.status(500).json({ status: 500, message: 'Internal server error' });
-
-          case 13:
-            _context2.next = 16;
-            break;
-
-          case 15:
-            res.status(400).json({ status: 400, message: 'Bad request' });
-
-          case 16:
-          case 'end':
-            return _context2.stop();
-        }
-      }
-    }, _callee2, _this, [[1, 10]]);
-  }));
-
-  return function (_x3, _x4) {
-    return _ref2.apply(this, arguments);
-  };
-}());
-
-router.post('/api/teachload/edit/', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            if (!(req.body.emp_id && req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw)) {
-              _context3.next = 15;
-              break;
-            }
-
-            _context3.prev = 1;
-            _context3.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editTeachLoad */](req.body);
-
-          case 4:
-            _context3.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachEmp */]({
-              emp_id: req.body.emp_id
-            });
-
-          case 6:
-            sample = _context3.sent;
-
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully edited teach load',
-              data: sample
-            });
-            _context3.next = 13;
-            break;
-
-          case 10:
-            _context3.prev = 10;
-            _context3.t0 = _context3['catch'](1);
-
-            res.status(500).json({ status: 500, message: 'Internal server error' });
-
-          case 13:
-            _context3.next = 16;
-            break;
-
-          case 15:
-            res.status(400).json({ status: 400, message: 'Bad request' });
-
-          case 16:
-          case 'end':
-            return _context3.stop();
-        }
-      }
-    }, _callee3, _this, [[1, 10]]);
-  }));
-
-  return function (_x5, _x6) {
-    return _ref3.apply(this, arguments);
-  };
-}());
-
-router.get('/api/teachload/view/:teachingload_id', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
-    var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getTeachLoad */](req.params);
-
-          case 3:
-            book = _context4.sent;
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully fetched teach load',
-              data: book
-            });
-            _context4.next = 18;
-            break;
-
-          case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4['catch'](0);
-            message = '';
-            _context4.t1 = _context4.t0;
-            _context4.next = _context4.t1 === 404 ? 13 : _context4.t1 === 500 ? 15 : 17;
-            break;
-
-          case 13:
-            message = 'Teach load not found';
-            return _context4.abrupt('break', 17);
-
-          case 15:
-            message = 'Internal server error';
-            return _context4.abrupt('break', 17);
-
-          case 17:
-            res.status(_context4.t0).json({ status: _context4.t0, message: message });
-
-          case 18:
-          case 'end':
-            return _context4.stop();
-        }
-      }
-    }, _callee4, _this, [[0, 7]]);
-  }));
-
-  return function (_x7, _x8) {
-    return _ref4.apply(this, arguments);
-  };
-}());
-
-router.get('/api/teachload/viewAll', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
-    var subjects, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getAllTeachLoad */]();
-
-          case 3:
-            subjects = _context5.sent;
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully fetched all teaching load',
-              data: subjects
-            });
-            _context5.next = 16;
-            break;
-
-          case 7:
-            _context5.prev = 7;
-            _context5.t0 = _context5['catch'](0);
-            message = '';
-            _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 500 ? 13 : 15;
-            break;
-
-          case 13:
-            message = 'Internal server error';
-            return _context5.abrupt('break', 15);
-
-          case 15:
-
-            res.status(200).json({ status: _context5.t0, message: message });
-
-          case 16:
-          case 'end':
-            return _context5.stop();
-        }
-      }
-    }, _callee5, _this, [[0, 7]]);
-  }));
-
-  return function (_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}());
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addTeachLoad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeTeachLoad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editTeachLoad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getTeachLoad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getTeachEmp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllTeachLoad; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
-
-
-var addTeachLoad = function addTeachLoad(_ref) {
-  var emp_id = _ref.emp_id,
-      no_of_students = _ref.no_of_students,
-      subject_code = _ref.subject_code,
-      section_code = _ref.section_code,
-      room = _ref.room,
-      days = _ref.days,
-      start_time = _ref.start_time,
-      end_time = _ref.end_time,
-      creditw = _ref.creditw;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n      INSERT INTO TEACHINGLOAD\n          (emp_id, no_of_students, subject_id)\n        VALUES\n          (?, ?, (SELECT subject_id FROM SUBJECT \n                  WHERE subject_code = ? AND\n                        section_code = ? ));\n    ';
-    //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
-    // console.log(no_of_students);
-    var values = [emp_id, no_of_students, subject_code, section_code];
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      return resolve(results.insertId);
-    });
-  });
-};
-
-var removeTeachLoad = function removeTeachLoad(_ref2) {
-  var teachingload_id = _ref2.teachingload_id;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n        DELETE \n          FROM TEACHINGLOAD\n        WHERE \n          teachingload_id = ?\n      ';
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, results) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!results.affectedRows) {
-        return reject(404);
-      }
-
-      return resolve();
-    });
-  });
-};
-
-var editTeachLoad = function editTeachLoad(_ref3) {
-  var no_of_students = _ref3.no_of_students,
-      emp_id = _ref3.emp_id,
-      subject_code = _ref3.subject_code,
-      section_code = _ref3.section_code,
-      room = _ref3.room,
-      days = _ref3.days,
-      start_time = _ref3.start_time,
-      end_time = _ref3.end_time,
-      creditw = _ref3.creditw;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n      UPDATE TEACHINGLOAD\n        SET\n          no_of_students = ?\n        WHERE\n          emp_id = ? AND\n          subject_id = (SELECT subject_id FROM SUBJECT \n                        WHERE subject_code = ? AND\n                              section_code = ? );\n    ';
-
-    var values = [no_of_students, emp_id, subject_code, section_code];
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!res.affectedRows) {
-        return reject(404);
-      }
-
-      return resolve();
-    });
-  });
-};
-
-var getTeachLoad = function getTeachLoad(_ref4) {
-  var teachingload_id = _ref4.teachingload_id;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            teachingload_id = ?;\n        ';
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, rows) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!rows.length) {
-        return reject(404);
-      }
-
-      return resolve(rows[0]);
-    });
-  });
-};
-
-var getTeachEmp = function getTeachEmp(_ref5) {
-  var emp_id = _ref5.emp_id;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            emp_id = ?\n        ';
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!rows.length) {
-        return reject(404);
-      }
-
-      return resolve(rows[0]);
-    });
-  });
-};
-
-var getAllTeachLoad = function getAllTeachLoad() {
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT *\n          FROM TEACHINGLOAD\n        ';
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      return resolve(rows);
-    });
-  });
-};
-
-/***/ }),
 /* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1821,188 +1395,6 @@ var getAllTeachLoad = function getAllTeachLoad() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
-
-
-var _this = this;
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-
-
-
-var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
-
-// gets one faculty
-router.post('/api/faculty/view', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
-    var faculty, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getFaculty */](req.body);
-
-          case 3:
-            faculty = _context.sent;
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully fetched faculty',
-              data: faculty
-            });
-            _context.next = 18;
-            break;
-
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context['catch'](0);
-            message = '';
-            _context.t1 = _context.t0;
-            _context.next = _context.t1 === 404 ? 13 : _context.t1 === 500 ? 15 : 17;
-            break;
-
-          case 13:
-            message = 'Faculty not found';
-            return _context.abrupt('break', 17);
-
-          case 15:
-            message = 'Internal server error';
-            return _context.abrupt('break', 17);
-
-          case 17:
-            res.status(_context.t0).json({ status: _context.t0, message: message });
-
-          case 18:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, _this, [[0, 7]]);
-  }));
-
-  return function (_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}());
-
-// gets all faculty
-router.get('/api/faculty/viewAll', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var faculty, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* getAllFaculty */]();
-
-          case 3:
-            faculty = _context2.sent;
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully fetched all faculty',
-              data: faculty
-            });
-            _context2.next = 16;
-            break;
-
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2['catch'](0);
-            message = '';
-            _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 500 ? 13 : 15;
-            break;
-
-          case 13:
-            message = 'Internal server error';
-            return _context2.abrupt('break', 15);
-
-          case 15:
-
-            res.status(200).json({ status: _context2.t0, message: message });
-
-          case 16:
-          case 'end':
-            return _context2.stop();
-        }
-      }
-    }, _callee2, _this, [[0, 7]]);
-  }));
-
-  return function (_x3, _x4) {
-    return _ref2.apply(this, arguments);
-  };
-}());
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
-
-/***/ }),
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getFaculty; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getAllFaculty; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
-
-
-// gets one faculty
-var getFaculty = function getFaculty(_ref) {
-  var id = _ref.id;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n          call view_employee_by_id(?);\n        ';
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!rows.length) {
-        return reject(404);
-      }
-
-      return resolve(rows[0]);
-    });
-  });
-};
-
-// gets all faculty
-var getAllFaculty = function getAllFaculty() {
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n      call view_employee();\n    ';
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!rows.length) {
-        return reject(404);
-      }
-
-      return resolve(rows);
-    });
-  });
-};
-
-/***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
 
 
 var _this = this;
@@ -2072,14 +1464,14 @@ router.post('/api/signup', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addEmployee; });
 /* unused harmony export getEmployee */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__hash__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__hash__ = __webpack_require__(3);
 
 
 
@@ -2103,7 +1495,7 @@ var addEmployee = function addEmployee(_ref) {
 
     var hpassword = Object(__WEBPACK_IMPORTED_MODULE_1__hash__["a" /* default */])(password);
 
-    var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, emp_type, is_full_time, email];
+    var values = [emp_id, username, hpassword, type, f_name, m_name, l_name, department, college, emp_type, is_full_time, email];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
@@ -2140,22 +1532,7 @@ var getEmployee = function getEmployee(_ref2) {
 };
 
 /***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var sha256 = __webpack_require__(25).sha256;
-
-/* harmony default export */ __webpack_exports__["a"] = (sha256);
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = require("js-sha256");
-
-/***/ }),
-/* 26 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2163,7 +1540,7 @@ module.exports = require("js-sha256");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
 
 
 var _this = this;
@@ -2182,7 +1559,7 @@ router.post('/api/studyload/add', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            if (!(req.body.degree && req.body.university && req.body.credits && req.body.emp_id && req.body.subject_id)) {
+            if (!(req.body.credits && req.body.emp_id && req.body.subject_id)) {
               _context.next = 16;
               break;
             }
@@ -2359,7 +1736,7 @@ router.post('/api/studyload/view', function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyEmp */]({ id: req.body.emp_id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getStudyEmp */](req.session.user);
 
           case 3:
             book = _context4.sent;
@@ -2458,7 +1835,7 @@ router.get('/api/studyload/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 27 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2472,17 +1849,14 @@ router.get('/api/studyload/viewAll', function () {
 
 
 var addStudyLoad = function addStudyLoad(_ref) {
-  var degree = _ref.degree,
-      university = _ref.university,
-      credits = _ref.credits,
+  var credits = _ref.credits,
       emp_id = _ref.emp_id,
       subject_id = _ref.subject_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n    call insert_studyload(?,?,?,?,?)\n    ';
+    var queryString = '\n      call insert_studyload(?, ?, ?)\n    ';
 
-    var values = [subject_id, degree, university, credits, emp_id];
-
+    var values = [subject_id, credits, emp_id];
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
         console.log(err);
@@ -2587,6 +1961,7 @@ var getStudyEmp = function getStudyEmp(json) {
     });
   });
 };
+
 var getAllStudyLoad = function getAllStudyLoad() {
   return new Promise(function (resolve, reject) {
     var queryString = '\n    call view_studyload()\n    ';
@@ -2595,6 +1970,642 @@ var getAllStudyLoad = function getAllStudyLoad() {
       if (err) {
         console.log(err);
         return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(25);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+router.post('/api/teachload/add', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var id, sample;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw)) {
+              _context.next = 16;
+              break;
+            }
+
+            _context.prev = 1;
+            _context.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addTeachLoad */](req.body, req.session.user);
+
+          case 4:
+            id = _context.sent;
+            _context.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getTeachLoad */]({ teachingload_id: id });
+
+          case 7:
+            sample = _context.sent;
+
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully created teaching load',
+              data: sample
+            });
+            _context.next = 14;
+            break;
+
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 14:
+            _context.next = 17;
+            break;
+
+          case 16:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 17:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[1, 11]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+router.post('/api/teachload/delete/', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var book;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!req.body.teachingload_id) {
+              _context2.next = 15;
+              break;
+            }
+
+            _context2.prev = 1;
+            _context2.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getTeachLoad */](req.body);
+
+          case 4:
+            book = _context2.sent;
+            _context2.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* removeTeachLoad */](req.body);
+
+          case 7:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully removed teach load',
+              data: book
+            });
+            _context2.next = 13;
+            break;
+
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 13:
+            _context2.next = 16;
+            break;
+
+          case 15:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 16:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[1, 10]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+router.post('/api/teachload/edit/', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+    var sample;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            if (!(req.body.emp_id && req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw)) {
+              _context3.next = 15;
+              break;
+            }
+
+            _context3.prev = 1;
+            _context3.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editTeachLoad */](req.body);
+
+          case 4:
+            _context3.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachEmp */]({
+              emp_id: req.body.emp_id
+            });
+
+          case 6:
+            sample = _context3.sent;
+
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully edited teach load',
+              data: sample
+            });
+            _context3.next = 13;
+            break;
+
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 13:
+            _context3.next = 16;
+            break;
+
+          case 15:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 16:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[1, 10]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
+router.post('/api/teachload/view', function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+    var book, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachEmp */](req.session.user);
+
+          case 3:
+            book = _context4.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched teach load',
+              data: book
+            });
+            _context4.next = 18;
+            break;
+
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4['catch'](0);
+            message = '';
+            _context4.t1 = _context4.t0;
+            _context4.next = _context4.t1 === 404 ? 13 : _context4.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Teach load not found';
+            return _context4.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context4.abrupt('break', 17);
+
+          case 17:
+            res.status(_context4.t0).json({ status: _context4.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, _this, [[0, 7]]);
+  }));
+
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
+
+router.get('/api/teachload/viewAll', function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+    var subjects, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getAllTeachLoad */]();
+
+          case 3:
+            subjects = _context5.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched all teaching load',
+              data: subjects
+            });
+            _context5.next = 16;
+            break;
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5['catch'](0);
+            message = '';
+            _context5.t1 = _context5.t0;
+            _context5.next = _context5.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context5.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context5.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, _this, [[0, 7]]);
+  }));
+
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addTeachLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeTeachLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editTeachLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getTeachLoad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getTeachEmp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllTeachLoad; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+var addTeachLoad = function addTeachLoad(_ref, json) {
+  var no_of_students = _ref.no_of_students,
+      subject_code = _ref.subject_code,
+      section_code = _ref.section_code,
+      room = _ref.room,
+      days = _ref.days,
+      start_time = _ref.start_time,
+      end_time = _ref.end_time,
+      creditw = _ref.creditw;
+
+  return new Promise(function (resolve, reject) {
+    var emp_id = json.emp_id;
+    var queryString = '\n      INSERT INTO TEACHINGLOAD\n          (emp_id, no_of_students, subject_id)\n        VALUES\n          (?, ?, (SELECT subject_id FROM SUBJECT \n                  WHERE subject_code = ? AND\n                        section_code = ? ));\n    ';
+    //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
+    // console.log(no_of_students);
+    var values = [emp_id, no_of_students, subject_code, section_code];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      return resolve(results.insertId);
+    });
+  });
+};
+
+var removeTeachLoad = function removeTeachLoad(_ref2) {
+  var teachingload_id = _ref2.teachingload_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        DELETE \n          FROM TEACHINGLOAD\n        WHERE \n          teachingload_id = ?\n      ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, results) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!results.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+var editTeachLoad = function editTeachLoad(_ref3) {
+  var no_of_students = _ref3.no_of_students,
+      emp_id = _ref3.emp_id,
+      subject_code = _ref3.subject_code,
+      section_code = _ref3.section_code,
+      room = _ref3.room,
+      days = _ref3.days,
+      start_time = _ref3.start_time,
+      end_time = _ref3.end_time,
+      creditw = _ref3.creditw;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      UPDATE TEACHINGLOAD\n        SET\n          no_of_students = ?\n        WHERE\n          emp_id = ? AND\n          subject_id = (SELECT subject_id FROM SUBJECT \n                        WHERE subject_code = ? AND\n                              section_code = ? );\n    ';
+
+    var values = [no_of_students, emp_id, subject_code, section_code];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+var getTeachLoad = function getTeachLoad(_ref4) {
+  var teachingload_id = _ref4.teachingload_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            teachingload_id = ?;\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+var getTeachEmp = function getTeachEmp(json) {
+  return new Promise(function (resolve, reject) {
+    var emp_id = json.emp_id;
+    var queryString = '\n        call view_employee_teachingload(?)\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [emp_id], function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+var getAllTeachLoad = function getAllTeachLoad() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT *\n          FROM TEACHINGLOAD\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(27);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+// gets one faculty
+router.post('/api/faculty/view', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var faculty, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getFaculty */](req.body);
+
+          case 3:
+            faculty = _context.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched faculty',
+              data: faculty
+            });
+            _context.next = 18;
+            break;
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context['catch'](0);
+            message = '';
+            _context.t1 = _context.t0;
+            _context.next = _context.t1 === 404 ? 13 : _context.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty not found';
+            return _context.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context.abrupt('break', 17);
+
+          case 17:
+            res.status(_context.t0).json({ status: _context.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[0, 7]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+// gets all faculty
+router.get('/api/faculty/viewAll', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var faculty, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* getAllFaculty */]();
+
+          case 3:
+            faculty = _context2.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched all faculty',
+              data: faculty
+            });
+            _context2.next = 16;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context2.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 7]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getFaculty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getAllFaculty; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+// gets one faculty
+var getFaculty = function getFaculty(_ref) {
+  var id = _ref.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          call view_employee_by_id(?);\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+// gets all faculty
+var getAllFaculty = function getAllFaculty() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      call view_employee();\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
       }
 
       return resolve(rows);

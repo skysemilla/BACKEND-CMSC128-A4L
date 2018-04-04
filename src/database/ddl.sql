@@ -6,28 +6,29 @@ GRANT SUPER ON *.* TO 'skydev'@'localhost';
 GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
 USE skydev;
 
-
-create table EMPLOYEE( -- REPRESENTS FACULTY MEMBERS 
+/* REPRESENTS FACULTY MEMBERS */
+create table EMPLOYEE( 
   emp_id_increment int not null AUTO_INCREMENT,
   emp_id varchar(10) not null,
   username varchar(20) not null,
   password varchar(256) not null,
-  type varchar(7) not null, -- TYPE OF USER: ADMIN, FACULTY
+  type varchar(7) not null, 
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
   department varchar(10),
   college varchar(20),
   emp_type varchar(255),
+  email varchar(255),
   is_studying boolean not null, 
   current_study_units int,
   max_study_units int,
   current_teaching_units int,
   min_teaching_units int,
-  email varchar(255) not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
-  constraint employee_username_uk UNIQUE KEY (username)
+  constraint employee_username_uk UNIQUE KEY (username),
+  constraint employee_email_uk UNIQUE KEY (email)
 );
 
 create table EMPLOYEE_FSR(
@@ -38,7 +39,8 @@ create table EMPLOYEE_FSR(
   constraint employee_fsr_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
+/* REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE */
+create table ACTIVITY( 
   activity_id int AUTO_INCREMENT,
   credit_unit int (255) not null,
   activity_name varchar(20) not null,
@@ -48,27 +50,14 @@ create table ACTIVITY( -- REPRESENTS ACTIVITIES BY THE FOREIGN KEY EMPLOYEE
   activity_role varchar(10) not null,
   start_time time not null,
   end_time time not null,
+  funding_agency varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint activity_activity_id_pk PRIMARY KEY (activity_id),
   constraint activity_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table SERVICE( -- REPRESENTS SERVICES BY THE FOREIGN KEY EMPLOYEE
-  service_id int not null AUTO_INCREMENT,
-  category varchar(255) not null,
-  title varchar(255) not null,
-  no_of_hours int(10) not null,
-  no_of_participants int(10) not null,
-  role varchar(10) not null,
-  start_date varchar(255) not null,
-  end_date varchar(255) not null,
-  credits int (10) not null,
-  emp_id varchar(10) not null,   
-  constraint service_service_id_pk PRIMARY KEY (service_id),
-  constraint service_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-create table PUBLICATION( -- REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE
+/* REPRESENTS THE PUBLICATIONS BY THE FOREIGN KEY EMPLOYEE */
+create table PUBLICATION(
   publication_id int not null AUTO_INCREMENT,
   credit_units int not null,
   category varchar(255) not null,
@@ -97,7 +86,8 @@ create table FACULTYGRANT (
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
+/* REPRESENTS A COWORKER PRESENT IN A PUBLICATION */
+create table COWORKER(
   coworker_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   publication_id int not null,
@@ -106,7 +96,8 @@ create table COWORKER( -- REPRESENTS A COWORKER PRESENT IN A PUBLICATION
   constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
+/* REPRESENTS CONSULTATION HOURS */
+create table CONSULTATION( 
   consultation_id int AUTO_INCREMENT,
   consultation_start_time time not null,
   consultation_end_time time not null,
@@ -116,13 +107,15 @@ create table CONSULTATION( -- REPRESENTS CONSULTATION HOURS
   constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table CONSULTATION_DAY( -- MULTI-VALUED ATTRIBUTE OF CONSULTATION
+/* MULTI-VALUED ATTRIBUTE OF CONSULTATION */
+create table CONSULTATION_DAY( 
   consultation_id int not null,
   day varchar(255) not null,
   constraint consultation_day_consultation_id_fk foreign key (consultation_id) references CONSULTATION(consultation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardon for the double n, apparently position is a reserved word
+/* REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardon for the double n, apparently position is a reserved word */
+create table POSITIONN(
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
   credit_units int not null,
@@ -131,7 +124,8 @@ create table POSITIONN( -- REPRESENTS THE POSITIONS OBTAINED BY THE USER | pardo
   constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES
+/* SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOAD PURPOSES */
+create table SUBJECT(
   subject_id int not null AUTO_INCREMENT,
   subject_code varchar(255) not null,
   section_code varchar(255) not null,
@@ -143,13 +137,15 @@ create table SUBJECT( -- RESURRECTED SUBJECT TABLE FOR TEACHINGLOAD AND STUDYLOA
   constraint subject_subject_id_pk PRIMARY key (subject_id)
 );
 
-create table SUBJECT_DAY( -- REPRESENTS THE SUBJECTS OF A USER
+/* REPRESENTS THE SUBJECTS OF A USER */
+create table SUBJECT_DAY(
   day varchar(255) not null,
   subject_id int not null,
   constraint subject_day_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED
+/* THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED */
+create table TEACHINGLOAD(
   teachingload_id int not null AUTO_INCREMENT,
   emp_id varchar(10) not null, 
   no_of_students int not null,
@@ -159,16 +155,23 @@ create table TEACHINGLOAD( -- THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES 
   constraint teachingload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table STUDYLOAD( -- SAME CONCEPT AS THE TEACHINGLOAD 
+/* SAME CONCEPT AS THE TEACHINGLOAD */
+create table STUDYLOAD(
   studyload_id int not null AUTO_INCREMENT,
-  degree varchar(255) not null,
-  university varchar(255) not null,
   credits int not null,
   emp_id varchar(10) not null, 
   subject_id int not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
   constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
   constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/* CONTAINS STATIC DATA RELATED TO STUDYLOAD OF AN EMPLOYEE */
+create table STUDY_CREDENTIALS (
+  degree varchar(255) not null,
+  university varchar(255) not null,
+  emp_id varchar(10) not null,
+  constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table LIMITED_PRACTICE(
@@ -187,7 +190,7 @@ create table LOG(
   constraint log_log_no_pk PRIMARY key (log_no)
 );
 
----- PROCEDURES FOR LOG
+/* PROCEDURES FOR LOGS */
 DROP PROCEDURE IF EXISTS view_logs;
 DROP PROCEDURE IF EXISTS insert_log;
 
@@ -208,12 +211,12 @@ GO
 
 DELIMITER ;
 
----- END OF LOG PROCEDURES
+/* END OF LOG PROCEDURES */
 
----- PROCEDURES FOR EMPLOYEE
+/* PROCEDURES FOR EMPLOYEE */
 DROP PROCEDURE IF EXISTS view_employee; 
 DROP PROCEDURE IF EXISTS view_employee_by_ID; 
-DROP PROCEDURE IF EXISTS insert_employee; 
+DROP PROCEDURE IF EXISTS insert_study_credentials; 
 DROP PROCEDURE IF EXISTS delete_employee;
 DROP PROCEDURE IF EXISTS update_employee; 
 DROP PROCEDURE IF EXISTS update_employee_teachingload;
@@ -245,9 +248,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
                                   is_studying boolean,
-                                  email_insert varchar(255)
-)
-
+                                  email_insert varchar(255))
   BEGIN 
 
     IF is_studying THEN
@@ -260,8 +261,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, is_studying, 0, @max_study_units,0, @min_teaching_units, email_insert);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -284,8 +284,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
-                                  is_studying_insert boolean, 
-                                  email_insert varchar(255)
+                                  email_insert varchar(255),
+                                  is_studying_insert boolean
 )
   BEGIN 
     UPDATE EMPLOYEE
@@ -298,8 +298,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         college = college_insert,
         emp_type = emp_type_insert,
-        is_studying = is_studying_insert,
-        email = email_insert
+        email = email_insert,
+        is_studying = is_studying_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
@@ -325,8 +325,9 @@ GO
 
 DELIMITER ;
 
----- END OF PROCEDURES FOR EMPLOYEE
----- PROCEDURES FOR EMPLOYEE_FSR
+/* -- END OF PROCEDURES FOR EMPLOYEE */
+
+/* PROCEDURES FOR EMPLOYEE_FSR */
 DROP PROCEDURE IF EXISTS view_fsrs;
 DROP PROCEDURE IF EXISTS insert_fsr;
 
@@ -371,10 +372,11 @@ CREATE PROCEDURE insert_activity(   credit_unit int (255),
                                    activity_role varchar(10), 
                                    start_time time, 
                                    end_time time, 
+                                   funding_agency varchar(255),
                                    emp_id varchar(10) )
   BEGIN 
     INSERT INTO ACTIVITY
-        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, emp_id);
+        values (NULL, credit_unit, activity_name, activity_type, no_of_hours, no_of_participants, activity_role, start_time, end_time, funding_agency, emp_id);
     call insert_log(concat("Activity name", activity_name, " has been added to the table ACTIVITY"));
   END;
 GO
@@ -397,6 +399,7 @@ CREATE PROCEDURE update_activity(  activity_id_update int,
                                    activity_role_update varchar(10), 
                                    start_time_update time, 
                                    end_time_update time, 
+                                   funding_agency_update varchar(255),
                                    emp_id_update varchar(10) )
   BEGIN 
     UPDATE ACTIVITY
@@ -408,6 +411,7 @@ CREATE PROCEDURE update_activity(  activity_id_update int,
              activity_role = activity_role_update, 
              start_time = start_time_update, 
              end_time = end_time_update, 
+             funding_agency = funding_agency_update,
              emp_id = emp_id_update
         WHERE activity_id = activity_id_update;
     call insert_log(concat("Activity #", activity_id_update, " with name ", activity_name_update, " has been edited in the table ACTIVITY"));
@@ -478,94 +482,9 @@ GO
 
 DELIMITER ;
 
+/* END OF POSITION PROCEDURES */
 
-
-
-DROP PROCEDURE IF EXISTS view_service; 
-DROP PROCEDURE IF EXISTS view_service_by_ID; 
-DROP PROCEDURE IF EXISTS view_employee_service; 
-DROP PROCEDURE IF EXISTS insert_service;
-DROP PROCEDURE IF EXISTS delete_service;
-DROP PROCEDURE IF EXISTS update_service;
-
-DELIMITER GO
-
-CREATE PROCEDURE view_service()
-BEGIN
-    SELECT * FROM SERVICE;
-END;
-GO
-
-CREATE PROCEDURE view_service_by_ID(view_service_id int)
-BEGIN
-    SELECT * FROM SERVICE
-    where service_id = view_service_id;
-END;
-GO
-
-CREATE PROCEDURE view_employee_service(emp_id_view_service varchar(10))
-BEGIN
-    SELECT category, title, no_of_hours, no_of_participants, role, credits FROM SERVICE 
-    WHERE emp_id = emp_id_view;
-END;
-GO
-
-CREATE PROCEDURE insert_service( 
-                                category varchar(255),
-                                title varchar(255),
-                                no_of_hours int(10),
-                                no_of_participants int(10),
-                                role varchar(10),
-                                start_date varchar(255),
-                                end_date varchar(255),
-                                credits int (10),
-                                emp_id varchar(10)
-)
-BEGIN
-    INSERT INTO SERVICE
-      values (NULL, category, title, no_of_hours, no_of_participants, role, start_date, end_date, credits, emp_id);
-      call insert_log(concat("Service with title ", title, " has been added to the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE delete_service(service_id_del int)
-  BEGIN 
-    DELETE FROM SERVICE
-      where service_id = service_id_del;
-      call insert_log(concat("Service", service_id_del, " has been deleted from the table SERVICE"));
-END;
-GO
-
-CREATE PROCEDURE update_service( service_id_u int,
-                                category_u varchar(255),
-                                title_u varchar(255),
-                                no_of_hours_u int(10),
-                                no_of_participants_u int(10),
-                                role_u varchar(10),
-                                credits_u int (10),
-                                start_date_u varchar(255),
-                                end_date_u varchar(255)
-                                )
-  BEGIN 
-    UPDATE SERVICE
-        SET  category = category_u,
-            title = title_u,
-            no_of_hours = no_of_hours_u,
-            no_of_participants = no_of_participants_u,
-            role = role_u,
-            credits = credits_u,
-            start_date = start_date_u,
-            end_date = end_date_u
-        WHERE service_id = service_id_u;
-        call insert_log(concat("Service ", service_id_u, " ", title, " has been updated from the table SERVICE"));
-END;
-GO
-
-DELIMITER ;
-
-
-
-
+/* PROCEDURE FOR PUBLICATION */
 DROP PROCEDURE IF EXISTS view_publication; 
 DROP PROCEDURE IF EXISTS view_publication_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_publication; 
@@ -654,9 +573,9 @@ GO
 
 DELIMITER ;
 
+/* END OF PROCEDURE FOR PUBLICATION */
 
-
-
+/* COWORKER PROCEDURES */
 DROP PROCEDURE IF EXISTS view_coworker; 
 DROP PROCEDURE IF EXISTS view_coworker_by_ID; 
 DROP PROCEDURE IF EXISTS view_employee_coworker; 
@@ -722,10 +641,9 @@ GO
 
 DELIMITER ;
 
+/* END OF COWORKER PROCEDURES */
 
-
-
-
+/* SUBJECT PROCEDURES */
 DROP PROCEDURE IF EXISTS view_subjects;
 DROP PROCEDURE IF EXISTS add_subject;
 DROP PROCEDURE IF EXISTS delete_subject;
@@ -783,9 +701,9 @@ GO
 
 DELIMITER ;
 
+/* END OF SUBJECT PROCEDURES */
 
-
-
+/* PROCEDURES FOR TEACHINGLOAD */
 DROP PROCEDURE IF EXISTS view_employee_teachingload; 
 DROP PROCEDURE IF EXISTS view_teachingload; 
 DROP PROCEDURE IF EXISTS insert_teachingload; 
@@ -862,7 +780,9 @@ GO
 
 DELIMITER ;
 
+/* END OF TEACHINGLOAD PROCEDURES */
 
+/* STUDYLOAD PROCEDURES */
 DROP PROCEDURE IF EXISTS view_studyload; 
 DROP PROCEDURE IF EXISTS view_employee_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
@@ -875,31 +795,28 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT a.studyload_id, a.degree, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
   END;
 GO
 
 CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time, a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_view;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.emp_id = emp_id_view;
     END;
 GO
 
 CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
   BEGIN
-    SELECT a.studyload_id, a.emp_id, b.subject_id, b.subject_code, b.section_code, b.isLecture, b.units, b.room, b.start_time, b.end_time,  a.university, a.credits from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id =studyload_id_view;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.studyload_id = studyload_id_view;
     END;
 GO
 
-
 CREATE PROCEDURE insert_studyload(  subject_id_insert int,
-                                    degree_insert varchar(255) ,
-                                    university_insert varchar(255) ,
                                     credits_insert int ,
                                     emp_id_insert varchar(10) )
   BEGIN
       INSERT INTO STUDYLOAD
-      VALUES (NULL, degree_insert, university_insert, credits_insert, emp_id_insert, subject_id_insert);
+      VALUES (NULL, credits_insert, emp_id_insert, subject_id_insert);
       call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
       call update_employee_studyload(emp_id_insert);
   END;
@@ -956,29 +873,67 @@ GO
 
 DELIMITER ;
 
+/* END OF STUDYLOAD PROCEDURES */
 
+/* STUDY_CREDENTIALS PROCEDURES */
+DROP PROCEDURE IF EXISTS insert_study_credentials;
+DROP PROCEDURE IF EXISTS update_study_credentials;
 
-
-DROP PROCEDURE IF EXISTS view_employee_consultation; 
 DELIMITER GO
+
+CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),
+                                            degree_insert varchar(255),
+                                            university_insert varchar(255) )
+  BEGIN
+    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+      INSERT INTO STUDY_CREDENTIALS
+      VALUES ( degree_insert,
+                university_insert,
+                emp_id_insert );
+      call insert_log(concat("Study Credentials of ", emp_id_insert, " has been added to the DATABASE"));
+    END IF;
+  END;
+GO
+
+CREATE PROCEDURE update_study_credentials( emp_id_insert varchar(10),
+                                            degree_insert varchar(255),
+                                            university_insert varchar(255) )
+  BEGIN
+    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+      UPDATE STUDY_CREDENTIALS
+      SET degree = degree_insert,
+          university = university_insert
+      WHERE emp_id = emp_id_insert;
+      call insert_log(concat("Study Credentials of ", emp_id_insert, " has been edited in the DATABASE"));
+    END IF;
+  END;
+GO
+
+DELIMITER ;
+
+/* END OF STUDY CREDENTIALS PROCEDURES */
+
+/* CONSULTATION PROCEDURES */
+DROP PROCEDURE IF EXISTS view_employee_consultation; 
+DROP PROCEDURE IF EXISTS insert_consultation; 
+DROP PROCEDURE IF EXISTS view_consultation; 
+DROP PROCEDURE IF EXISTS delete_consultation;
+DROP PROCEDURE IF EXISTS update_consultation;
+
+DELIMITER GO
+
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS view_consultation; 
-DELIMITER GO
 CREATE PROCEDURE view_consultation()
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS insert_consultation; 
-DELIMITER GO
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),
@@ -992,10 +947,7 @@ BEGIN
     call insert_log(concat("Consultation time ",consultation_start_time_insert," to ",consultation_end_time_insert, " has been inserted to the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS delete_consultation;
-DELIMITER GO
 CREATE PROCEDURE delete_consultation( consultation_id_delete int )
 BEGIN
   DELETE FROM CONSULTATION
@@ -1005,10 +957,7 @@ BEGIN
   call insert_log(concat("Consultation id ",consultation_id_delete, " has been deleted from the table CONSULTATION"));
 END;
 GO
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS update_consultation;
-DELIMITER GO
 CREATE PROCEDURE update_consultation(   consultation_id_edit int,
                                         consultation_start_time_edit time,
                                         consultation_end_time_edit time,
@@ -1026,11 +975,12 @@ BEGIN
     call insert_log(concat("Consultation id ",consultation_id_edit, " has been updated from the table CONSULTATION"));
 END;
 GO
+
 DELIMITER ;
 
+/* END OF CONSULATATION PROCEDURE */
 
-
-
+/* FACULTY GRANT PROCEDURES */
 DROP PROCEDURE IF EXISTS view_faculty_grant; 
 DROP PROCEDURE IF EXISTS insert_faculty_grant; 
 DROP PROCEDURE IF EXISTS delete_faculty_grant; 
@@ -1093,8 +1043,9 @@ CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
 GO
 DELIMITER ;
 
+/* END OF FACULTY GRANT PROCEDURES */
 
-
+/* LIMITED PRACTICE PROCEDURES */
 DROP PROCEDURE IF EXISTS view_limited_practice; 
 DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
@@ -1163,28 +1114,44 @@ END;
 GO
 DELIMITER ;
 
+/* END OF LIMITED PRACTICE PROCEDURES */
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",FALSE,"aaronmagnaye@up.edu.ph");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",FALSE,"beajeje123xD@up.edu.ph");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",FALSE,"gnash@up.edu.ph");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",FALSE,"mrichard@up.edu.ph");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",FALSE,"hdenton@up.edu.ph");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",FALSE,"iherman@up.edu.ph");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",FALSE,"vxanthus@up.edu.ph");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",FALSE,"bhonorato@up.edu.ph");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",FALSE,"ngareth@up.edu.ph");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"rkeaton@up.edu.ph");
 
-call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'), "0000000000");
-call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'), "0000000001");
-call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'), "0000000002");
-call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'), "0000000003");
-call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'), "0000000004");
-call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'), "0000000005");
-call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'), "0000000006");
-call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'), "0000000007");
-call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'), "0000000008");
-call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'), "0000000009");
+/* POPULATE DATA */
+
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE,"email1@gmail.com");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE,"email2@gmail.com");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE,"email3@gmail.com");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE,"email4@gmail.com");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE,"email5@gmail.com");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE,"email6@gmail.com");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE,"email7@gmail.com");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE,"email8@gmail.com");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE,"email9@gmail.com");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"email10@gmail.com");
+
+call insert_study_credentials("0000000001","MSCS", "UPLB");
+call insert_study_credentials("0000000002","MSCS", "UPLB");
+call insert_study_credentials("0000000003","MSCS", "UPLB");
+call insert_study_credentials("0000000004","MSCS", "UPLB");
+call insert_study_credentials("0000000005","MSCS", "UPLB");
+call insert_study_credentials("0000000006","MSCS", "UPLB");
+call insert_study_credentials("0000000007","MSCS", "UPLB");
+call insert_study_credentials("0000000008","MSCS", "UPLB");
+call insert_study_credentials("0000000009","MSCS", "UPLB");
+call insert_study_credentials("0000000000","MSCS", "UPLB");
+
+call insert_activity(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
+call insert_activity(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");
+call insert_activity(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'),"agency3", "0000000002");
+call insert_activity(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'),"agency1", "0000000003");
+call insert_activity(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'),"agency1", "0000000004");
+call insert_activity(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'),"agency1", "0000000005");
+call insert_activity(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'),"agency1", "0000000006");
+call insert_activity(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'),"agency1", "0000000007");
+call insert_activity(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'),"agency1", "0000000008");
+call insert_activity(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'),"agency3", "0000000009");
+
 
 call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
@@ -1196,17 +1163,6 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
-
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000002");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000001");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000003");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000004");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000005");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000006");
--- call insert_service("aaron", "aaron", 2, 2, "aaron", 2, "0000000000");
 
 call insert_position("aaron", 2, "0000000000");
 call insert_position("aaron", 2, "0000000002");
@@ -1252,28 +1208,27 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload(11, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(12, "MSCS", "UPLB", 2,  "0000000001");
-call insert_studyload(13, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(14, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(15, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(16, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(17, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(18, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(19, "MSCS", "UPLB", 2, "0000000001");
-call insert_studyload(20, "MSCS", "UPLB", 2, "0000000001");
+call insert_studyload(11, 2, "0000000001");
+call insert_studyload(12, 2, "0000000001" );
+call insert_studyload(13, 2, "0000000002" );
+call insert_studyload(14, 2, "0000000003" );
+call insert_studyload(15, 2, "0000000004" );
+call insert_studyload(16, 2, "0000000005" );
+call insert_studyload(17, 2, "0000000006" );
+call insert_studyload(18, 2, "0000000007" );
+call insert_studyload(19, 2, "0000000008" );
+call insert_studyload(20, 2, "0000000009");
 
-
-call insert_publication(8,"9","30392","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
-call insert_publication(1,"8","76858","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
-call insert_publication(9,"5","49725","whatever","sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
-call insert_publication(5,"10","33757","whatever","nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
-call insert_publication(3,"6","30792","whatever","vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
-call insert_publication(6,"10","98341","whatever","condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
-call insert_publication(9,"5","32088","whatever","est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
-call insert_publication(10,"10","16871","whatever","sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
-call insert_publication(9,"1","82070","whatever","quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
-call insert_publication(8,"3","17520","whatever","mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
+call insert_publication(8,"9","agency1","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
+call insert_publication(1,"8","agency1","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
+call insert_publication(9,"5","agency1","whatever","sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
+call insert_publication(5,"10","agency1","whatever","nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
+call insert_publication(3,"6","agency1","whatever","vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
+call insert_publication(6,"10","agency1","whatever","condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
+call insert_publication(9,"5","agency1","whatever","est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
+call insert_publication(10,"10","agency1","whatever","sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
+call insert_publication(9,"1","agency1","whatever","quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
+call insert_publication(8,"3","agency1","whatever","mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
 
 call insert_coworker("0000000001",5);
 call insert_coworker("0000000005",2);

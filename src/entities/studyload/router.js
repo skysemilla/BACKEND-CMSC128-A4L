@@ -5,8 +5,6 @@ const router = Router();
 
 router.post('/api/studyload/add', async (req, res) => {
   if (
-    req.body.degree &&
-    req.body.university &&
     req.body.credits &&
     req.body.emp_id &&
     req.body.subject_id
@@ -31,13 +29,11 @@ router.post('/api/studyload/add', async (req, res) => {
 });
 
 router.post('/api/studyload/delete', async (req, res) => {
-  if (
-    req.body.studyload_id
-  ) {
+  if (req.body.studyload_id) {
     try {
       const book = await Ctrl.getStudyLoad(req.body);
       await Ctrl.removeStudyLoad(req.body);
-  
+
       res.status(200).json({
         status: 200,
         message: 'Successfully removed study load',
@@ -64,7 +60,7 @@ router.post('/api/studyload/edit', async (req, res) => {
     req.body.room &&
     req.body.start_time &&
     req.body.end_time
-) {
+  ) {
     try {
       await Ctrl.editStudyLoad(req.body);
       const sample = await Ctrl.getStudyLoad({
@@ -104,7 +100,6 @@ router.post('/api/studyload/view', async (req, res) => {
     res.status(status).json({ status, message });
   }
 });
-
 
 router.get('/api/studyload/viewAll', async (req, res) => {
   try {

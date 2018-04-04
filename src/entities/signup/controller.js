@@ -26,7 +26,7 @@ export const addEmployee = ({
     const values = [
       emp_id,
       username,
-      password,
+      hpassword,
       type,
       f_name,
       m_name,

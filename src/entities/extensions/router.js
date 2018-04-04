@@ -3,14 +3,14 @@ import * as Ctrl from './controller';
 
 const router = Router();
 
-// gets services
-router.get('/api/service/viewAll', async (req, res) => {
+// gets activitites
+router.get('/api/activity/viewAll', async (req, res) => {
   try {
-    const services = await Ctrl.getServices();
+    const activities = await Ctrl.getActivities();
     res.status(200).json({
       status: 200,
-      message: 'Successfully fetched all services',
-      data: services
+      message: 'Successfully fetched all Activities',
+      data: activities
     });
   } catch (status) {
     let message = '';
@@ -25,20 +25,20 @@ router.get('/api/service/viewAll', async (req, res) => {
   }
 });
 
-// get a service
-router.post('/api/service/view', async (req, res) => {
+// get a activity
+router.post('/api/activity/view', async (req, res) => {
   try {
-    const service = await Ctrl.getService(req.body);
+    const activity = await Ctrl.getActivity(req.body);
     res.status(200).json({
       status: 200,
-      message: 'Successfully fetched service',
-      data: service
+      message: 'Successfully fetched activity',
+      data: activity
     });
   } catch (status) {
     let message = '';
     switch (status) {
       case 404:
-        message = 'Service not found';
+        message = 'Activity not found';
         break;
       case 500:
         message = 'Internal server error';
@@ -48,8 +48,8 @@ router.post('/api/service/view', async (req, res) => {
   }
 });
 
-// add a service
-router.post('/api/service/add', async (req, res) => {
+// add a activity
+router.post('/api/activity/add', async (req, res) => {
   if (
     req.body.category &&
     req.body.title &&
@@ -59,13 +59,13 @@ router.post('/api/service/add', async (req, res) => {
     req.body.credits >= 0
   ) {
     try {
-      const id = await Ctrl.addService(req.body);
-      // const serviceAdded = await Ctrl.getService({ id: id });
+      const id = await Ctrl.addActivity(req.body);
+      const activityAdded = await Ctrl.getActivity({ id: id });
 
       res.status(200).json({
         status: 200,
         message: 'Successfully created sample',
-        data: serviceAdded
+        data: activityAdded
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -76,21 +76,21 @@ router.post('/api/service/add', async (req, res) => {
 });
 
 // removes a service
-router.post('/api/service/delete', async (req, res) => {
+router.post('/api/activity/delete', async (req, res) => {
   try {
-    const service = await Ctrl.getService(req.body);
-    await Ctrl.removeService(req.body);
+    const activity = await Ctrl.getActivity(req.body);
+    await Ctrl.removeActivity(req.body);
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully removed sample',
-      data: service
+      message: 'Successfully removed Activity',
+      data: activity
     });
   } catch (status) {
     let message = '';
     switch (status) {
       case 404:
-        message = 'Cannot Delete: Service not found';
+        message = 'Cannot Delete: Activity not found';
         break;
       case 500:
         message = 'Internal server error';
@@ -100,22 +100,22 @@ router.post('/api/service/delete', async (req, res) => {
   }
 });
 
-// edits a service
-router.post('/api/service/edit', async (req, res) => {
+// edits a Activity
+router.post('/api/activity/edit', async (req, res) => {
   try {
-    await Ctrl.editService(req.body);
-    const serviceEdited = await Ctrl.getService({ id: req.body.service_id });
+    await Ctrl.editActivity(req.body);
+    const activityEdited = await Ctrl.getActivity({ id: req.body.activity_id });
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully edited service',
-      data: serviceEdited
+      message: 'Successfully edited activity',
+     data: activityEdited
     });
   } catch (status) {
     let message = '';
     switch (status) {
       case 404:
-        message = 'Service not found';
+        message = 'Activity not found';
         break;
       case 500:
         message = 'Internal server error';

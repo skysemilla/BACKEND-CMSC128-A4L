@@ -1,6 +1,6 @@
 import db from '../../database';
 
-// gets a service
+// gets a activity
 export const getActivity = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `

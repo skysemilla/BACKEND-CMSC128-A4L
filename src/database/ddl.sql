@@ -19,6 +19,8 @@ create table EMPLOYEE(
   department varchar(10),
   college varchar(20),
   emp_type varchar(255),
+  semester varchar(20),
+  year varchar(20),
   email varchar(255) not null,
   is_studying boolean not null, 
   current_study_units int,
@@ -217,6 +219,7 @@ DELIMITER ;
 /* PROCEDURES FOR EMPLOYEE */
 DROP PROCEDURE IF EXISTS view_employee; 
 DROP PROCEDURE IF EXISTS view_employee_by_ID; 
+DROP PROCEDURE IF EXISTS get_min_teaching_units;
 DROP PROCEDURE IF EXISTS insert_study_credentials; 
 DROP PROCEDURE IF EXISTS delete_employee;
 DROP PROCEDURE IF EXISTS update_employee; 
@@ -231,10 +234,16 @@ CREATE PROCEDURE view_employee()
   END;
 GO
 
-CREATE PROCEDURE view_employee_by_ID(emp_id_view int)
+CREATE PROCEDURE view_employee_by_ID( emp_id_view varchar(20) )
   BEGIN 
     SELECT * from EMPLOYEE
     where emp_id = emp_id_view;
+  END;
+GO
+
+CREATE PROCEDURE get_min_teaching_units( emp_id_view varchar(20) )
+  BEGIN
+    SELECT min_teaching_units from EMPLOYEE where emp_id = emp_id_view;
   END;
 GO
 
@@ -248,6 +257,8 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(10),
                                   college_insert varchar(20),
                                   emp_type_insert varchar(255),
+                                  semester_insert varchar(20),
+                                  year_insert varchar(20),
                                   is_studying boolean,
                                   email_insert varchar(255))
   BEGIN 
@@ -258,11 +269,10 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     ELSE
       SET @min_teaching_units = 12,
           @max_study_units = 0;
-
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
+    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -714,6 +724,7 @@ DROP PROCEDURE IF EXISTS delete_teachingload;
 DROP PROCEDURE IF EXISTS update_teachingload;
 DROP PROCEDURE IF EXISTS view_by_teachingload_id;
 DROP PROCEDURE IF EXISTS is_teaching_graduate;
+DROP PROCEDURE IF EXISTS is_teaching_lecture;
 
 DELIMITER GO
 
@@ -1137,16 +1148,16 @@ DELIMITER ;
 
 /* POPULATE DATA */
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",TRUE,"email1@gmail.com");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",TRUE,"email2@gmail.com");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",TRUE,"email3@gmail.com");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",TRUE,"email4@gmail.com");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",TRUE,"email5@gmail.com");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",TRUE,"email6@gmail.com");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",TRUE,"email7@gmail.com");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",TRUE,"email8@gmail.com");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",TRUE,"email9@gmail.com");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",FALSE,"email10@gmail.com");
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com");
 
 call insert_study_credentials("0000000001","MSCS", "UPLB");
 call insert_study_credentials("0000000002","MSCS", "UPLB");
@@ -1193,27 +1204,27 @@ call insert_position("aaron", 2, "0000000006");
 call insert_position("aaron", 2, "0000000006");
 call insert_position("aaron", 2, "0000000000");
 
-call add_subject("cmsc 111", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 11", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 12", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 131", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 141", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 151", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 1161", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 17", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("math 170", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 125", "a", FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 111", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 11", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 12", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 131", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 141", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 151", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 1161", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 17", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("math 170", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 125", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
 
 call insert_teachingload(1, "0000000001", 12);
 call insert_teachingload(2, "0000000002", 12);

@@ -100,11 +100,11 @@ router.post('/api/activity/delete', async (req, res) => {
   }
 });
 
-// edits a Activity 
+// edits a Activity
 router.post('/api/activity/edit', async (req, res) => {
   try {
     await Ctrl.editActivity(req.body);
-   const activityEdited = await Ctrl.getActivity({ id: req.body.activity_id });
+    const activityEdited = await Ctrl.getActivity({ id: req.body.activity_id });
 
     res.status(200).json({
       status: 200,

@@ -5,8 +5,6 @@ const router = Router();
 
 router.post('/api/studyload/add', async (req, res) => {
   if (
-    req.body.degree &&
-    req.body.university &&
     req.body.credits &&
     req.body.emp_id &&
     req.body.subject_id

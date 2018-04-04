@@ -88,9 +88,9 @@ router.post('/api/teachload/edit/', async (req, res) => {
   }
 });
 
-router.get('/api/teachload/view/:teachingload_id', async (req, res) => {
+router.post('/api/teachload/view', async (req, res) => {
   try {
-    const book = await Ctrl.getTeachLoad(req.params);
+    const book = await Ctrl.getTeachEmp(req.session.user);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched teach load',

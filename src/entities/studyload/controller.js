@@ -113,8 +113,7 @@ export const getStudyLoad = ({ studyload_id }) => {
     });
   });
 };
-
-export const getStudyEmp = json => {
+export const getStudyEmp = ( json ) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
     const queryString = `
@@ -135,6 +134,7 @@ export const getStudyEmp = json => {
     });
   });
 };
+
 
 export const getAllStudyLoad = () => {
   return new Promise((resolve, reject) => {

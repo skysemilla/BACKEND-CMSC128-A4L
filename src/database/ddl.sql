@@ -19,7 +19,7 @@ create table EMPLOYEE(
   department varchar(10),
   college varchar(20),
   emp_type varchar(255),
-  email varchar(255),
+  email varchar(255) not null,
   is_studying boolean not null, 
   current_study_units int,
   max_study_units int,
@@ -61,10 +61,10 @@ create table PUBLICATION(
   publication_id int not null AUTO_INCREMENT,
   credit_units int not null,
   category varchar(255) not null,
-  funding varchar(255) not null,
+  funding varchar(255),
   title varchar(255) not null,
   type varchar(255) not null,
-  role varchar(255) not null,
+  role varchar(255),
   start_date varchar(255) not null,
   end_date varchar(255) not null,
   emp_id varchar(10) not null, 
@@ -130,6 +130,7 @@ create table SUBJECT(
   subject_code varchar(255) not null,
   section_code varchar(255) not null,
   isLecture boolean not null,
+  isGraduate boolean not null,
   units int not null,
   room varchar(255) not null,
   start_time time not null,
@@ -565,7 +566,7 @@ CREATE PROCEDURE update_publication(
           start_date = start_date_u,
           end_date = end_date_u
         WHERE publication_id = publication_id_u;
-        call insert_log(concat("Publication #", publication_id, " has been updated."));
+        call insert_log(concat("Publication #", publication_id_u, " has been updated."));
 
 
   END;
@@ -659,13 +660,14 @@ GO
 CREATE PROCEDURE add_subject(     subject_code_insert varchar(255),
                                   section_code_insert varchar(255),
                                   isLecture_insert boolean,
+                                  isGraduate_insert boolean,
                                   units_insert int,
                                   room_insert varchar(255),
                                   start_time_insert time,
                                   end_time_insert time )
   BEGIN
     INSERT INTO SUBJECT
-    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, units_insert, room_insert, start_time_insert, end_time_insert);
+    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, isGraduate_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     call insert_log(concat("Subject with code ", subject_code_insert, " and section ", section_code_insert, " has been inserted to the DATABASE"));
   END;
 GO
@@ -682,6 +684,7 @@ CREATE PROCEDURE update_subject( subject_id_edit int,
                                   subject_code_insert varchar(255),
                                         section_code_insert varchar(255),
                                         isLecture_insert boolean,
+                                        isGraduate_insert boolean,
                                         units_insert int,
                                         room_insert varchar(255),
                                         start_time_insert time,
@@ -710,6 +713,7 @@ DROP PROCEDURE IF EXISTS insert_teachingload;
 DROP PROCEDURE IF EXISTS delete_teachingload;
 DROP PROCEDURE IF EXISTS update_teachingload;
 DROP PROCEDURE IF EXISTS view_by_teachingload_id;
+DROP PROCEDURE IF EXISTS is_teaching_graduate;
 
 DELIMITER GO
 
@@ -731,6 +735,19 @@ CREATE PROCEDURE view_teachingload()
   END;
 GO
 
+
+CREATE PROCEDURE is_teaching_graduate( teachingload_id int )
+  BEGIN
+    SELECT b.isGraduate from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.teachingload_id = teachingload_id;
+  END;
+GO
+
+CREATE PROCEDURE is_teaching_lecture( teachingload_id int )
+  BEGIN
+    SELECT b.isLecture from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.teachingload_id = teachingload_id;
+  END;
+GO
+
 CREATE PROCEDURE insert_teachingload(   subject_id int,
                                         emp_id_insert varchar(10), 
                                         no_of_students_insert int)
@@ -741,6 +758,7 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
     call update_employee_teachingload( emp_id_insert );
   END;
 GO
+
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN

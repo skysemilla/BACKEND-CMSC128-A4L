@@ -105,18 +105,14 @@ export const getTeachLoad = ({ teachingload_id }) => {
   });
 };
 
-export const getTeachEmp = ({ emp_id }) => {
+export const getTeachEmp = (json) => {
   return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            TEACHINGLOAD
-          WHERE
-            emp_id = ?
+        call view_employee_teachingload(?)
         `;
 
-    db.query(queryString, emp_id, (err, rows) => {
+    db.query(queryString, [emp_id], (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

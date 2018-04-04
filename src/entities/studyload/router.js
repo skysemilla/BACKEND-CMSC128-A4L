@@ -5,8 +5,6 @@ const router = Router();
 
 router.post('/api/studyload/add', async (req, res) => {
   if (
-    req.body.degree &&
-    req.body.university &&
     req.body.credits &&
     req.body.emp_id &&
     req.body.subject_id
@@ -83,7 +81,7 @@ router.post('/api/studyload/edit', async (req, res) => {
 
 router.post('/api/studyload/view', async (req, res) => {
   try {
-    const book = await Ctrl.getStudyEmp({ id: req.body.emp_id });
+    const book = await Ctrl.getStudyEmp(req.session.user);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched study load',

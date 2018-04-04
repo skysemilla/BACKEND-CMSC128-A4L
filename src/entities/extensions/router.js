@@ -4,12 +4,12 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets services
-router.get('/api/service/viewAll', async (req, res) => {
+router.get('/api/activity/viewAll', async (req, res) => {
   try {
-    const services = await Ctrl.getServices();
+    const services = await Ctrl.getActivities();
     res.status(200).json({
       status: 200,
-      message: 'Successfully fetched all services',
+      message: 'Successfully fetched all Activities',
       data: services
     });
   } catch (status) {
@@ -28,11 +28,11 @@ router.get('/api/service/viewAll', async (req, res) => {
 // get a service
 router.post('/api/service/view', async (req, res) => {
   try {
-    const service = await Ctrl.getService(req.body);
+    const activity = await Ctrl.getActivity(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched service',
-      data: service
+      data: activity
     });
   } catch (status) {
     let message = '';
@@ -49,7 +49,7 @@ router.post('/api/service/view', async (req, res) => {
 });
 
 // add a service
-router.post('/api/service/add', async (req, res) => {
+router.post('/api/activity/add', async (req, res) => {
   if (
     req.body.category &&
     req.body.title &&
@@ -59,8 +59,8 @@ router.post('/api/service/add', async (req, res) => {
     req.body.credits >= 0
   ) {
     try {
-      const id = await Ctrl.addService(req.body);
-      // const serviceAdded = await Ctrl.getService({ id: id });
+      const id = await Ctrl.addActivity(req.body);
+      const serviceAdded = await Ctrl.getService({ id: id });
 
       res.status(200).json({
         status: 200,
@@ -76,10 +76,10 @@ router.post('/api/service/add', async (req, res) => {
 });
 
 // removes a service
-router.post('/api/service/delete', async (req, res) => {
+router.post('/api/activity/delete', async (req, res) => {
   try {
-    const service = await Ctrl.getService(req.body);
-    await Ctrl.removeService(req.body);
+    const service = await Ctrl.getActivity(req.body);
+    await Ctrl.removeActivity(req.body);
 
     res.status(200).json({
       status: 200,
@@ -100,16 +100,16 @@ router.post('/api/service/delete', async (req, res) => {
   }
 });
 
-// edits a service
-router.post('/api/service/edit', async (req, res) => {
+// edits a Activity 
+router.post('/api/activity/edit', async (req, res) => {
   try {
-    await Ctrl.editService(req.body);
-    const serviceEdited = await Ctrl.getService({ id: req.body.service_id });
+    await Ctrl.editActivity(req.body);
+   const serviceEdited = await Ctrl.getActivity({ id: req.body.activity_id });
 
     res.status(200).json({
       status: 200,
       message: 'Successfully edited service',
-      data: serviceEdited
+     data: serviceEdited
     });
   } catch (status) {
     let message = '';

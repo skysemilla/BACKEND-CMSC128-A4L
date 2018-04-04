@@ -1,10 +1,10 @@
 import db from '../../database';
 
 // gets a service
-export const getService = ({ id }) => {
+export const getActivity = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          CALL view_service_by_ID(?) 
+          SELECT * from ACTIVITY where activity_id = ?
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -22,12 +22,12 @@ export const getService = ({ id }) => {
   });
 };
 
-// gets all services
-export const getServices = () => {
+// gets all Activity
+export const getActivities = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
       CALL
-      view_service()
+      view_Activity()
     `;
 
     db.query(queryString, (err, rows) => {
@@ -41,28 +41,34 @@ export const getServices = () => {
   });
 };
 
-// adds a service
-export const addService = ({
-  category,
+// adds a Activity
+export const addActivity = ({
+  credits,
   title,
+  category,
   no_of_hours,
   no_of_participants,
   role,
-  credits,
+  start_date,
+  end_date,
+  funding_agency,
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            CALL insert_service(?, ?, ?, ?, ?, ?, ?)
+            CALL insert_activity(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
     const values = [
-      category,
+      credits,
       title,
+      category,
       no_of_hours,
       no_of_participants,
       role,
-      credits,
+      start_date,
+      end_date,
+      funding_agency,
       emp_id
     ];
 
@@ -77,11 +83,11 @@ export const addService = ({
   });
 };
 
-// removes a service
-export const removeService = ({ id }) => {
+// removes a Activity
+export const removeActivity = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL delete_service(?)
+      CALL delete_activity(?)
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -99,29 +105,37 @@ export const removeService = ({ id }) => {
   });
 };
 
-// edits a sample
-export const editService = ({
-  service_id,
-  category,
+// edits a Activity
+export const editActivity = ({
+  activity_id,
+  credits,
   title,
+  category,
   no_of_hours,
   no_of_participants,
   role,
-  credits
+  start_date,
+  end_date,
+  funding_agency,
+  emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL update_service(?, ?, ?, ?, ?, ?, ?)
+      CALL update_activity(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
-      service_id, 
-      category,
+      activity_id,
+      credits,
       title,
+      category,
       no_of_hours,
       no_of_participants,
       role,
-      credits
+      start_date,
+      end_date,
+      funding_agency,
+      emp_id
     ];
 
     db.query(queryString, values, (err, res) => {

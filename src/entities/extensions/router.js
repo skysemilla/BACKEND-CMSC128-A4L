@@ -60,7 +60,7 @@ router.post('/api/activity/add', async (req, res) => {
   ) {
     try {
       const id = await Ctrl.addActivity(req.body);
-      const serviceAdded = await Ctrl.getService({ id: id });
+      const serviceAdded = await Ctrl.getActivity({ id: id });
 
       res.status(200).json({
         status: 200,
@@ -100,16 +100,16 @@ router.post('/api/activity/delete', async (req, res) => {
   }
 });
 
-// edits a Activity 
+// edits a Activity
 router.post('/api/activity/edit', async (req, res) => {
   try {
     await Ctrl.editActivity(req.body);
-   const serviceEdited = await Ctrl.getActivity({ id: req.body.activity_id });
+    const serviceEdited = await Ctrl.getActivity({ id: req.body.activity_id });
 
     res.status(200).json({
       status: 200,
       message: 'Successfully edited service',
-     data: serviceEdited
+      data: serviceEdited
     });
   } catch (status) {
     let message = '';

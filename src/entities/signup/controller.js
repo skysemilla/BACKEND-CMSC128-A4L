@@ -1,5 +1,4 @@
 import db from '../../database';
-import sha256 from '../../hash';
 
 //adds an employee
 export const addEmployee = ({
@@ -18,15 +17,13 @@ export const addEmployee = ({
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '2nd', '2017-2018', ?, ?);
     `;
-
-    const hpassword = sha256(password);
 
     const values = [
       emp_id,
       username,
-      hpassword,
+      password,
       type,
       f_name,
       m_name,

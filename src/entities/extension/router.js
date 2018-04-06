@@ -79,8 +79,8 @@ router.post('/api/extension/add', async (req, res) => {
 // removes an extension
 router.post('/api/extension/delete', async (req, res) => {
   try {
-    const extension = await Ctrl.getService(req.body);
-    await Ctrl.removeService(req.body);
+    const extension = await Ctrl.getExtension(req.body);
+    await Ctrl.removeExtension(req.body);
 
     res.status(200).json({
       status: 200,

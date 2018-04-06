@@ -27,9 +27,7 @@ router.post('/api/position/add', async (req, res) => {
   }
 });
 
-
-
-router.post('/api/position/remove', async (req, res) => {
+router.post('/api/position/delete', async (req, res) => {
   try {
     const consultation = await Ctrl.getPosition(req.body);
     await Ctrl.removePosition(req.body);
@@ -61,7 +59,7 @@ router.put('/api/position/edit', async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully edited service',
+      message: 'Successfully edited position',
       data: positionEdited
     });
   } catch (status) {
@@ -78,5 +76,48 @@ router.put('/api/position/edit', async (req, res) => {
   }
 });
 
+router.post('/api/position/view', async (req, res) => {
+  try {
+    const book = await Ctrl.getPosition(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched position',
+      data: book
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Position not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+
+router.get('/api/position/viewAll', async (req, res) => {
+  try {
+    const subjects = await Ctrl.getAllPositions();
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched all positions',
+      data: subjects
+    });
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(200).json({ status, message });
+  }
+});
 
 export default router;

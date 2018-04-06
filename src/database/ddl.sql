@@ -158,6 +158,16 @@ create table TEACHINGLOAD(
   constraint teachingload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+/*START OF TEACHING LOAD OUTSIDE COLLEGE*/
+create table TEACHINGLOAD_OUTSIDE_COLLEGE (
+  college_outside_up_system varchar(20),
+  no_of_subjects int,
+  no_of_units_without_multipliers int,
+  emp_id varchar(10) not null,
+  constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*END OF TEACHING LOAD OUTSIDE COLLEGE*/
+
 /* SAME CONCEPT AS THE TEACHINGLOAD */
 create table STUDYLOAD(
   studyload_id int not null AUTO_INCREMENT,
@@ -811,6 +821,42 @@ DELIMITER ;
 
 /* END OF TEACHINGLOAD PROCEDURES */
 
+/* START TEACHINGLOAD OUTSIDE COLLEGE PROCEDURES */
+DROP PROCEDURE IF EXISTS insert_teachingload_outside_college;
+DROP PROCEDURE IF EXISTS update_teachingload_outside_college;
+
+DELIMITER GO
+
+CREATE PROCEDURE insert_teachingload_outside_college( emp_id_insert varchar(10),
+                                            college_outside_up_system_insert varchar(20),
+                                            no_of_subjects_insert int,
+                                            no_of_units_without_multipliers_insert int )
+  BEGIN
+      INSERT INTO TEACHINGLOAD_OUTSIDE_COLLEGE
+      VALUES ( college_outside_up_system_insert,
+                no_of_subjects_insert,
+                no_of_units_without_multipliers_insert,
+                emp_id_insert );
+      call insert_log(concat("Teachingload outside college ", emp_id_insert, " has been added to the DATABASE"));
+  END;
+GO
+
+CREATE PROCEDURE update_teachingload_outside_college( emp_id_update varchar(10),
+                                            college_outside_up_system_update varchar(20),
+                                            no_of_subjects_update int,
+                                            no_of_units_without_multipliers_update int )
+  BEGIN   
+      UPDATE TEACHINGLOAD_OUTSIDE_COLLEGE
+      SET college_outside_up_system = college_outside_up_system_update,
+          no_of_subjects = no_of_subjects_update,
+          no_of_units_without_multipliers = no_of_units_without_multipliers_update
+      WHERE emp_id = emp_id_update;
+      call insert_log(concat("Teachingload outside college of ", emp_id_insert, " has been edited in the DATABASE"));
+  END;
+GO
+
+DELIMITER ;
+/* END TEACHINGLOAD OUTSIDE COLLEGE PROCEDURES */
 /* STUDYLOAD PROCEDURES */
 DROP PROCEDURE IF EXISTS view_studyload; 
 DROP PROCEDURE IF EXISTS view_employee_studyload;

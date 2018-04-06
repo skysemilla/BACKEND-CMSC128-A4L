@@ -718,6 +718,16 @@ CREATE PROCEDURE delete_subject(  subject_id_delete int )
   END;
 GO
 
+CREATE FUNCTION is_subject_existing( subject_code_check varchar(255), section_code_check varchar(255) )
+RETURNS BOOLEAN DETERMINISTIC
+  BEGIN
+    IF EXISTS(SELECT subject_id from subject where subject_code = subject_code_check and section_code = section_code_check) THEN
+      RETURN true;
+    END IF;
+    RETURN false;
+  END;
+GO  
+
 CREATE PROCEDURE update_subject( subject_id_edit int,
                                   subject_code_insert varchar(255),
                                         section_code_insert varchar(255),
@@ -798,6 +808,15 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
   END;
 GO
 
+CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
+RETURNS BOOLEAN DETERMINISTIC
+  BEGIN
+    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert;) THEN
+      RETURN true;
+    END IF;
+    RETURN false;
+  END;
+GO  
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
@@ -914,6 +933,16 @@ CREATE PROCEDURE insert_studyload(  subject_id_insert int,
       call update_employee_studyload(emp_id_insert);
   END;
 GO
+
+CREATE FUNCTION is_studyloadload_existing( studyloadload_id_check int )
+RETURNS BOOLEAN DETERMINISTIC
+  BEGIN
+    IF EXISTS(SELECT studyload_id from studyload where studyload_id = studyload_id_check) THEN
+      RETURN true;
+    END IF;
+    RETURN false;
+  END;
+GO  
 
 CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN

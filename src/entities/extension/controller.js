@@ -1,10 +1,10 @@
 import db from '../../database';
 
-// gets a service
-export const getService = ({ id }) => {
+// gets a extension
+export const getExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          CALL view_service_by_ID(?) 
+          SELECT * from EXTENSION where extension_id = ?
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -22,12 +22,12 @@ export const getService = ({ id }) => {
   });
 };
 
-// gets all services
-export const getServices = () => {
+// gets all extensions
+export const getExtensions = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
       CALL
-      view_service()
+      view_extension();
     `;
 
     db.query(queryString, (err, rows) => {
@@ -41,28 +41,34 @@ export const getServices = () => {
   });
 };
 
-// adds a service
-export const addService = ({
-  category,
-  title,
+// adds a extension
+export const addExtension = ({
+  credit_unit,
+  extension_name,
+  extension_type,
   no_of_hours,
   no_of_participants,
-  role,
-  credits,
+  extension_role,
+  start_time,
+  end_time,
+  funding_agency,
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            CALL insert_service(?, ?, ?, ?, ?, ?, ?)
+            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
     const values = [
-      category,
-      title,
+      credit_unit,
+      extension_name,
+      extension_type,
       no_of_hours,
       no_of_participants,
-      role,
-      credits,
+      extension_role,
+      start_time,
+      end_time,
+      funding_agency,
       emp_id
     ];
 
@@ -77,11 +83,11 @@ export const addService = ({
   });
 };
 
-// removes a service
-export const removeService = ({ id }) => {
+// removes a extension
+export const removeExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL delete_service(?)
+      CALL delete_extension(?);
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -100,28 +106,36 @@ export const removeService = ({ id }) => {
 };
 
 // edits a sample
-export const editService = ({
-  service_id,
-  category,
-  title,
-  no_of_hours,
-  no_of_participants,
-  role,
-  credits
+export const editExtension = ({
+  extension_id_update,
+  credit_unit_update,
+  extension_name_update,
+  extension_type_update,
+  no_of_hours_update,
+  no_of_participants_update,
+  extension_role_update,
+  start_time_update,
+  end_time_update,
+  funding_agency_update,
+  emp_id_update
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL update_service(?, ?, ?, ?, ?, ?, ?)
+      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
     const values = [
-      service_id, 
-      category,
-      title,
-      no_of_hours,
-      no_of_participants,
-      role,
-      credits
+      extension_id_update,
+      credit_unit_update,
+      extension_name_update,
+      extension_type_update,
+      no_of_hours_update,
+      no_of_participants_update,
+      extension_role_update,
+      start_time_update,
+      end_time_update,
+      funding_agency_update,
+      emp_id_update
     ];
 
     db.query(queryString, values, (err, res) => {

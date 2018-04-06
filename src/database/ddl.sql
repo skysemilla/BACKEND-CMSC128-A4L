@@ -16,6 +16,7 @@ create table EMPLOYEE(
   f_name varchar(255) NOT NULL,
   m_name varchar(255) not null,
   l_name varchar (255) not null,
+  is_new boolean not null, /* needed for checking if the employee is required to change some attributes */
   department varchar(10),
   college varchar(20),
   emp_type varchar(255),
@@ -65,7 +66,6 @@ create table PUBLICATION(
   category varchar(255) not null,
   funding varchar(255),
   title varchar(255) not null,
-  type varchar(255) not null,
   role varchar(255),
   start_date varchar(255) not null,
   end_date varchar(255) not null,
@@ -235,6 +235,8 @@ DROP PROCEDURE IF EXISTS delete_employee;
 DROP PROCEDURE IF EXISTS update_employee; 
 DROP PROCEDURE IF EXISTS update_employee_teachingload;
 DROP PROCEDURE IF EXISTS update_employee_studyload;
+DROP PROCEDURE IF EXISTS update_employee_is_new;
+DROP PROCEDURE IF EXISTS clear_employee;
 
 DELIMITER GO
 
@@ -246,7 +248,7 @@ GO
 
 CREATE PROCEDURE view_employee_by_ID( emp_id_view varchar(20) )
   BEGIN 
-    SELECT * from EMPLOYEE
+    SELECT *, sha2(password,256) as hpassword from EMPLOYEE
     where emp_id = emp_id_view;
   END;
 GO
@@ -282,7 +284,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, password_insert, type_insert, f_name_insert, m_name_insert, l_name_insert, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
   END;
 GO
@@ -323,6 +325,26 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         is_studying = is_studying_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
+  END;
+GO
+
+CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
+                                        department_insert varchar(10),
+                                        college_insert varchar(20),
+                                        emp_type_insert varchar(255),
+                                        email_insert varchar(255),
+                                        is_studying_insert boolean )
+  BEGIN
+    UPDATE EMPLOYEE
+    SET
+      department = department_insert,
+      college = college_insert,
+      emp_type = emp_type_insert,
+      email = email_insert,
+      is_studying = is_studying_insert,
+      is_new = 0
+    WHERE emp_id = emp_id_insert;
+    call insert_log(concat("Employee #", emp_id_insert, "'s new attributes has been updated in the Database"));
   END;
 GO
 
@@ -538,7 +560,6 @@ CREATE PROCEDURE insert_publication(
                 category varchar(255),
                 funding varchar(255),
                 title varchar(255),
-                type varchar(255),
                 role varchar(255),
                 start_date datetime,
                 end_date datetime,
@@ -546,7 +567,7 @@ CREATE PROCEDURE insert_publication(
 )
   BEGIN
       INSERT INTO PUBLICATION
-        values (NULL, credit_units, category, funding, title, type, role, start_date, end_date, emp_id);
+        values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
         call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;
@@ -569,7 +590,6 @@ CREATE PROCEDURE update_publication(
                 category_u varchar(255),
                 funding_u varchar(255),
                 title_u varchar(255),
-                type_u varchar(255),
                 role_u varchar(255),
                 start_date_u datetime,
                 end_date_u datetime
@@ -580,7 +600,6 @@ CREATE PROCEDURE update_publication(
           category = category_u,
           funding = funding_u,
           title = title_u,
-          type = type_u,
           role = role_u,
           start_date = start_date_u,
           end_date = end_date_u
@@ -959,7 +978,7 @@ CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),
                                             degree_insert varchar(255),
                                             university_insert varchar(255) )
   BEGIN
-    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+    IF (select is_studying from EMPLOYEE where emp_id = emp_id_insert) = 1 THEN
       INSERT INTO STUDY_CREDENTIALS
       VALUES ( degree_insert,
                 university_insert,
@@ -1190,19 +1209,51 @@ DELIMITER ;
 
 /* END OF LIMITED PRACTICE PROCEDURES */
 
+/*CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
+  BEGIN
+    UPDATE EMPLOYEE
+    SET
+      department = "NULL",
+      college = "NULL",
+      emp_type = "NULL",
+      email = "NULL",
+      is_studying = "NULL",
+      is_new = 1
+    WHERE emp_id = emp_id_insert;
+
+    DELETE FROM ACTIVITY
+    WHERE emp_id = emp_type_insert;
+
+    DELETE FROM PUBLICATION
+    
+
+
+
+
+
+
+
+
+
+
+
+    call insert_log(concat("Employee #", emp_id_insert, "'s FSR has been approved. DATA CLEARED"));
+  END;
+GO
+*/
 
 /* POPULATE DATA */
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com");
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye",FALSE,"Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista",FALSE,"Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot",FALSE,"Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin",FALSE,"Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean",FALSE,"Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay",FALSE,"Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent",FALSE,"Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry",FALSE,"Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim",FALSE,"Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando",FALSE,"Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com");
 
 call insert_study_credentials("0000000001","MSCS", "UPLB");
 call insert_study_credentials("0000000002","MSCS", "UPLB");
@@ -1293,16 +1344,16 @@ call insert_studyload(18, 2, "0000000007" );
 call insert_studyload(19, 2, "0000000008" );
 call insert_studyload(20, 2, "0000000009");
 
-call insert_publication(8,"9","agency1","whatever","Donec","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
-call insert_publication(1,"8","agency1","whatever","a","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
-call insert_publication(9,"5","agency1","whatever","sapien","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
-call insert_publication(5,"10","agency1","whatever","nonummy","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
-call insert_publication(3,"6","agency1","whatever","vitae,","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
-call insert_publication(6,"10","agency1","whatever","condimentum","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
-call insert_publication(9,"5","agency1","whatever","est.","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
-call insert_publication(10,"10","agency1","whatever","sagittis","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
-call insert_publication(9,"1","agency1","whatever","quis","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
-call insert_publication(8,"3","agency1","whatever","mauris","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
+call insert_publication(8,"9","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
+call insert_publication(1,"8","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
+call insert_publication(9,"5","agency1","whatever","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
+call insert_publication(5,"10","agency1","whatever","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
+call insert_publication(3,"6","agency1","whatever","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
+call insert_publication(6,"10","agency1","whatever","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
+call insert_publication(9,"5","agency1","whatever","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
+call insert_publication(10,"10","agency1","whatever","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
+call insert_publication(9,"1","agency1","whatever","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
+call insert_publication(8,"3","agency1","whatever","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
 
 call insert_coworker("0000000001",5);
 call insert_coworker("0000000005",2);

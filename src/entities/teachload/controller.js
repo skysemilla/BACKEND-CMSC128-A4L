@@ -1,7 +1,8 @@
 import db from '../../database';
 
-export const addTeachLoad = ({ emp_id, no_of_students, subject_code, section_code, room, days, start_time, end_time, creditw}) => {
+export const addTeachLoad = ({ no_of_students, subject_code, section_code, room, days, start_time, end_time, creditw},json) => {
   return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
     const queryString = `
       INSERT INTO TEACHINGLOAD
           (emp_id, no_of_students, subject_id)
@@ -105,18 +106,14 @@ export const getTeachLoad = ({ teachingload_id }) => {
   });
 };
 
-export const getTeachEmp = ({ emp_id }) => {
+export const getTeachEmp = (json) => {
   return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            TEACHINGLOAD
-          WHERE
-            emp_id = ?
+        call view_employee_teachingload(?)
         `;
 
-    db.query(queryString, emp_id, (err, rows) => {
+    db.query(queryString, [emp_id], (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

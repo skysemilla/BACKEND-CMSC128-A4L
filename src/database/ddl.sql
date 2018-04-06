@@ -164,7 +164,7 @@ create table TEACHINGLOAD_OUTSIDE_COLLEGE (
   no_of_subjects int,
   no_of_units_without_multipliers int,
   emp_id varchar(10) not null,
-  constraint teachingload_outside_college_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+  constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 /*END OF TEACHING LOAD OUTSIDE COLLEGE*/
 
@@ -184,7 +184,7 @@ create table STUDY_CREDENTIALS (
   degree varchar(255) not null,
   university varchar(255) not null,
   emp_id varchar(10) not null,
-  constraint study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+  constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table LIMITED_PRACTICE(
@@ -718,16 +718,6 @@ CREATE PROCEDURE delete_subject(  subject_id_delete int )
   END;
 GO
 
-CREATE FUNCTION is_subject_existing( subject_code_check varchar(255), section_code_check varchar(255) )
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT subject_id from subject where subject_code = subject_code_check and section_code = section_code_check) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
-
 CREATE PROCEDURE update_subject( subject_id_edit int,
                                   subject_code_insert varchar(255),
                                         section_code_insert varchar(255),
@@ -808,15 +798,6 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
   END;
 GO
 
-CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert;) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
@@ -907,7 +888,7 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
   END;
 GO
 
@@ -933,16 +914,6 @@ CREATE PROCEDURE insert_studyload(  subject_id_insert int,
       call update_employee_studyload(emp_id_insert);
   END;
 GO
-
-CREATE FUNCTION is_studyload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert;) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
 
 CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
@@ -1238,68 +1209,51 @@ DELIMITER ;
 
 /* END OF LIMITED PRACTICE PROCEDURES */
 
-DELIMITER GO
-
-CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
+/*CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
   BEGIN
     UPDATE EMPLOYEE
     SET
+      department = "NULL",
+      college = "NULL",
       emp_type = "NULL",
-      semester = "NULL",
-      year = "NULL",
-      is_studying = 0,
-      current_teaching_units = 0,
-      current_study_units = 0,
-      max_study_units = 0,
-      min_teaching_units = 0,
-      is_new = 0
-    WHERE emp_id = emp_id_clear;
+      email = "NULL",
+      is_studying = "NULL",
+      is_new = 1
+    WHERE emp_id = emp_id_insert;
 
-    DELETE FROM EXTENSION
-    WHERE emp_id = emp_id_clear;
+    DELETE FROM ACTIVITY
+    WHERE emp_id = emp_type_insert;
 
     DELETE FROM PUBLICATION
-    WHERE emp_id = emp_id_clear;
+    
 
-    DELETE FROM FACULTYGRANT
-    WHERE emp_id = emp_id_clear;
 
-    DELETE FROM COWORKER
-    WHERE emp_id = emp_id_clear;
 
-    DELETE FROM CONSULTATION
-    WHERE emp_id = emp_id_clear;
 
-    DELETE FROM POSITIONN
-    WHERE emp_id = emp_id_clear;
 
-    DELETE FROM TEACHINGLOAD
-    WHERE emp_id = emp_id_clear; 
 
-    DELETE FROM STUDYLOAD
-    WHERE emp_id = emp_id_clear; 
 
-    DELETE FROM LIMITED_PRACTICE
-    WHERE emp_id = emp_id_clear; 
 
-    call insert_log(concat("Employee #", emp_id_clear, "'s FSR has been approved. DATA CLEARED"));
+
+
+
+    call insert_log(concat("Employee #", emp_id_insert, "'s FSR has been approved. DATA CLEARED"));
   END;
 GO
-
-DELIMITER ;
+*/
 
 /* POPULATE DATA */
 
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com");
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye",FALSE,"Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista",FALSE,"Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot",FALSE,"Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin",FALSE,"Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com");
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean",FALSE,"Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com");
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay",FALSE,"Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com");
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent",FALSE,"Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com");
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry",FALSE,"Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com");
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim",FALSE,"Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com");
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando",FALSE,"Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com");
 
 call insert_study_credentials("0000000001","MSCS", "UPLB");
 call insert_study_credentials("0000000002","MSCS", "UPLB");

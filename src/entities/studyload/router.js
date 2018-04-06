@@ -4,11 +4,11 @@ import * as Ctrl from './controller';
 const router = Router();
 
 router.post('/api/studyload/add', async (req, res) => {
-  if (req.body.credits && req.body.emp_id && req.body.subject_id) {
+  if (req.body.credits && req.session.emp_id && req.body.subject_id) {
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
-      const id = await Ctrl.addStudyLoad(req.body);
+      const id = await Ctrl.addStudyLoad(req.body,req.session.user);
       const sample = await Ctrl.getStudyLoad({ studyload_id: id });
 
       res.status(200).json({
@@ -77,7 +77,7 @@ router.post('/api/studyload/edit', async (req, res) => {
 
 router.post('/api/studyload/view', async (req, res) => {
   try {
-    const book = await Ctrl.getStudyEmp(req.body.user);
+    const book = await Ctrl.getStudyEmp(req.session.user);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched study load',

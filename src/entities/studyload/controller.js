@@ -4,10 +4,12 @@ export const addStudyLoad = ({
   // degree,
   // university,
   credits,
-  emp_id,
   subject_id
-}) => {
+},
+  json
+) => {
   return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
     const queryString = `
       call insert_studyload(?, ?, ?)
     `;

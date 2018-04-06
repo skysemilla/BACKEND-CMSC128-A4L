@@ -3,14 +3,14 @@ import * as Ctrl from './controller';
 
 const router = Router();
 
-// gets activitites
-router.get('/api/activity/viewAll', async (req, res) => {
+// gets extension
+router.get('/api/extension/viewAll', async (req, res) => {
   try {
-    const activities = await Ctrl.getActivities();
+    const extensions = await Ctrl.getExtensions();
     res.status(200).json({
       status: 200,
-      message: 'Successfully fetched all Activities',
-      data: activities
+      message: 'Successfully fetched all Extensions',
+      data: extensions
     });
   } catch (status) {
     let message = '';
@@ -25,20 +25,20 @@ router.get('/api/activity/viewAll', async (req, res) => {
   }
 });
 
-// get a activity
-router.post('/api/activity/view', async (req, res) => {
+// get a extensions
+router.post('/api/extension/view', async (req, res) => {
   try {
-    const activity = await Ctrl.getActivity(req.body);
+    const extension = await Ctrl.getExtension(req.body);
     res.status(200).json({
       status: 200,
-      message: 'Successfully fetched activity',
-      data: activity
+      message: 'Successfully fetched Extension',
+      data: extension
     });
   } catch (status) {
     let message = '';
     switch (status) {
       case 404:
-        message = 'Activity not found';
+        message = 'Extension not found';
         break;
       case 500:
         message = 'Internal server error';
@@ -48,24 +48,25 @@ router.post('/api/activity/view', async (req, res) => {
   }
 });
 
-// add a activity
-router.post('/api/activity/add', async (req, res) => {
+// add a extension
+router.post('/api/extension/add', async (req, res) => {
   if (
-    req.body.category &&
-    req.body.title &&
+    req.body.extension_type &&
+    req.body.extension_name &&
     req.body.no_of_hours >= 0 &&
     req.body.no_of_participants >= 0 &&
-    req.body.role &&
-    req.body.credits >= 0
+    req.body.extension_role &&
+    req.body.credit_unit >= 0 &&
+    req.body.funding_agency
   ) {
     try {
-      const id = await Ctrl.addActivity(req.body);
-      const activityAdded = await Ctrl.getActivity({ id: id });
+      const id = await Ctrl.addExtension(req.body);
+      // const extensionAdded = await Ctrl.getExtension({ id: id });
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully created sample',
-        data: activityAdded
+        message: 'Successfully added Extension',
+        // data: extensionAdded
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -75,22 +76,22 @@ router.post('/api/activity/add', async (req, res) => {
   }
 });
 
-// removes a service
-router.post('/api/activity/delete', async (req, res) => {
+// removes an extension
+router.post('/api/extension/delete', async (req, res) => {
   try {
-    const activity = await Ctrl.getActivity(req.body);
-    await Ctrl.removeActivity(req.body);
+    const extension = await Ctrl.getService(req.body);
+    await Ctrl.removeService(req.body);
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully removed Activity',
-      data: activity
+      message: 'Successfully removed sample',
+      data: extension
     });
   } catch (status) {
     let message = '';
     switch (status) {
       case 404:
-        message = 'Cannot Delete: Activity not found';
+        message = 'Cannot Delete: Extension not found';
         break;
       case 500:
         message = 'Internal server error';
@@ -100,22 +101,22 @@ router.post('/api/activity/delete', async (req, res) => {
   }
 });
 
-// edits a Activity
-router.post('/api/activity/edit', async (req, res) => {
+// edits a extension
+router.post('/api/extension/edit', async (req, res) => {
   try {
-    await Ctrl.editActivity(req.body);
-    const activityEdited = await Ctrl.getActivity({ id: req.body.activity_id });
+    await Ctrl.editExtension(req.body);
+    const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully edited activity',
-     data: activityEdited
+      message: 'Successfully edited extension',
+      data: extensionEdited
     });
   } catch (status) {
     let message = '';
     switch (status) {
       case 404:
-        message = 'Activity not found';
+        message = 'Extension not found';
         break;
       case 500:
         message = 'Internal server error';

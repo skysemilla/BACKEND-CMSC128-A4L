@@ -1,10 +1,10 @@
 import db from '../../database';
 
-// gets a activity
-export const getActivity = ({ id }) => {
+// gets a extension
+export const getExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT * from ACTIVITY where activity_id = ?
+          SELECT * from EXTENSION where extension_id = ?
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -22,12 +22,12 @@ export const getActivity = ({ id }) => {
   });
 };
 
-// gets all Activity
-export const getActivities = () => {
+// gets all extensions
+export const getExtensions = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
       CALL
-      view_Activity()
+      view_extension();
     `;
 
     db.query(queryString, (err, rows) => {
@@ -41,33 +41,33 @@ export const getActivities = () => {
   });
 };
 
-// adds a Activity
-export const addActivity = ({
-  credits,
-  title,
-  category,
+// adds a extension
+export const addExtension = ({
+  credit_unit,
+  extension_name,
+  extension_type,
   no_of_hours,
   no_of_participants,
-  role,
-  start_date,
-  end_date,
+  extension_role,
+  start_time,
+  end_time,
   funding_agency,
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-            CALL insert_activity(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
     const values = [
-      credits,
-      title,
-      category,
+      credit_unit,
+      extension_name,
+      extension_type,
       no_of_hours,
       no_of_participants,
-      role,
-      start_date,
-      end_date,
+      extension_role,
+      start_time,
+      end_time,
       funding_agency,
       emp_id
     ];
@@ -83,11 +83,11 @@ export const addActivity = ({
   });
 };
 
-// removes a Activity
-export const removeActivity = ({ id }) => {
+// removes a extension
+export const removeExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL delete_activity(?)
+      CALL delete_extension(?);
     `;
 
     db.query(queryString, id, (err, results) => {
@@ -105,37 +105,37 @@ export const removeActivity = ({ id }) => {
   });
 };
 
-// edits a Activity
-export const editActivity = ({
-  activity_id,
-  credits,
-  title,
-  category,
-  no_of_hours,
-  no_of_participants,
-  role,
-  start_date,
-  end_date,
-  funding_agency,
-  emp_id
+// edits a sample
+export const editExtension = ({
+  extension_id_update,
+  credit_unit_update,
+  extension_name_update,
+  extension_type_update,
+  no_of_hours_update,
+  no_of_participants_update,
+  extension_role_update,
+  start_time_update,
+  end_time_update,
+  funding_agency_update,
+  emp_id_update
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL update_activity(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
 
     const values = [
-      activity_id,
-      credits,
-      title,
-      category,
-      no_of_hours,
-      no_of_participants,
-      role,
-      start_date,
-      end_date,
-      funding_agency,
-      emp_id
+      extension_id_update,
+      credit_unit_update,
+      extension_name_update,
+      extension_type_update,
+      no_of_hours_update,
+      no_of_participants_update,
+      extension_role_update,
+      start_time_update,
+      end_time_update,
+      funding_agency_update,
+      emp_id_update
     ];
 
     db.query(queryString, values, (err, res) => {

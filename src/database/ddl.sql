@@ -121,6 +121,7 @@ create table POSITIONN(
   position_id int AUTO_INCREMENT,
   office varchar(255) not null,
   credit_units int not null,
+  nature_of_work varchar(255) not null,
   emp_id varchar(10) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
   constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -488,11 +489,12 @@ GO
 
 CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
+                                nature_of_work varchar(255),
                                 emp_id varchar(10))
 BEGIN
     INSERT INTO POSITIONN
-      values (NULL, office, credit_units, emp_id);
-      call insert_log(concat("Position ", office, "and", credit_units," has been added to the table POSITIONN"));
+      values (NULL, office, credit_units,nature_of_work, emp_id);
+      call insert_log(concat("Position ", office,"/", nature_of_work, "and", credit_units," has been added to the table POSITIONN"));
 
 
 END;
@@ -510,11 +512,13 @@ GO
 CREATE PROCEDURE update_position(position_id_update int,
                                 office_update varchar(255),
                                 credit_units_update int,
+                                nature_of_work_update varchar(255),
                                 emp_id_update varchar(10))
   BEGIN 
     UPDATE POSITIONN
         SET  office = office_update,
             credit_units = credit_units_update,
+            nature_of_work =nature_of_work_update,
             emp_id = emp_id_update
         WHERE position_id = position_id_update;
         call insert_log(concat("Position #", position_id_update, " has been updated"));
@@ -1335,16 +1339,16 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
-call insert_position("aaron", 2, "0000000000");
-call insert_position("aaron", 2, "0000000002");
-call insert_position("aaron", 2, "0000000001");
-call insert_position("aaron", 2, "0000000000");
-call insert_position("aaron", 2, "0000000003");
-call insert_position("aaron", 2, "0000000004");
-call insert_position("aaron", 2, "0000000005");
-call insert_position("aaron", 2, "0000000006");
-call insert_position("aaron", 2, "0000000006");
-call insert_position("aaron", 2, "0000000000");
+call insert_position("aaron", 2, "A committee","0000000000");
+call insert_position("aaron", 2, "B committee","0000000002");
+call insert_position("aaron", 2, "A committee","0000000001");
+call insert_position("aaron", 2, "A committee","0000000000");
+call insert_position("aaron", 2, "A committee","0000000003");
+call insert_position("aaron", 2,"A committee", "0000000004");
+call insert_position("aaron", 2,"A committee", "0000000005");
+call insert_position("aaron", 2, "A committee","0000000006");
+call insert_position("aaron", 2, "A committee","0000000006");
+call insert_position("aaron", 2, "A committee","0000000000");
 
 call add_subject("cmsc 111", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
 call add_subject("cmsc 11", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));

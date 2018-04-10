@@ -905,7 +905,7 @@ DROP PROCEDURE IF EXISTS view_employee_studyload;
 DROP PROCEDURE IF EXISTS view_studyload_id_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload;
--- DROP PROCEDURE IF EXISTS update_studyload;
+DROP PROCEDURE IF EXISTS update_studyload;
 
 DELIMITER GO
 
@@ -952,35 +952,24 @@ CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   END;
 GO
 
--- CREATE PROCEDURE update_studyload (   to_edit int,
---                                       degree_insert varchar(255) ,
---                                       university_insert varchar(255) ,
---                                       credits_insert int ,
---                                       subject_code_insert varchar(255) ,
---                                       section_code_insert varchar(255) ,
---                                       isLecture_insert boolean ,
---                                       units_insert int ,
---                                       room_insert varchar(255) ,
---                                       start_time_insert time ,
---                                       end_time_insert time)
---   BEGIN
---     UPDATE SUBJECT
---     SET subject_code = subject_code_insert,
---           section_code = section_code_insert, 
---           isLecture = isLecture_insert, 
---           units = units_insert, 
---           room = room_insert, 
---           start_time = start_time_insert, 
---           end_time = end_time_insert
---     where subject_id = (Select subject_id from STUDYLOAD where studyload_id = to_edit);
---     UPDATE STUDYLOAD
---     SET degree = degree_insert,
---         university = university_insert ,
---         credits = credits_insert
---     where studyload_id = to_edit;
---     call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
---   END;
--- GO
+CREATE PROCEDURE update_studyload (   to_edit int,
+                                      credits_insert int ,
+                                      courseno_insert varchar(255) ,
+                                      start_time_insert time ,
+                                      school_insert varchar(255),
+                                      no_of_days_insert int,
+                                      emp_id_edit varchar(10))
+  BEGIN
+    UPDATE STUDYLOAD
+    SET credits = credits_insert,
+        course_no = courseno_insert,
+        start_time = start_time_insert,
+        school = school_insert,
+        no_of_days = no_of_days_insert
+    where studyload_id = to_edit AND emp_id = emp_id_edit;
+    call insert_log(concat("Studyload #", to_edit, " with course ", courseno_insert, "by", emp_id_edit, " has been edited in the table STUDYLOAD"));   
+  END;
+GO
 
 DELIMITER ;
 

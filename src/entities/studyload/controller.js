@@ -48,36 +48,26 @@ export const removeStudyLoad = ({ studyload_id }) => {
   });
 };
 
-export const editStudyLoad = ({
-  studyload_id,
-  degree,
-  university,
-  credits,
-  subject_code,
-  section_code,
-  isLecture,
-  units,
-  room,
-  start_time,
-  end_time
-}) => {
+export const editStudyLoad = (json,emp_id) => {
+    const studyload_id = json.studyload_id;
+    const credits = json.credits;
+    const courseno = json.courseno;
+    const start_time = json.start_time;
+    const school = json.school;
+    const no_of_days = json.no_of_days
   return new Promise((resolve, reject) => {
     const queryString = `
-    call update_studyload(?,?,?,?,?,?,?,?,?,?,?)
+    call update_studyload(?,?,?,?,?,?,?)
     `;
 
     const values = [
       studyload_id,
-      degree,
-      university,
       credits,
-      subject_code,
-      section_code,
-      isLecture,
-      units,
-      room,
+      courseno,
       start_time,
-      end_time
+      school,
+      no_of_days,
+      emp_id
     ];
 
     db.query(queryString, values, (err, res) => {

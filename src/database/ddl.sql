@@ -577,6 +577,7 @@ GO
 
 CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
+  call delete_coworker(publication_id_del);
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
@@ -586,14 +587,15 @@ GO
 
 
 CREATE PROCEDURE update_publication(
-                publication_id_u int,  
+               
                 credit_units_u int,
                 category_u varchar(255),
                 funding_u varchar(255),
                 title_u varchar(255),
                 role_u varchar(255),
                 start_date_u date,
-                end_date_u date
+                end_date_u date,
+                  publication_id_u int
                 )
   BEGIN 
     UPDATE PUBLICATION
@@ -1120,6 +1122,13 @@ CREATE PROCEDURE view_faculty_grant()
   BEGIN 
     SELECT * from FACULTYGRANT;
 END;
+GO
+
+CREATE PROCEDURE view_faculty_grant_by_emp_id(emp_id_view_faculty_grant int)
+  BEGIN 
+    SELECT * from FACULTYGRANT
+    where emp_id = emp_id_view_faculty_grant;
+  END;
 GO
 
 CREATE PROCEDURE insert_faculty_grant(  

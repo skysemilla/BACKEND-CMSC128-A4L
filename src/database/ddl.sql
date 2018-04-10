@@ -67,8 +67,8 @@ create table PUBLICATION(
   funding varchar(255),
   title varchar(255) not null,
   role varchar(255),
-  start_date varchar(255) not null,
-  end_date varchar(255) not null,
+  start_date date not null,
+  end_date date not null,
   emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -81,8 +81,8 @@ create table FACULTYGRANT (
   professional_chair varchar(255) not null,
   grants varchar(255) not null,
   grant_title varchar(255) not null,
-  start_date datetime not null,
-  end_date datetime not null,
+  start_date date not null,
+  end_date date not null,
   emp_id varchar(10) not null,
   constraint faculty_grant_id_pk PRIMARY key (faculty_grant_id),
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -94,7 +94,7 @@ create table COWORKER(
   emp_id varchar(10) not null, 
   publication_id int not null,
   constraint coworker_coworker_id_pk PRIMARY key (coworker_id),
-  constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id),
+  constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id) ON DELETE CASCADE ON UPDATE CASCADE,
   constraint coworker_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -185,7 +185,7 @@ create table STUDY_CREDENTIALS (
   degree varchar(255) not null,
   university varchar(255) not null,
   emp_id varchar(10) not null,
-  constraint study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+  constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table LIMITED_PRACTICE(
@@ -495,8 +495,6 @@ BEGIN
     INSERT INTO POSITIONN
       values (NULL, office, credit_units,nature_of_work, emp_id);
       call insert_log(concat("Position ", office,"/", nature_of_work, "and", credit_units," has been added to the table POSITIONN"));
-
-
 END;
 GO
 
@@ -518,8 +516,8 @@ CREATE PROCEDURE update_position(position_id_update int,
     UPDATE POSITIONN
         SET  office = office_update,
             credit_units = credit_units_update,
-            nature_of_work =nature_of_work_update,
-            emp_id = emp_id_update
+            emp_id = emp_id_update,
+             nature_of_work =nature_of_work_update
         WHERE position_id = position_id_update;
         call insert_log(concat("Position #", position_id_update, " has been updated"));
 
@@ -565,8 +563,8 @@ CREATE PROCEDURE insert_publication(
                 funding varchar(255),
                 title varchar(255),
                 role varchar(255),
-                start_date datetime,
-                end_date datetime,
+                start_date date,
+                end_date date,
                 emp_id varchar(10)
 )
   BEGIN
@@ -579,10 +577,8 @@ GO
 
 CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
-    call delete_coworker(publication_id_del);
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
-       
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
@@ -590,15 +586,14 @@ GO
 
 
 CREATE PROCEDURE update_publication(
-                
+                publication_id_u int,  
                 credit_units_u int,
                 category_u varchar(255),
                 funding_u varchar(255),
                 title_u varchar(255),
                 role_u varchar(255),
-                start_date_u datetime,
-                end_date_u datetime,
-                publication_id_u int
+                start_date_u date,
+                end_date_u date
                 )
   BEGIN 
     UPDATE PUBLICATION
@@ -662,12 +657,12 @@ CREATE PROCEDURE insert_coworker(
   END;
 GO
 
-CREATE PROCEDURE delete_coworker( publication_id_del int
+CREATE PROCEDURE delete_coworker( coworker_id_del int
                                 )
   BEGIN 
     DELETE FROM COWORKER
-      where publication_id = publication_id_del;
-      call insert_log(concat("Coworkers of publication ", publication_id_del, " have been deleted to the table COWORKER"));
+      where coworker_id = coworker_id_del;
+      call insert_log(concat("Coworker # ", coworker_id_del, " has been deleted to the table COWORKER"));
 
   END;
 GO
@@ -817,7 +812,7 @@ GO
 CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
 RETURNS BOOLEAN DETERMINISTIC
   BEGIN
-    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert;) THEN
+    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
       RETURN true;
     END IF;
     RETURN false;
@@ -943,7 +938,7 @@ GO
 CREATE FUNCTION is_studyload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
 RETURNS BOOLEAN DETERMINISTIC
   BEGIN
-    IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert;) THEN
+    IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
       RETURN true;
     END IF;
     RETURN false;
@@ -1134,8 +1129,8 @@ CREATE PROCEDURE insert_faculty_grant(
                   professional_chair varchar(255),
                     grants varchar(255),
                     grant_title varchar(255),
-                    start_date datetime,
-                    end_date datetime,
+                    start_date date,
+                    end_date date,
                     emp_id varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
@@ -1160,8 +1155,8 @@ CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
                   professional_chair_update varchar(255),
                     grants_update varchar(255),
                     grant_title_update varchar(255),
-                    start_date_update datetime,
-                    end_date_update datetime)
+                    start_date_update date,
+                    end_date_update date)
   BEGIN 
     UPDATE FACULTYGRANT
         SET  

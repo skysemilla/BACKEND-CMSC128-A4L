@@ -587,7 +587,6 @@ GO
 
 
 CREATE PROCEDURE update_publication(
-               
                 credit_units_u int,
                 category_u varchar(255),
                 funding_u varchar(255),
@@ -595,7 +594,7 @@ CREATE PROCEDURE update_publication(
                 role_u varchar(255),
                 start_date_u date,
                 end_date_u date,
-                  publication_id_u int
+                publication_id_u int
                 )
   BEGIN 
     UPDATE PUBLICATION
@@ -1057,6 +1056,12 @@ CREATE PROCEDURE view_consultation()
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
 END;
+GO
+
+CREATE PROCEDURE view_consultation_by_ID( consultation_id_view varchar(20))
+  BEGIN
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.consultation_id = consultation_id_view;
+  END
 GO
 
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,

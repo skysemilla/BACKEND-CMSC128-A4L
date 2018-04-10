@@ -587,7 +587,6 @@ GO
 
 
 CREATE PROCEDURE update_publication(
-               
                 credit_units_u int,
                 category_u varchar(255),
                 funding_u varchar(255),
@@ -595,7 +594,7 @@ CREATE PROCEDURE update_publication(
                 role_u varchar(255),
                 start_date_u date,
                 end_date_u date,
-                  publication_id_u int
+                publication_id_u int
                 )
   BEGIN 
     UPDATE PUBLICATION

@@ -1057,6 +1057,12 @@ CREATE PROCEDURE view_consultation()
 END;
 GO
 
+CREATE PROCEDURE view_consultation_by_ID( consultation_id_view varchar(20))
+  BEGIN
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.consultation_id = consultation_id_view;
+  END
+GO
+
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),

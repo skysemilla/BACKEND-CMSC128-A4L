@@ -1121,6 +1121,13 @@ CREATE PROCEDURE view_faculty_grant()
 END;
 GO
 
+CREATE PROCEDURE view_faculty_grant_by_emp_id(emp_id_view_faculty_grant int)
+  BEGIN 
+    SELECT * from FACULTYGRANT
+    where emp_id = emp_id_view_faculty_grant;
+  END;
+GO
+
 CREATE PROCEDURE insert_faculty_grant(  
                   type varchar(255),
                     is_approved boolean,

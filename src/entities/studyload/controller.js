@@ -1,20 +1,21 @@
 import db from '../../database';
 
 export const addStudyLoad = ({
-  // degree,
-  // university,
   credits,
-  subject_id
+  courseno,
+  start_time,
+  school,
+  no_of_days
 },
   json
 ) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
     const queryString = `
-      call insert_studyload(?, ?, ?)
+      call insert_studyload(?, ?, ?,?,?,?)
     `;
 
-    const values = [subject_id, credits, emp_id];
+    const values = [credits, courseno, emp_id, start_time, school, no_of_days];
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
@@ -97,7 +98,7 @@ export const editStudyLoad = ({
 export const getStudyLoad = ({ studyload_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      call view_by_studyload_id(?)
+      call view_studyload_id_studyload(?)
         `;
 
     db.query(queryString, studyload_id, (err, rows) => {

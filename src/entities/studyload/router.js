@@ -4,7 +4,13 @@ import * as Ctrl from './controller';
 const router = Router();
 
 router.post('/api/studyload/add', async (req, res) => {
-  if (req.body.credits && req.session.emp_id && req.body.subject_id) {
+  console.log(req.body);
+  if (req.body.credits &&
+      req.body.courseno &&
+      req.session.user.emp_id &&
+      req.body.start_time &&
+      req.body.school &&
+      req.body.no_of_days){
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty

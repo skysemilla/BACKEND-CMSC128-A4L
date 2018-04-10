@@ -900,55 +900,41 @@ GO
 DELIMITER ;
 /* END TEACHINGLOAD OUTSIDE COLLEGE PROCEDURES */
 /* STUDYLOAD PROCEDURES */
--- DROP PROCEDURE IF EXISTS view_studyload; 
--- DROP PROCEDURE IF EXISTS view_employee_studyload;
--- DROP PROCEDURE IF EXISTS insert_studyload;
+DROP PROCEDURE IF EXISTS view_studyload; 
+DROP PROCEDURE IF EXISTS view_employee_studyload;
+DROP PROCEDURE IF EXISTS insert_studyload;
 -- DROP PROCEDURE IF EXISTS delete_studyload;
--- DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
--- DROP PROCEDURE IF EXISTS view_by_studyload_id;
 -- DROP PROCEDURE IF EXISTS update_studyload;
 
--- DELIMITER GO
+DELIMITER GO
 
--- CREATE PROCEDURE view_studyload()
---   BEGIN 
---     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
---   END;
--- GO
+CREATE PROCEDURE view_studyload()
+  BEGIN 
+    SELECT * FROM STUDYLOAD;
+  END;
+GO
 
--- CREATE PROCEDURE view_employee_studyload(emp_id_view int)
---   BEGIN
---     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.emp_id = emp_id_view;
---     END;
--- GO
-
--- CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
---   BEGIN
---     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.studyload_id = studyload_id_view;
---     END;
--- GO
-
--- CREATE PROCEDURE insert_studyload(  subject_id_insert int,
---                                     credits_insert int ,
---                                     emp_id_insert varchar(10) )
---   BEGIN
---       INSERT INTO STUDYLOAD
---       VALUES (NULL, credits_insert, emp_id_insert, subject_id_insert);
---       call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
---       call update_employee_studyload(emp_id_insert);
---   END;
--- GO
+CREATE PROCEDURE view_employee_studyload(emp_id_view int)
+  BEGIN
+    SELECT * FROM STUDYLOAD WHERE emp_id = emp_id_view;
+  END;
+GO
 
 
--- CREATE FUNCTION is_studyload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
--- RETURNS BOOLEAN DETERMINISTIC
---   BEGIN
---     IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
---       RETURN true;
---     END IF;
---     RETURN false;
---   END;
--- GO  
+CREATE PROCEDURE insert_studyload(  
+                                    credits_insert int ,
+                                    course_no_insert varchar(255),
+                                    emp_id_insert varchar(10),
+                                    start_time_insert time,
+                                    school_insert varchar(255),
+                                    no_of_days_insert int )
+  BEGIN
+      INSERT INTO STUDYLOAD
+      VALUES (NULL, credits_insert, course_no_insert, emp_id_insert, start_time_insert,school_insert, no_of_days_insert);
+      call insert_log(concat("STUDYLOAD #",course_no_insert," has been added to the table STUDYLOAD"));
+      call update_employee_studyload(emp_id_insert);
+  END;
+GO
 
 -- CREATE PROCEDURE delete_studyload( studyload_id_delete int )
 --   BEGIN
@@ -956,15 +942,6 @@ DELIMITER ;
 --     DELETE FROM STUDYLOAD
 --     where studyload_id = studyload_id_delete;
 --     call update_employee_teachingload( @emp_id_update );
---     call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
---   END;
--- GO
-
-
--- CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
---   BEGIN
---     DELETE FROM SUBJECT
---     where subject_id = (Select subject_id from studyload where studyload_id = studyload_id_delete);
 --     call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
 --   END;
 -- GO
@@ -999,7 +976,7 @@ DELIMITER ;
 --   END;
 -- GO
 
--- DELIMITER ;
+DELIMITER ;
 
 /* END OF STUDYLOAD PROCEDURES */
 

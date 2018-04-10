@@ -579,9 +579,10 @@ GO
 
 CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
+    call delete_coworker(publication_id_del);
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
-       call delete_coworker(publication_id_del);
+       
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
   END;
 GO
@@ -589,7 +590,7 @@ GO
 
 
 CREATE PROCEDURE update_publication(
-                publication_id_u int,  
+                
                 credit_units_u int,
                 category_u varchar(255),
                 funding_u varchar(255),
@@ -597,6 +598,7 @@ CREATE PROCEDURE update_publication(
                 role_u varchar(255),
                 start_date_u datetime,
                 end_date_u datetime
+                publication_id_u int
                 )
   BEGIN 
     UPDATE PUBLICATION

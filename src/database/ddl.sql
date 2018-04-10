@@ -140,16 +140,7 @@ create table SUBJECT(
   end_time time not null,
   constraint subject_subject_id_pk PRIMARY key (subject_id)
 );
-create table SUBJECT_STUDYLOAD(
-  subject_id int not null AUTO_INCREMENT,
-  course_no varchar(255) not null,
-  start_time time not null,
-  course_credit int not null,
-  no_of_days int not null,
-  emp_id varchar(10) not null,
-  CONSTRAINT subject_studyload_id_pk PRIMARY key(subject_id),
-  constraint subject_studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+
 /* REPRESENTS THE SUBJECTS OF A USER */
 create table SUBJECT_DAY(
   day varchar(255) not null,
@@ -182,11 +173,13 @@ create table TEACHINGLOAD_OUTSIDE_COLLEGE (
 create table STUDYLOAD(
   studyload_id int not null AUTO_INCREMENT,
   credits int not null,
-  emp_id varchar(10) not null, 
-  subject_id int not null,
+  course_no varchar(255) not null,
+  emp_id varchar(10) not null,
+  start_time time not null,
+  school varchar (255) not null,
+  no_of_days int not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
-  constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  constraint studyload_subject_id_fk foreign key (subject_id) references SUBJECT(subject_id) ON DELETE CASCADE ON UPDATE CASCADE
+  constraint studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /* CONTAINS STATIC DATA RELATED TO STUDYLOAD OF AN EMPLOYEE */
@@ -370,7 +363,7 @@ GO
 CREATE PROCEDURE update_employee_studyload( emp_id_update varchar(10) )
   BEGIN
     UPDATE EMPLOYEE
-    SET current_study_units = (SELECT SUM(b.units)from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id_update)
+    SET current_study_units = (SELECT SUM(credits)from STUDYLOAD where emp_id = emp_id_update)
     WHERE emp_id = emp_id_update;
     call insert_log(concat("Employee # ", emp_id_update, "'s teaching load has been updated"));
   END;
@@ -697,6 +690,7 @@ DROP PROCEDURE IF EXISTS view_subjects;
 DROP PROCEDURE IF EXISTS add_subject;
 DROP PROCEDURE IF EXISTS delete_subject;
 DROP PROCEDURE IF EXISTS update_subject;
+
 DELIMITER GO
 
 CREATE PROCEDURE view_subjects()
@@ -761,7 +755,6 @@ CREATE PROCEDURE update_subject( subject_id_edit int,
 GO
 
 DELIMITER ;
-
 /* END OF SUBJECT PROCEDURES */
 
 /* PROCEDURES FOR TEACHINGLOAD */
@@ -907,106 +900,106 @@ GO
 DELIMITER ;
 /* END TEACHINGLOAD OUTSIDE COLLEGE PROCEDURES */
 /* STUDYLOAD PROCEDURES */
-DROP PROCEDURE IF EXISTS view_studyload; 
-DROP PROCEDURE IF EXISTS view_employee_studyload;
-DROP PROCEDURE IF EXISTS insert_studyload;
-DROP PROCEDURE IF EXISTS delete_studyload;
-DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
-DROP PROCEDURE IF EXISTS view_by_studyload_id;
-DROP PROCEDURE IF EXISTS update_studyload;
+-- DROP PROCEDURE IF EXISTS view_studyload; 
+-- DROP PROCEDURE IF EXISTS view_employee_studyload;
+-- DROP PROCEDURE IF EXISTS insert_studyload;
+-- DROP PROCEDURE IF EXISTS delete_studyload;
+-- DROP PROCEDURE IF EXISTS delete_studyload_retain_subject;
+-- DROP PROCEDURE IF EXISTS view_by_studyload_id;
+-- DROP PROCEDURE IF EXISTS update_studyload;
 
-DELIMITER GO
+-- DELIMITER GO
 
-CREATE PROCEDURE view_studyload()
-  BEGIN 
-    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
-  END;
-GO
+-- CREATE PROCEDURE view_studyload()
+--   BEGIN 
+--     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
+--   END;
+-- GO
 
-CREATE PROCEDURE view_employee_studyload(emp_id_view int)
-  BEGIN
-    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.emp_id = emp_id_view;
-    END;
-GO
+-- CREATE PROCEDURE view_employee_studyload(emp_id_view int)
+--   BEGIN
+--     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.emp_id = emp_id_view;
+--     END;
+-- GO
 
-CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
-  BEGIN
-    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.studyload_id = studyload_id_view;
-    END;
-GO
+-- CREATE PROCEDURE view_by_studyload_id(studyload_id_view int)
+--   BEGIN
+--     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id, b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id where d.studyload_id = studyload_id_view;
+--     END;
+-- GO
 
-CREATE PROCEDURE insert_studyload(  subject_id_insert int,
-                                    credits_insert int ,
-                                    emp_id_insert varchar(10) )
-  BEGIN
-      INSERT INTO STUDYLOAD
-      VALUES (NULL, credits_insert, emp_id_insert, subject_id_insert);
-      call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
-      call update_employee_studyload(emp_id_insert);
-  END;
-GO
-
-
-CREATE FUNCTION is_studyload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
-
-CREATE PROCEDURE delete_studyload( studyload_id_delete int )
-  BEGIN
-    SET @emp_id_update = (Select a.emp_id from employee as a join studyload as b on a.emp_id = b.emp_id where b.teachingload_id = studyload_id_delete);
-    DELETE FROM STUDYLOAD
-    where studyload_id = studyload_id_delete;
-    call update_employee_teachingload( @emp_id_update );
-    call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
-  END;
-GO
+-- CREATE PROCEDURE insert_studyload(  subject_id_insert int,
+--                                     credits_insert int ,
+--                                     emp_id_insert varchar(10) )
+--   BEGIN
+--       INSERT INTO STUDYLOAD
+--       VALUES (NULL, credits_insert, emp_id_insert, subject_id_insert);
+--       call insert_log(concat("STUDYLOAD #",subject_id_insert," has been added to the table STUDYLOAD"));
+--       call update_employee_studyload(emp_id_insert);
+--   END;
+-- GO
 
 
-CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
-  BEGIN
-    DELETE FROM SUBJECT
-    where subject_id = (Select subject_id from studyload where studyload_id = studyload_id_delete);
-    call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
-  END;
-GO
+-- CREATE FUNCTION is_studyload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
+-- RETURNS BOOLEAN DETERMINISTIC
+--   BEGIN
+--     IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
+--       RETURN true;
+--     END IF;
+--     RETURN false;
+--   END;
+-- GO  
 
-CREATE PROCEDURE update_studyload (   to_edit int,
-                                      degree_insert varchar(255) ,
-                                      university_insert varchar(255) ,
-                                      credits_insert int ,
-                                      subject_code_insert varchar(255) ,
-                                      section_code_insert varchar(255) ,
-                                      isLecture_insert boolean ,
-                                      units_insert int ,
-                                      room_insert varchar(255) ,
-                                      start_time_insert time ,
-                                      end_time_insert time)
-  BEGIN
-    UPDATE SUBJECT
-    SET subject_code = subject_code_insert,
-          section_code = section_code_insert, 
-          isLecture = isLecture_insert, 
-          units = units_insert, 
-          room = room_insert, 
-          start_time = start_time_insert, 
-          end_time = end_time_insert
-    where subject_id = (Select subject_id from STUDYLOAD where studyload_id = to_edit);
-    UPDATE STUDYLOAD
-    SET degree = degree_insert,
-        university = university_insert ,
-        credits = credits_insert
-    where studyload_id = to_edit;
-    call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
-  END;
-GO
+-- CREATE PROCEDURE delete_studyload( studyload_id_delete int )
+--   BEGIN
+--     SET @emp_id_update = (Select a.emp_id from employee as a join studyload as b on a.emp_id = b.emp_id where b.teachingload_id = studyload_id_delete);
+--     DELETE FROM STUDYLOAD
+--     where studyload_id = studyload_id_delete;
+--     call update_employee_teachingload( @emp_id_update );
+--     call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
+--   END;
+-- GO
 
-DELIMITER ;
+
+-- CREATE PROCEDURE delete_studyload_retain_subject( studyload_id_delete int )
+--   BEGIN
+--     DELETE FROM SUBJECT
+--     where subject_id = (Select subject_id from studyload where studyload_id = studyload_id_delete);
+--     call insert_log(concat("Studyload #", studyload_id_delete, " has been deleted from the table STUDYLOAD"));
+--   END;
+-- GO
+
+-- CREATE PROCEDURE update_studyload (   to_edit int,
+--                                       degree_insert varchar(255) ,
+--                                       university_insert varchar(255) ,
+--                                       credits_insert int ,
+--                                       subject_code_insert varchar(255) ,
+--                                       section_code_insert varchar(255) ,
+--                                       isLecture_insert boolean ,
+--                                       units_insert int ,
+--                                       room_insert varchar(255) ,
+--                                       start_time_insert time ,
+--                                       end_time_insert time)
+--   BEGIN
+--     UPDATE SUBJECT
+--     SET subject_code = subject_code_insert,
+--           section_code = section_code_insert, 
+--           isLecture = isLecture_insert, 
+--           units = units_insert, 
+--           room = room_insert, 
+--           start_time = start_time_insert, 
+--           end_time = end_time_insert
+--     where subject_id = (Select subject_id from STUDYLOAD where studyload_id = to_edit);
+--     UPDATE STUDYLOAD
+--     SET degree = degree_insert,
+--         university = university_insert ,
+--         credits = credits_insert
+--     where studyload_id = to_edit;
+--     call insert_log(concat("Studyload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table STUDYLOAD"));   
+--   END;
+-- GO
+
+-- DELIMITER ;
 
 /* END OF STUDYLOAD PROCEDURES */
 
@@ -1399,16 +1392,16 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload(11, 2, "0000000001");
-call insert_studyload(12, 2, "0000000001" );
-call insert_studyload(13, 2, "0000000002" );
-call insert_studyload(14, 2, "0000000003" );
-call insert_studyload(15, 2, "0000000004" );
-call insert_studyload(16, 2, "0000000005" );
-call insert_studyload(17, 2, "0000000006" );
-call insert_studyload(18, 2, "0000000007" );
-call insert_studyload(19, 2, "0000000008" );
-call insert_studyload(20, 2, "0000000009");
+-- call insert_studyload(11, 2, "0000000001");
+-- call insert_studyload(12, 2, "0000000001" );
+-- call insert_studyload(13, 2, "0000000002" );
+-- call insert_studyload(14, 2, "0000000003" );
+-- call insert_studyload(15, 2, "0000000004" );
+-- call insert_studyload(16, 2, "0000000005" );
+-- call insert_studyload(17, 2, "0000000006" );
+-- call insert_studyload(18, 2, "0000000007" );
+-- call insert_studyload(19, 2, "0000000008" );
+-- call insert_studyload(20, 2, "0000000009");
 
 call insert_publication(8,"9","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

@@ -140,7 +140,16 @@ create table SUBJECT(
   end_time time not null,
   constraint subject_subject_id_pk PRIMARY key (subject_id)
 );
-
+create table SUBJECT_STUDYLOAD(
+  subject_id int not null AUTO_INCREMENT,
+  course_no varchar(255) not null,
+  start_time time not null,
+  course_credit int not null,
+  no_of_days int not null,
+  emp_id varchar(10) not null,
+  CONSTRAINT subject_studyload_id_pk PRIMARY key(subject_id),
+  constraint subject_studyload_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 /* REPRESENTS THE SUBJECTS OF A USER */
 create table SUBJECT_DAY(
   day varchar(255) not null,

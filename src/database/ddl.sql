@@ -597,7 +597,7 @@ CREATE PROCEDURE update_publication(
                 title_u varchar(255),
                 role_u varchar(255),
                 start_date_u datetime,
-                end_date_u datetime
+                end_date_u datetime,
                 publication_id_u int
                 )
   BEGIN 

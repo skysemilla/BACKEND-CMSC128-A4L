@@ -902,6 +902,7 @@ DELIMITER ;
 /* STUDYLOAD PROCEDURES */
 DROP PROCEDURE IF EXISTS view_studyload; 
 DROP PROCEDURE IF EXISTS view_employee_studyload;
+DROP PROCEDURE IF EXISTS view_studyload_id_studyload;
 DROP PROCEDURE IF EXISTS insert_studyload;
 DROP PROCEDURE IF EXISTS delete_studyload;
 -- DROP PROCEDURE IF EXISTS update_studyload;
@@ -920,6 +921,11 @@ CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   END;
 GO
 
+CREATE PROCEDURE view_studyload_id_studyload(studyload_id_view int)
+  BEGIN
+    SELECT * FROM STUDYLOAD WHERE studyload_id = studyload_id_view;
+  END;
+GO
 
 CREATE PROCEDURE insert_studyload(  
                                     credits_insert int ,

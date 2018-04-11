@@ -303,7 +303,6 @@ GO
 CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
                                   password_insert varchar(256),
-                                  type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
@@ -316,8 +315,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
   BEGIN 
     UPDATE EMPLOYEE
     SET username = username_insert,
-        password = password_insert,
-        type = type_insert,
+        password = sha2(password_insert,256),
         f_name = f_name_insert,
         m_name = m_name_insert,
         l_name = l_name_insert,
@@ -579,6 +577,7 @@ GO
 
 CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
+  call delete_coworker(publication_id_del);
     DELETE FROM PUBLICATION
       where publication_id = publication_id_del;
        call insert_log(concat("Publication #", publication_id_del, " has been deleted to the table PUBLICATION"));
@@ -588,14 +587,15 @@ GO
 
 
 CREATE PROCEDURE update_publication(
-                publication_id_u int,  
+
                 credit_units_u int,
                 category_u varchar(255),
                 funding_u varchar(255),
                 title_u varchar(255),
                 role_u varchar(255),
                 start_date_u date,
-                end_date_u date
+                end_date_u date,
+                publication_id_u int
                 )
   BEGIN 
     UPDATE PUBLICATION
@@ -811,6 +811,15 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
   END;
 GO
 
+CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
+RETURNS BOOLEAN DETERMINISTIC
+  BEGIN
+    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
+      RETURN true;
+    END IF;
+    RETURN false;
+  END;
+GO  
 
 CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
 RETURNS BOOLEAN DETERMINISTIC
@@ -834,28 +843,14 @@ CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
 GO
 
 CREATE PROCEDURE update_teachingload(   to_edit int,
-                                        subject_code_insert varchar(255),
-                                        section_code_insert varchar(255),
-                                        isLecture_insert boolean,
-                                        units_insert int,
-                                        room_insert varchar(255),
-                                        start_time_insert time,
-                                        end_time_insert time,
-                                        no_of_students_insert int)
+                                        subject_id_insert int,
+                                        no_of_students_insert int )
   BEGIN 
-      UPDATE SUBJECT
-      SET subject_code = subject_code_insert,
-          section_code = section_code_insert, 
-          isLecture = isLecture_insert, 
-          units = units_insert, 
-          room = room_insert, 
-          start_time = start_time_insert, 
-          end_time = end_time_insert
-      where subject_id = (Select subject_id from teachingload where teachingload_id = to_edit);
       UPDATE teachingload
-      SET no_of_students = no_of_students_insert
+      SET no_of_students = no_of_students_insert,
+          subject_id = subject_id_insert
       where teachingload_id = to_edit;
-    call insert_log(concat("Teachingload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table TEACHINGLOAD"));   
+    call insert_log(concat("Teachingload #", to_edit, " has been edited in the table TEACHINGLOAD"));   
   END;
 GO
 
@@ -911,7 +906,7 @@ DELIMITER GO
 
 CREATE PROCEDURE view_studyload()
   BEGIN 
-    SELECT * FROM STUDYLOAD;
+    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
   END;
 GO
 
@@ -941,6 +936,16 @@ CREATE PROCEDURE insert_studyload(
       call update_employee_studyload(emp_id_insert);
   END;
 GO
+
+CREATE FUNCTION is_studyload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
+RETURNS BOOLEAN DETERMINISTIC
+  BEGIN
+    IF EXISTS(SELECT a.studyload_id from STUDYLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
+      RETURN true;
+    END IF;
+    RETURN false;
+  END;
+GO  
 
 CREATE PROCEDURE delete_studyload( studyload_id_delete int )
   BEGIN
@@ -1032,6 +1037,12 @@ CREATE PROCEDURE view_consultation()
   BEGIN 
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id;
 END;
+GO
+
+CREATE PROCEDURE view_consultation_by_ID( consultation_id_view varchar(20))
+  BEGIN
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.consultation_id = consultation_id_view;
+  END
 GO
 
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,

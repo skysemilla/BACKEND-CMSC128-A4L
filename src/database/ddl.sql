@@ -301,7 +301,6 @@ GO
 CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   username_insert varchar(20),
                                   password_insert varchar(256),
-                                  type_insert varchar(7), 
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
@@ -314,8 +313,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
   BEGIN 
     UPDATE EMPLOYEE
     SET username = username_insert,
-        password = password_insert,
-        type = type_insert,
+        password = sha2(password_insert,256),
         f_name = f_name_insert,
         m_name = m_name_insert,
         l_name = l_name_insert,
@@ -831,28 +829,14 @@ CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
 GO
 
 CREATE PROCEDURE update_teachingload(   to_edit int,
-                                        subject_code_insert varchar(255),
-                                        section_code_insert varchar(255),
-                                        isLecture_insert boolean,
-                                        units_insert int,
-                                        room_insert varchar(255),
-                                        start_time_insert time,
-                                        end_time_insert time,
-                                        no_of_students_insert int)
+                                        subject_id_insert int,
+                                        no_of_students_insert int )
   BEGIN 
-      UPDATE SUBJECT
-      SET subject_code = subject_code_insert,
-          section_code = section_code_insert, 
-          isLecture = isLecture_insert, 
-          units = units_insert, 
-          room = room_insert, 
-          start_time = start_time_insert, 
-          end_time = end_time_insert
-      where subject_id = (Select subject_id from teachingload where teachingload_id = to_edit);
       UPDATE teachingload
-      SET no_of_students = no_of_students_insert
+      SET no_of_students = no_of_students_insert,
+          subject_id = subject_id_insert
       where teachingload_id = to_edit;
-    call insert_log(concat("Teachingload #", to_edit, " with code ", subject_code_insert, " and section ", section_code_insert," has been edited in the table TEACHINGLOAD"));   
+    call insert_log(concat("Teachingload #", to_edit, " has been edited in the table TEACHINGLOAD"));   
   END;
 GO
 

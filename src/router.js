@@ -13,6 +13,7 @@ import adminWorkRouter from './entities/adminWork/router';
 import consulHourRouter from './entities/consulHours/router';
 import facultygrantRouter from './entities/facultygrant/router';
 import limitedpracticeRouter from './entities/limitedpractice/router';
+import profileRouter from './entities/profile/router';
 
 const router = Router();
 
@@ -29,5 +30,6 @@ router.use(adminWorkRouter);
 router.use(consulHourRouter);
 router.use(facultygrantRouter);
 router.use(limitedpracticeRouter);
+router.use(profileRouter);
 
 export default router;

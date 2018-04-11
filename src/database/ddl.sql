@@ -824,9 +824,6 @@ RETURNS BOOLEAN DETERMINISTIC
   END;
 GO  
 
-
-
-
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
     SET @emp_id_update = (Select a.emp_id from employee as a join teachingload as b on a.emp_id = b.emp_id where b.teachingload_id = teachingload_id_delete);
@@ -1169,7 +1166,6 @@ DROP PROCEDURE IF EXISTS view_limited_practice;
 DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
 DROP PROCEDURE IF EXISTS delete_limited_practice;
-DROP PROCEDURE IF EXISTS update_employee; 
 DROP PROCEDURE IF EXISTS insert_date_if_yes;
 DROP PROCEDURE IF EXISTS update_limited_practice;
 DELIMITER GO

@@ -640,10 +640,10 @@ CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
   END;
 GO
 
-CREATE PROCEDURE view_publication_coworkers( emp_id_v varchar(10), publication_id_v int )
+CREATE PROCEDURE view_publication_coworkers( publication_id_v int )
   BEGIN
-    SELECT * FROM COWORKER
-    WHERE emp_id = emp_id_v and publication_id = publication_id_v;
+    SELECT c.emp_id, e.f_name, e.l_name FROM COWORKER as c join Employee as e
+    WHERE c.publication_id = publication_id_v and c.emp_id = e.emp_id;
   END;
 GO
 

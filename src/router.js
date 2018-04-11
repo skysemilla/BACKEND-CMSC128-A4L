@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 // put import routers here
 import authRouter from './entities/auth/router';
-import extensionRouter from './entities/extensions/router';
+import extensionRouter from './entities/extension/router';
 import publicationsRouter from './entities/publications/router';
 import signupRouter from './entities/signup/router';
 // import studyRouter from './entities/studyload/router';
@@ -13,6 +13,7 @@ import adminWorkRouter from './entities/adminWork/router';
 import consulHourRouter from './entities/consulHours/router';
 import facultygrantRouter from './entities/facultygrant/router';
 import limitedpracticeRouter from './entities/limitedpractice/router';
+import profileRouter from './entities/profile/router';
 
 const router = Router();
 
@@ -29,5 +30,6 @@ router.use(adminWorkRouter);
 router.use(consulHourRouter);
 router.use(facultygrantRouter);
 router.use(limitedpracticeRouter);
+router.use(profileRouter);
 
 export default router;

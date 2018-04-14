@@ -2,17 +2,17 @@ import db from '../../database';
 
 // edits a sample
 export const editFaculty = ({
-  emp_id,
+  empid,
   username,
   password,
-  f_name,
-  m_name,
-  l_name,
-  department,
+  fname,
+  mname,
+  lname,
+  dept,
   college,
-  emp_type,
+  emptype,
   email,
-  is_full_time
+  isfulltime
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -20,17 +20,17 @@ export const editFaculty = ({
     `;
 
     const values = [
-      emp_id,
+      empid,
       username,
       password,
-      f_name,
-      m_name,
-      l_name,
-      department,
+      fname,
+      mname,
+      lname,
+      dept,
       college,
-      emp_type,
+      emptype,
       email,
-      is_full_time
+      isfulltime
     ];
 
     db.query(queryString, values, (err, res) => {

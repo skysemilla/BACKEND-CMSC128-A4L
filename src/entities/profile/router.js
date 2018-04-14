@@ -4,7 +4,7 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // edits a sample
-router.post('/api/profile/edit', async (req, res) => {
+router.post('/api/faculty/edit', async (req, res) => {
   try {
     await Ctrl.editFaculty(req.body);
 

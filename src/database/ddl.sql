@@ -17,13 +17,14 @@ create table EMPLOYEE(
   m_name varchar(255) not null,
   l_name varchar (255) not null,
   is_new boolean not null, /* needed for checking if the employee is required to change some attributes */
-  department varchar(10),
-  college varchar(20),
+  department varchar(50),
+  college varchar(50),
   emp_type varchar(255),
   semester varchar(20),
   year varchar(20),
   email varchar(255) not null,
   is_studying boolean not null, 
+  is_full_time boolean,
   current_study_units int,
   max_study_units int,
   current_teaching_units int,
@@ -271,8 +272,8 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
-                                  department_insert varchar(10),
-                                  college_insert varchar(20),
+                                  department_insert varchar(50),
+                                  college_insert varchar(50),
                                   emp_type_insert varchar(255),
                                   semester_insert varchar(20),
                                   year_insert varchar(20),
@@ -289,7 +290,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
     call insert_study_credentials(emp_id_insert,0,0);
   END;
@@ -309,8 +310,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
-                                  department_insert varchar(10),
-                                  college_insert varchar(20),
+                                  department_insert varchar(50),
+                                  college_insert varchar(50),
                                   emp_type_insert varchar(255),
                                   email_insert varchar(255),
                                   is_studying_insert boolean
@@ -333,8 +334,8 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
 GO
 
 CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
-                                        department_insert varchar(10),
-                                        college_insert varchar(20),
+                                        department_insert varchar(50),
+                                        college_insert varchar(50),
                                         emp_type_insert varchar(255),
                                         email_insert varchar(255),
                                         is_studying_insert boolean )
@@ -555,7 +556,7 @@ GO
 
 CREATE PROCEDURE view_employee_publication(emp_id_view_publication varchar(10))
   BEGIN
-      SELECT title, credit_units, category, funding, role, start_date, end_date FROM PUBLICATION 
+      SELECT * FROM PUBLICATION 
       WHERE emp_id = emp_id_view_publication;
   END;
 GO
@@ -1282,7 +1283,6 @@ GO
 DELIMITER ;
 
 /* POPULATE DATA */
-
 call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
 call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
 call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");

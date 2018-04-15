@@ -1,7 +1,7 @@
--- DROP USER IF EXISTS 'skydev'@'localhost';
--- CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
--- GRANT SUPER ON *.* TO 'skydev'@'localhost';
--- GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
+DROP USER IF EXISTS 'skydev'@'localhost';
+CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
+GRANT SUPER ON *.* TO 'skydev'@'localhost';
+GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
 DROP DATABASE IF EXISTS skydev;
 CREATE DATABASE skydev;
 USE skydev;
@@ -245,6 +245,7 @@ DROP PROCEDURE IF EXISTS update_employee_teachingload;
 DROP PROCEDURE IF EXISTS update_employee_studyload;
 DROP PROCEDURE IF EXISTS update_employee_is_new;
 DROP PROCEDURE IF EXISTS clear_employee;
+DROP PROCEDURE IF EXISTS is_EMPLOYEE_active;
 
 DELIMITER GO
 
@@ -296,9 +297,14 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     INSERT INTO EMPLOYEE 
     VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert,is_active_insert,is_being_approved_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
-    call insert_study_credentials(emp_id_insert,0,0);
   END;
 GO
+
+CREATE PROCEDURE is_EMPLOYEE_active( emp_id_view varchar(20) )
+  BEGIN
+    Select is_active from employee where emp_id = emp_id_view;
+  END;
+GO  
 
 CREATE PROCEDURE delete_employee( emp_id_insert varchar(10) )
   BEGIN 
@@ -663,6 +669,12 @@ CREATE PROCEDURE view_publication_coworkers( publication_id_v int )
   END;
 GO
 
+CREATE PROCEDURE view_possible_coworkers( cancelled_out varchar(10) )
+  BEGIN
+    SELECT * FROM EMPLOYEE where not emp_id = cancelled_out; 
+  END;
+GO
+
 CREATE PROCEDURE insert_coworker( 
                 emp_id varchar(10), 
                 publication_id int
@@ -900,6 +912,17 @@ DROP PROCEDURE IF EXISTS update_studyload;
 
 DELIMITER GO
 
+/*
+
+STUDYLOAD PEPOPLE
+
+KELANGAN KASI KASAMA YUNG STUDY_CREDENTIALS SA VIEW NG ISANG STUDYLOAD KASI DUN MALALAMAN KUNG SAN NAG-AARAL YUNG MGA PROF
+NGAYON YUNG STUDY_CREDENTIALS, NAKA ANCHOR YUNG TABLE NA YUN SA EMPLOYEE KASI BASED SA NAPAG AGREEHAN NAMEN NI @JAS, ANG ISANG PROF
+AY ISANG COLLEGE LANG DIN YUNG PWEDENG PASUKAN FOR MASTERS/DOCTORS PER SEM, SO PARA MAGING MAS CONSISTENT YUNG DATA, ISANG BESES NALANG
+MAGIINPUT YUNG PROF NG STUDY_CREDENTIALS NYA, THANKS
+
+*/
+
 -- CREATE PROCEDURE view_studyload()
 --   BEGIN 
 --     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
@@ -982,14 +1005,16 @@ DROP PROCEDURE IF EXISTS update_study_credentials;
 
 DELIMITER GO
 
-CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),    
+CREATE PROCEDURE insert_study_credentials(  degree_insert varchar(255),
+                                            university_insert varchar(255),
+                                            emp_id_insert varchar(10),    
                                             full_studyleave_insert boolean,
                                             faculty_fellowship_insert boolean )
   BEGIN
     IF (select is_studying from EMPLOYEE where emp_id = emp_id_insert) = 1 THEN
       INSERT INTO STUDY_CREDENTIALS
-      VALUES (  NULL,
-                NULL,
+      VALUES (  degree_insert,
+                university_insert,
                 emp_id_insert,
                 full_studyleave_insert,
                 faculty_fellowship_insert );
@@ -1290,16 +1315,16 @@ call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Pe
 call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com", TRUE, TRUE);
 call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com", TRUE, TRUE);
 
-call insert_study_credentials("0000000001","MSCS", "UPLB");
-call insert_study_credentials("0000000002","MSCS", "UPLB");
-call insert_study_credentials("0000000003","MSCS", "UPLB");
-call insert_study_credentials("0000000004","MSCS", "UPLB");
-call insert_study_credentials("0000000005","MSCS", "UPLB");
-call insert_study_credentials("0000000006","MSCS", "UPLB");
-call insert_study_credentials("0000000007","MSCS", "UPLB");
-call insert_study_credentials("0000000008","MSCS", "UPLB");
-call insert_study_credentials("0000000009","MSCS", "UPLB");
-call insert_study_credentials("0000000000","MSCS", "UPLB");
+call insert_study_credentials("MSCS", "UPLB","0000000001",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000002",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000003",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000004",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000005",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000006",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000007",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000008",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000009",TRUE, TRUE);
+call insert_study_credentials("MSCS", "UPLB","0000000000",TRUE, TRUE);
 
 call insert_extension(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
 call insert_extension(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");
@@ -1368,20 +1393,20 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload(3,"CMSC 200","0000000001","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 210","0000000001","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 220","0000000002","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 230","0000000002","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 240","0000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 250","0000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 260","0000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 10","0000000004","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","0000000004","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 200","0000000005","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","0000000006","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 00","0000000007","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","0000000008","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 25","0000000009","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 200","0000000001","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 210","0000000001","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 220","0000000002","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 230","0000000002","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 240","0000000003","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 250","0000000003","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 260","0000000003","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 10","0000000004","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 20","0000000004","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 200","0000000005","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 20","0000000006","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 00","0000000007","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 20","0000000008","11:00:00","UPD",11);
+-- call insert_studyload(3,"CMSC 25","0000000009","11:00:00","UPD",11);
 
 call insert_publication(8,"9","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

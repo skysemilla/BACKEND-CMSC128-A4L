@@ -654,10 +654,10 @@ CREATE PROCEDURE view_coworker_by_ID(view_coworker_id int)
   END;
 GO
 
-CREATE PROCEDURE view_publication_coworkers( emp_id_v varchar(10), publication_id_v int )
+CREATE PROCEDURE view_publication_coworkers( publication_id_v int )
   BEGIN
-    SELECT * FROM COWORKER
-    WHERE emp_id = emp_id_v and publication_id = publication_id_v;
+    SELECT c.emp_id, e.f_name, e.l_name FROM COWORKER as c join Employee as e
+    WHERE c.publication_id = publication_id_v and c.emp_id = e.emp_id;
   END;
 GO
 
@@ -825,15 +825,6 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
   END;
 GO
 
-CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
@@ -1296,6 +1287,17 @@ call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vinc
 call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com", TRUE, TRUE);
 call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com", TRUE, TRUE);
 call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com", TRUE, TRUE);
+
+call insert_study_credentials("0000000001","MSCS", "UPLB");
+call insert_study_credentials("0000000002","MSCS", "UPLB");
+call insert_study_credentials("0000000003","MSCS", "UPLB");
+call insert_study_credentials("0000000004","MSCS", "UPLB");
+call insert_study_credentials("0000000005","MSCS", "UPLB");
+call insert_study_credentials("0000000006","MSCS", "UPLB");
+call insert_study_credentials("0000000007","MSCS", "UPLB");
+call insert_study_credentials("0000000008","MSCS", "UPLB");
+call insert_study_credentials("0000000009","MSCS", "UPLB");
+call insert_study_credentials("0000000000","MSCS", "UPLB");
 
 call insert_extension(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
 call insert_extension(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");

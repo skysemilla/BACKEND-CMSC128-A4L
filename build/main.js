@@ -4841,7 +4841,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
-// edits a sample
+// edits the faculty
 router.post('/api/faculty/edit', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var message;
@@ -4894,6 +4894,59 @@ router.post('/api/faculty/edit', function () {
   };
 }());
 
+// edits the semester information
+router.post('/api/faculty/termEdit', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editTerm */](req.body);
+
+          case 3:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully edited term information'
+            });
+            _context2.next = 17;
+            break;
+
+          case 6:
+            _context2.prev = 6;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 404 ? 12 : _context2.t1 === 500 ? 14 : 16;
+            break;
+
+          case 12:
+            message = 'Faculty not found';
+            return _context2.abrupt('break', 16);
+
+          case 14:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 16);
+
+          case 16:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 17:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 6]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -4902,10 +4955,11 @@ router.post('/api/faculty/edit', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return editFaculty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editTerm; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
-// edits a sample
+// edits the faculty
 var editFaculty = function editFaculty(_ref) {
   var empid = _ref.empid,
       username = _ref.username,
@@ -4923,6 +4977,33 @@ var editFaculty = function editFaculty(_ref) {
     var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ';
 
     var values = [empid, username, password, fname, mname, lname, dept, college, emptype, email, isfulltime];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// edits the faculty
+var editTerm = function editTerm(_ref2) {
+  var empid = _ref2.empid,
+      year = _ref2.year,
+      term = _ref2.term,
+      isnew = _ref2.isnew;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n    UPDATE \n      EMPLOYEE\n    SET \n      year = ?,\n      semester = ?,\n      is_new = ?\n    WHERE \n      emp_id = ?;\n    ';
+
+    var values = [year, term, isnew, empid];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {

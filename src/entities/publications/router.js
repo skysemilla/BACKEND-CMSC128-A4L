@@ -27,9 +27,9 @@ router.post('/api/publication/view', async (req, res) => {
 });
 
 // gets publications
-router.get('/api/publication/viewAll', async (req, res) => {
+router.post('/api/publication/viewAll', async (req, res) => {
   try {
-    const publications = await Ctrl.getPublications();
+    const publications = await Ctrl.getPublications(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all publications',
@@ -204,7 +204,7 @@ router.post('/api/publication/deleteCoworkers', async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully removed coworkers',
+      message: 'Successfully removed coworkers'
       // data: publication
     });
   } catch (status) {
@@ -221,7 +221,7 @@ router.post('/api/publication/deleteCoworkers', async (req, res) => {
   }
 });
 
-// gets coworkers of a publication 
+// gets coworkers of a publication
 router.post('/api/publication/getCoworkers', async (req, res) => {
   try {
     const publications = await Ctrl.getCoworkers(req.body);

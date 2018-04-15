@@ -148,5 +148,48 @@ router.get('/api/studyload/viewAll', async (req, res) => {
     res.status(200).json({ status, message });
   }
 });
+router.get('/api/studyload/viewStudyCredentials', async (req, res) => {
+  try {
+    const book = await Ctrl.getStudyCredentials(req.session.user);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched study credentials',
+      data: book
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Credentials not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
 
+router.post('/api/studyload/editStudyCredentials', async (req, res) => {
+  console.log(req.body);
+  if (
+    req.body.degree &&
+    req.body.uni &&
+    req.body.studyleave &&
+    req.body.fellowship &&
+    req.session.user
+  ) {
+    try {
+      await Ctrl.editStudyCredentials(req.body,req.session.user.emp_id);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully edited study credentials',
+      });
+    } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
+  }
+});
 export default router;

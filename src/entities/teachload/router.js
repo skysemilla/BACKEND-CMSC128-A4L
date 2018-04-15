@@ -5,6 +5,7 @@ import { isNull } from 'util';
 const router = Router();
 
 router.post('/api/teachload/add', async (req, res) => {
+  console.log(req)
   if (
     req.body.no_of_students &&
     req.body.subject_code &&
@@ -19,7 +20,7 @@ router.post('/api/teachload/add', async (req, res) => {
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
-      const id = await Ctrl.addTeachLoad(req.body, req.body.user);
+      const id = await Ctrl.addTeachLoad(req.body, req.session.user);
       const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
 
       res.status(200).json({

@@ -17,17 +17,20 @@ create table EMPLOYEE(
   m_name varchar(255) not null,
   l_name varchar (255) not null,
   is_new boolean not null, /* needed for checking if the employee is required to change some attributes */
-  department varchar(10),
-  college varchar(20),
+  department varchar(50),
+  college varchar(50),
   emp_type varchar(255),
   semester varchar(20),
   year varchar(20),
   email varchar(255) not null,
   is_studying boolean not null, 
+  is_full_time boolean,
   current_study_units int,
   max_study_units int,
   current_teaching_units int,
   min_teaching_units int,
+  is_active boolean not null,
+  is_being_approved boolean not null,
   constraint employee_emp_id_increment_pk PRIMARY KEY (emp_id_increment),
   constraint employee_emp_id_uk UNIQUE KEY (emp_id),
   constraint employee_username_uk UNIQUE KEY (username),
@@ -75,16 +78,14 @@ create table PUBLICATION(
 );
 
 create table FACULTYGRANT (
-  faculty_grant_id int not null AUTO_INCREMENT,
-  type varchar(255) not null,
-  is_approved boolean not null,
-  professional_chair varchar(255) not null,
-  grants varchar(255) not null,
-  grant_title varchar(255) not null,
-  start_date date not null,
-  end_date date not null,
-  emp_id varchar(10) not null,
-  constraint faculty_grant_id_pk PRIMARY key (faculty_grant_id),
+  type varchar(255),
+  is_approved boolean,
+  professional_chair varchar(255),
+  grants varchar(255),
+  grant_title varchar(255),
+  start_date date,
+  end_date date,
+  emp_id varchar(10),
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -184,9 +185,11 @@ create table STUDYLOAD(
 
 /* CONTAINS STATIC DATA RELATED TO STUDYLOAD OF AN EMPLOYEE */
 create table STUDY_CREDENTIALS (
-  degree varchar(255) not null,
-  university varchar(255) not null,
+  degree varchar(255),
+  university varchar(255),
   emp_id varchar(10) not null,
+  full_studyleave boolean not null,
+  faculty_fellowship boolean not null,
   constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -269,13 +272,15 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
-                                  department_insert varchar(10),
-                                  college_insert varchar(20),
+                                  department_insert varchar(50),
+                                  college_insert varchar(50),
                                   emp_type_insert varchar(255),
                                   semester_insert varchar(20),
                                   year_insert varchar(20),
                                   is_studying boolean,
-                                  email_insert varchar(255))
+                                  email_insert varchar(255),
+                                  is_active_insert boolean,
+                                  is_being_approved_insert boolean)
   BEGIN 
 
     IF is_studying THEN
@@ -287,8 +292,9 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, 0, @max_study_units,0, @min_teaching_units);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert,is_active_insert,is_being_approved_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
+    call insert_study_credentials(emp_id_insert,0,0);
   END;
 GO
 
@@ -306,11 +312,13 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   f_name_insert varchar(255) ,
                                   m_name_insert varchar(255) ,
                                   l_name_insert varchar (255) ,
-                                  department_insert varchar(10),
-                                  college_insert varchar(20),
+                                  department_insert varchar(50),
+                                  college_insert varchar(50),
                                   emp_type_insert varchar(255),
                                   email_insert varchar(255),
-                                  is_studying_insert boolean
+                                  is_studying_insert boolean,
+                                  is_active_insert boolean,
+                                  is_being_approved_insert boolean
 )
   BEGIN 
     UPDATE EMPLOYEE
@@ -323,18 +331,22 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         college = college_insert,
         emp_type = emp_type_insert,
         email = email_insert,
-        is_studying = is_studying_insert
+        is_studying = is_studying_insert,
+        is_active = is_active_insert,
+        is_being_approved = is_being_approved_insert
     WHERE emp_id = emp_type_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
 GO
 
 CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
-                                        department_insert varchar(10),
-                                        college_insert varchar(20),
+                                        department_insert varchar(50),
+                                        college_insert varchar(50),
                                         emp_type_insert varchar(255),
                                         email_insert varchar(255),
-                                        is_studying_insert boolean )
+                                        is_studying_insert boolean,
+                                        is_active_insert boolean,
+                                        is_being_approved_insert boolean )
   BEGIN
     UPDATE EMPLOYEE
     SET
@@ -343,7 +355,9 @@ CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
       emp_type = emp_type_insert,
       email = email_insert,
       is_studying = is_studying_insert,
-      is_new = 0
+      is_new = 0,
+      is_active = is_active_insert,
+      is_being_approved = is_being_approved_insert
     WHERE emp_id = emp_id_insert;
     call insert_log(concat("Employee #", emp_id_insert, "'s new attributes has been updated in the Database"));
   END;
@@ -552,7 +566,7 @@ GO
 
 CREATE PROCEDURE view_employee_publication(emp_id_view_publication varchar(10))
   BEGIN
-      SELECT title, credit_units, category, funding, role, start_date, end_date FROM PUBLICATION 
+      SELECT * FROM PUBLICATION 
       WHERE emp_id = emp_id_view_publication;
   END;
 GO
@@ -811,26 +825,6 @@ CREATE PROCEDURE insert_teachingload(   subject_id int,
   END;
 GO
 
-CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
-
-CREATE FUNCTION is_teachingload_existing( subject_code_insert varchar(255), section_code_insert varchar(255))
-RETURNS BOOLEAN DETERMINISTIC
-  BEGIN
-    IF EXISTS(SELECT a.teachingload_id from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where b.subject_code = subject_code_insert and b.section_code = section_code_insert) THEN
-      RETURN true;
-    END IF;
-    RETURN false;
-  END;
-GO  
-
 
 CREATE PROCEDURE delete_teachingload( teachingload_id_delete int )
   BEGIN
@@ -904,11 +898,11 @@ DROP PROCEDURE IF EXISTS update_studyload;
 
 DELIMITER GO
 
-CREATE PROCEDURE view_studyload()
-  BEGIN 
-    SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
-  END;
-GO
+-- CREATE PROCEDURE view_studyload()
+--   BEGIN 
+--     SELECT d.studyload_id, d.emp_id, a.subject_id, a.subject_code, a.section_code, a.isLecture, a.units, a.room, a.start_time, a.end_time, d.university, d.degree , d.credits from SUBJECT as a join (select b.studyload_id,  b.subject_id, b.emp_id, b.credits, c.university, c.degree from STUDYLOAD as b join STUDY_CREDENTIALS as c on b.emp_id = c.emp_id) as d on a.subject_id = d.subject_id;
+--   END;
+-- GO
 
 CREATE PROCEDURE view_employee_studyload(emp_id_view int)
   BEGIN
@@ -986,15 +980,17 @@ DROP PROCEDURE IF EXISTS update_study_credentials;
 
 DELIMITER GO
 
-CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),
-                                            degree_insert varchar(255),
-                                            university_insert varchar(255) )
+CREATE PROCEDURE insert_study_credentials( emp_id_insert varchar(10),    
+                                            full_studyleave_insert boolean,
+                                            faculty_fellowship_insert boolean )
   BEGIN
     IF (select is_studying from EMPLOYEE where emp_id = emp_id_insert) = 1 THEN
       INSERT INTO STUDY_CREDENTIALS
-      VALUES ( degree_insert,
-                university_insert,
-                emp_id_insert );
+      VALUES (  NULL,
+                NULL,
+                emp_id_insert,
+                full_studyleave_insert,
+                faculty_fellowship_insert );
       call insert_log(concat("Study Credentials of ", emp_id_insert, " has been added to the DATABASE"));
     END IF;
   END;
@@ -1002,12 +998,16 @@ GO
 
 CREATE PROCEDURE update_study_credentials( emp_id_insert varchar(10),
                                             degree_insert varchar(255),
-                                            university_insert varchar(255) )
+                                            university_insert varchar(255),  
+                                            full_studyleave_insert boolean,
+                                            faculty_fellowship_insert boolean )
   BEGIN
-    IF (select is_studying from employee where emp_id = emp_id_insert) = 1 THEN
+    IF (select is_studying from EMPLOYEE where emp_id = emp_id_insert) = 1 THEN
       UPDATE STUDY_CREDENTIALS
       SET degree = degree_insert,
-          university = university_insert
+          university = university_insert,
+          full_studyleave = full_studyleave_insert,
+          faculty_fellowship = faculty_fellowship_insert
       WHERE emp_id = emp_id_insert;
       call insert_log(concat("Study Credentials of ", emp_id_insert, " has been edited in the DATABASE"));
     END IF;
@@ -1122,22 +1122,13 @@ CREATE PROCEDURE insert_faculty_grant(
                     emp_id varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
-        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
+        values (type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
     call insert_log(concat("faculty grant with title ", grant_title, " has been added to the table facultygrant"));
   END;
 GO
 
 
-CREATE PROCEDURE delete_faculty_grant(  faculty_grant_id_del int)
-  BEGIN
-      DELETE FROM FACULTYGRANT
-        where faculty_grant_id = faculty_grant_id_del;
-        call insert_log(concat("faculty grant # ", faculty_grant_id_del, " has been deleted from the table facultygrant"));
-  END;
-GO
-
-
-CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
+CREATE PROCEDURE update_faculty_grant(  emp_id_update int,
                   type_update varchar(255),
                     is_approved_update boolean,
                   professional_chair_update varchar(255),
@@ -1155,8 +1146,8 @@ CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
           grant_title = grant_title_update,
           start_date = start_date_update,
           end_date = end_date_update
-        WHERE faculty_grant_id = faculty_grant_id_update;
-    call insert_log(concat("faculty grant id ", faculty_grant_id_update, " has been updated in the table FACULTYGRANT"));
+        WHERE emp_id = emp_id_update;
+    call insert_log(concat("faculty grant with emp_id ", emp_id_update, " has been updated in the table FACULTYGRANT"));
   END;
 GO
 DELIMITER ;
@@ -1168,7 +1159,6 @@ DROP PROCEDURE IF EXISTS view_limited_practice;
 DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
 DROP PROCEDURE IF EXISTS delete_limited_practice;
-DROP PROCEDURE IF EXISTS update_employee; 
 DROP PROCEDURE IF EXISTS insert_date_if_yes;
 DROP PROCEDURE IF EXISTS update_limited_practice;
 DELIMITER GO
@@ -1248,7 +1238,9 @@ CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
       current_study_units = 0,
       max_study_units = 0,
       min_teaching_units = 0,
-      is_new = 0
+      is_new = 0,
+      is_active = TRUE,
+      is_being_approved = FALSE
     WHERE emp_id = emp_id_clear;
 
     DELETE FROM EXTENSION
@@ -1285,17 +1277,16 @@ GO
 DELIMITER ;
 
 /* POPULATE DATA */
-
-call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com");
-call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com");
-call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com");
-call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com");
-call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com");
-call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com");
-call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com");
-call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com");
-call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com");
-call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com");
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", TRUE,"email1@gmail.com", TRUE, TRUE);
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", TRUE,"email2@gmail.com", TRUE, TRUE);
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", TRUE,"email3@gmail.com", TRUE, TRUE);
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", TRUE,"email4@gmail.com", TRUE, TRUE);
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", TRUE,"email5@gmail.com", TRUE, TRUE);
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", TRUE,"email6@gmail.com", TRUE, TRUE);
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", TRUE,"email7@gmail.com", TRUE, TRUE);
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", TRUE,"email8@gmail.com", TRUE, TRUE);
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com", TRUE, TRUE);
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com", TRUE, TRUE);
 
 call insert_study_credentials("0000000001","MSCS", "UPLB");
 call insert_study_credentials("0000000002","MSCS", "UPLB");

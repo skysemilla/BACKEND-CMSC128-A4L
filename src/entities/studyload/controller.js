@@ -144,3 +144,65 @@ export const getAllStudyLoad = () => {
     });
   });
 };
+
+export const getStudyCredentials = ( json ) => {
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    const queryString = `
+      SELECT * FROM STUDY_CREDENTIALS WHERE emp_id = ?
+    `;
+
+    db.query(queryString, [emp_id], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+export const editStudyCredentials = (json,emp_id) => {
+  const university = json.uni;
+  const degree = json.degree;
+  var fellowship = false;
+  var studyleave = false;
+  if(json.fellowship = "On"){
+    fellowship = true;
+  }
+  if(json.studyleave = "On"){
+    studyleave = true;
+  }
+
+return new Promise((resolve, reject) => {
+  const queryString = `
+  call update_study_credentials(?,?,?,?,?)
+  `;
+
+  const values = [
+    emp_id,
+    degree,
+    university,
+    studyleave,
+    fellowship
+  ];
+
+  db.query(queryString, values, (err, res) => {
+    if (err) {
+      console.log(err);
+      return reject(500);
+    }
+
+    if (!res.affectedRows) {
+      return reject(403);
+    }
+
+    return resolve();
+  });
+});
+};

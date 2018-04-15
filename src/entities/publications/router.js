@@ -54,10 +54,10 @@ router.post('/api/publication/add', async (req, res) => {
     req.body.credit_units >= 0 &&
     req.body.category &&
     // req.body.funding &&
-    req.body.title &&
+    req.body.title
     // req.body.role &&
-    req.body.start_date &&
-    req.body.end_date
+    // req.body.start_date &&
+    // req.body.end_date
   ) {
     try {
       const id = await Ctrl.addPublication(req.body);

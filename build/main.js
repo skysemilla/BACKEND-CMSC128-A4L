@@ -967,9 +967,11 @@ router.post('/api/publication/add', function () {
           case 0:
             if (!(req.body.credit_units >= 0 && req.body.category &&
             // req.body.funding &&
-            req.body.title &&
+            req.body.title
             // req.body.role &&
-            req.body.start_date && req.body.end_date)) {
+            // req.body.start_date &&
+            // req.body.end_date
+            )) {
               _context3.next = 15;
               break;
             }
@@ -1553,9 +1555,15 @@ var addPublication = function addPublication(_ref3) {
       emp_id = _ref3.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+    if (start_date === '' || end_date === '') {
+      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, null, null, ?);\n        ';
 
-    var values = [credit_units, category, funding, title, role, start_date, end_date, emp_id];
+      var _values = [credit_units, category, funding, title, role, emp_id];
+    } else {
+      var _queryString2 = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+
+      var _values2 = [credit_units, category, funding, title, role, start_date, end_date, emp_id];
+    }
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {

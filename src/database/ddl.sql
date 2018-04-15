@@ -344,7 +344,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         is_studying = is_studying_insert,
         is_active = is_active_insert,
         is_being_approved = is_being_approved_insert
-    WHERE emp_id = emp_type_insert;
+    WHERE emp_id = emp_id_insert;
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
 GO

@@ -72,8 +72,8 @@ create table PUBLICATION(
   funding varchar(255),
   title varchar(255) not null,
   role varchar(255),
-  start_date date not null,
-  end_date date not null,
+  start_date date,
+  end_date date,
   emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -297,6 +297,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     INSERT INTO EMPLOYEE 
     VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
+    call insert_study_credentials(NULL, NULL, emp_id_insert, 1, 0);
     call insert_faculty_grant(NULL, NULL,NULL,NULL,NULL,NULL,NULL, emp_id_insert);
   END;
 GO
@@ -952,7 +953,7 @@ CREATE PROCEDURE insert_studyload(
   BEGIN
       INSERT INTO STUDYLOAD
       VALUES (NULL, credits_insert, course_no_insert, emp_id_insert, start_time_insert,school_insert, no_of_days_insert);    
-      call insert_log(concat("STUDYLOAD #",LAST_INSERT_ID()," has been added to the table STUDYLOAD"));
+      call insert_log(concat("STUDYLOAD with course_no ", course_no_insert ," has been added to the table STUDYLOAD"));
       call update_employee_studyload(emp_id_insert);
   END;
 GO
@@ -1316,16 +1317,16 @@ call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Pe
 call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", TRUE,"email9@gmail.com", TRUE, TRUE);
 call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", FALSE,"email10@gmail.com", TRUE, TRUE);
 
-call insert_study_credentials("MSCS", "UPLB","0000000001",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000002",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000003",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000004",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000005",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000006",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000007",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000008",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000009",TRUE, TRUE);
-call insert_study_credentials("MSCS", "UPLB","0000000000",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000001",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000002",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000003",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000004",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000005",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000006",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000007",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000008",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000009",TRUE, TRUE);
+-- call insert_study_credentials("MSCS", "UPLB","0000000000",TRUE, TRUE);
 
 call insert_extension(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
 call insert_extension(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");
@@ -1394,20 +1395,20 @@ call insert_teachingload(8, "0000000005", 12);
 call insert_teachingload(9, "0000000006", 12);
 call insert_teachingload(10, "0000000007", 12);
 
--- call insert_studyload(3,"CMSC 200","0000000001","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 210","0000000001","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 220","0000000002","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 230","0000000002","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 240","0000000003","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 250","0000000003","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 260","0000000003","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 10","0000000004","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 20","0000000004","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 200","0000000005","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 20","0000000006","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 00","0000000007","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 20","0000000008","11:00:00","UPD",11);
--- call insert_studyload(3,"CMSC 25","0000000009","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 200","0000000001","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 210","0000000001","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 220","0000000002","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 230","0000000002","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 240","0000000003","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 250","0000000003","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 260","0000000003","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 10","0000000004","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 20","0000000004","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 200","0000000005","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 20","0000000006","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 00","0000000007","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 20","0000000008","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 25","0000000009","11:00:00","UPD",11);
 
 call insert_publication(8,"9","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
 call insert_publication(1,"8","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");

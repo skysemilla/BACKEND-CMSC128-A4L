@@ -2474,10 +2474,10 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
   var degree = json.degree;
   var fellowship = false;
   var studyleave = false;
-  if (json.fellowship = "On") {
+  if (json.fellowship === "Yes") {
     fellowship = true;
   }
-  if (json.studyleave = "On") {
+  if (json.studyleave === "Yes") {
     studyleave = true;
   }
 

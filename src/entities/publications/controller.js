@@ -240,6 +240,24 @@ export const getEmployees = () => {
   });
 };
 
+// gets all employee except self
+export const getEmployeeCoworkers = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+      SELECT * from EMPLOYEE WHERE emp_id != ?;
+    `;
+
+    db.query(queryString, empid, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
 // removes a publication
 export const removeCoworkers = ({ id }) => {
   return new Promise((resolve, reject) => {

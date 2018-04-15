@@ -175,6 +175,28 @@ router.get('/api/publication/viewEmployees', async (req, res) => {
 });
 
 // gets publications
+router.post('/api/publication/viewEmployeeCoworkers', async (req, res) => {
+  try {
+    const publications = await Ctrl.getEmployeeCoworkers(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched all possible coworkers',
+      data: publications
+    });
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(200).json({ status, message });
+  }
+});
+
+// gets publications
 router.get('/api/publication/viewCoworkers', async (req, res) => {
   try {
     const publications = await Ctrl.getCoworkers(req.body);

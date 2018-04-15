@@ -295,8 +295,9 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, FALSE, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert,is_active_insert,is_being_approved_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
+    call insert_faculty_grant(NULL, NULL,NULL,NULL,NULL,NULL,NULL, emp_id_insert);
   END;
 GO
 
@@ -1150,7 +1151,7 @@ CREATE PROCEDURE insert_faculty_grant(
   BEGIN 
     INSERT INTO FACULTYGRANT
         values (type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
-    call insert_log(concat("faculty grant with title ", grant_title, " has been added to the table facultygrant"));
+    call insert_log(concat("faculty grant with emp_id ", emp_id, " has been added to the table facultygrant"));
   END;
 GO
 
@@ -1266,8 +1267,8 @@ CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
       max_study_units = 0,
       min_teaching_units = 0,
       is_new = 0,
-      is_active = TRUE,
-      is_being_approved = FALSE
+      is_active = 1,
+      is_being_approved = 0
     WHERE emp_id = emp_id_clear;
 
     DELETE FROM EXTENSION
@@ -1360,27 +1361,27 @@ call insert_position("aaron", 2, "A committee","0000000006");
 call insert_position("aaron", 2, "A committee","0000000006");
 call insert_position("aaron", 2, "A committee","0000000000");
 
-call add_subject("cmsc 111", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 11", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 12", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 131", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 141", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 151", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 1161", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 17", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("math 170", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 125", "a", FALSE, FALSE, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 111", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 11", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 12", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 131", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 141", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 151", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 1161", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 17", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("math 170", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 125", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
 
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", TRUE, TRUE, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
 
 call insert_teachingload(1, "0000000001", 12);
 call insert_teachingload(2, "0000000002", 12);
@@ -1431,13 +1432,13 @@ call insert_coworker("0000000005",7);
 call insert_coworker("0000000001",5);
 
 
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000007");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000001");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000002");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000003");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000004");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000005");
-call insert_faculty_grant("type", TRUE, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000006");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000007");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000001");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000002");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000003");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000004");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000005");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000006");

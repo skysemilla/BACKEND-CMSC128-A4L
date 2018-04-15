@@ -1,18 +1,21 @@
 import db from '../../database';
 
 export const addStudyLoad = ({
-  // degree,
-  // university,
   credits,
-  emp_id,
-  subject_id
-}) => {
+  courseno,
+  start_time,
+  school,
+  no_of_days
+},
+  json
+) => {
   return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
     const queryString = `
-      call insert_studyload(?, ?, ?)
+      call insert_studyload(?, ?, ?,?,?,?)
     `;
 
-    const values = [subject_id, credits, emp_id];
+    const values = [credits, courseno, emp_id, start_time, school, no_of_days];
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
@@ -45,36 +48,26 @@ export const removeStudyLoad = ({ studyload_id }) => {
   });
 };
 
-export const editStudyLoad = ({
-  studyload_id,
-  degree,
-  university,
-  credits,
-  subject_code,
-  section_code,
-  isLecture,
-  units,
-  room,
-  start_time,
-  end_time
-}) => {
+export const editStudyLoad = (json,emp_id) => {
+    const studyload_id = json.studyload_id;
+    const credits = json.credits;
+    const courseno = json.courseno;
+    const start_time = json.start_time;
+    const school = json.school;
+    const no_of_days = json.no_of_days
   return new Promise((resolve, reject) => {
     const queryString = `
-    call update_studyload(?,?,?,?,?,?,?,?,?,?,?)
+    call update_studyload(?,?,?,?,?,?,?)
     `;
 
     const values = [
       studyload_id,
-      degree,
-      university,
       credits,
-      subject_code,
-      section_code,
-      isLecture,
-      units,
-      room,
+      courseno,
       start_time,
-      end_time
+      school,
+      no_of_days,
+      emp_id
     ];
 
     db.query(queryString, values, (err, res) => {
@@ -95,7 +88,7 @@ export const editStudyLoad = ({
 export const getStudyLoad = ({ studyload_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      call view_by_studyload_id(?)
+      call view_studyload_id_studyload(?)
         `;
 
     db.query(queryString, studyload_id, (err, rows) => {
@@ -150,4 +143,66 @@ export const getAllStudyLoad = () => {
       return resolve(rows);
     });
   });
+};
+
+export const getStudyCredentials = ( json ) => {
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    const queryString = `
+      SELECT * FROM STUDY_CREDENTIALS WHERE emp_id = ?
+    `;
+
+    db.query(queryString, [emp_id], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+export const editStudyCredentials = (json,emp_id) => {
+  const university = json.uni;
+  const degree = json.degree;
+  var fellowship = false;
+  var studyleave = false;
+  if(json.fellowship === "Yes"){
+    fellowship = true;
+  }
+  if(json.studyleave === "Yes"){
+    studyleave = true;
+  }
+
+return new Promise((resolve, reject) => {
+  const queryString = `
+  call update_study_credentials(?,?,?,?,?)
+  `;
+
+  const values = [
+    emp_id,
+    degree,
+    university,
+    studyleave,
+    fellowship
+  ];
+
+  db.query(queryString, values, (err, res) => {
+    if (err) {
+      console.log(err);
+      return reject(500);
+    }
+
+    if (!res.affectedRows) {
+      return reject(403);
+    }
+
+    return resolve();
+  });
+});
 };

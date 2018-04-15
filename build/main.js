@@ -1794,7 +1794,7 @@ var addEmployee = function addEmployee(_ref) {
       email = _ref.email;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, \'2nd\', \'2017-2018\', ?, ?);\n    ';
+    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, \'2nd\', \'2017-2018\', ?, ?, 1);\n    ';
 
     var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, emp_type, is_full_time, email];
 

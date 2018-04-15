@@ -78,16 +78,14 @@ create table PUBLICATION(
 );
 
 create table FACULTYGRANT (
-  faculty_grant_id int not null AUTO_INCREMENT,
-  type varchar(255) not null,
-  is_approved boolean not null,
-  professional_chair varchar(255) not null,
-  grants varchar(255) not null,
-  grant_title varchar(255) not null,
-  start_date date not null,
-  end_date date not null,
-  emp_id varchar(10) not null,
-  constraint faculty_grant_id_pk PRIMARY key (faculty_grant_id),
+  type varchar(255),
+  is_approved boolean,
+  professional_chair varchar(255),
+  grants varchar(255),
+  grant_title varchar(255),
+  start_date date,
+  end_date date,
+  emp_id varchar(10),
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -1133,22 +1131,13 @@ CREATE PROCEDURE insert_faculty_grant(
                     emp_id varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
-        values (NULL, type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
+        values (type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
     call insert_log(concat("faculty grant with title ", grant_title, " has been added to the table facultygrant"));
   END;
 GO
 
 
-CREATE PROCEDURE delete_faculty_grant(  faculty_grant_id_del int)
-  BEGIN
-      DELETE FROM FACULTYGRANT
-        where faculty_grant_id = faculty_grant_id_del;
-        call insert_log(concat("faculty grant # ", faculty_grant_id_del, " has been deleted from the table facultygrant"));
-  END;
-GO
-
-
-CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
+CREATE PROCEDURE update_faculty_grant(  emp_id_update int,
                   type_update varchar(255),
                     is_approved_update boolean,
                   professional_chair_update varchar(255),
@@ -1166,8 +1155,8 @@ CREATE PROCEDURE update_faculty_grant(  faculty_grant_id_update int,
           grant_title = grant_title_update,
           start_date = start_date_update,
           end_date = end_date_update
-        WHERE faculty_grant_id = faculty_grant_id_update;
-    call insert_log(concat("faculty grant id ", faculty_grant_id_update, " has been updated in the table FACULTYGRANT"));
+        WHERE emp_id = emp_id_update;
+    call insert_log(concat("faculty grant with emp_id ", emp_id_update, " has been updated in the table FACULTYGRANT"));
   END;
 GO
 DELIMITER ;

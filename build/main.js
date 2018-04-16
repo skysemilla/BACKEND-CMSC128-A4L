@@ -5141,6 +5141,61 @@ router.post('/api/faculty/termEdit', function () {
   };
 }());
 
+// get the faculty data
+router.post('/api/faculty/data', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+    var data, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getData */](req.body);
+
+          case 3:
+            data = _context3.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched faculty data',
+              data: data
+            });
+            _context3.next = 18;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty not found';
+            return _context3.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 17);
+
+          case 17:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 7]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -5150,6 +5205,7 @@ router.post('/api/faculty/termEdit', function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return editFaculty; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editTerm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getData; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
@@ -5210,6 +5266,28 @@ var editTerm = function editTerm(_ref2) {
       }
 
       return resolve();
+    });
+  });
+};
+
+// gets faculty data
+var getData = function getData(_ref3) {
+  var empid = _ref3.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            EMPLOYEE\n          WHERE\n            emp_id = ?\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
     });
   });
 };

@@ -78,3 +78,30 @@ export const editTerm = ({ empid, year, term, isnew }) => {
     });
   });
 };
+
+// gets faculty data
+export const getData = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT 
+            *
+          FROM 
+            EMPLOYEE
+          WHERE
+            emp_id = ?
+        `;
+
+    db.query(queryString, empid, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};

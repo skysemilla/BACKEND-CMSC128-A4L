@@ -50,20 +50,17 @@ export const removeTeachLoad = ({ teachingload_id }) => {
   });
 };
 
-export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_code, room, days, start_time, end_time, creditw}) => {
+export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_code, room, days, start_time, end_time, creditw, teachingload_id}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       UPDATE TEACHINGLOAD
         SET
           no_of_students = ?
         WHERE
-          emp_id = ? AND
-          subject_id = (SELECT subject_id FROM SUBJECT 
-                        WHERE subject_code = ? AND
-                              section_code = ? );
+          teachingload_id=?;
     `;
    
-    const values = [no_of_students, emp_id, subject_code, section_code];
+    const values = [no_of_students, teachingload_id];
 
     db.query(queryString, values, (err, res) => {
       if (err) {

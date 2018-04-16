@@ -23,13 +23,13 @@ export const getPublication = ({ id }) => {
 };
 
 // gets all publications
-export const getPublications = () => {
+export const getPublications = ({ empid }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL view_publication();
+      CALL view_employee_publication(?);
     `;
 
-    db.query(queryString, (err, rows) => {
+    db.query(queryString, empid, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -57,27 +57,44 @@ export const getPublications = () => {
 // };
 
 // adds a publication
-export const addPublication = ({ credit_units, category, funding, title, role, start_date, end_date, emp_id}) => {
+export const addPublication = ({
+  credit_units,
+  category,
+  funding,
+  title,
+  role,
+  start_date,
+  end_date,
+  emp_id
+}) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    if (start_date === '' || end_date === '') {
+      const queryString = `
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, null, null, ?);
+        `;
+
+      const values = [credit_units, category, funding, title, role, emp_id];
+    } else {
+      const queryString = `
           INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
-    const values = [
-      credit_units,
-      category,
-      funding,
-      title,
-      role,
-      start_date,
-      end_date,
-      emp_id
-    ];
+      const values = [
+        credit_units,
+        category,
+        funding,
+        title,
+        role,
+        start_date,
+        end_date,
+        emp_id
+      ];
+    }
 
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
-        console.log("ERROR!!");
+        console.log('ERROR!!');
         return reject(500);
       }
 
@@ -93,14 +110,12 @@ export const addPublicationLog = ({ title }) => {
         call insert_log(concat("Publication with title", ?, " has been added to the table PUBLICATION"));
         `;
 
-    const values = [
-      title
-    ];
+    const values = [title];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
-        console.log("ERROR!!");
+        console.log('ERROR!!');
         return reject(500);
       }
 
@@ -174,7 +189,16 @@ export const removePublication = ({ id }) => {
 };
 
 // edits a publication
-export const editPublication = ({ credit_units, category, funding, title, role, start_date, end_date, publication_id }) => {
+export const editPublication = ({
+  credit_units,
+  category,
+  funding,
+  title,
+  role,
+  start_date,
+  end_date,
+  publication_id
+}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?);
@@ -214,6 +238,24 @@ export const getEmployees = () => {
     `;
 
     db.query(queryString, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// gets all employee except self
+export const getEmployeeCoworkers = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+      SELECT * from EMPLOYEE WHERE emp_id != ?;
+    `;
+
+    db.query(queryString, empid, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

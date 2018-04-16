@@ -27,9 +27,9 @@ router.post('/api/publication/view', async (req, res) => {
 });
 
 // gets publications
-router.get('/api/publication/viewAll', async (req, res) => {
+router.post('/api/publication/viewAll', async (req, res) => {
   try {
-    const publications = await Ctrl.getPublications();
+    const publications = await Ctrl.getPublications(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all publications',
@@ -54,10 +54,10 @@ router.post('/api/publication/add', async (req, res) => {
     req.body.credit_units >= 0 &&
     req.body.category &&
     // req.body.funding &&
-    req.body.title &&
+    req.body.title
     // req.body.role &&
-    req.body.start_date &&
-    req.body.end_date
+    // req.body.start_date &&
+    // req.body.end_date
   ) {
     try {
       const id = await Ctrl.addPublication(req.body);
@@ -175,6 +175,28 @@ router.get('/api/publication/viewEmployees', async (req, res) => {
 });
 
 // gets publications
+router.post('/api/publication/viewEmployeeCoworkers', async (req, res) => {
+  try {
+    const publications = await Ctrl.getEmployeeCoworkers(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched all possible coworkers',
+      data: publications
+    });
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(200).json({ status, message });
+  }
+});
+
+// gets publications
 router.get('/api/publication/viewCoworkers', async (req, res) => {
   try {
     const publications = await Ctrl.getCoworkers(req.body);
@@ -204,7 +226,7 @@ router.post('/api/publication/deleteCoworkers', async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Successfully removed coworkers',
+      message: 'Successfully removed coworkers'
       // data: publication
     });
   } catch (status) {
@@ -221,7 +243,7 @@ router.post('/api/publication/deleteCoworkers', async (req, res) => {
   }
 });
 
-// gets coworkers of a publication 
+// gets coworkers of a publication
 router.post('/api/publication/getCoworkers', async (req, res) => {
   try {
     const publications = await Ctrl.getCoworkers(req.body);

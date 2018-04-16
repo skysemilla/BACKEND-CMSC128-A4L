@@ -5,11 +5,14 @@ export const addConsulHours = ({
   consultation_end_time,
   consultation_place,
   day,
-  emp_id
-}) => {
+},
+  json
+) => {
   return new Promise((resolve, reject) => {
+    const emp_id =  json.emp_id;
+
     const queryString = `
-      CALL 
+      CALL
       insert_consultation(?, ?, ?, ?, ?);
     `;
 
@@ -33,15 +36,14 @@ export const addConsulHours = ({
 };
 
 // removes consultation hours
-export const removeConsulHours = ({ id }) => {
+export const removeConsultation = ({ consultation_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
     CALL 
-    delete_consultation(?)
-     
+      delete_consultation(?)
     `;
 
-    db.query(queryString, id, (err, results) => {
+    db.query(queryString, consultation_id, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -57,18 +59,20 @@ export const removeConsulHours = ({ id }) => {
 };
 
 // get a consultation hour
-export const getConsultation = ({ id }) => {
+export const getConsultation = ( consultation_id ) => {
   return new Promise((resolve, reject) => {
+
     const queryString = `
           SELECT 
-            *
+            consultation_start_time, consultation_end_time, consultation_place
           FROM 
             CONSULTATION
           WHERE
             consultation_id = ?;
         `;
 
-    db.query(queryString, id, (err, rows) => {
+
+    db.query(queryString, emp_id , (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

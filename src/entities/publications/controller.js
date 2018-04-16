@@ -68,20 +68,28 @@ export const addPublication = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    if (start_date === '' || end_date === '') {
+      const queryString = `
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, null, null, ?);
+        `;
+
+      const values = [credit_units, category, funding, title, role, emp_id];
+    } else {
+      const queryString = `
           INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
-    const values = [
-      credit_units,
-      category,
-      funding,
-      title,
-      role,
-      start_date,
-      end_date,
-      emp_id
-    ];
+      const values = [
+        credit_units,
+        category,
+        funding,
+        title,
+        role,
+        start_date,
+        end_date,
+        emp_id
+      ];
+    }
 
     db.query(queryString, values, (err, results) => {
       if (err) {
@@ -230,6 +238,24 @@ export const getEmployees = () => {
     `;
 
     db.query(queryString, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// gets all employee except self
+export const getEmployeeCoworkers = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+      SELECT * from EMPLOYEE WHERE emp_id != ?;
+    `;
+
+    db.query(queryString, empid, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

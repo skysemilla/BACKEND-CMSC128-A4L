@@ -11,7 +11,7 @@ USE skydev;
 /* REPRESENTS FACULTY MEMBERS */
 create table EMPLOYEE( 
   emp_id_increment int not null AUTO_INCREMENT,
-  emp_id varchar(9) not null,
+  emp_id varchar(10) not null,
   username varchar(20) not null,
   password varchar(256) not null,
   type varchar(7) not null, 
@@ -22,7 +22,6 @@ create table EMPLOYEE(
   department varchar(50),
   college varchar(50),
   emp_type varchar(255),
-  emp_type_no int not null,
   semester varchar(20),
   year varchar(20),
   email varchar(255) not null,
@@ -44,7 +43,7 @@ create table EMPLOYEE_FSR(
   semester varchar(20) not null,
   year varchar(20) not null,
   path_to_fsr varchar(255) not null,
-  emp_id varchar(9) not null,
+  emp_id varchar(10) not null,
   constraint employee_fsr_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -57,10 +56,10 @@ create table EXTENSION(
   no_of_hours int not null,
   no_of_participants int (20) not null,
   extension_role varchar(10) not null,
-  start_time date not null,
-  end_time date not null,
+  start_time time not null,
+  end_time time not null,
   funding_agency varchar(255) not null,
-  emp_id varchar(9) not null, 
+  emp_id varchar(10) not null, 
   constraint extension_extension_id_pk PRIMARY KEY (extension_id),
   constraint extension_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -70,13 +69,12 @@ create table PUBLICATION(
   publication_id int not null AUTO_INCREMENT,
   credit_units int not null,
   category varchar(255) not null,
-  subcategory varchar(255) not null,
   funding varchar(255),
   title varchar(255) not null,
   role varchar(255),
   start_date date,
   end_date date,
-  emp_id varchar(9) not null, 
+  emp_id varchar(10) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -89,14 +87,14 @@ create table FACULTYGRANT (
   grant_title varchar(255),
   start_date date,
   end_date date,
-  emp_id varchar(9),
+  emp_id varchar(10),
   constraint faculty_grant_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /* REPRESENTS A COWORKER PRESENT IN A PUBLICATION */
 create table COWORKER(
   coworker_id int not null AUTO_INCREMENT,
-  emp_id varchar(9) not null, 
+  emp_id varchar(10) not null, 
   publication_id int not null,
   constraint coworker_coworker_id_pk PRIMARY key (coworker_id),
   constraint coworker_publication_id_fk foreign key (publication_id) references PUBLICATION(publication_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -109,7 +107,7 @@ create table CONSULTATION(
   consultation_start_time time not null,
   consultation_end_time time not null,
   consultation_place varchar(255) not null,
-  emp_id varchar(9) not null, 
+  emp_id varchar(10) not null, 
   constraint consultation_consultation_id_pk PRIMARY key (consultation_id),
   constraint consultation_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -127,7 +125,7 @@ create table POSITIONN(
   office varchar(255) not null,
   credit_units int not null,
   nature_of_work varchar(255) not null,
-  emp_id varchar(9) not null, 
+  emp_id varchar(10) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
   constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -156,7 +154,7 @@ create table SUBJECT_DAY(
 /* THIS TABLE "EXTENDS" SUBJECT BUT A FEW ATTRIBUTES ARE ADDED */
 create table TEACHINGLOAD(
   teachingload_id int not null AUTO_INCREMENT,
-  emp_id varchar(9) not null, 
+  emp_id varchar(10) not null, 
   no_of_students int not null,
   subject_id int not null,
   constraint teachingload_teachingload_id_pk PRIMARY key (teachingload_id),
@@ -169,7 +167,7 @@ create table TEACHINGLOAD_OUTSIDE_COLLEGE (
   college_outside_up_system varchar(20),
   no_of_subjects int,
   no_of_units_without_multipliers int,
-  emp_id varchar(9) not null,
+  emp_id varchar(10) not null,
   constraint teachingload_outside_college_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 /*END OF TEACHING LOAD OUTSIDE COLLEGE*/
@@ -179,7 +177,7 @@ create table STUDYLOAD(
   studyload_id int not null AUTO_INCREMENT,
   credits int not null,
   course_no varchar(255) not null,
-  emp_id varchar(9) not null,
+  emp_id varchar(10) not null,
   start_time time not null,
   school varchar (255) not null,
   no_of_days int not null,
@@ -191,7 +189,7 @@ create table STUDYLOAD(
 create table STUDY_CREDENTIALS (
   degree varchar(255),
   university varchar(255),
-  emp_id varchar(9) not null,
+  emp_id varchar(10) not null,
   full_studyleave boolean not null,
   faculty_fellowship boolean not null,
   constraint studyload_study_credentials_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -201,7 +199,7 @@ create table LIMITED_PRACTICE(
   limited_practice_id int not null AUTO_INCREMENT,
   haveApplied boolean not null,
   date_submitted date,
-  emp_id varchar(9) not null,
+  emp_id varchar(10) not null,
   constraint limited_practice_id_pk PRIMARY key (limited_practice_id),
   constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -280,7 +278,6 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(50),
                                   college_insert varchar(50),
                                   emp_type_insert varchar(255),
-                                  emp_type_no_insert int,
                                   semester_insert varchar(20),
                                   year_insert varchar(20),
                                   is_studying boolean,
@@ -298,7 +295,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert,emp_type_no_insert ,semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
     call insert_study_credentials(NULL, NULL, emp_id_insert, 1, 0);
     call insert_faculty_grant(NULL, NULL,NULL,NULL,NULL,NULL,NULL, emp_id_insert);
@@ -328,7 +325,6 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   department_insert varchar(50),
                                   college_insert varchar(50),
                                   emp_type_insert varchar(255),
-                                  emp_type_no_insert int,
                                   email_insert varchar(255),
                                   is_studying_insert boolean,
                                   is_active_insert boolean,
@@ -344,7 +340,6 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         college = college_insert,
         emp_type = emp_type_insert,
-        emp_type_no = emp_type_no_insert,
         email = email_insert,
         is_studying = is_studying_insert,
         is_active = is_active_insert,
@@ -358,7 +353,6 @@ CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
                                         department_insert varchar(50),
                                         college_insert varchar(50),
                                         emp_type_insert varchar(255),
-                                        emp_type_no_insert int,
                                         email_insert varchar(255),
                                         is_studying_insert boolean,
                                         is_active_insert boolean,
@@ -369,7 +363,6 @@ CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
       department = department_insert,
       college = college_insert,
       emp_type = emp_type_insert,
-      emp_type_no = emp_type_no_insert,
       email = email_insert,
       is_studying = is_studying_insert,
       is_new = 0,
@@ -444,10 +437,10 @@ CREATE PROCEDURE insert_extension(   credit_unit int (255),
                                    no_of_hours int , 
                                    no_of_participants int (20), 
                                    extension_role varchar(10), 
-                                   start_time date, 
-                                   end_time date, 
+                                   start_time time, 
+                                   end_time time, 
                                    funding_agency varchar(255),
-                                   emp_id varchar(9) )
+                                   emp_id varchar(10) )
   BEGIN 
     INSERT INTO EXTENSION
         values (NULL, credit_unit, extension_name, extension_type, no_of_hours, no_of_participants, extension_role, start_time, end_time, funding_agency, emp_id);
@@ -471,8 +464,8 @@ CREATE PROCEDURE update_extension(  extension_id_update int,
                                    no_of_hours_update int , 
                                    no_of_participants_update int (20), 
                                    extension_role_update varchar(10), 
-                                   start_time_update date, 
-                                   end_time_update date, 
+                                   start_time_update time, 
+                                   end_time_update time, 
                                    funding_agency_update varchar(255),
                                    emp_id_update varchar(10) )
   BEGIN 
@@ -521,7 +514,7 @@ GO
 CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
                                 nature_of_work varchar(255),
-                                emp_id varchar(9))
+                                emp_id varchar(10))
 BEGIN
     INSERT INTO POSITIONN
       values (NULL, office, credit_units,nature_of_work, emp_id);
@@ -591,22 +584,20 @@ GO
 CREATE PROCEDURE insert_publication( 
                 credit_units int,
                 category varchar(255),
-                subcategory varchar(255),
                 funding varchar(255),
                 title varchar(255),
                 role varchar(255),
                 start_date date,
                 end_date date,
-                emp_id varchar(9)
+                emp_id varchar(10)
 )
   BEGIN
       INSERT INTO PUBLICATION
-        values (NULL, credit_units, category,subcategory, funding, title, role, start_date, end_date, emp_id);
+        values (NULL, credit_units, category, funding, title, role, start_date, end_date, emp_id);
         call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;
 GO
-
 
 CREATE PROCEDURE delete_publication(publication_id_del int)
   BEGIN 
@@ -618,11 +609,11 @@ CREATE PROCEDURE delete_publication(publication_id_del int)
 GO
 
 
+
 CREATE PROCEDURE update_publication(
 
                 credit_units_u int,
                 category_u varchar(255),
-                subcategory_u varchar(255),
                 funding_u varchar(255),
                 title_u varchar(255),
                 role_u varchar(255),
@@ -634,7 +625,6 @@ CREATE PROCEDURE update_publication(
     UPDATE PUBLICATION
         SET  credit_units = credit_units_u,
           category = category_u,
-          subcategory = subcategory_u,
           funding = funding_u,
           title = title_u,
           role = role_u,
@@ -688,7 +678,7 @@ CREATE PROCEDURE view_possible_coworkers( cancelled_out varchar(10) )
 GO
 
 CREATE PROCEDURE insert_coworker( 
-                emp_id varchar(9), 
+                emp_id varchar(10), 
                 publication_id int
 )
   BEGIN
@@ -735,7 +725,7 @@ DELIMITER GO
 
 CREATE PROCEDURE view_subjects()
   BEGIN
-    Select * from subject;
+    Select * from SUBJECT;
   END;
 GO
 
@@ -1158,7 +1148,7 @@ CREATE PROCEDURE insert_faculty_grant(
                     grant_title varchar(255),
                     start_date date,
                     end_date date,
-                    emp_id varchar(9))
+                    emp_id varchar(10))
   BEGIN 
     INSERT INTO FACULTYGRANT
         values (type, is_approved, professional_chair, grants, grant_title, start_date, end_date, emp_id);
@@ -1216,13 +1206,21 @@ CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice in
 GO
 
 
+CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
+                                      date_submitted_u date )
+  BEGIN 
+    UPDATE LIMITED_PRACTICE
+        SET date_submitted = date_submitted_u
+        WHERE limited_practice_id = limited_practice_id_u;
+        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+END;
+GO
 
 CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
-                      date_submitted date,
-                      emp_id varchar(9) )
+                      emp_id varchar(10) )
 BEGIN
     INSERT INTO LIMITED_PRACTICE
-      values (NULL, haveApplied, date_submitted,emp_id);
+      values (NULL, haveApplied, NULL,emp_id);
       call insert_log(concat("Limited practice of profession with emp_id ", emp_id, " has been added to the table LIMITED PRACTICE"));
 END;
 GO
@@ -1262,7 +1260,6 @@ CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
     UPDATE EMPLOYEE
     SET
       emp_type = "NULL",
-      emp_type_no =0,
       semester = "NULL",
       year = "NULL",
       is_studying = 0,
@@ -1307,17 +1304,18 @@ CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
 GO
 
 DELIMITER ;
+
 /* POPULATE DATA */
-call insert_employee("000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",1,"1st", "2017-2018", 1,"email1@gmail.com", 1, 0);
-call insert_employee("000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",1,"1st", "2017-2018", 1,"email2@gmail.com", 1, 1);
-call insert_employee("000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",2,"1st", "2017-2018", 1,"email3@gmail.com", 1, 1);
-call insert_employee("000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",2,"1st", "2017-2018", 1,"email4@gmail.com", 1, 1);
-call insert_employee("000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",1,"1st", "2017-2018", 1,"email5@gmail.com", 1, 1);
-call insert_employee("000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",1,"1st", "2017-2018", 1,"email6@gmail.com", 1, 1);
-call insert_employee("000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",1,"1st", "2017-2018", 1,"email7@gmail.com", 1, 1);
-call insert_employee("000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",1,"1st", "2017-2018", 1,"email8@gmail.com", 1, 1);
-call insert_employee("000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",1,"1st", "2017-2018", 1,"email9@gmail.com", 1, 1);
-call insert_employee("000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",1,"1st", "2017-2018", 0,"email10@gmail.com", 1, 1);
+call insert_employee("0000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", 1,"email1@gmail.com", 1, 0);
+call insert_employee("0000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", 1,"email2@gmail.com", 1, 1);
+call insert_employee("0000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", 1,"email3@gmail.com", 1, 1);
+call insert_employee("0000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", 1,"email4@gmail.com", 1, 1);
+call insert_employee("0000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", 1,"email5@gmail.com", 1, 1);
+call insert_employee("0000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", 1,"email6@gmail.com", 1, 1);
+call insert_employee("0000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", 1,"email7@gmail.com", 1, 1);
+call insert_employee("0000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", 1,"email8@gmail.com", 1, 1);
+call insert_employee("0000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", 1,"email9@gmail.com", 1, 1);
+call insert_employee("0000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", 0,"email10@gmail.com", 1, 1);
 
 -- call insert_study_credentials("MSCS", "UPLB","0000000001",1, 1);
 -- call insert_study_credentials("MSCS", "UPLB","0000000002",1, 1);
@@ -1330,120 +1328,118 @@ call insert_employee("000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Ar
 -- call insert_study_credentials("MSCS", "UPLB","0000000009",1, 1);
 -- call insert_study_credentials("MSCS", "UPLB","0000000000",1, 1);
 
+call insert_extension(8,"Norman","Logan",1,3,"Arthur",('2:43:59'),('4:43:59'),"agency1", "0000000000");
+call insert_extension(4,"Harper","Hamish",9,2,"Tarik",('2:43:59'),('4:43:59'),"agency2", "0000000001");
+call insert_extension(4,"Mohammad","Reese",4,1,"Jason",('2:43:59'),('4:43:59'),"agency3", "0000000002");
+call insert_extension(4,"Ishmael","Brody",9,9,"Elmo",('2:43:59'),('4:43:59'),"agency1", "0000000003");
+call insert_extension(10,"Keaton","Phelan",9,9,"Allistair",('2:43:59'),('4:43:59'),"agency1", "0000000004");
+call insert_extension(7,"Colorado","Christopher",10,7,"Hakeem",('2:43:59'),('4:43:59'),"agency1", "0000000005");
+call insert_extension(8,"Mark","Jerome",9,1,"Holmes",('2:43:59'),('4:43:59'),"agency1", "0000000006");
+call insert_extension(6,"Lucian","Amos",4,9,"Lester",('2:43:59'),('4:43:59'),"agency1", "0000000007");
+call insert_extension(8,"Griffin","Hamish",10,2,"Hu",('2:43:59'),('4:43:59'),"agency1", "0000000008");
+call insert_extension(3,"Brady","Kasper",5,6,"Basil",('2:43:59'),('4:43:59'),"agency3", "0000000009");
 
-call insert_extension(8,"Norman","Logan",1,3,"Arthur",('2017-09-10'),('2017-09-17'),"agency1", "000000000");
-call insert_extension(4,"Harper","Hamish",9,2,"Tarik",('2017-09-09'),('2017-09-17'),"agency2", "000000001");
-call insert_extension(4,"Mohammad","Reese",4,1,"Jason",('2017-09-09'),('2017-09-17'),"agency3", "000000002");
-call insert_extension(4,"Ishmael","Brody",9,9,"Elmo",('2017-09-09'),('2017-09-17'),"agency1", "000000003");
-call insert_extension(10,"Keaton","Phelan",9,9,"Allistair",('2017-09-09'),('2017-09-17'),"agency1", "000000004");
-call insert_extension(7,"Colorado","Christopher",10,7,"Hakeem",('2017-09-17'),('2017-09-20'),"agency1", "000000005");
-call insert_extension(8,"Mark","Jerome",9,1,"Holmes",('2017-09-09'),('2017-09-17'),"agency1", "000000006");
-call insert_extension(6,"Lucian","Amos",4,9,"Lester",('2017-09-09'),('2017-09-17'),"agency1", "000000007");
-call insert_extension(8,"Griffin","Hamish",10,2,"Hu",('2017-09-09'),('2017-09-17'),"agency1", "000000008");
-call insert_extension(3,"Brady","Kasper",5,6,"Basil",('2017-09-09'),('2017-09-17'),"agency3", "000000009");
 
+call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "0000000005");
+call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "0000000004");
+call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "0000000003");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000002");
+call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "0000000000");
+call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "0000000001");
 
-call insert_consultation(('2:30:01'),('2:30:01'), "schoogl", "monday", "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schogol", "monday", "000000005");
-call insert_consultation(('2:30:01'),('2:30:01'), "schouol", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schooyl", "monday" , "000000004");
-call insert_consultation(('2:30:01'),('2:30:01'), "schootl", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolr", "monday" , "000000003");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoole", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "000000002");
-call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "000000001");
-
-call insert_position("aaron", 2, "A committee","000000000");
-call insert_position("aaron", 2, "B committee","000000002");
-call insert_position("aaron", 2, "A committee","000000001");
-call insert_position("aaron", 2, "A committee","000000000");
-call insert_position("aaron", 2, "A committee","000000003");
-call insert_position("aaron", 2,"A committee", "000000004");
-call insert_position("aaron", 2,"A committee", "000000005");
-call insert_position("aaron", 2, "A committee","000000006");
-call insert_position("aaron", 2, "A committee","000000006");
-call insert_position("aaron", 2, "A committee","000000000");
+call insert_position("aaron", 2, "A committee","0000000000");
+call insert_position("aaron", 2, "B committee","0000000002");
+call insert_position("aaron", 2, "A committee","0000000001");
+call insert_position("aaron", 2, "A committee","0000000000");
+call insert_position("aaron", 2, "A committee","0000000003");
+call insert_position("aaron", 2,"A committee", "0000000004");
+call insert_position("aaron", 2,"A committee", "0000000005");
+call insert_position("aaron", 2, "A committee","0000000006");
+call insert_position("aaron", 2, "A committee","0000000006");
+call insert_position("aaron", 2, "A committee","0000000000");
 
 call add_subject("cmsc 111", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 11", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 12", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 131", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 141", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 151", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 1161", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 17", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("math 170", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 125", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 11", "k", 0, 0, 3, "a21", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 12", "l", 0, 0, 3, "a31", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 131", "m", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 141", "n", 0, 0, 3, "a5l", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 151", "b", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 1161", "v", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 17", "c", 0, 0, 3, "q", ('8:59:0'), ('9:59:0'));
+call add_subject("math 170", "x", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 125", "z", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
 
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB1", ('9:00:00'), ('11:0:0'));
+call add_subject("CMSC 251", "K", 1, 1, 2, "PCLAB2", ('1:00:00'), ('12:0:0'));
+call add_subject("CMSC 251", "J", 1, 1, 2, "PCLAB3", ('9:00:00'), ('13:0:0'));
+call add_subject("CMSC 251", "I", 1, 1, 2, "PCLAB4", ('6:0:0'), ('14:0:0'));
+call add_subject("CMSC 251", "H", 1, 1, 2, "PCLAB5", ('5:0:0'), ('15:0:0'));
+call add_subject("CMSC 251", "G", 1, 1, 2, "PCLAB6", ('2:0:0'), ('16:0:0'));
+call add_subject("CMSC 251", "F", 1, 1, 2, "PCLAB7", ('1:0:0'), ('17:0:0'));
+call add_subject("CMSC 251", "E", 1, 1, 2, "PCLAB8", ('3:0:0'), ('18:0:0'));
+call add_subject("CMSC 251", "D", 1, 1, 2, "PCLAB9", ('7:0:0'), ('19:0:0'));
+call add_subject("CMSC 251", "C", 1, 1, 2, "PCLAB10", ('8:0:0'), ('10:0:0'));
 
-call insert_teachingload(1, "000000001", 12);
-call insert_teachingload(2, "000000002", 12);
-call insert_teachingload(3, "000000000", 12);
-call insert_teachingload(4, "000000000", 12);
-call insert_teachingload(5, "000000001", 12);
-call insert_teachingload(6, "000000003", 12);
-call insert_teachingload(7, "000000004", 12);
-call insert_teachingload(8, "000000005", 12);
-call insert_teachingload(9, "000000006", 12);
-call insert_teachingload(10, "000000007", 12);
+call insert_teachingload(1, "0000000001", 12);
+call insert_teachingload(2, "0000000002", 12);
+call insert_teachingload(3, "0000000000", 12);
+call insert_teachingload(4, "0000000000", 12);
+call insert_teachingload(5, "0000000001", 12);
+call insert_teachingload(6, "0000000003", 12);
+call insert_teachingload(7, "0000000004", 12);
+call insert_teachingload(8, "0000000005", 12);
+call insert_teachingload(9, "0000000006", 12);
+call insert_teachingload(10, "0000000007", 12);
 
-call insert_studyload(3,"CMSC 200","000000001","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 210","000000001","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 220","000000002","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 230","000000002","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 240","000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 250","000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 260","000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 10","000000004","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","000000004","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 200","000000005","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","000000006","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 00","000000007","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","000000008","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 25","000000009","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 200","0000000001","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 210","0000000001","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 220","0000000002","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 230","0000000002","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 240","0000000003","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 250","0000000003","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 260","0000000003","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 10","0000000004","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 20","0000000004","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 200","0000000005","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 20","0000000006","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 00","0000000007","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 20","0000000008","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 25","0000000009","11:00:00","UPD",11);
+
+call insert_publication(8,"9","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","0000000003");
+call insert_publication(1,"8","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","0000000003");
+call insert_publication(9,"5","agency1","whatever","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","0000000001");
+call insert_publication(5,"10","agency1","whatever","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","0000000001");
+call insert_publication(3,"6","agency1","whatever","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","0000000003");
+call insert_publication(6,"10","agency1","whatever","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","0000000001");
+call insert_publication(9,"5","agency1","whatever","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","0000000001");
+call insert_publication(10,"10","agency1","whatever","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","0000000001");
+call insert_publication(9,"1","agency1","whatever","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","0000000000");
+call insert_publication(8,"3","agency1","whatever","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","0000000000");
+
+call insert_coworker("0000000001",5);
+call insert_coworker("0000000005",2);
+call insert_coworker("0000000004",6);
+call insert_coworker("0000000006",1);
+call insert_coworker("0000000001",1);
+call insert_coworker("0000000001",3);
+call insert_coworker("0000000002",6);
+call insert_coworker("0000000004",7);
+call insert_coworker("0000000005",7);
+call insert_coworker("0000000001",5);
 
 
-call insert_publication(8,"category1","subcategory1","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","000000003");
-call insert_publication(1,"category2","subcategory2","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","000000003");
-call insert_publication(9,"category1","subcategory2","agency1","whatever","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","000000001");
-call insert_publication(5,"category3","subcategory1","agency1","whatever","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","000000001");
-call insert_publication(3,"category1","subcategory3","agency1","whatever","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","000000003");
-call insert_publication(6,"category2","subcategory1","agency1","whatever","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","000000001");
-call insert_publication(9,"category2","subcategory2","agency1","whatever","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","000000001");
-call insert_publication(10,"category1","subcategory2","agency1","whatever","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","000000001");
-call insert_publication(9,"category2","subcategory1","agency1","whatever","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","000000000");
-call insert_publication(8,"category1","subcategory2","agency1","whatever","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","000000000");
-
-call insert_coworker("000000001",5);
-call insert_coworker("000000005",2);
-call insert_coworker("000000004",6);
-call insert_coworker("000000006",1);
-call insert_coworker("000000001",1);
-call insert_coworker("000000001",3);
-call insert_coworker("000000002",6);
-call insert_coworker("000000004",7);
-call insert_coworker("000000005",7);
-call insert_coworker("000000001",5);
-
-
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000007");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000000");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000000");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000001");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000002");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000000");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000003");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000004");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000005");
-call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000006");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000007");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000001");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000002");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000000");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000003");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000004");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000005");
+call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "0000000006");

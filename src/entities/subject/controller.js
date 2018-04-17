@@ -1,6 +1,5 @@
 import db from '../../database';
 
-
 export const getSubject = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -19,6 +18,7 @@ export const getSubject = ({ id }) => {
       }
 
       if (!rows.length) {
+        console.log("BARJOG");
         return reject(404);
       }
 
@@ -31,7 +31,7 @@ export const getSubject = ({ id }) => {
 export const getSubjects = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL view_subjects()
+      SELECT * from SUBJECT;
     `;
 
     db.query(queryString, (err, rows) => {
@@ -39,9 +39,9 @@ export const getSubjects = () => {
         console.log(err);
         return reject(500);
       }
-
+      // console.log(rows);
       return resolve(rows);
-    });
+    }); 
   });
 };
 

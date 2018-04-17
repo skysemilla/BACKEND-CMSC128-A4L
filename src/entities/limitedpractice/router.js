@@ -10,12 +10,13 @@ router.post('/api/limitedpractice/add', async (req, res) => {
     req.body.emp_id
   ) {
     try {
-      // const sample = await Ctrl.getLimitedPractice({ limited_practice_id: id });
-      await Ctrl.addLimitedPractice(req.body);
+      const id = await Ctrl.addLimitedPractice(req.body);
+      const sample = await Ctrl.getLimitedPractice({ limited_practice_id: id });
+
       res.status(200).json({
         status: 200,
         message: 'Successfully created limited practice',
-        // data: sample
+        data: sample
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -31,13 +32,13 @@ router.post('/api/limitedpractice/delete', async (req, res) => {
     req.body.limited_practice_id
   ) {
     try {
-      // const book = await Ctrl.getLimitedPractice(req.body);
+      const book = await Ctrl.getLimitedPractice(req.body);
       await Ctrl.removeLimitedPractice(req.body);
   
       res.status(200).json({
         status: 200,
         message: 'Successfully removed limited practice',
-        // data: book
+        data: book
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -58,13 +59,13 @@ router.post('/api/limitedpractice/edit', async (req, res) => {
   ) {
     try {
       await Ctrl.editLimitedPractice(req.body);
-      // const sample = await Ctrl.getLimitedPractice({
-      //   limited_practice_id: req.body.limited_practice_id
-      // });
+      const sample = await Ctrl.getLimitedPractice({
+        limited_practice_id: req.body.limited_practice_id
+      });
       res.status(200).json({
         status: 200,
         message: 'Successfully edited limited practice',
-        // data: sample
+        data: sample
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });

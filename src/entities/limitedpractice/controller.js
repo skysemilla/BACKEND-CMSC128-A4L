@@ -22,6 +22,7 @@ export const addLimitedPractice = ({
         console.log(err);
         return reject(500);
       }
+
       return resolve(results.insertId);
     });
   });
@@ -64,10 +65,10 @@ export const editLimitedPractice = ({
       `;
 
     const values = [
-      limited_practice_id,
       haveApplied,
       date_submitted,
-      emp_id
+      emp_id,
+      limited_practice_id
     ];
 
     db.query(queryString, values, (err, res) => {
@@ -85,14 +86,14 @@ export const editLimitedPractice = ({
   });
 };
 
-export const getLimitedPractice = ({ emp_id }) => {
+export const getLimitedPractice = ({ limited_practice_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
           CALL
           view_limited_practice_by_emp_id(?)
         `;
 
-    db.query(queryString, emp_id, (err, rows) => {
+    db.query(queryString, limited_practice_id, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

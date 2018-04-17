@@ -219,6 +219,7 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_profile_router__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_admin_router__ = __webpack_require__(37);
 
 
 // put import routers here
@@ -230,6 +231,7 @@ module.exports = require("mysql");
 
 
 // import fsrRouter from './entities/fsrlist/router';
+
 
 
 
@@ -252,6 +254,7 @@ router.use(__WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__["a" /* def
 router.use(__WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_12__entities_profile_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_13__entities_admin_router__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
@@ -2611,7 +2614,7 @@ router.post('/api/teachload/add', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log(req);
+            console.log(req.body);
 
             if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw)) {
               _context.next = 17;
@@ -2729,7 +2732,7 @@ router.post('/api/teachload/edit/', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(req.body.emp_id && req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw)) {
+            if (!(req.body.emp_id && req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.room && req.body.days && req.body.start_time && req.body.end_time && req.body.hours && req.body.creditw && req.body.teachingload_id)) {
               _context3.next = 15;
               break;
             }
@@ -2740,8 +2743,8 @@ router.post('/api/teachload/edit/', function () {
 
           case 4:
             _context3.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getTeachEmp */]({
-              emp_id: req.body.emp_id
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getTeachLoad */]({
+              teachingload_id: req.body.teachingload_id
             });
 
           case 6:
@@ -2961,12 +2964,13 @@ var editTeachLoad = function editTeachLoad(_ref3) {
       days = _ref3.days,
       start_time = _ref3.start_time,
       end_time = _ref3.end_time,
-      creditw = _ref3.creditw;
+      creditw = _ref3.creditw,
+      teachingload_id = _ref3.teachingload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      UPDATE TEACHINGLOAD\n        SET\n          no_of_students = ?\n        WHERE\n          emp_id = ? AND\n          subject_id = (SELECT subject_id FROM SUBJECT \n                        WHERE subject_code = ? AND\n                              section_code = ? );\n    ';
+    var queryString = '\n      UPDATE TEACHINGLOAD\n        SET\n          no_of_students = ?\n        WHERE\n          teachingload_id=?;\n    ';
 
-    var values = [no_of_students, emp_id, subject_code, section_code];
+    var values = [no_of_students, teachingload_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -4632,13 +4636,12 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/limitedpractice/add', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
-    var id, sample;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             if (!(req.body.haveApplied && req.body.date_submitted && req.body.emp_id)) {
-              _context.next = 16;
+              _context.next = 12;
               break;
             }
 
@@ -4647,41 +4650,33 @@ router.post('/api/limitedpractice/add', function () {
             return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addLimitedPractice */](req.body);
 
           case 4:
-            id = _context.sent;
-            _context.next = 7;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getLimitedPractice */]({ limited_practice_id: id });
-
-          case 7:
-            sample = _context.sent;
-
-
             res.status(200).json({
               status: 200,
-              message: 'Successfully created limited practice',
-              data: sample
+              message: 'Successfully created limited practice'
+              // data: sample
             });
-            _context.next = 14;
+            _context.next = 10;
             break;
 
-          case 11:
-            _context.prev = 11;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context['catch'](1);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 14:
-            _context.next = 17;
+          case 10:
+            _context.next = 13;
             break;
 
-          case 16:
+          case 12:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 17:
+          case 13:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, _this, [[1, 11]]);
+    }, _callee, _this, [[1, 7]]);
   }));
 
   return function (_x, _x2) {
@@ -4691,54 +4686,48 @@ router.post('/api/limitedpractice/add', function () {
 
 router.post('/api/limitedpractice/delete', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var book;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             if (!req.body.limited_practice_id) {
-              _context2.next = 15;
+              _context2.next = 12;
               break;
             }
 
             _context2.prev = 1;
             _context2.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getLimitedPractice */](req.body);
-
-          case 4:
-            book = _context2.sent;
-            _context2.next = 7;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeLimitedPractice */](req.body);
 
-          case 7:
+          case 4:
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully removed limited practice',
-              data: book
+              message: 'Successfully removed limited practice'
+              // data: book
             });
-            _context2.next = 13;
+            _context2.next = 10;
             break;
 
-          case 10:
-            _context2.prev = 10;
+          case 7:
+            _context2.prev = 7;
             _context2.t0 = _context2['catch'](1);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 13:
-            _context2.next = 16;
+          case 10:
+            _context2.next = 13;
             break;
 
-          case 15:
+          case 12:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 16:
+          case 13:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[1, 10]]);
+    }, _callee2, _this, [[1, 7]]);
   }));
 
   return function (_x3, _x4) {
@@ -4748,13 +4737,12 @@ router.post('/api/limitedpractice/delete', function () {
 
 router.post('/api/limitedpractice/edit', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var sample;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             if (!(req.body.limited_practice_id && req.body.haveApplied && req.body.date_submitted && req.body.emp_id)) {
-              _context3.next = 15;
+              _context3.next = 12;
               break;
             }
 
@@ -4763,41 +4751,36 @@ router.post('/api/limitedpractice/edit', function () {
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editLimitedPractice */](req.body);
 
           case 4:
-            _context3.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getLimitedPractice */]({
-              limited_practice_id: req.body.limited_practice_id
-            });
-
-          case 6:
-            sample = _context3.sent;
-
+            // const sample = await Ctrl.getLimitedPractice({
+            //   limited_practice_id: req.body.limited_practice_id
+            // });
             res.status(200).json({
               status: 200,
-              message: 'Successfully edited limited practice',
-              data: sample
+              message: 'Successfully edited limited practice'
+              // data: sample
             });
-            _context3.next = 13;
+            _context3.next = 10;
             break;
 
-          case 10:
-            _context3.prev = 10;
+          case 7:
+            _context3.prev = 7;
             _context3.t0 = _context3['catch'](1);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 13:
-            _context3.next = 16;
+          case 10:
+            _context3.next = 13;
             break;
 
-          case 15:
+          case 12:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 16:
+          case 13:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[1, 10]]);
+    }, _callee3, _this, [[1, 7]]);
   }));
 
   return function (_x5, _x6) {
@@ -4939,7 +4922,6 @@ var addLimitedPractice = function addLimitedPractice(_ref) {
         console.log(err);
         return reject(500);
       }
-
       return resolve(results.insertId);
     });
   });
@@ -4975,7 +4957,7 @@ var editLimitedPractice = function editLimitedPractice(_ref3) {
   return new Promise(function (resolve, reject) {
     var queryString = '\n        CALL\n        update_limited_practice(?, ?, ?, ?)\n      ';
 
-    var values = [haveApplied, date_submitted, emp_id, limited_practice_id];
+    var values = [limited_practice_id, haveApplied, date_submitted, emp_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -4993,12 +4975,12 @@ var editLimitedPractice = function editLimitedPractice(_ref3) {
 };
 
 var getLimitedPractice = function getLimitedPractice(_ref4) {
-  var limited_practice_id = _ref4.limited_practice_id;
+  var emp_id = _ref4.emp_id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n          CALL\n          view_limited_practice_by_emp_id(?)\n        ';
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, limited_practice_id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5302,6 +5284,347 @@ var getData = function getData(_ref3) {
       }
 
       return resolve(rows[0]);
+    });
+  });
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(38);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+// enable faculty
+router.post('/api/admin/enable', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* enableFaculty */](req.body);
+
+          case 3:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully enabled faculty'
+            });
+            _context.next = 17;
+            break;
+
+          case 6:
+            _context.prev = 6;
+            _context.t0 = _context['catch'](0);
+            message = '';
+            _context.t1 = _context.t0;
+            _context.next = _context.t1 === 404 ? 12 : _context.t1 === 500 ? 14 : 16;
+            break;
+
+          case 12:
+            message = 'Faculty not found';
+            return _context.abrupt('break', 16);
+
+          case 14:
+            message = 'Internal server error';
+            return _context.abrupt('break', 16);
+
+          case 16:
+            res.status(_context.t0).json({ status: _context.t0, message: message });
+
+          case 17:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[0, 6]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+// disable faculty
+router.post('/api/admin/disable', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* disableFaculty */](req.body);
+
+          case 3:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully disabled faculty'
+            });
+            _context2.next = 17;
+            break;
+
+          case 6:
+            _context2.prev = 6;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 404 ? 12 : _context2.t1 === 500 ? 14 : 16;
+            break;
+
+          case 12:
+            message = 'Faculty not found';
+            return _context2.abrupt('break', 16);
+
+          case 14:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 16);
+
+          case 16:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 17:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 6]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+// get a faculty by id
+router.post('/api/faculty/searchById', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+    var data, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getFacultyById */](req.body);
+
+          case 3:
+            data = _context3.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched faculty',
+              data: data
+            });
+            _context3.next = 18;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty not found';
+            return _context3.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 17);
+
+          case 17:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 7]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
+// get a faculty by name
+router.post('/api/faculty/searchByName', function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+    var data, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getFacultyByName */](req.body);
+
+          case 3:
+            data = _context4.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched faculties',
+              data: data
+            });
+            _context4.next = 18;
+            break;
+
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4['catch'](0);
+            message = '';
+            _context4.t1 = _context4.t0;
+            _context4.next = _context4.t1 === 404 ? 13 : _context4.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty not found';
+            return _context4.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context4.abrupt('break', 17);
+
+          case 17:
+            res.status(_context4.t0).json({ status: _context4.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, _this, [[0, 7]]);
+  }));
+
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return enableFaculty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return disableFaculty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getFacultyByName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getFacultyById; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+// enables a faculty
+var enableFaculty = function enableFaculty(_ref) {
+  var empid = _ref.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      UPDATE EMPLOYEE\n      SET\n        is_active = 1\n      WHERE\n        emp_id = ?\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// enables a faculty
+var disableFaculty = function disableFaculty(_ref2) {
+  var empid = _ref2.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        UPDATE EMPLOYEE\n        SET\n          is_active = 0\n        WHERE\n          emp_id = ?\n      ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// search a faculty by name
+var getFacultyByName = function getFacultyByName(_ref3) {
+  var name = _ref3.name;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n            *\n        FROM \n            EMPLOYEE\n        WHERE\n            f_name = ? OR\n            m_name = ? OR\n            l_name = ?\n        ';
+
+    var values = [name, name, name];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// search a faculty by id
+var getFacultyById = function getFacultyById(_ref4) {
+  var empid = _ref4.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n        *\n        FROM \n        EMPLOYEE\n        WHERE\n        emp_id = ?\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
     });
   });
 };

@@ -4,9 +4,10 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets samples
-router.get('/api/subject/viewAll', async (req, res) => {
+router.post('/api/subject/viewAll', async (req, res) => {
+  // console.log(res);
   try {
-    const subject = await Ctrl.getSamples();
+    const subject = await Ctrl.getSubjects();
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all subjects',

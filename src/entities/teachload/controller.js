@@ -1,6 +1,6 @@
 import db from '../../database';
 
-export const addTeachLoad = ({ no_of_students, subject_code, section_code, room, days, start_time, end_time, creditw},json) => {
+export const addTeachLoad = ({ no_of_students, subject_code, section_code},json) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
     const queryString = `
@@ -50,21 +50,23 @@ export const removeTeachLoad = ({ teachingload_id }) => {
   });
 };
 
-export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_code, room, days, start_time, end_time, creditw, teachingload_id}) => {
+export const editTeachLoad = ({ no_of_students, subject_code, section_code, teachingload_id}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       UPDATE TEACHINGLOAD
         SET
-          no_of_students = ?
+          no_of_students = ?,
+          subject_id = ( SELECT subject_id FROM SUBJECT where subject_code = ? and section_code = ? )
         WHERE
           teachingload_id=?;
     `;
    
-    const values = [no_of_students, teachingload_id];
+    const values = [no_of_students, subject_code, section_code, teachingload_id,];
 
     db.query(queryString, values, (err, res) => {
       if (err) {
         console.log(err);
+        console.log(values);
         return reject(500);
       }
 
@@ -77,31 +79,26 @@ export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_co
   });
 };
 
-export const getTeachLoad = ({ teachingload_id }) => {
-  return new Promise((resolve, reject) => {
-    const queryString = `
-          SELECT 
-            *
-          FROM 
-            TEACHINGLOAD
-          WHERE
-            teachingload_id = ?;
-        `;
+// export const getTeachLoad = ({ teachingload_id }) => {
+//   return new Promise((resolve, reject) => {
+//     const queryString = `
+//           call view_by_teachingload_id(?)
+//         `;
 
-    db.query(queryString, teachingload_id, (err, rows) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
+//     db.query(queryString, teachingload_id, (err, rows) => {
+//       if (err) {
+//         console.log(err);
+//         return reject(500);
+//       }
 
-      if (!rows.length) {
-        return reject(404);
-      }
+//       if (!rows.length) {
+//         return reject(404);
+//       }
 
-      return resolve(rows[0]);
-    });
-  });
-};
+//       return resolve(rows[0]);
+//     });
+//   });
+// };
 
 export const getTeachEmp = (json) => {
   return new Promise((resolve, reject) => {

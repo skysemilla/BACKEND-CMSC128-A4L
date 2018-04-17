@@ -14,6 +14,7 @@ import consulHourRouter from './entities/consulHours/router';
 import facultygrantRouter from './entities/facultygrant/router';
 import limitedpracticeRouter from './entities/limitedpractice/router';
 import profileRouter from './entities/profile/router';
+import subjectRouter from './entities/subject/router';
 
 const router = Router();
 
@@ -31,5 +32,6 @@ router.use(consulHourRouter);
 router.use(facultygrantRouter);
 router.use(limitedpracticeRouter);
 router.use(profileRouter);
+router.use(subjectRouter);
 
 export default router;

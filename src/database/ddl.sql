@@ -22,6 +22,7 @@ create table EMPLOYEE(
   department varchar(50),
   college varchar(50),
   emp_type varchar(255),
+  emp_type_no int not null,
   semester varchar(20),
   year varchar(20),
   email varchar(255) not null,
@@ -279,6 +280,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   department_insert varchar(50),
                                   college_insert varchar(50),
                                   emp_type_insert varchar(255),
+                                  emp_type_no_insert int,
                                   semester_insert varchar(20),
                                   year_insert varchar(20),
                                   is_studying boolean,
@@ -296,7 +298,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert, semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert,emp_type_no_insert ,semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
     call insert_study_credentials(NULL, NULL, emp_id_insert, 1, 0);
     call insert_faculty_grant(NULL, NULL,NULL,NULL,NULL,NULL,NULL, emp_id_insert);
@@ -326,6 +328,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
                                   department_insert varchar(50),
                                   college_insert varchar(50),
                                   emp_type_insert varchar(255),
+                                  emp_type_no_insert int,
                                   email_insert varchar(255),
                                   is_studying_insert boolean,
                                   is_active_insert boolean,
@@ -341,6 +344,7 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         department = department_insert,
         college = college_insert,
         emp_type = emp_type_insert,
+        emp_type_no = emp_type_no_insert,
         email = email_insert,
         is_studying = is_studying_insert,
         is_active = is_active_insert,
@@ -354,6 +358,7 @@ CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
                                         department_insert varchar(50),
                                         college_insert varchar(50),
                                         emp_type_insert varchar(255),
+                                        emp_type_no_insert int,
                                         email_insert varchar(255),
                                         is_studying_insert boolean,
                                         is_active_insert boolean,
@@ -364,6 +369,7 @@ CREATE PROCEDURE update_employee_is_new(emp_id_insert varchar(10),
       department = department_insert,
       college = college_insert,
       emp_type = emp_type_insert,
+      emp_type_no = emp_type_no_insert,
       email = email_insert,
       is_studying = is_studying_insert,
       is_new = 0,
@@ -1210,21 +1216,13 @@ CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice in
 GO
 
 
-CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
-                                      date_submitted_u date )
-  BEGIN 
-    UPDATE LIMITED_PRACTICE
-        SET date_submitted = date_submitted_u
-        WHERE limited_practice_id = limited_practice_id_u;
-        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
-END;
-GO
 
 CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
+                      date_submitted date,
                       emp_id varchar(9) )
 BEGIN
     INSERT INTO LIMITED_PRACTICE
-      values (NULL, haveApplied, NULL,emp_id);
+      values (NULL, haveApplied, date_submitted,emp_id);
       call insert_log(concat("Limited practice of profession with emp_id ", emp_id, " has been added to the table LIMITED PRACTICE"));
 END;
 GO
@@ -1264,6 +1262,7 @@ CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
     UPDATE EMPLOYEE
     SET
       emp_type = "NULL",
+      emp_type_no =0,
       semester = "NULL",
       year = "NULL",
       is_studying = 0,
@@ -1308,18 +1307,17 @@ CREATE PROCEDURE clear_employee( emp_id_clear varchar(10) )
 GO
 
 DELIMITER ;
-
 /* POPULATE DATA */
-call insert_employee("000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF","1st", "2017-2018", 1,"email1@gmail.com", 1, 0);
-call insert_employee("000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF","1st", "2017-2018", 1,"email2@gmail.com", 1, 1);
-call insert_employee("000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF","1st", "2017-2018", 1,"email3@gmail.com", 1, 1);
-call insert_employee("000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF","1st", "2017-2018", 1,"email4@gmail.com", 1, 1);
-call insert_employee("000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF","1st", "2017-2018", 1,"email5@gmail.com", 1, 1);
-call insert_employee("000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF","1st", "2017-2018", 1,"email6@gmail.com", 1, 1);
-call insert_employee("000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF","1st", "2017-2018", 1,"email7@gmail.com", 1, 1);
-call insert_employee("000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF","1st", "2017-2018", 1,"email8@gmail.com", 1, 1);
-call insert_employee("000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF","1st", "2017-2018", 1,"email9@gmail.com", 1, 1);
-call insert_employee("000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF","1st", "2017-2018", 0,"email10@gmail.com", 1, 1);
+call insert_employee("000000001","Aaron","Magnaye","FACULTY","Aaron","Velasco","Magnaye","Regina", "asadsa","PROF",1,"1st", "2017-2018", 1,"email1@gmail.com", 1, 0);
+call insert_employee("000000002","Bianca","Bianca123","ADMIN","Bianca","Bianca","Bautista","Igor","asadsa","PROF",1,"1st", "2017-2018", 1,"email2@gmail.com", 1, 1);
+call insert_employee("000000003","Gary","Nash","ADMIN","Cole","Lawrence","Abbot","Cadman","asadsa","PROF",2,"1st", "2017-2018", 1,"email3@gmail.com", 1, 1);
+call insert_employee("000000004","Merritt","Richard","FACULTY","Bernard","Slade","Galvin","Oleg","asadsa","PROF",2,"1st", "2017-2018", 1,"email4@gmail.com", 1, 1);
+call insert_employee("000000005","Hop","Denton","ADMIN","Nehru","Cody","Sean","Ivory","asadsa","PROF",1,"1st", "2017-2018", 1,"email5@gmail.com", 1, 1);
+call insert_employee("000000006","Isaiah","Herman","FACULTY","Mark","Quinn","Macaulay","Jerome","asadsa","PROF",1,"1st", "2017-2018", 1,"email6@gmail.com", 1, 1);
+call insert_employee("000000007","Victor","Xanthus","ADMIN","Eric","Cade","Vincent","Leo","asadsa","PROF",1,"1st", "2017-2018", 1,"email7@gmail.com", 1, 1);
+call insert_employee("000000008","Bert","Honorato","FACULTY","Gage","Kelly","Perry","Myles","asadsa","PROF",1,"1st", "2017-2018", 1,"email8@gmail.com", 1, 1);
+call insert_employee("000000009","Noah","Gareth","FACULTY","Nissim","Jonah","Hashim","Emery","asadsa","PROF",1,"1st", "2017-2018", 1,"email9@gmail.com", 1, 1);
+call insert_employee("000000000","Ryan","Keaton","ADMIN","Ralph","Ferdinand","Armando","Imogene","asadsa","PROF",1,"1st", "2017-2018", 0,"email10@gmail.com", 1, 1);
 
 -- call insert_study_credentials("MSCS", "UPLB","0000000001",1, 1);
 -- call insert_study_credentials("MSCS", "UPLB","0000000002",1, 1);

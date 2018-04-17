@@ -260,8 +260,8 @@ router.use(__WEBPACK_IMPORTED_MODULE_12__entities_profile_router__["a" /* defaul
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(13);
@@ -277,9 +277,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/login', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var user, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -393,8 +393,8 @@ var login = function login(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(15);
@@ -411,9 +411,9 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets extension
 router.get('/api/extension/viewAll', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var extensions, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -463,9 +463,9 @@ router.get('/api/extension/viewAll', function () {
 
 // get a extensions
 router.post('/api/extension/view', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var extension, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -518,9 +518,9 @@ router.post('/api/extension/view', function () {
 
 // add a extension
 router.post('/api/extension/add', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var id;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -574,9 +574,9 @@ router.post('/api/extension/add', function () {
 
 // removes an extension
 router.post('/api/extension/delete', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var extension, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -633,9 +633,9 @@ router.post('/api/extension/delete', function () {
 
 // edits a extension
 router.post('/api/extension/edit', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var extensionEdited, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -834,8 +834,8 @@ var editExtension = function editExtension(_ref4) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(17);
@@ -852,15 +852,15 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets a publication by id
 router.post('/api/publication/view', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var publication, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublication */](req.body);
 
           case 3:
             publication = _context.sent;
@@ -907,15 +907,15 @@ router.post('/api/publication/view', function () {
 
 // gets publications
 router.post('/api/publication/viewAll', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var publications, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublications */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* getPublications */](req.body);
 
           case 3:
             publications = _context2.sent;
@@ -959,17 +959,19 @@ router.post('/api/publication/viewAll', function () {
 
 // add a publication
 router.post('/api/publication/add', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var id;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             if (!(req.body.credit_units >= 0 && req.body.category &&
             // req.body.funding &&
-            req.body.title &&
+            req.body.title
             // req.body.role &&
-            req.body.start_date && req.body.end_date)) {
+            // req.body.start_date &&
+            // req.body.end_date
+            )) {
               _context3.next = 15;
               break;
             }
@@ -1023,9 +1025,9 @@ router.post('/api/publication/add', function () {
 
 // add a coworker
 router.post('/api/coworker/add', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var row;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -1078,20 +1080,20 @@ router.post('/api/coworker/add', function () {
 
 // removes a publication
 router.post('/api/publication/delete', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var publication, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublication */](req.body);
 
           case 3:
             publication = _context5.sent;
             _context5.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["j" /* removePublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["k" /* removePublication */](req.body);
 
           case 6:
 
@@ -1137,9 +1139,9 @@ router.post('/api/publication/delete', function () {
 
 // edits a publication
 router.post('/api/publication/edit', function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
     var publication, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
@@ -1149,7 +1151,7 @@ router.post('/api/publication/edit', function () {
 
           case 3:
             _context6.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */]({
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublication */]({
               id: req.body.publication_id
             });
 
@@ -1199,15 +1201,15 @@ router.post('/api/publication/edit', function () {
 
 // gets publications
 router.get('/api/publication/viewEmployees', function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee7(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee7(req, res) {
     var publications, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.prev = 0;
             _context7.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* getEmployees */]();
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getEmployees */]();
 
           case 3:
             publications = _context7.sent;
@@ -1250,23 +1252,23 @@ router.get('/api/publication/viewEmployees', function () {
 }());
 
 // gets publications
-router.get('/api/publication/viewCoworkers', function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee8(req, res) {
+router.post('/api/publication/viewEmployeeCoworkers', function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee8(req, res) {
     var publications, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.prev = 0;
             _context8.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getCoworkers */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* getEmployeeCoworkers */](req.body);
 
           case 3:
             publications = _context8.sent;
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully fetched all coworkers',
+              message: 'Successfully fetched all possible coworkers',
               data: publications
             });
             _context8.next = 16;
@@ -1301,17 +1303,69 @@ router.get('/api/publication/viewCoworkers', function () {
   };
 }());
 
-// removes a publication
-router.post('/api/publication/deleteCoworkers', function () {
-  var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee9(req, res) {
-    var message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee9$(_context9) {
+// gets publications
+router.get('/api/publication/viewCoworkers', function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee9(req, res) {
+    var publications, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.prev = 0;
             _context9.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* removeCoworkers */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getCoworkers */](req.body);
+
+          case 3:
+            publications = _context9.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched all coworkers',
+              data: publications
+            });
+            _context9.next = 16;
+            break;
+
+          case 7:
+            _context9.prev = 7;
+            _context9.t0 = _context9['catch'](0);
+            message = '';
+            _context9.t1 = _context9.t0;
+            _context9.next = _context9.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context9.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context9.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context9.stop();
+        }
+      }
+    }, _callee9, _this, [[0, 7]]);
+  }));
+
+  return function (_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}());
+
+// removes a publication
+router.post('/api/publication/deleteCoworkers', function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee10(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.prev = 0;
+            _context10.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["j" /* removeCoworkers */](req.body);
 
           case 3:
 
@@ -1320,94 +1374,94 @@ router.post('/api/publication/deleteCoworkers', function () {
               message: 'Successfully removed coworkers'
               // data: publication
             });
-            _context9.next = 17;
+            _context10.next = 17;
             break;
 
           case 6:
-            _context9.prev = 6;
-            _context9.t0 = _context9['catch'](0);
+            _context10.prev = 6;
+            _context10.t0 = _context10['catch'](0);
             message = '';
-            _context9.t1 = _context9.t0;
-            _context9.next = _context9.t1 === 404 ? 12 : _context9.t1 === 500 ? 14 : 16;
+            _context10.t1 = _context10.t0;
+            _context10.next = _context10.t1 === 404 ? 12 : _context10.t1 === 500 ? 14 : 16;
             break;
 
           case 12:
             message = 'Publication not found';
-            return _context9.abrupt('break', 16);
+            return _context10.abrupt('break', 16);
 
           case 14:
             message = 'Internal server error';
-            return _context9.abrupt('break', 16);
+            return _context10.abrupt('break', 16);
 
           case 16:
-            res.status(_context9.t0).json({ status: _context9.t0, message: message });
+            res.status(_context10.t0).json({ status: _context10.t0, message: message });
 
           case 17:
           case 'end':
-            return _context9.stop();
+            return _context10.stop();
         }
       }
-    }, _callee9, _this, [[0, 6]]);
+    }, _callee10, _this, [[0, 6]]);
   }));
 
-  return function (_x17, _x18) {
-    return _ref9.apply(this, arguments);
+  return function (_x19, _x20) {
+    return _ref10.apply(this, arguments);
   };
 }());
 
 // gets coworkers of a publication
 router.post('/api/publication/getCoworkers', function () {
-  var _ref10 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee10(req, res) {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee11(req, res) {
     var publications, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee10$(_context10) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee11$(_context11) {
       while (1) {
-        switch (_context10.prev = _context10.next) {
+        switch (_context11.prev = _context11.next) {
           case 0:
-            _context10.prev = 0;
-            _context10.next = 3;
+            _context11.prev = 0;
+            _context11.next = 3;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getCoworkers */](req.body);
 
           case 3:
-            publications = _context10.sent;
+            publications = _context11.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully fetched all emps',
               data: publications
             });
-            _context10.next = 18;
+            _context11.next = 18;
             break;
 
           case 7:
-            _context10.prev = 7;
-            _context10.t0 = _context10['catch'](0);
+            _context11.prev = 7;
+            _context11.t0 = _context11['catch'](0);
             message = '';
-            _context10.t1 = _context10.t0;
-            _context10.next = _context10.t1 === 404 ? 13 : _context10.t1 === 500 ? 15 : 17;
+            _context11.t1 = _context11.t0;
+            _context11.next = _context11.t1 === 404 ? 13 : _context11.t1 === 500 ? 15 : 17;
             break;
 
           case 13:
             message = 'Publication not found';
-            return _context10.abrupt('break', 17);
+            return _context11.abrupt('break', 17);
 
           case 15:
             message = 'Internal server error';
-            return _context10.abrupt('break', 17);
+            return _context11.abrupt('break', 17);
 
           case 17:
 
-            res.status(200).json({ status: _context10.t0, message: message });
+            res.status(200).json({ status: _context11.t0, message: message });
 
           case 18:
           case 'end':
-            return _context10.stop();
+            return _context11.stop();
         }
       }
-    }, _callee10, _this, [[0, 7]]);
+    }, _callee11, _this, [[0, 7]]);
   }));
 
-  return function (_x19, _x20) {
-    return _ref10.apply(this, arguments);
+  return function (_x21, _x22) {
+    return _ref11.apply(this, arguments);
   };
 }());
 
@@ -1418,16 +1472,17 @@ router.post('/api/publication/getCoworkers', function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getPublication; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getPublications; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getPublication; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return getPublications; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addPublication; });
 /* unused harmony export addPublicationLog */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addCoworker; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return checkIfExisting; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removePublication; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return removePublication; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return editPublication; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getEmployees; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removeCoworkers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getEmployees; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getEmployeeCoworkers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removeCoworkers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getCoworkers; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
@@ -1500,9 +1555,15 @@ var addPublication = function addPublication(_ref3) {
       emp_id = _ref3.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+    if (start_date === '' || end_date === '') {
+      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, null, null, ?);\n        ';
 
-    var values = [credit_units, category, funding, title, role, start_date, end_date, emp_id];
+      var _values = [credit_units, category, funding, title, role, emp_id];
+    } else {
+      var _queryString2 = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+
+      var _values2 = [credit_units, category, funding, title, role, start_date, end_date, emp_id];
+    }
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
@@ -1650,9 +1711,27 @@ var getEmployees = function getEmployees() {
   });
 };
 
+// gets all employee except self
+var getEmployeeCoworkers = function getEmployeeCoworkers(_ref9) {
+  var empid = _ref9.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      SELECT * from EMPLOYEE WHERE emp_id != ?;\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
 // removes a publication
-var removeCoworkers = function removeCoworkers(_ref9) {
-  var id = _ref9.id;
+var removeCoworkers = function removeCoworkers(_ref10) {
+  var id = _ref10.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      CALL delete_coworker(?);\n    ';
@@ -1673,8 +1752,8 @@ var removeCoworkers = function removeCoworkers(_ref9) {
 };
 
 // gets all publications
-var getCoworkers = function getCoworkers(_ref10) {
-  var id = _ref10.id;
+var getCoworkers = function getCoworkers(_ref11) {
+  var id = _ref11.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      SELECT c.emp_id, e.f_name, e.l_name FROM COWORKER c, EMPLOYEE e WHERE c.emp_id = e.emp_id and publication_id = ?;\n    ';
@@ -1695,8 +1774,8 @@ var getCoworkers = function getCoworkers(_ref10) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(19);
@@ -1712,9 +1791,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/signup', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -1837,8 +1916,8 @@ var getEmployee = function getEmployee(_ref2) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
@@ -1854,9 +1933,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/studyload/add', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id, sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -1915,9 +1994,9 @@ router.post('/api/studyload/add', function () {
 }());
 
 router.post('/api/studyload/delete', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var book;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -1972,9 +2051,9 @@ router.post('/api/studyload/delete', function () {
 }());
 
 router.post('/api/studyload/edit', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -2033,9 +2112,9 @@ router.post('/api/studyload/edit', function () {
 }());
 
 router.post('/api/studyload/view', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -2086,9 +2165,9 @@ router.post('/api/studyload/view', function () {
   };
 }());
 router.post('/api/studyload/viewByStudyloadId', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -2152,9 +2231,9 @@ router.post('/api/studyload/viewByStudyloadId', function () {
 }());
 
 router.get('/api/studyload/viewAll', function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
     var subjects, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
@@ -2202,9 +2281,9 @@ router.get('/api/studyload/viewAll', function () {
   };
 }());
 router.get('/api/studyload/viewStudyCredentials', function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee7(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee7(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
@@ -2256,8 +2335,8 @@ router.get('/api/studyload/viewStudyCredentials', function () {
 }());
 
 router.post('/api/studyload/editStudyCredentials', function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee8(req, res) {
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee8(req, res) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
@@ -2474,10 +2553,10 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
   var degree = json.degree;
   var fellowship = false;
   var studyleave = false;
-  if (json.fellowship = "On") {
+  if (json.fellowship === "Yes") {
     fellowship = true;
   }
-  if (json.studyleave = "On") {
+  if (json.studyleave === "Yes") {
     studyleave = true;
   }
 
@@ -2506,8 +2585,8 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
@@ -2526,9 +2605,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/teachload/add', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id, sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -2587,9 +2666,9 @@ router.post('/api/teachload/add', function () {
 }());
 
 router.post('/api/teachload/delete/', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var book;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -2644,9 +2723,9 @@ router.post('/api/teachload/delete/', function () {
 }());
 
 router.post('/api/teachload/edit/', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -2704,9 +2783,9 @@ router.post('/api/teachload/edit/', function () {
 }());
 
 router.post('/api/teachload/view', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -2758,9 +2837,9 @@ router.post('/api/teachload/view', function () {
 }());
 
 router.get('/api/teachload/viewAll', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var subjects, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -2971,8 +3050,8 @@ module.exports = require("util");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(26);
@@ -2989,9 +3068,9 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets one faculty
 router.post('/api/faculty/view', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var faculty, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -3044,9 +3123,9 @@ router.post('/api/faculty/view', function () {
 
 // gets all faculty
 router.get('/api/faculty/viewAll', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var faculty, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -3153,8 +3232,8 @@ var getAllFaculty = function getAllFaculty() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(28);
@@ -3170,9 +3249,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/position/add', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -3226,9 +3305,9 @@ router.post('/api/position/add', function () {
 }());
 
 router.post('/api/position/delete', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var consultation, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -3285,9 +3364,9 @@ router.post('/api/position/delete', function () {
 
 //edit a position
 router.put('/api/position/edit', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var positionEdited, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -3344,9 +3423,9 @@ router.put('/api/position/edit', function () {
 }());
 
 router.post('/api/position/view', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -3398,9 +3477,9 @@ router.post('/api/position/view', function () {
 }());
 
 router.get('/api/position/viewAll', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var subjects, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -3583,8 +3662,8 @@ var editPosition = function editPosition(_ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(30);
@@ -3600,51 +3679,53 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 //add a consultation hours
-router.post('/api/consulHours/add', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+router.post('/api/consultation/add', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            if (!(req.body.consultation_start_time && req.body.consultation_end_time && req.body.consultation_place && req.body.emp_id && req.body.day)) {
-              _context.next = 13;
+            console.log(req.body);
+
+            if (!(req.body.consultation_start_time && req.body.consultation_end_time && req.body.consultation_place && req.body.day)) {
+              _context.next = 14;
               break;
             }
 
-            _context.prev = 1;
-            _context.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addConsulHours */](req.body);
+            _context.prev = 2;
+            _context.next = 5;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addConsulHours */](req.body, req.session.user);
 
-          case 4:
+          case 5:
             id = _context.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully added consultation hours'
             });
-            _context.next = 11;
+            _context.next = 12;
             break;
 
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context['catch'](1);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context['catch'](2);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 11:
-            _context.next = 14;
+          case 12:
+            _context.next = 15;
             break;
 
-          case 13:
+          case 14:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 14:
+          case 15:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, _this, [[1, 8]]);
+    }, _callee, _this, [[2, 9]]);
   }));
 
   return function (_x, _x2) {
@@ -3653,57 +3734,69 @@ router.post('/api/consulHours/add', function () {
 }());
 
 //delete a consultation hours
-router.post('/api/consulHours/delete', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+router.post('/api/consultation/delete', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var consultation, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */]({ id: req.body.id });
+            if (!req.body.consultation_id) {
+              _context2.next = 23;
+              break;
+            }
 
-          case 3:
+            _context2.prev = 1;
+            _context2.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.body);
+
+          case 4:
             consultation = _context2.sent;
-            _context2.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeConsulHours */]({ id: req.body.id });
+            _context2.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeConsultation */](req.body);
 
-          case 6:
+          case 7:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed consulation hours',
               data: consultation
             });
-            _context2.next = 20;
+            _context2.next = 21;
             break;
 
-          case 9:
-            _context2.prev = 9;
-            _context2.t0 = _context2['catch'](0);
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2['catch'](1);
             message = '';
             _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 404 ? 15 : _context2.t1 === 500 ? 17 : 19;
+            _context2.next = _context2.t1 === 404 ? 16 : _context2.t1 === 500 ? 18 : 20;
             break;
 
-          case 15:
+          case 16:
             message = 'Consultation hours not found';
-            return _context2.abrupt('break', 19);
+            return _context2.abrupt('break', 20);
 
-          case 17:
+          case 18:
             message = 'Internal server error';
-            return _context2.abrupt('break', 19);
-
-          case 19:
-            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+            return _context2.abrupt('break', 20);
 
           case 20:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 21:
+            _context2.next = 24;
+            break;
+
+          case 23:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 24:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 9]]);
+    }, _callee2, _this, [[1, 10]]);
   }));
 
   return function (_x3, _x4) {
@@ -3712,10 +3805,10 @@ router.post('/api/consulHours/delete', function () {
 }());
 
 //edit a consultation hours
-router.put('/api/consulHours/edit', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+router.put('/api/consultation/edit', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var positionEdited, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -3772,10 +3865,10 @@ router.put('/api/consulHours/edit', function () {
 }());
 
 //view all consultation hours
-router.get('/api/consulHours/viewAll', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+router.get('/api/consultation/viewAll', function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var subjects, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -3823,16 +3916,16 @@ router.get('/api/consulHours/viewAll', function () {
   };
 }());
 
-router.post('/api/consulHours/view', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+router.post('/api/consultation/view', function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.session.user);
 
           case 3:
             book = _context5.sent;
@@ -3885,22 +3978,23 @@ router.post('/api/consulHours/view', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConsulHours; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeConsulHours; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeConsultation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getConsultation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllConsulHours; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editConsulHours; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
-var addConsulHours = function addConsulHours(_ref) {
+var addConsulHours = function addConsulHours(_ref, json) {
   var consultation_start_time = _ref.consultation_start_time,
       consultation_end_time = _ref.consultation_end_time,
       consultation_place = _ref.consultation_place,
-      day = _ref.day,
-      emp_id = _ref.emp_id;
+      day = _ref.day;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL \n      insert_consultation(?, ?, ?, ?, ?);\n    ';
+    var emp_id = json.emp_id;
+
+    var queryString = '\n      CALL\n      insert_consultation(?, ?, ?, ?, ?);\n    ';
 
     var values = [consultation_start_time, consultation_end_time, consultation_place, day, emp_id];
 
@@ -3916,13 +4010,13 @@ var addConsulHours = function addConsulHours(_ref) {
 };
 
 // removes consultation hours
-var removeConsulHours = function removeConsulHours(_ref2) {
-  var id = _ref2.id;
+var removeConsultation = function removeConsultation(_ref2) {
+  var consultation_id = _ref2.consultation_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n    CALL \n    delete_consultation(?)\n     \n    ';
+    var queryString = '\n    CALL \n      delete_consultation(?)\n    ';
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, consultation_id, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -3938,13 +4032,12 @@ var removeConsulHours = function removeConsulHours(_ref2) {
 };
 
 // get a consultation hour
-var getConsultation = function getConsultation(_ref3) {
-  var id = _ref3.id;
-
+var getConsultation = function getConsultation(consultation_id) {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            CONSULTATION\n          WHERE\n            consultation_id = ?;\n        ';
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+    var queryString = '\n          SELECT \n            consultation_start_time, consultation_end_time, consultation_place\n          FROM \n            CONSULTATION\n          WHERE\n            consultation_id = ?;\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -3979,12 +4072,12 @@ var getAllConsulHours = function getAllConsulHours() {
   });
 };
 
-var editConsulHours = function editConsulHours(_ref4) {
-  var consultation_start_time = _ref4.consultation_start_time,
-      consultation_end_time = _ref4.consultation_end_time,
-      consultation_place = _ref4.consultation_place,
-      day = _ref4.day,
-      emp_id = _ref4.emp_id;
+var editConsulHours = function editConsulHours(_ref3) {
+  var consultation_start_time = _ref3.consultation_start_time,
+      consultation_end_time = _ref3.consultation_end_time,
+      consultation_place = _ref3.consultation_place,
+      day = _ref3.day,
+      emp_id = _ref3.emp_id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n     CALL \n     update_consultation(?, ?, ?, ?, ?)\n    ';
@@ -4011,8 +4104,8 @@ var editConsulHours = function editConsulHours(_ref4) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(32);
@@ -4027,17 +4120,17 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
-// gets a faculty grant by id
-router.post('/api/facultygrant/view', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+// get a faculty grant by emp id
+router.post('/api/facultygrant/viewEmp', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var facultygrant, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getFacultyGrant */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getAllFacultyGrantByEmp */](req.body);
 
           case 3:
             facultygrant = _context.sent;
@@ -4082,59 +4175,54 @@ router.post('/api/facultygrant/view', function () {
   };
 }());
 
-// add a faculty grant
-router.post('/api/facultygrant/add', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var id, facultygrant;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+// gets a faculty grant by id
+router.get('/api/facultygrant/view', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var facultygrant, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            if (!(req.body.type && req.body.is_approved && req.body.professional_chair && req.body.grants && req.body.grant_title && req.body.start_date && req.body.end_date && req.body.emp_id)) {
-              _context2.next = 16;
-              break;
-            }
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getFacultyGrant */](req.body);
 
-            _context2.prev = 1;
-            _context2.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addFacultyGrant */](req.body);
-
-          case 4:
-            id = _context2.sent;
-            _context2.next = 7;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getFacultyGrant */]({ faculty_grant_id: id });
-
-          case 7:
+          case 3:
             facultygrant = _context2.sent;
-
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully created faculty grant',
+              message: 'Successfully fetched faculty grant',
               data: facultygrant
             });
-            _context2.next = 14;
+            _context2.next = 18;
             break;
 
-          case 11:
-            _context2.prev = 11;
-            _context2.t0 = _context2['catch'](1);
-
-            res.status(500).json({ status: 500, message: 'Internal server error' });
-
-          case 14:
-            _context2.next = 17;
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 404 ? 13 : _context2.t1 === 500 ? 15 : 17;
             break;
 
-          case 16:
-            res.status(400).json({ status: 400, message: 'Bad request' });
+          case 13:
+            message = 'Faculty grant not found';
+            return _context2.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 17);
 
           case 17:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 18:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[1, 11]]);
+    }, _callee2, _this, [[0, 7]]);
   }));
 
   return function (_x3, _x4) {
@@ -4142,22 +4230,133 @@ router.post('/api/facultygrant/add', function () {
   };
 }());
 
-// removes a faculty grant
-router.post('/api/facultygrant/delete', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+// gets a faculty grant by id
+router.get('/api/facultygrant/viewAll', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var facultygrant, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getFacultyGrant */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getAllFacultyGrant */](req.body);
 
           case 3:
             facultygrant = _context3.sent;
-            _context3.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* removeFacultyGrant */](req.body);
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched all faculty grant',
+              data: facultygrant
+            });
+            _context3.next = 18;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty grant not found';
+            return _context3.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 17);
+
+          case 17:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 7]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
+// add a faculty grant
+router.post('/api/facultygrant/add', function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+    var id;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            if (!req.body) {
+              _context4.next = 13;
+              break;
+            }
+
+            _context4.prev = 1;
+            _context4.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addFacultyGrant */](req.body);
+
+          case 4:
+            id = _context4.sent;
+
+            // const facultygrant = await Ctrl.getFacultyGrant({faculty_grant_id: id});
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully created faculty grant'
+              // data: facultygrant
+            });
+            _context4.next = 11;
+            break;
+
+          case 8:
+            _context4.prev = 8;
+            _context4.t0 = _context4['catch'](1);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 11:
+            _context4.next = 14;
+            break;
+
+          case 13:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 14:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, _this, [[1, 8]]);
+  }));
+
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
+
+// removes a faculty grant
+router.post('/api/facultygrant/delete', function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+    var facultygrant, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getFacultyGrant */](req.body);
+
+          case 3:
+            facultygrant = _context5.sent;
+            _context5.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* removeFacultyGrant */](req.body);
 
           case 6:
 
@@ -4166,100 +4365,95 @@ router.post('/api/facultygrant/delete', function () {
               message: 'Successfully removed faculty grant',
               data: facultygrant
             });
-            _context3.next = 20;
+            _context5.next = 20;
             break;
 
           case 9:
-            _context3.prev = 9;
-            _context3.t0 = _context3['catch'](0);
+            _context5.prev = 9;
+            _context5.t0 = _context5['catch'](0);
             message = '';
-            _context3.t1 = _context3.t0;
-            _context3.next = _context3.t1 === 404 ? 15 : _context3.t1 === 500 ? 17 : 19;
+            _context5.t1 = _context5.t0;
+            _context5.next = _context5.t1 === 404 ? 15 : _context5.t1 === 500 ? 17 : 19;
             break;
 
           case 15:
             message = 'Faculty grant not found';
-            return _context3.abrupt('break', 19);
+            return _context5.abrupt('break', 19);
 
           case 17:
             message = 'Internal server error';
-            return _context3.abrupt('break', 19);
+            return _context5.abrupt('break', 19);
 
           case 19:
-            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
 
           case 20:
           case 'end':
-            return _context3.stop();
+            return _context5.stop();
         }
       }
-    }, _callee3, _this, [[0, 9]]);
+    }, _callee5, _this, [[0, 9]]);
   }));
 
-  return function (_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }());
 
 // edits a facultygrant
 router.post('/api/facultygrant/edit', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
-    var facultygrant, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context6.prev = 0;
+            _context6.next = 3;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editFacultyGrant */](req.body);
 
           case 3:
-            _context4.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getFacultyGrant */]({
-              id: req.body.faculty_grant_id
-            });
-
-          case 5:
-            facultygrant = _context4.sent;
-
+            // const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body)({
+            //   emp_id: req.body.emp_id
+            // });
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully edited faculty grant',
-              data: facultygrant
+              message: 'Successfully edited faculty grant'
+              // data: facultygrant
             });
-            _context4.next = 20;
+            _context6.next = 17;
             break;
 
-          case 9:
-            _context4.prev = 9;
-            _context4.t0 = _context4['catch'](0);
+          case 6:
+            _context6.prev = 6;
+            _context6.t0 = _context6['catch'](0);
             message = '';
-            _context4.t1 = _context4.t0;
-            _context4.next = _context4.t1 === 404 ? 15 : _context4.t1 === 500 ? 17 : 19;
+            _context6.t1 = _context6.t0;
+            _context6.next = _context6.t1 === 404 ? 12 : _context6.t1 === 500 ? 14 : 16;
             break;
 
-          case 15:
+          case 12:
             message = 'Faculty grant not found';
-            return _context4.abrupt('break', 19);
+            return _context6.abrupt('break', 16);
+
+          case 14:
+            message = 'Internal server error';
+            return _context6.abrupt('break', 16);
+
+          case 16:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
 
           case 17:
-            message = 'Internal server error';
-            return _context4.abrupt('break', 19);
-
-          case 19:
-            res.status(_context4.t0).json({ status: _context4.t0, message: message });
-
-          case 20:
           case 'end':
-            return _context4.stop();
+            return _context6.stop();
         }
       }
-    }, _callee4, _this, [[0, 9]]);
+    }, _callee6, _this, [[0, 6]]);
   }));
 
-  return function (_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }());
 
@@ -4271,35 +4465,28 @@ router.post('/api/facultygrant/edit', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addFacultyGrant; });
-/* unused harmony export getAllFacultyGrant */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getFacultyGrant; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return removeFacultyGrant; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllFacultyGrant; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getFacultyGrant; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getAllFacultyGrantByEmp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeFacultyGrant; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editFacultyGrant; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
 //adds a faculty grant
 var addFacultyGrant = function addFacultyGrant(_ref) {
-  var type = _ref.type,
-      isapproved = _ref.isapproved,
-      professional_chair = _ref.professional_chair,
-      grants = _ref.grants,
-      grant_title = _ref.grant_title,
-      start_date = _ref.start_date,
-      emp_date = _ref.emp_date,
-      emp_id = _ref.emp_id;
+  var emp_id = _ref.emp_id;
 
+  console.log({ emp_id: emp_id });
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        CALL \n        insert_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);\n      ';
-
-    var values = [type, isapproved, professional_chair, grants, grant_title, start_date, emp_date, emp_id];
+    var queryString = '\n        CALL \n        insert_faculty_grant(NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?);\n      ';
+    var values = [emp_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
         console.log(err.message);
         return reject(500);
       }
-
       return resolve(results.insertId);
     });
   });
@@ -4308,7 +4495,7 @@ var addFacultyGrant = function addFacultyGrant(_ref) {
 // gets all faculty
 var getAllFacultyGrant = function getAllFacultyGrant() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        call view_faculty_grant();\n      ';
+    var queryString = '\n        CALL view_faculty_grant();\n      ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -4347,9 +4534,31 @@ var getFacultyGrant = function getFacultyGrant(_ref2) {
   });
 };
 
-// removes a faculty grant
-var removeFacultyGrant = function removeFacultyGrant(_ref3) {
+// gets a faculty grant by id by emp_id
+var getAllFacultyGrantByEmp = function getAllFacultyGrantByEmp(_ref3) {
   var id = _ref3.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          CALL view_faculty_grant_by_emp_id(?)\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+// removes a faculty grant
+var removeFacultyGrant = function removeFacultyGrant(_ref4) {
+  var id = _ref4.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      CALL\n      delete_faculty_grant();\n    ';
@@ -4370,21 +4579,20 @@ var removeFacultyGrant = function removeFacultyGrant(_ref3) {
 };
 
 // edits a faculty grant
-var editFacultyGrant = function editFacultyGrant(_ref4) {
-  var faculty_grant_id = _ref4.faculty_grant_id,
-      type = _ref4.type,
-      is_approved = _ref4.is_approved,
-      professional_chair = _ref4.professional_chair,
-      grants = _ref4.grants,
-      grant_title = _ref4.grant_title,
-      start_date = _ref4.start_date,
-      end_date = _ref4.end_date,
-      emp_id = _ref4.emp_id;
+var editFacultyGrant = function editFacultyGrant(_ref5) {
+  var emp_id = _ref5.emp_id,
+      type = _ref5.type,
+      is_approved = _ref5.is_approved,
+      professional_chair = _ref5.professional_chair,
+      grants = _ref5.grants,
+      grant_title = _ref5.grant_title,
+      start_date = _ref5.start_date,
+      end_date = _ref5.end_date;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL \n      update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+    var queryString = '\n      CALL \n      update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);\n    ';
 
-    var values = [type, isapproved, professional_chair, grants, grant_title, start_date, emp_date, emp_id];
+    var values = [emp_id, type, is_approved, professional_chair, grants, grant_title, start_date, end_date];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -4406,8 +4614,8 @@ var editFacultyGrant = function editFacultyGrant(_ref4) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(34);
@@ -4423,9 +4631,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 router.post('/api/limitedpractice/add', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id, sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -4482,9 +4690,9 @@ router.post('/api/limitedpractice/add', function () {
 }());
 
 router.post('/api/limitedpractice/delete', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var book;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -4539,9 +4747,9 @@ router.post('/api/limitedpractice/delete', function () {
 }());
 
 router.post('/api/limitedpractice/edit', function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var sample;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -4598,9 +4806,9 @@ router.post('/api/limitedpractice/edit', function () {
 }());
 
 router.post('/api/limitedpractice/view', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var book, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -4652,9 +4860,9 @@ router.post('/api/limitedpractice/view', function () {
 }());
 
 router.get('/api/limitedpractice/viewAll', function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var subjects, message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -4825,8 +5033,8 @@ var getAllLimitedPractice = function getAllLimitedPractice() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(36);
@@ -4843,9 +5051,9 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // edits the faculty
 router.post('/api/faculty/edit', function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -4896,9 +5104,9 @@ router.post('/api/faculty/edit', function () {
 
 // edits the semester information
 router.post('/api/faculty/termEdit', function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_aaron_Documents_BACKEND_CMSC128_A4L_1_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -4947,6 +5155,61 @@ router.post('/api/faculty/termEdit', function () {
   };
 }());
 
+// get the faculty data
+router.post('/api/faculty/data', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+    var data, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getData */](req.body);
+
+          case 3:
+            data = _context3.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched faculty data',
+              data: data
+            });
+            _context3.next = 18;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Faculty not found';
+            return _context3.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 17);
+
+          case 17:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 7]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -4956,6 +5219,7 @@ router.post('/api/faculty/termEdit', function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return editFaculty; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editTerm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getData; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
@@ -4971,12 +5235,12 @@ var editFaculty = function editFaculty(_ref) {
       college = _ref.college,
       emptype = _ref.emptype,
       email = _ref.email,
-      isfulltime = _ref.isfulltime;
+      is_full_time = _ref.is_full_time;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+    var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);\n    ';
 
-    var values = [empid, username, password, fname, mname, lname, dept, college, emptype, email, isfulltime];
+    var values = [empid, username, password, fname, mname, lname, dept, college, emptype, email, is_full_time];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -5016,6 +5280,28 @@ var editTerm = function editTerm(_ref2) {
       }
 
       return resolve();
+    });
+  });
+};
+
+// gets faculty data
+var getData = function getData(_ref3) {
+  var empid = _ref3.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n          SELECT \n            *\n          FROM \n            EMPLOYEE\n          WHERE\n            emp_id = ?\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
     });
   });
 };

@@ -1219,6 +1219,15 @@ CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice in
   END;
 GO
 
+CREATE PROCEDURE insert_date_if_yes( limited_practice_id_u int,
+                                      date_submitted_u date )
+  BEGIN 
+    UPDATE LIMITED_PRACTICE
+        SET date_submitted = date_submitted_u
+        WHERE limited_practice_id = limited_practice_id_u;
+        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+END;
+GO
 
 
 CREATE PROCEDURE insert_limited_practice( haveApplied boolean,

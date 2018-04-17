@@ -54,10 +54,10 @@ router.post('/api/publication/add', async (req, res) => {
     req.body.credit_units >= 0 &&
     req.body.category &&
     // req.body.funding &&
-    req.body.title &&
+    req.body.title
     // req.body.role &&
-    req.body.start_date &&
-    req.body.end_date
+    // req.body.start_date &&
+    // req.body.end_date
   ) {
     try {
       const id = await Ctrl.addPublication(req.body);
@@ -159,6 +159,28 @@ router.get('/api/publication/viewEmployees', async (req, res) => {
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all emps',
+      data: publications
+    });
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(200).json({ status, message });
+  }
+});
+
+// gets publications
+router.post('/api/publication/viewEmployeeCoworkers', async (req, res) => {
+  try {
+    const publications = await Ctrl.getEmployeeCoworkers(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched all possible coworkers',
       data: publications
     });
   } catch (status) {

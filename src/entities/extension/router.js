@@ -53,7 +53,6 @@ router.post('/api/extension/add', async (req, res) => {
   if (
     req.body.extension_type &&
     req.body.extension_name &&
-    req.body.no_of_hours >= 0 &&
     req.body.no_of_participants >= 0 &&
     req.body.extension_role &&
     req.body.credit_unit >= 0 &&
@@ -71,7 +70,7 @@ router.post('/api/extension/add', async (req, res) => {
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
     }
-  } else {
+  } else{
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
@@ -105,12 +104,12 @@ router.post('/api/extension/delete', async (req, res) => {
 router.post('/api/extension/edit', async (req, res) => {
   try {
     await Ctrl.editExtension(req.body);
-    const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
+    // const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
 
     res.status(200).json({
       status: 200,
       message: 'Successfully edited extension',
-      data: extensionEdited
+      // data: extensionEdited
     });
   } catch (status) {
     let message = '';

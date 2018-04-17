@@ -12,11 +12,11 @@ export const editFaculty = ({
   college,
   emptype,
   email,
-  isfulltime
+  is_full_time
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
     `;
 
     const values = [
@@ -30,7 +30,7 @@ export const editFaculty = ({
       college,
       emptype,
       email,
-      isfulltime
+      is_full_time
     ];
 
     db.query(queryString, values, (err, res) => {
@@ -75,6 +75,33 @@ export const editTerm = ({ empid, year, term, isnew }) => {
       }
 
       return resolve();
+    });
+  });
+};
+
+// gets faculty data
+export const getData = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT 
+            *
+          FROM 
+            EMPLOYEE
+          WHERE
+            emp_id = ?
+        `;
+
+    db.query(queryString, empid, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
     });
   });
 };

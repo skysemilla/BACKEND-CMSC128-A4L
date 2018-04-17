@@ -12,11 +12,11 @@ export const editFaculty = ({
   college,
   emptype,
   email,
-  isfulltime
+  is_full_time
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
     `;
 
     const values = [
@@ -30,7 +30,7 @@ export const editFaculty = ({
       college,
       emptype,
       email,
-      isfulltime
+      is_full_time
     ];
 
     db.query(queryString, values, (err, res) => {

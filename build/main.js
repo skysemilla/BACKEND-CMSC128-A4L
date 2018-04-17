@@ -3679,51 +3679,53 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 //add a consultation hours
-router.post('/api/consulHours/add', function () {
+router.post('/api/consultation/add', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var id;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            if (!(req.body.consultation_start_time && req.body.consultation_end_time && req.body.consultation_place && req.body.emp_id && req.body.day)) {
-              _context.next = 13;
+            console.log(req.body);
+
+            if (!(req.body.consultation_start_time && req.body.consultation_end_time && req.body.consultation_place && req.body.day)) {
+              _context.next = 14;
               break;
             }
 
-            _context.prev = 1;
-            _context.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addConsulHours */](req.body);
+            _context.prev = 2;
+            _context.next = 5;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addConsulHours */](req.body, req.session.user);
 
-          case 4:
+          case 5:
             id = _context.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully added consultation hours'
             });
-            _context.next = 11;
+            _context.next = 12;
             break;
 
-          case 8:
-            _context.prev = 8;
-            _context.t0 = _context['catch'](1);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context['catch'](2);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 11:
-            _context.next = 14;
+          case 12:
+            _context.next = 15;
             break;
 
-          case 13:
+          case 14:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 14:
+          case 15:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, _this, [[1, 8]]);
+    }, _callee, _this, [[2, 9]]);
   }));
 
   return function (_x, _x2) {
@@ -3732,57 +3734,69 @@ router.post('/api/consulHours/add', function () {
 }());
 
 //delete a consultation hours
-router.post('/api/consulHours/delete', function () {
+router.post('/api/consultation/delete', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var consultation, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */]({ id: req.body.id });
+            if (!req.body.consultation_id) {
+              _context2.next = 23;
+              break;
+            }
 
-          case 3:
+            _context2.prev = 1;
+            _context2.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.body);
+
+          case 4:
             consultation = _context2.sent;
-            _context2.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeConsulHours */]({ id: req.body.id });
+            _context2.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeConsultation */](req.body);
 
-          case 6:
+          case 7:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed consulation hours',
               data: consultation
             });
-            _context2.next = 20;
+            _context2.next = 21;
             break;
 
-          case 9:
-            _context2.prev = 9;
-            _context2.t0 = _context2['catch'](0);
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2['catch'](1);
             message = '';
             _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 404 ? 15 : _context2.t1 === 500 ? 17 : 19;
+            _context2.next = _context2.t1 === 404 ? 16 : _context2.t1 === 500 ? 18 : 20;
             break;
 
-          case 15:
+          case 16:
             message = 'Consultation hours not found';
-            return _context2.abrupt('break', 19);
+            return _context2.abrupt('break', 20);
 
-          case 17:
+          case 18:
             message = 'Internal server error';
-            return _context2.abrupt('break', 19);
-
-          case 19:
-            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+            return _context2.abrupt('break', 20);
 
           case 20:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 21:
+            _context2.next = 24;
+            break;
+
+          case 23:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 24:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 9]]);
+    }, _callee2, _this, [[1, 10]]);
   }));
 
   return function (_x3, _x4) {
@@ -3791,7 +3805,7 @@ router.post('/api/consulHours/delete', function () {
 }());
 
 //edit a consultation hours
-router.put('/api/consulHours/edit', function () {
+router.put('/api/consultation/edit', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var positionEdited, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
@@ -3851,7 +3865,7 @@ router.put('/api/consulHours/edit', function () {
 }());
 
 //view all consultation hours
-router.get('/api/consulHours/viewAll', function () {
+router.get('/api/consultation/viewAll', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
     var subjects, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
@@ -3902,7 +3916,7 @@ router.get('/api/consulHours/viewAll', function () {
   };
 }());
 
-router.post('/api/consulHours/view', function () {
+router.post('/api/consultation/view', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var book, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
@@ -3911,7 +3925,7 @@ router.post('/api/consulHours/view', function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.session.user);
 
           case 3:
             book = _context5.sent;
@@ -3964,22 +3978,23 @@ router.post('/api/consulHours/view', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConsulHours; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeConsulHours; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeConsultation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getConsultation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllConsulHours; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editConsulHours; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
-var addConsulHours = function addConsulHours(_ref) {
+var addConsulHours = function addConsulHours(_ref, json) {
   var consultation_start_time = _ref.consultation_start_time,
       consultation_end_time = _ref.consultation_end_time,
       consultation_place = _ref.consultation_place,
-      day = _ref.day,
-      emp_id = _ref.emp_id;
+      day = _ref.day;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL \n      insert_consultation(?, ?, ?, ?, ?);\n    ';
+    var emp_id = json.emp_id;
+
+    var queryString = '\n      CALL\n      insert_consultation(?, ?, ?, ?, ?);\n    ';
 
     var values = [consultation_start_time, consultation_end_time, consultation_place, day, emp_id];
 
@@ -3995,13 +4010,13 @@ var addConsulHours = function addConsulHours(_ref) {
 };
 
 // removes consultation hours
-var removeConsulHours = function removeConsulHours(_ref2) {
-  var id = _ref2.id;
+var removeConsultation = function removeConsultation(_ref2) {
+  var consultation_id = _ref2.consultation_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n    CALL \n    delete_consultation(?)\n     \n    ';
+    var queryString = '\n    CALL \n      delete_consultation(?)\n    ';
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, consultation_id, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4017,13 +4032,12 @@ var removeConsulHours = function removeConsulHours(_ref2) {
 };
 
 // get a consultation hour
-var getConsultation = function getConsultation(_ref3) {
-  var id = _ref3.id;
-
+var getConsultation = function getConsultation(consultation_id) {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            CONSULTATION\n          WHERE\n            consultation_id = ?;\n        ';
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+    var queryString = '\n          SELECT \n            consultation_start_time, consultation_end_time, consultation_place\n          FROM \n            CONSULTATION\n          WHERE\n            consultation_id = ?;\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4058,12 +4072,12 @@ var getAllConsulHours = function getAllConsulHours() {
   });
 };
 
-var editConsulHours = function editConsulHours(_ref4) {
-  var consultation_start_time = _ref4.consultation_start_time,
-      consultation_end_time = _ref4.consultation_end_time,
-      consultation_place = _ref4.consultation_place,
-      day = _ref4.day,
-      emp_id = _ref4.emp_id;
+var editConsulHours = function editConsulHours(_ref3) {
+  var consultation_start_time = _ref3.consultation_start_time,
+      consultation_end_time = _ref3.consultation_end_time,
+      consultation_place = _ref3.consultation_place,
+      day = _ref3.day,
+      emp_id = _ref3.emp_id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n     CALL \n     update_consultation(?, ?, ?, ?, ?)\n    ';
@@ -5221,12 +5235,12 @@ var editFaculty = function editFaculty(_ref) {
       college = _ref.college,
       emptype = _ref.emptype,
       email = _ref.email,
-      isfulltime = _ref.isfulltime;
+      is_full_time = _ref.is_full_time;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+    var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);\n    ';
 
-    var values = [empid, username, password, fname, mname, lname, dept, college, emptype, email, isfulltime];
+    var values = [empid, username, password, fname, mname, lname, dept, college, emptype, email, is_full_time];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {

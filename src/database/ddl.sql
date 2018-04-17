@@ -1219,7 +1219,7 @@ CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice in
   END;
 GO
 
-CREATE PROCEDURE insert_date_if_no( limited_practice_id_u int,
+CREATE PROCEDURE insert_date_if_no( limited_practice_id_u int
                                      )
   BEGIN 
     UPDATE LIMITED_PRACTICE

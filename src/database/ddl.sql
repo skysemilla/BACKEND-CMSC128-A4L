@@ -53,7 +53,7 @@ create table EXTENSION(
   extension_id int AUTO_INCREMENT,
   credit_unit int (255) not null,
   extension_name varchar(20) not null,
-  extension_type varchar(20) not null,
+  extension_type varchar(25) not null,
   no_of_hours int not null,
   no_of_participants int (20) not null,
   extension_role varchar(10) not null,
@@ -181,6 +181,7 @@ create table STUDYLOAD(
   course_no varchar(255) not null,
   emp_id varchar(9) not null,
   start_time time not null,
+  end_time time not null,
   school varchar (255) not null,
   no_of_days int not null,
   constraint studyload_studyload_id_pk PRIMARY key (studyload_id),
@@ -440,7 +441,7 @@ GO
 
 CREATE PROCEDURE insert_extension(   credit_unit int (255),
                                    extension_name varchar(20), 
-                                   extension_type varchar(20), 
+                                   extension_type varchar(25), 
                                    no_of_hours int , 
                                    no_of_participants int (20), 
                                    extension_role varchar(10), 
@@ -467,7 +468,7 @@ GO
 CREATE PROCEDURE update_extension(  extension_id_update int,
                                    credit_unit_update int (255),
                                    extension_name_update varchar(20), 
-                                   extension_type_update varchar(20), 
+                                   extension_type_update varchar(25), 
                                    no_of_hours_update int , 
                                    no_of_participants_update int (20), 
                                    extension_role_update varchar(10), 
@@ -958,11 +959,12 @@ CREATE PROCEDURE insert_studyload(
                                     course_no_insert varchar(255),
                                     emp_id_insert varchar(10),
                                     start_time_insert time,
+                                    end_time_insert time,
                                     school_insert varchar(255),
                                     no_of_days_insert int )
   BEGIN
       INSERT INTO STUDYLOAD
-      VALUES (NULL, credits_insert, course_no_insert, emp_id_insert, start_time_insert,school_insert, no_of_days_insert);    
+      VALUES (NULL, credits_insert, course_no_insert, emp_id_insert, start_time_insert,end_time_insert, school_insert, no_of_days_insert);    
       call insert_log(concat("STUDYLOAD with course_no ", course_no_insert ," has been added to the table STUDYLOAD"));
       call update_employee_studyload(emp_id_insert);
   END;
@@ -992,6 +994,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
                                       credits_insert int ,
                                       courseno_insert varchar(255) ,
                                       start_time_insert time ,
+                                      end_time_insert time,
                                       school_insert varchar(255),
                                       no_of_days_insert int,
                                       emp_id_edit varchar(10))
@@ -1000,6 +1003,7 @@ CREATE PROCEDURE update_studyload (   to_edit int,
     SET credits = credits_insert,
         course_no = courseno_insert,
         start_time = start_time_insert,
+        end_time = end_time_insert,
         school = school_insert,
         no_of_days = no_of_days_insert
     where studyload_id = to_edit AND emp_id = emp_id_edit;
@@ -1398,20 +1402,20 @@ call insert_teachingload(8, "000000005", 12);
 call insert_teachingload(9, "000000006", 12);
 call insert_teachingload(10, "000000007", 12);
 
-call insert_studyload(3,"CMSC 200","000000001","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 210","000000001","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 220","000000002","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 230","000000002","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 240","000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 250","000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 260","000000003","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 10","000000004","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","000000004","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 200","000000005","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","000000006","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 00","000000007","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 20","000000008","11:00:00","UPD",11);
-call insert_studyload(3,"CMSC 25","000000009","11:00:00","UPD",11);
+call insert_studyload(3,"CMSC 200","000000001","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 210","000000001","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 220","000000002","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 230","000000002","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 240","000000003","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 250","000000003","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 260","000000003","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 10","000000004","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 20","000000004","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 200","000000005","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 20","000000006","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 00","000000007","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 20","000000008","11:00:00","11:20:00","UPD",11);
+call insert_studyload(3,"CMSC 25","000000009","11:00:00","11:20:00","UPD",11);
 
 
 call insert_publication(8,"category1","subcategory1","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","000000003");

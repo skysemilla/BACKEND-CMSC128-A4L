@@ -85,12 +85,12 @@ router.post('/api/coworker/add', async (req, res) => {
   if (req.body.publication_id) {
     try {
       await Ctrl.addCoworker(req.body);
-      const row = Ctrl.checkIfExisting(req.body);
+      // const row = Ctrl.checkIfExisting(req.body);
 
       res.status(200).json({
         status: 200,
         message: 'Successfully added coworker',
-        data: row
+        // data: row
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -268,3 +268,4 @@ router.post('/api/publication/getCoworkers', async (req, res) => {
 });
 
 export default router;
+

@@ -214,12 +214,13 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_profile_router__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_admin_router__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_fsr_router__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_adminWork_router__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_consulHours_router__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_facultygrant_router__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_limitedpractice_router__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_profile_router__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__entities_admin_router__ = __webpack_require__(37);
 
 
 // put import routers here
@@ -230,7 +231,7 @@ module.exports = require("mysql");
 
 
 
-// import fsrRouter from './entities/fsrlist/router';
+
 
 
 
@@ -248,13 +249,13 @@ router.use(__WEBPACK_IMPORTED_MODULE_4__entities_signup_router__["a" /* default 
 router.use(__WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__["a" /* default */]);
-// router.use(fsrRouter);
-router.use(__WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_12__entities_profile_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_13__entities_admin_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_8__entities_fsr_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_9__entities_adminWork_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_10__entities_consulHours_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_11__entities_facultygrant_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_12__entities_limitedpractice_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_13__entities_profile_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_14__entities_admin_router__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
@@ -863,7 +864,7 @@ router.post('/api/publication/view', function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */](req.body);
 
           case 3:
             publication = _context.sent;
@@ -918,7 +919,7 @@ router.post('/api/publication/viewAll', function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* getPublications */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublications */](req.body);
 
           case 3:
             publications = _context2.sent;
@@ -1029,13 +1030,12 @@ router.post('/api/publication/add', function () {
 // add a coworker
 router.post('/api/coworker/add', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
-    var row;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             if (!req.body.publication_id) {
-              _context4.next = 13;
+              _context4.next = 12;
               break;
             }
 
@@ -1044,36 +1044,35 @@ router.post('/api/coworker/add', function () {
             return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addCoworker */](req.body);
 
           case 4:
-            row = __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* checkIfExisting */](req.body);
-
+            // const row = Ctrl.checkIfExisting(req.body);
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully added coworker',
-              data: row
+              message: 'Successfully added coworker'
+              // data: row
             });
-            _context4.next = 11;
+            _context4.next = 10;
             break;
 
-          case 8:
-            _context4.prev = 8;
+          case 7:
+            _context4.prev = 7;
             _context4.t0 = _context4['catch'](1);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 11:
-            _context4.next = 14;
+          case 10:
+            _context4.next = 13;
             break;
 
-          case 13:
+          case 12:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 14:
+          case 13:
           case 'end':
             return _context4.stop();
         }
       }
-    }, _callee4, _this, [[1, 8]]);
+    }, _callee4, _this, [[1, 7]]);
   }));
 
   return function (_x7, _x8) {
@@ -1091,12 +1090,12 @@ router.post('/api/publication/delete', function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */](req.body);
 
           case 3:
             publication = _context5.sent;
             _context5.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["k" /* removePublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["j" /* removePublication */](req.body);
 
           case 6:
 
@@ -1150,11 +1149,11 @@ router.post('/api/publication/edit', function () {
           case 0:
             _context6.prev = 0;
             _context6.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* editPublication */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* editPublication */](req.body);
 
           case 3:
             _context6.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublication */]({
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */]({
               id: req.body.publication_id
             });
 
@@ -1212,7 +1211,7 @@ router.get('/api/publication/viewEmployees', function () {
           case 0:
             _context7.prev = 0;
             _context7.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getEmployees */]();
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* getEmployees */]();
 
           case 3:
             publications = _context7.sent;
@@ -1264,7 +1263,7 @@ router.post('/api/publication/viewEmployeeCoworkers', function () {
           case 0:
             _context8.prev = 0;
             _context8.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* getEmployeeCoworkers */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getEmployeeCoworkers */](req.body);
 
           case 3:
             publications = _context8.sent;
@@ -1316,7 +1315,7 @@ router.get('/api/publication/viewCoworkers', function () {
           case 0:
             _context9.prev = 0;
             _context9.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getCoworkers */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getCoworkers */](req.body);
 
           case 3:
             publications = _context9.sent;
@@ -1368,7 +1367,7 @@ router.post('/api/publication/deleteCoworkers', function () {
           case 0:
             _context10.prev = 0;
             _context10.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["j" /* removeCoworkers */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* removeCoworkers */](req.body);
 
           case 3:
 
@@ -1422,7 +1421,7 @@ router.post('/api/publication/getCoworkers', function () {
           case 0:
             _context11.prev = 0;
             _context11.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getCoworkers */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getCoworkers */](req.body);
 
           case 3:
             publications = _context11.sent;
@@ -1475,18 +1474,17 @@ router.post('/api/publication/getCoworkers', function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getPublication; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return getPublications; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getPublication; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getPublications; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addPublication; });
 /* unused harmony export addPublicationLog */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addCoworker; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return checkIfExisting; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return removePublication; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return editPublication; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getEmployees; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getEmployeeCoworkers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removeCoworkers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getCoworkers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removePublication; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return editPublication; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getEmployees; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEmployeeCoworkers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removeCoworkers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getCoworkers; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
@@ -1530,26 +1528,11 @@ var getPublications = function getPublications(_ref2) {
   });
 };
 
-// export const getCoworkers = ({ id }) => {
-//   return new Promise((resolve, reject) => {
-//     const queryString = `
-//     SELECT * FROM COWORKER;`;
-
-//     db.query(queryString, (err, rows) => {
-//       if (err) {
-//         console.log(err);
-//         return reject(500);
-//       }
-
-//       return resolve(rows);
-//     });
-//   });
-// };
-
 // adds a publication
 var addPublication = function addPublication(_ref3) {
   var credit_units = _ref3.credit_units,
       category = _ref3.category,
+      subcategory = _ref3.subcategory,
       funding = _ref3.funding,
       title = _ref3.title,
       role = _ref3.role,
@@ -1559,25 +1542,32 @@ var addPublication = function addPublication(_ref3) {
 
   return new Promise(function (resolve, reject) {
     if (start_date === '' || end_date === '') {
-      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, null, null, ?);\n        ';
+      var queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, null, null, ?);\n        ';
 
-      var _values = [credit_units, category, funding, title, role, emp_id];
+      var values = [credit_units, category, subcategory, funding, title, role, emp_id];
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+        if (err) {
+          console.log(err);
+          console.log('ERROR!!');
+          return reject(500);
+        }
+
+        return resolve(results.insertId);
+      });
     } else {
-      var _queryString2 = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
 
-      var _values2 = [credit_units, category, funding, title, role, start_date, end_date, emp_id];
+      var _values = [credit_units, category, subcategory, funding, title, role, start_date, end_date, emp_id];
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, _values, function (err, results) {
+        if (err) {
+          console.log(err);
+          console.log('ERROR!!');
+          return reject(500);
+        }
+
+        return resolve(results.insertId);
+      });
     }
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
-      if (err) {
-        console.log(err);
-        console.log('ERROR!!');
-        return reject(500);
-      }
-
-      // console.log(results.insertId);
-      return resolve(results.insertId);
-    });
   });
 };
 
@@ -1596,7 +1586,6 @@ var addPublicationLog = function addPublicationLog(_ref4) {
         return reject(500);
       }
 
-      // console.log(results.insertId);
       return resolve(results);
     });
   });
@@ -1618,36 +1607,14 @@ var addCoworker = function addCoworker(_ref5) {
         return reject(500);
       }
 
-      // console.log(inserted:"+results.insertId);
       return resolve(results.insertId);
     });
   });
 };
 
-// checks if publication_id and coworker_id exists
-var checkIfExisting = function checkIfExisting(_ref6) {
-  var coworker_id = _ref6.coworker_id,
-      publication_id = _ref6.publication_id;
-
-  return new Promise(function (resolve, reject) {
-    var queryString = '\n            CALL view_publication_coworkers(?, ?);\n        ';
-
-    var values = [coworker_id, publication_id];
-
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, rows) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      return resolve(rows[0]);
-    });
-  });
-};
-
 // removes a publication
-var removePublication = function removePublication(_ref7) {
-  var id = _ref7.id;
+var removePublication = function removePublication(_ref6) {
+  var id = _ref6.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      CALL delete_publication(?);\n    ';
@@ -1668,37 +1635,57 @@ var removePublication = function removePublication(_ref7) {
 };
 
 // edits a publication
-var editPublication = function editPublication(_ref8) {
-  var credit_units = _ref8.credit_units,
-      category = _ref8.category,
-      funding = _ref8.funding,
-      title = _ref8.title,
-      role = _ref8.role,
-      start_date = _ref8.start_date,
-      end_date = _ref8.end_date,
-      publication_id = _ref8.publication_id;
+var editPublication = function editPublication(_ref7) {
+  var credit_units = _ref7.credit_units,
+      category = _ref7.category,
+      subcategory = _ref7.subcategory,
+      funding = _ref7.funding,
+      title = _ref7.title,
+      role = _ref7.role,
+      start_date = _ref7.start_date,
+      end_date = _ref7.end_date,
+      publication_id = _ref7.publication_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+    if (start_date === '' || end_date === '') {
+      var queryString = '\n        CALL update_publication(?, ?, ?, ?, ?, ?, null, null, ?);\n      ';
 
-    var values = [credit_units, category, funding, title, role, start_date, end_date, publication_id];
+      var values = [credit_units, category, subcategory, funding, title, role, publication_id];
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
 
-      if (!res.affectedRows) {
-        return reject(404);
-      }
+        if (!res.affectedRows) {
+          return reject(404);
+        }
 
-      return resolve();
-    });
+        return resolve();
+      });
+    } else {
+      var _queryString2 = '\n        CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?, ?);\n      ';
+
+      var _values2 = [credit_units, category, subcategory, funding, title, role, start_date, end_date, publication_id];
+
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString2, _values2, function (err, res) {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
+
+        if (!res.affectedRows) {
+          return reject(404);
+        }
+
+        return resolve();
+      });
+    }
   });
 };
 
-// gets all publications
+// gets employees
 var getEmployees = function getEmployees() {
   return new Promise(function (resolve, reject) {
     var queryString = '\n      SELECT * from EMPLOYEE;\n    ';
@@ -1715,8 +1702,8 @@ var getEmployees = function getEmployees() {
 };
 
 // gets all employee except self
-var getEmployeeCoworkers = function getEmployeeCoworkers(_ref9) {
-  var empid = _ref9.empid;
+var getEmployeeCoworkers = function getEmployeeCoworkers(_ref8) {
+  var empid = _ref8.empid;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      SELECT * from EMPLOYEE WHERE emp_id != ?;\n    ';
@@ -1732,9 +1719,9 @@ var getEmployeeCoworkers = function getEmployeeCoworkers(_ref9) {
   });
 };
 
-// removes a publication
-var removeCoworkers = function removeCoworkers(_ref10) {
-  var id = _ref10.id;
+// removes coworkers of a publication
+var removeCoworkers = function removeCoworkers(_ref9) {
+  var id = _ref9.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      CALL delete_coworker(?);\n    ';
@@ -1754,9 +1741,9 @@ var removeCoworkers = function removeCoworkers(_ref10) {
   });
 };
 
-// gets all publications
-var getCoworkers = function getCoworkers(_ref11) {
-  var id = _ref11.id;
+// gets all coworkers of a publication
+var getCoworkers = function getCoworkers(_ref10) {
+  var id = _ref10.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      SELECT c.emp_id, e.f_name, e.l_name FROM COWORKER c, EMPLOYEE e WHERE c.emp_id = e.emp_id and publication_id = ?;\n    ';
@@ -1872,13 +1859,14 @@ var addEmployee = function addEmployee(_ref) {
       department = _ref.department,
       college = _ref.college,
       emp_type = _ref.emp_type,
+      emp_type_no = _ref.emp_type_no,
       is_full_time = _ref.is_full_time,
       email = _ref.email;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, \'2nd\', \'2017-2018\', ?, ?, 1, 0);\n    ';
+    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);\n    ';
 
-    var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, emp_type, is_full_time, email];
+    var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, emp_type, emp_type_no, is_full_time, email];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
@@ -5216,13 +5204,14 @@ var editFaculty = function editFaculty(_ref) {
       dept = _ref.dept,
       college = _ref.college,
       emptype = _ref.emptype,
+      emptypeno = _ref.emptypeno,
       email = _ref.email,
       is_full_time = _ref.is_full_time;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);\n    ';
+    var queryString = '\n      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);\n    ';
 
-    var values = [empid, username, password, fname, mname, lname, dept, college, emptype, email, is_full_time];
+    var values = [empid, username, password, fname, mname, lname, dept, college, emptype, emptypeno, email, is_full_time];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -5561,7 +5550,7 @@ var enableFaculty = function enableFaculty(_ref) {
   });
 };
 
-// enables a faculty
+// disables a faculty
 var disableFaculty = function disableFaculty(_ref2) {
   var empid = _ref2.empid;
 
@@ -5615,6 +5604,183 @@ var getFacultyById = function getFacultyById(_ref4) {
     var queryString = '\n        SELECT \n        *\n        FROM \n        EMPLOYEE\n        WHERE\n        emp_id = ?\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(40);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+// gets all pending fsr
+router.get('/api/fsr/viewPending', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var fsr, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getPendingFSR */]();
+
+          case 3:
+            fsr = _context.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: fsr
+            });
+            _context.next = 16;
+            break;
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context['catch'](0);
+            message = '';
+            _context.t1 = _context.t0;
+            _context.next = _context.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[0, 7]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+// gets all approved fsr
+router.get('/api/fsr/viewApproved', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var fsr, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["getApprovedFSR"]();
+
+          case 3:
+            fsr = _context2.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: fsr
+            });
+            _context2.next = 16;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context2.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 7]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export getAllFSR */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getPendingFSR; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+// gets all fsr
+var getAllFSR = function getAllFSR() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n            *\n        FROM \n            EMPLOYEE a, EMPLOYEE_FSR b\n        WHERE\n            a.emp_id = b.emp_id\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// gets all pending FSR
+var getPendingFSR = function getPendingFSR() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n    SELECT \n        *\n    FROM \n        EMPLOYEE\n    WHERE\n        emp_id\n    AND\n        is_being_approved = 1;\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);

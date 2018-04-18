@@ -4,9 +4,9 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets extension
-router.get('/api/extension/viewAll', async (req, res) => {
+router.post('/api/extension/viewByID', async (req, res) => {
   try {
-    const extensions = await Ctrl.getExtensions();
+    const extensions = await Ctrl.getExtensionByID(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all Extensions',
@@ -79,13 +79,13 @@ router.post('/api/extension/add', async (req, res) => {
 // removes an extension
 router.post('/api/extension/delete', async (req, res) => {
   try {
-    const extension = await Ctrl.getExtension(req.body);
+    // const extension = await Ctrl.getExtension(req.body);
     await Ctrl.removeExtension(req.body);
 
     res.status(200).json({
       status: 200,
       message: 'Successfully removed sample',
-      data: extension
+      // data: extension
     });
   } catch (status) {
     let message = '';
@@ -105,12 +105,12 @@ router.post('/api/extension/delete', async (req, res) => {
 router.post('/api/extension/edit', async (req, res) => {
   try {
     await Ctrl.editExtension(req.body);
-    const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
+    // const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
 
     res.status(200).json({
       status: 200,
       message: 'Successfully edited extension',
-      data: extensionEdited
+      // data: extensionEdited
     });
   } catch (status) {
     let message = '';
@@ -127,3 +127,4 @@ router.post('/api/extension/edit', async (req, res) => {
 });
 
 export default router;
+

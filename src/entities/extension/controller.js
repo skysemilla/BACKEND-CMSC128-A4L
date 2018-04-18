@@ -42,26 +42,6 @@ export const getExtensionByID = ({ id }) => {
   });
 };
 
-// gets a extensionByID
-export const getExtensionByID = ({ id }) => {
-  return new Promise((resolve, reject) => {
-    const queryString = `SELECT * from EXTENSION where extension_id = ?`;
-
-    db.query(queryString, id, (err, rows) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      if (!rows.length) {
-        return reject(404);
-      }
-
-      return resolve(rows);
-    });
-  });
-};
-
 
 // gets all extensions
 export const getExtensions = () => {

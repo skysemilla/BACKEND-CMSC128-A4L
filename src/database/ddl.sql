@@ -282,8 +282,6 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
                                   college_insert varchar(50),
                                   emp_type_insert varchar(255),
                                   emp_type_no_insert int,
-                                  semester_insert varchar(20),
-                                  year_insert varchar(20),
                                   is_studying boolean,
                                   email_insert varchar(255),
                                   is_active_insert boolean,
@@ -299,7 +297,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     END IF;
 
     INSERT INTO EMPLOYEE 
-    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert,emp_type_no_insert ,semester_insert, year_insert, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
+    VALUES (NULL, emp_id_insert, username_insert, sha2(password_insert,256), type_insert, f_name_insert, m_name_insert, l_name_insert, 0, department_insert, college_insert, emp_type_insert,emp_type_no_insert ,NULL, NULL, email_insert, is_studying, NULL, 0, @max_study_units,0, @min_teaching_units,is_active_insert,is_being_approved_insert);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
     call insert_study_credentials(NULL, NULL, emp_id_insert, 1, 0);
     call insert_faculty_grant(NULL, NULL,NULL,NULL,NULL,NULL,NULL, emp_id_insert);
@@ -731,8 +729,15 @@ DROP PROCEDURE IF EXISTS view_subjects;
 DROP PROCEDURE IF EXISTS add_subject;
 DROP PROCEDURE IF EXISTS delete_subject;
 DROP PROCEDURE IF EXISTS update_subject;
+DROP PROCEDURE IF EXISTS view_subject_by_id;
 
 DELIMITER GO
+
+CREATE PROCEDURE view_subject_by_id( subject_id_v int )
+  BEGIN
+    Select * from subject where subject_id = subject_id_v;
+  END;
+GO
 
 CREATE PROCEDURE view_subjects()
   BEGIN

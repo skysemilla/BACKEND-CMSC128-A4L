@@ -214,12 +214,13 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_profile_router__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_admin_router__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_fsr_router__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_adminWork_router__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_consulHours_router__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_facultygrant_router__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_limitedpractice_router__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_profile_router__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__entities_admin_router__ = __webpack_require__(37);
 
 
 // put import routers here
@@ -230,7 +231,7 @@ module.exports = require("mysql");
 
 
 
-// import fsrRouter from './entities/fsrlist/router';
+
 
 
 
@@ -248,13 +249,13 @@ router.use(__WEBPACK_IMPORTED_MODULE_4__entities_signup_router__["a" /* default 
 router.use(__WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__["a" /* default */]);
 router.use(__WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__["a" /* default */]);
-// router.use(fsrRouter);
-router.use(__WEBPACK_IMPORTED_MODULE_8__entities_adminWork_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_9__entities_consulHours_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_10__entities_facultygrant_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_11__entities_limitedpractice_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_12__entities_profile_router__["a" /* default */]);
-router.use(__WEBPACK_IMPORTED_MODULE_13__entities_admin_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_8__entities_fsr_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_9__entities_adminWork_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_10__entities_consulHours_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_11__entities_facultygrant_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_12__entities_limitedpractice_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_13__entities_profile_router__["a" /* default */]);
+router.use(__WEBPACK_IMPORTED_MODULE_14__entities_admin_router__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
@@ -5549,7 +5550,7 @@ var enableFaculty = function enableFaculty(_ref) {
   });
 };
 
-// enables a faculty
+// disables a faculty
 var disableFaculty = function disableFaculty(_ref2) {
   var empid = _ref2.empid;
 
@@ -5603,6 +5604,183 @@ var getFacultyById = function getFacultyById(_ref4) {
     var queryString = '\n        SELECT \n        *\n        FROM \n        EMPLOYEE\n        WHERE\n        emp_id = ?\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(40);
+
+
+var _this = this;
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+
+// gets all pending fsr
+router.get('/api/fsr/viewPending', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
+    var fsr, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getPendingFSR */]();
+
+          case 3:
+            fsr = _context.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: fsr
+            });
+            _context.next = 16;
+            break;
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context['catch'](0);
+            message = '';
+            _context.t1 = _context.t0;
+            _context.next = _context.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[0, 7]]);
+  }));
+
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+// gets all approved fsr
+router.get('/api/fsr/viewApproved', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
+    var fsr, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["getApprovedFSR"]();
+
+          case 3:
+            fsr = _context2.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: fsr
+            });
+            _context2.next = 16;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2['catch'](0);
+            message = '';
+            _context2.t1 = _context2.t0;
+            _context2.next = _context2.t1 === 500 ? 13 : 15;
+            break;
+
+          case 13:
+            message = 'Internal server error';
+            return _context2.abrupt('break', 15);
+
+          case 15:
+
+            res.status(200).json({ status: _context2.t0, message: message });
+
+          case 16:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this, [[0, 7]]);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export getAllFSR */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getPendingFSR; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
+
+
+// gets all fsr
+var getAllFSR = function getAllFSR() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n            *\n        FROM \n            EMPLOYEE a, EMPLOYEE_FSR b\n        WHERE\n            a.emp_id = b.emp_id\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// gets all pending FSR
+var getPendingFSR = function getPendingFSR() {
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n    SELECT \n        *\n    FROM \n        EMPLOYEE\n    WHERE\n        emp_id\n    AND\n        is_being_approved = 1;\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);

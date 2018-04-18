@@ -26,7 +26,7 @@ export const enableFaculty = ({ empid }) => {
   });
 };
 
-// enables a faculty
+// disables a faculty
 export const disableFaculty = ({ empid }) => {
   return new Promise((resolve, reject) => {
     const queryString = `

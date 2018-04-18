@@ -12,12 +12,13 @@ export const addEmployee = ({
   department,
   college,
   emp_type,
+  emp_type_no,
   is_full_time,
   email
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '2nd', '2017-2018', ?, ?, 1, 0);
+      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
     `;
 
     const values = [
@@ -31,6 +32,7 @@ export const addEmployee = ({
       department,
       college,
       emp_type,
+      emp_type_no,
       is_full_time,
       email
     ];

@@ -1872,13 +1872,14 @@ var addEmployee = function addEmployee(_ref) {
       department = _ref.department,
       college = _ref.college,
       emp_type = _ref.emp_type,
+      emp_type_no = _ref.emp_type_no,
       is_full_time = _ref.is_full_time,
       email = _ref.email;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, \'2nd\', \'2017-2018\', ?, ?, 1, 0);\n    ';
+    var queryString = '\n      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);\n    ';
 
-    var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, emp_type, is_full_time, email];
+    var values = [emp_id, username, password, type, f_name, m_name, l_name, department, college, emp_type, emp_type_no, is_full_time, email];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {

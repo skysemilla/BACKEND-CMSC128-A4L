@@ -40,26 +40,11 @@ export const getPublications = ({ empid }) => {
   });
 };
 
-// export const getCoworkers = ({ id }) => {
-//   return new Promise((resolve, reject) => {
-//     const queryString = `
-//     SELECT * FROM COWORKER;`;
-
-//     db.query(queryString, (err, rows) => {
-//       if (err) {
-//         console.log(err);
-//         return reject(500);
-//       }
-
-//       return resolve(rows);
-//     });
-//   });
-// };
-
 // adds a publication
 export const addPublication = ({
   credit_units,
   category,
+  subcategory,
   funding,
   title,
   role,
@@ -68,31 +53,47 @@ export const addPublication = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?);
+    if (start_date === '' || end_date === '') {
+      const queryString = `
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, null, null, ?);
         `;
 
-    const values = [
-      credit_units,
-      category,
-      funding,
-      title,
-      role,
-      start_date,
-      end_date,
-      emp_id
-    ];
+      const values = [credit_units, category, subcategory, funding, title, role, emp_id];
+      db.query(queryString, values, (err, results) => {
+        if (err) {
+          console.log(err);
+          console.log('ERROR!!');
+          return reject(500);
+        }
 
-    db.query(queryString, values, (err, results) => {
-      if (err) {
-        console.log(err);
-        console.log('ERROR!!');
-        return reject(500);
-      }
+        return resolve(results.insertId);
+      });
+    } else {
+      const queryString = `
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        `;
 
-      // console.log(results.insertId);
-      return resolve(results.insertId);
-    });
+      const values = [
+        credit_units,
+        category,
+        subcategory,
+        funding,
+        title,
+        role,
+        start_date,
+        end_date,
+        emp_id
+      ];
+      db.query(queryString, values, (err, results) => {
+        if (err) {
+          console.log(err);
+          console.log('ERROR!!');
+          return reject(500);
+        }
+
+        return resolve(results.insertId);
+      });
+    }
   });
 };
 
@@ -111,7 +112,6 @@ export const addPublicationLog = ({ title }) => {
         return reject(500);
       }
 
-      // console.log(results.insertId);
       return resolve(results);
     });
   });
@@ -132,28 +132,7 @@ export const addCoworker = ({ coworker_id, publication_id }) => {
         return reject(500);
       }
 
-      // console.log(inserted:"+results.insertId);
       return resolve(results.insertId);
-    });
-  });
-};
-
-// checks if publication_id and coworker_id exists
-export const checkIfExisting = ({ coworker_id, publication_id }) => {
-  return new Promise((resolve, reject) => {
-    const queryString = `
-            CALL view_publication_coworkers(?, ?);
-        `;
-
-    const values = [coworker_id, publication_id];
-
-    db.query(queryString, values, (err, rows) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
-
-      return resolve(rows[0]);
     });
   });
 };
@@ -184,6 +163,7 @@ export const removePublication = ({ id }) => {
 export const editPublication = ({
   credit_units,
   category,
+  subcategory,
   funding,
   title,
   role,
@@ -192,37 +172,68 @@ export const editPublication = ({
   publication_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-      CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?);
-    `;
+    if (start_date === '' || end_date === '') {
+      const queryString = `
+        CALL update_publication(?, ?, ?, ?, ?, ?, null, null, ?);
+      `;
 
-    const values = [
-      credit_units,
-      category,
-      funding,
-      title,
-      role,
-      start_date,
-      end_date,
-      publication_id
-    ];
+      const values = [
+        credit_units,
+        category,
+        subcategory,
+        funding,
+        title,
+        role,
+        publication_id
+      ];
 
-    db.query(queryString, values, (err, res) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
+      db.query(queryString, values, (err, res) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
 
-      if (!res.affectedRows) {
-        return reject(404);
-      }
+        if (!res.affectedRows) {
+          return reject(404);
+        }
 
-      return resolve();
-    });
+        return resolve();
+      });
+
+    }else{
+      const queryString = `
+        CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?, ?);
+      `;
+
+      const values = [
+        credit_units,
+        category,
+        subcategory,
+        funding,
+        title,
+        role,
+        start_date,
+        end_date,
+        publication_id
+      ];
+
+      db.query(queryString, values, (err, res) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
+
+        if (!res.affectedRows) {
+          return reject(404);
+        }
+
+        return resolve();
+      });
+    }
   });
 };
 
-// gets all publications
+// gets employees
 export const getEmployees = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -258,7 +269,7 @@ export const getEmployeeCoworkers = ({ empid }) => {
   });
 };
 
-// removes a publication
+// removes coworkers of a publication
 export const removeCoworkers = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -280,7 +291,7 @@ export const removeCoworkers = ({ id }) => {
   });
 };
 
-// gets all publications
+// gets all coworkers of a publication
 export const getCoworkers = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -297,3 +308,4 @@ export const getCoworkers = ({ id }) => {
     });
   });
 };
+

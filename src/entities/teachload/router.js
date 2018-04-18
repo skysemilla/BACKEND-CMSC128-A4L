@@ -5,7 +5,7 @@ import { isNull } from 'util';
 const router = Router();
 
 router.post('/api/teachload/add', async (req, res) => {
-  console.log(req)
+  console.log(req.body);
   if (
     req.body.no_of_students &&
     req.body.subject_code &&
@@ -66,12 +66,13 @@ router.post('/api/teachload/edit/', async (req, res) => {
     req.body.start_time &&
     req.body.end_time &&
     req.body.hours &&
-    req.body.creditw
+    req.body.creditw &&
+    req.body.teachingload_id
   ) {
     try {
       await Ctrl.editTeachLoad(req.body);
-      const sample = await Ctrl.getTeachEmp({
-        emp_id: req.body.emp_id
+      const sample = await Ctrl.getTeachLoad({
+        teachingload_id: req.body.teachingload_id
       });
 
       res.status(200).json({

@@ -3,9 +3,7 @@ import db from '../../database';
 // gets extensions
 export const getExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-          SELECT * from EXTENSION where emp_id = ?;
-        `;
+    const queryString = `SELECT * from EXTENSION where emp_id = ?`;
 
     db.query(queryString, id, (err, rows) => {
       if (err) {
@@ -43,6 +41,7 @@ export const getExtensionByID = ({ id }) => {
     });
   });
 };
+
 
 // gets all extensions
 export const getExtensions = () => {

@@ -4,20 +4,19 @@ import * as Ctrl from './controller';
 const router = Router();
 
 router.post('/api/position/add', async (req, res) => {
+  console.log(req.body);
   if (
     req.body.office &&
     req.body.credit_units &&
+    req.body.nature_of_work &&
     req.body.emp_id
   ) {
-    try {  
+    try {
       const id = await Ctrl.addPosition(req.body);
-      // const sample = await Ctrl.getPosition({ id });
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully added position',
-        // data: sample
-
+        message: 'Successfully added position'
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -52,15 +51,16 @@ router.post('/api/position/delete', async (req, res) => {
 });
 
 //edit a position
-router.put('/api/position/edit', async (req, res) => {
+router.post('/api/position/edit', async (req, res) => {
+  console.log(req.body);
   try {
     await Ctrl.editPosition(req.body);
-    const positionEdited = await Ctrl.getPosition({ id: req.body.id });
+    const position = await Ctrl.getPosition({ id: req.body.id });
 
     res.status(200).json({
       status: 200,
       message: 'Successfully edited position',
-      data: positionEdited
+      data: position
     });
   } catch (status) {
     let message = '';
@@ -98,14 +98,13 @@ router.post('/api/position/view', async (req, res) => {
   }
 });
 
-
 router.get('/api/position/viewAll', async (req, res) => {
   try {
-    const subjects = await Ctrl.getAllPositions();
+    const positions = await Ctrl.getAllPositions();
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all positions',
-      data: subjects
+      data: positions
     });
   } catch (status) {
     let message = '';

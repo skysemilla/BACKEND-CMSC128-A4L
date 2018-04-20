@@ -5,14 +5,11 @@ export const addConsulHours = ({
   consultation_end_time,
   consultation_place,
   day,
-},
-  json
-) => {
+  emp_id
+}) => {
   return new Promise((resolve, reject) => {
-    const emp_id =  json.emp_id;
-
     const queryString = `
-      CALL
+      CALL 
       insert_consultation(?, ?, ?, ?, ?);
     `;
 
@@ -36,14 +33,15 @@ export const addConsulHours = ({
 };
 
 // removes consultation hours
-export const removeConsultation = ({ consultation_id }) => {
+export const removeConsulHours = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
     CALL 
-      delete_consultation(?)
+    delete_consultation(?)
+     
     `;
 
-    db.query(queryString, consultation_id, (err, results) => {
+    db.query(queryString, id, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -59,20 +57,14 @@ export const removeConsultation = ({ consultation_id }) => {
 };
 
 // get a consultation hour
-export const getConsultation = ( consultation_id ) => {
+export const getConsultation = ({ id }) => {
   return new Promise((resolve, reject) => {
-
     const queryString = `
-          SELECT 
-            consultation_start_time, consultation_end_time, consultation_place
-          FROM 
-            CONSULTATION
-          WHERE
-            consultation_id = ?;
+          CALL
+          view_consultation_by_ID(?);
         `;
 
-
-    db.query(queryString, emp_id , (err, rows) => {
+    db.query(queryString, id, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -91,8 +83,8 @@ export const getConsultation = ( consultation_id ) => {
 export const getAllConsulHours = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL
-      view_consultation()
+        CALL
+        view_consultation()
         `;
 
     db.query(queryString, (err, rows) => {
@@ -105,7 +97,7 @@ export const getAllConsulHours = () => {
         return reject(404);
       }
 
-      return resolve(rows);
+      return resolve(rows[0]);
     });
   });
 };
@@ -115,12 +107,12 @@ export const editConsulHours = ({
   consultation_end_time,
   consultation_place,
   day,
-  emp_id
+  consultation_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
      CALL 
-     update_consultation(?, ?, ?, ?, ?)
+     update_consultation(?, ?, ?, ?, ?);
     `;
 
     const values = [
@@ -128,7 +120,7 @@ export const editConsulHours = ({
       consultation_end_time,
       consultation_place,
       day,
-      emp_id
+      consultation_id
     ];
 
     db.query(queryString, values, (err, res) => {

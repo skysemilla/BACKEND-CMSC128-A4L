@@ -17,7 +17,7 @@ router.post('/api/studyload/add', async (req, res) => {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
       const id = await Ctrl.addStudyLoad(req.body,req.session.user);
-      const sample = await Ctrl.getStudyLoad({ studyload_id: id });
+      const sample = await Ctrl.getStudyLoad(  id );
 
       res.status(200).json({
         status: 200,

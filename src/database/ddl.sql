@@ -502,6 +502,7 @@ DELIMITER ;
 
 /*START PROCEDURES FOR POSITION*/
 DROP PROCEDURE IF EXISTS view_position;
+DROP PROCEDURE IF EXISTS view_position_by_ID;
 DROP PROCEDURE IF EXISTS insert_position;
 DROP PROCEDURE IF EXISTS delete_position;
 DROP PROCEDURE IF EXISTS update_position;
@@ -1098,6 +1099,12 @@ GO
 CREATE PROCEDURE view_consultation_by_ID( consultation_id_view varchar(20))
   BEGIN
     SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.consultation_id = consultation_id_view;
+  END
+GO
+
+CREATE PROCEDURE view_employee_consultation( emp_id_v varchar(20) )
+  BEGIN
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id_v;
   END
 GO
 

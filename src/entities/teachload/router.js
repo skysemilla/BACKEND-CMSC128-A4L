@@ -5,29 +5,53 @@ import { isNull } from 'util';
 const router = Router();
 
 router.post('/api/teachload/add', async (req, res) => {
-  console.log(req.body);
   if (
     req.body.no_of_students &&
     req.body.subject_code &&
-    req.body.section_code &&
-    req.body.room &&
-    req.body.days &&
-    req.body.start_time &&
-    req.body.end_time &&
-    req.body.hours &&
-    req.body.creditw
+    req.body.section_code 
   ) {
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
-      const id = await Ctrl.addTeachLoad(req.body, req.session.user);
-      const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
+      // const existHour = await Ctrl.checkExistHour(req.body, req.session.user);
+      // const existDay = await Ctrl.checkExistDay(req.body, req.session.user);
+      // if(existHour===0){
+      //   if(existDay===0){
+      //     const id = await Ctrl.addTeachLoad(req.body, req.session.user);
+      //     const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
 
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully created teaching load',
-        data: sample
-      });
+      //     res.status(200).json({
+      //       status: 200,
+      //       message: 'Successfully created teaching load',
+      //       data: sample
+      //     });
+      //   }else{
+      //     console.log('Overlapping time and day error!');
+      //     console.log(existHour);
+      //     console.log(existDay);
+      //     res.status(400).json({ status: 400, message: ' Bad Request' });
+      //   }
+      // }
+
+      // if(existDay===0){
+      //   if(existHour===0){
+          const id = await Ctrl.addTeachLoad(req.body, req.session.user);
+          const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
+
+          res.status(200).json({
+            status: 200,
+            message: 'Successfully created teaching load',
+            data: sample
+          });
+      //   }else{
+      //     console.log('Overlapping time and day error!');
+      //     console.log(existHour);
+      //     console.log(existDay);
+      //     res.status(400).json({ status: 400, message: ' Bad Request' });
+      //   }
+      // }   
+     
+        
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
     }
@@ -57,16 +81,9 @@ router.post('/api/teachload/delete/', async (req, res) => {
 
 router.post('/api/teachload/edit/', async (req, res) => {
   if (
-    req.body.emp_id &&
     req.body.no_of_students &&
     req.body.subject_code &&
     req.body.section_code &&
-    req.body.room &&
-    req.body.days &&
-    req.body.start_time &&
-    req.body.end_time &&
-    req.body.hours &&
-    req.body.creditw &&
     req.body.teachingload_id
   ) {
     try {
@@ -87,6 +104,36 @@ router.post('/api/teachload/edit/', async (req, res) => {
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
+
+router.post('/api/teachingload/viewByTeachloadId', async (req, res) => {
+  console.log(req.body);
+  if(
+    req.session.user &&
+    req.body.teachingload_id
+  ){
+    try {
+      const book = await Ctrl.getTeachLoad(req.body.teachingload_id);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched study load',
+        data: book
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Study load not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
+    }
+  }else{
+    res.status(400).json({ status: 400, message: 'Bad request' });
+  }
+  });
 
 router.post('/api/teachload/view', async (req, res) => {
   try {

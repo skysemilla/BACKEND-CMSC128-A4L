@@ -9,7 +9,7 @@ export const addTeachLoad = ({ no_of_students, subject_code, section_code, room,
         VALUES
           (?, ?, (SELECT subject_id FROM SUBJECT 
                   WHERE subject_code = ? AND
-                        section_code = ? ));
+                        section_code = ? limit 1));
     `;
     //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
     // console.log(no_of_students);
@@ -25,6 +25,73 @@ export const addTeachLoad = ({ no_of_students, subject_code, section_code, room,
     });
   });
 };
+
+export const checkExistDay = ({ subject_code, section_code}, json) =>{
+  return new Promise((resolve, reject) =>{
+    const emp_id = json.emp_id;
+    const queryString = `
+      SELECT COUNT(*) as count FROM 
+      (SELECT day1, day2 FROM SUBJECT_DAY WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD WHERE emp_id = ?))a, 
+      (SELECT day1, day2 FROM SUBJECT_DAY WHERE subject_id = (SELECT subject_id from SUBJECT WHERE subject_code = ? and section_code = ? limit 1))b
+      WHERE a.day1 = b.day1 OR
+      a.day1 = b.day2 OR
+      a.day2 = b.day1 OR
+      a.day2 = b.day2
+    `
+
+    const values = [emp_id, subject_code, section_code];
+    db.query(queryString, values, (err, results) =>{
+      console.log(results);
+      if (err){
+        console.log('swswswswswsw');
+        return reject(500);
+      }
+      return resolve(results[0].count);
+    });
+  });
+}
+
+export const checkExistHour = ({ subject_code, section_code}, json) =>{
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    //  const queryString = `
+    //   SELECT COUNT(*) as count FROM (SELECT start_time, end_time FROM SUBJECT 
+    //   WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
+    //   WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
+    //   SUBJECT WHERE subject_code = ? and 
+    //   section_code = ? limit 1)b 
+    //   WHERE
+    //   (b.start_time < b.end_time and b.end_time < a.start_time) OR 
+    //   (b.start_time > a.end_time and b.end_time > b.start_time) OR 
+    //   (a.start_time > b.start_time and b.end_time > b.start_time);
+    // `;
+
+    const queryString = `
+SELECT COUNT(*) as count FROM 
+(SELECT start_time, end_time FROM SUBJECT 
+WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
+WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
+SUBJECT WHERE subject_code = ? and 
+section_code = ? limit 1)b 
+WHERE(
+(b.start_time < b.end_time and b.end_time < a.start_time) OR 
+(b.start_time > a.end_time and b.end_time > b.start_time) OR 
+(a.start_time > b.start_time and b.end_time > b.start_time) OR
+(b.start_time < a.end_time and b.end_time > a.end_time));
+    `;
+    const values = [emp_id,subject_code, section_code];
+
+    db.query(queryString, values, (err, results) =>{
+      console.log(results);
+      if (err){
+        console.log("wsswswswswsws");
+        return reject(500);
+      }
+
+      return resolve(results[0].count);
+    });
+  })
+}
 
 export const removeTeachLoad = ({ teachingload_id }) => {
   return new Promise((resolve, reject) => {
@@ -142,3 +209,14 @@ export const getAllTeachLoad = () => {
     });
   });
 };
+// SELECT COUNT(*) as count FROM 
+// (SELECT start_time, end_time FROM SUBJECT 
+// WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
+// WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
+// SUBJECT WHERE subject_code = ? and 
+// section_code = ? limit 1)b 
+// WHERE(
+// (b.start_time < b.end_time and b.end_time < a.start_time) OR 
+// (b.start_time > a.end_time and b.end_time > b.start_time) OR 
+// (a.start_time > b.start_time and b.end_time > b.start_time) OR
+// (b.start_time < a.end_time and b.end_time > a.end_time));

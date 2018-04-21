@@ -821,9 +821,12 @@ DROP PROCEDURE IF EXISTS is_teaching_lecture;
 
 DELIMITER GO
 
-CREATE PROCEDURE view_employee_teachingload(emp_id varchar(20))
+CREATE PROCEDURE view_employee_teachingload(emp_id1 varchar(20))
+  -- BEGIN 
+  --   SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
+  -- END;
   BEGIN 
-    SELECT a.teachingload_id, a.emp_id , b.subject_id, b.subject_code, b.section_code, b.isLecture, a.no_of_students, b.units, b.room, b.start_time, b.end_time from TEACHINGLOAD as a join SUBJECT as b on a.subject_id = b.subject_id where a.emp_id = emp_id;
+    select tl.teachingload_id, tl.emp_id, tl.subject_id, s.subject_code, s.section_code, s.room, sd.day, s.start_time, s.end_time, tl.no_of_students from (select * from TEACHINGLOAD where emp_id=emp_id1)tl, SUBJECT s, SUBJECT_DAY sd where tl.subject_id=s.subject_id and s.subject_id=sd.subject_id;
   END;
 GO
 

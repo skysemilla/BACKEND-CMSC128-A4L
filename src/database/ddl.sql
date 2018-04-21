@@ -600,12 +600,11 @@ CREATE PROCEDURE insert_publication(
                 role varchar(255),
                 start_date date,
                 end_date date,
-                filename varchar(255),
                 emp_id varchar(9)
 )
   BEGIN
       INSERT INTO PUBLICATION
-        values (NULL, credit_units, category,subcategory, funding, title, role, start_date, end_date, file, emp_id);
+        values (NULL, credit_units, category,subcategory, funding, title, role, start_date, end_date, NULL, emp_id);
         call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;

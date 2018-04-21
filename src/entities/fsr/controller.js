@@ -1,13 +1,14 @@
 import db from '../../database';
 
-// gets all fsr
-export const getAllFSR = () => {
+// gets all approved fsr
+export const getApprovedFSR = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
         SELECT 
             *
         FROM 
-            EMPLOYEE a, EMPLOYEE_FSR b
+            EMPLOYEE a, 
+            EMPLOYEE_FSR b
         WHERE
             a.emp_id = b.emp_id
     `;

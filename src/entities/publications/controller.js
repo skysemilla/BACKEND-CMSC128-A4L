@@ -55,7 +55,7 @@ export const addPublication = ({
   return new Promise((resolve, reject) => {
     if (start_date === '' || end_date === '') {
       const queryString = `
-          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, null, null, ?);
+          call insert_publication( ?, ?, ?, ?, ?, ?, NULL, NULL, ? );
         `;
 
       const values = [credit_units, category, subcategory, funding, title, role, emp_id];

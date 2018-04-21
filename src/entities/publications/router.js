@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as Ctrl from './controller';
+var multer  = require('multer')
 
 const router = Router();
 
@@ -266,6 +267,28 @@ router.post('/api/publication/getCoworkers', async (req, res) => {
     res.status(200).json({ status, message });
   }
 });
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'src/uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + ".pdf")
+  }
+})
+
+var upload = multer({ storage: storage }).any();
+
+router.post('/api/publication/attach', function (req, res, next) {
+  upload(req, res, (err) => {
+    if(err) {
+      console.log("sux");
+    }else{
+      console.log(req.File);
+      console.log("success");
+    }
+  })
+})
 
 export default router;
 

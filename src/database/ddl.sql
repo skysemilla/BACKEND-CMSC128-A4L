@@ -76,6 +76,7 @@ create table PUBLICATION(
   role varchar(255),
   start_date date,
   end_date date,
+  filename varchar(255),
   emp_id varchar(9) not null, 
   constraint publication_id_pk PRIMARY key (publication_id),
   constraint publication_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -350,6 +351,9 @@ CREATE PROCEDURE update_employee( emp_id_insert varchar(10),
         is_active = is_active_insert,
         is_being_approved = is_being_approved_insert
     WHERE emp_id = emp_id_insert;
+    UPDATE EMPLOYEE
+    SET emp_id = emp_id_insert
+    WHERE username = username_insert and password = sha2(password_insert,256);
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been edited from the table EMPLOYEE"));
   END;
 GO
@@ -498,6 +502,7 @@ DELIMITER ;
 
 /*START PROCEDURES FOR POSITION*/
 DROP PROCEDURE IF EXISTS view_position;
+DROP PROCEDURE IF EXISTS view_position_by_ID;
 DROP PROCEDURE IF EXISTS insert_position;
 DROP PROCEDURE IF EXISTS delete_position;
 DROP PROCEDURE IF EXISTS update_position;
@@ -601,7 +606,7 @@ CREATE PROCEDURE insert_publication(
 )
   BEGIN
       INSERT INTO PUBLICATION
-        values (NULL, credit_units, category,subcategory, funding, title, role, start_date, end_date, emp_id);
+        values (NULL, credit_units, category,subcategory, funding, title, role, start_date, end_date, NULL, emp_id);
         call insert_log(concat("Publication with title", title, " has been added to the table PUBLICATION"));
 
   END;
@@ -1097,6 +1102,12 @@ CREATE PROCEDURE view_consultation_by_ID( consultation_id_view varchar(20))
   END
 GO
 
+CREATE PROCEDURE view_employee_consultation( emp_id_v varchar(20) )
+  BEGIN
+    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id_v;
+  END
+GO
+
 CREATE PROCEDURE insert_consultation(   consultation_start_time_insert time,
                                         consultation_end_time_insert time,
                                         consultation_place_insert varchar(255),
@@ -1436,27 +1447,27 @@ call insert_studyload(3,"CMSC 20","000000008","11:00:00","11:20:00","UPD","Mon",
 call insert_studyload(3,"CMSC 25","000000009","11:00:00","11:20:00","UPD","Mon","Wed");
 
 
-call insert_publication(8,"category1","subcategory1","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","000000003");
-call insert_publication(1,"category2","subcategory2","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","000000003");
-call insert_publication(9,"category1","subcategory2","agency1","whatever","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","000000001");
-call insert_publication(5,"category3","subcategory1","agency1","whatever","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","000000001");
-call insert_publication(3,"category1","subcategory3","agency1","whatever","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","000000003");
-call insert_publication(6,"category2","subcategory1","agency1","whatever","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","000000001");
-call insert_publication(9,"category2","subcategory2","agency1","whatever","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","000000001");
-call insert_publication(10,"category1","subcategory2","agency1","whatever","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","000000001");
-call insert_publication(9,"category2","subcategory1","agency1","whatever","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","000000000");
-call insert_publication(8,"category1","subcategory2","agency1","whatever","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","000000000");
+-- call insert_publication(8,"category1","subcategory1","agency1","whatever","Vice President","2018-10-04 18:45:43","2017-06-08 09:24:48","000000003");
+-- call insert_publication(1,"category2","subcategory2","agency1","whatever","Vice President","2018-01-31 19:41:49","2018-09-12 19:55:38","000000003");
+-- call insert_publication(9,"category1","subcategory2","agency1","whatever","Member","2017-11-16 15:02:24","2018-05-02 21:33:28","000000001");
+-- call insert_publication(5,"category3","subcategory1","agency1","whatever","Vice President","2017-03-31 11:19:52","2018-06-30 11:35:49","000000001");
+-- call insert_publication(3,"category1","subcategory3","agency1","whatever","Secretary","2018-09-06 13:29:22","2018-10-21 00:03:38","000000003");
+-- call insert_publication(6,"category2","subcategory1","agency1","whatever","Member","2018-02-03 22:07:27","2018-10-01 03:07:04","000000001");
+-- call insert_publication(9,"category2","subcategory2","agency1","whatever","Head","2018-06-16 20:55:02","2017-06-01 19:18:35","000000001");
+-- call insert_publication(10,"category1","subcategory2","agency1","whatever","Secretary","2017-10-31 11:10:47","2018-08-15 08:00:00","000000001");
+-- call insert_publication(9,"category2","subcategory1","agency1","whatever","Secretary","2018-02-20 16:18:35","2017-12-18 05:53:02","000000000");
+-- call insert_publication(8,"category1","subcategory2","agency1","whatever","Head","2018-03-24 00:59:11","2018-11-17 09:38:07","000000000");
 
-call insert_coworker("000000001",5);
-call insert_coworker("000000005",2);
-call insert_coworker("000000004",6);
-call insert_coworker("000000006",1);
-call insert_coworker("000000001",1);
-call insert_coworker("000000001",3);
-call insert_coworker("000000002",6);
-call insert_coworker("000000004",7);
-call insert_coworker("000000005",7);
-call insert_coworker("000000001",5);
+-- call insert_coworker("000000001",5);
+-- call insert_coworker("000000005",2);
+-- call insert_coworker("000000004",6);
+-- call insert_coworker("000000006",1);
+-- call insert_coworker("000000001",1);
+-- call insert_coworker("000000001",3);
+-- call insert_coworker("000000002",6);
+-- call insert_coworker("000000004",7);
+-- call insert_coworker("000000005",7);
+-- call insert_coworker("000000001",5);
 
 
 call insert_faculty_grant("type", 1, "prof chair", "grantsada", "granttitle", "2018-10-04 18:45:43","2017-06-08 09:24:48", "000000007");

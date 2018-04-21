@@ -70,7 +70,7 @@ export const addPublication = ({
       });
     } else {
       const queryString = `
-          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?);
         `;
 
       const values = [

@@ -1,68 +1,68 @@
 require('source-map-support/register')
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
-/******/  // The module cache
-/******/  var installedModules = {};
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 /******/
-/******/  // The require function
-/******/  function __webpack_require__(moduleId) {
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 /******/
-/******/    // Check if module is in cache
-/******/    if(installedModules[moduleId]) {
-/******/      return installedModules[moduleId].exports;
-/******/    }
-/******/    // Create a new module (and put it into the cache)
-/******/    var module = installedModules[moduleId] = {
-/******/      i: moduleId,
-/******/      l: false,
-/******/      exports: {}
-/******/    };
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
 /******/
-/******/    // Execute the module function
-/******/    modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/
-/******/    // Flag the module as loaded
-/******/    module.l = true;
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
 /******/
-/******/    // Return the exports of the module
-/******/    return module.exports;
-/******/  }
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 /******/
 /******/
-/******/  // expose the modules object (__webpack_modules__)
-/******/  __webpack_require__.m = modules;
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 /******/
-/******/  // expose the module cache
-/******/  __webpack_require__.c = installedModules;
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/  // define getter function for harmony exports
-/******/  __webpack_require__.d = function(exports, name, getter) {
-/******/    if(!__webpack_require__.o(exports, name)) {
-/******/      Object.defineProperty(exports, name, {
-/******/        configurable: false,
-/******/        enumerable: true,
-/******/        get: getter
-/******/      });
-/******/    }
-/******/  };
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
 /******/
-/******/  // getDefaultExport function for compatibility with non-harmony modules
-/******/  __webpack_require__.n = function(module) {
-/******/    var getter = module && module.__esModule ?
-/******/      function getDefault() { return module['default']; } :
-/******/      function getModuleExports() { return module; };
-/******/    __webpack_require__.d(getter, 'a', getter);
-/******/    return getter;
-/******/  };
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
 /******/
-/******/  // Object.prototype.hasOwnProperty.call
-/******/  __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
-/******/  // __webpack_public_path__
-/******/  __webpack_require__.p = "/";
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
 /******/
-/******/  // Load entry module and return exports
-/******/  return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -210,17 +210,17 @@ module.exports = require("mysql");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entities_auth_router__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities_extension_router__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entities_publications_router__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_signup_router__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_fsr_router__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_adminWork_router__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_consulHours_router__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_facultygrant_router__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_limitedpractice_router__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_profile_router__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__entities_admin_router__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities_signup_router__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entities_studyload_router__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entities_teachload_router__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities_facultylist_router__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__entities_fsr_router__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__entities_adminWork_router__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__entities_consulHours_router__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__entities_facultygrant_router__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__entities_limitedpractice_router__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__entities_profile_router__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__entities_admin_router__ = __webpack_require__(40);
 
 
 // put import routers here
@@ -520,25 +520,78 @@ router.post('/api/extension/view', function () {
   };
 }());
 
-// add a extension
-router.post('/api/extension/add', function () {
+router.post('/api/extension/viewByID', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var id;
+    var extension, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(req.body.extension_type && req.body.extension_name && req.body.no_of_hours >= 0 && req.body.no_of_participants >= 0 && req.body.extension_role && req.body.credit_unit >= 0 && req.body.funding_agency)) {
-              _context3.next = 13;
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getExtensionByID */](req.body);
+
+          case 3:
+            extension = _context3.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched Extension',
+              data: extension
+            });
+            _context3.next = 18;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'Extension not found';
+            return _context3.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 17);
+
+          case 17:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 7]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+// add a extension
+router.post('/api/extension/add', function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+    var id;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            if (!(req.body.extension_type && req.body.extension_name && req.body.no_of_participants >= 0 && req.body.extension_role && req.body.credit_unit >= 0 && req.body.funding_agency)) {
+              _context4.next = 13;
               break;
             }
 
-            _context3.prev = 1;
-            _context3.next = 4;
+            _context4.prev = 1;
+            _context4.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addExtension */](req.body);
 
           case 4:
-            id = _context3.sent;
+            id = _context4.sent;
 
             // const extensionAdded = await Ctrl.getExtension({ id: id });
 
@@ -547,17 +600,17 @@ router.post('/api/extension/add', function () {
               message: 'Successfully added Extension'
               // data: extensionAdded
             });
-            _context3.next = 11;
+            _context4.next = 11;
             break;
 
           case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3['catch'](1);
+            _context4.prev = 8;
+            _context4.t0 = _context4['catch'](1);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
           case 11:
-            _context3.next = 14;
+            _context4.next = 14;
             break;
 
           case 13:
@@ -565,64 +618,10 @@ router.post('/api/extension/add', function () {
 
           case 14:
           case 'end':
-            return _context3.stop();
-        }
-      }
-    }, _callee3, _this, [[1, 8]]);
-  }));
-
-  return function (_x5, _x6) {
-    return _ref3.apply(this, arguments);
-  };
-}());
-
-// removes an extension
-router.post('/api/extension/delete', function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
-    var message;
-    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeExtension */](req.body);
-
-          case 3:
-
-            res.status(200).json({
-              status: 200,
-              message: 'Successfully removed sample'
-              // data: extension
-            });
-            _context4.next = 17;
-            break;
-
-          case 6:
-            _context4.prev = 6;
-            _context4.t0 = _context4['catch'](0);
-            message = '';
-            _context4.t1 = _context4.t0;
-            _context4.next = _context4.t1 === 404 ? 12 : _context4.t1 === 500 ? 14 : 16;
-            break;
-
-          case 12:
-            message = 'Cannot Delete: Extension not found';
-            return _context4.abrupt('break', 16);
-
-          case 14:
-            message = 'Internal server error';
-            return _context4.abrupt('break', 16);
-
-          case 16:
-            res.status(_context4.t0).json({ status: _context4.t0, message: message });
-
-          case 17:
-          case 'end':
             return _context4.stop();
         }
       }
-    }, _callee4, _this, [[0, 6]]);
+    }, _callee4, _this, [[1, 8]]);
   }));
 
   return function (_x7, _x8) {
@@ -630,8 +629,8 @@ router.post('/api/extension/delete', function () {
   };
 }());
 
-// edits a extension
-router.post('/api/extension/edit', function () {
+// removes an extension
+router.post('/api/extension/delete', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var message;
     return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
@@ -640,15 +639,14 @@ router.post('/api/extension/edit', function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editExtension */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeExtension */](req.body);
 
           case 3:
-            // const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully edited extension'
-              // data: extensionEdited
+              message: 'Successfully removed sample'
+              // data: extension
             });
             _context5.next = 17;
             break;
@@ -662,7 +660,7 @@ router.post('/api/extension/edit', function () {
             break;
 
           case 12:
-            message = 'Extension not found';
+            message = 'Cannot Delete: Extension not found';
             return _context5.abrupt('break', 16);
 
           case 14:
@@ -682,6 +680,61 @@ router.post('/api/extension/edit', function () {
 
   return function (_x9, _x10) {
     return _ref5.apply(this, arguments);
+  };
+}());
+
+// edits a extension
+router.post('/api/extension/edit', function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editExtension */](req.body);
+
+          case 3:
+            // const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully edited extension'
+              // data: extensionEdited
+            });
+            _context6.next = 17;
+            break;
+
+          case 6:
+            _context6.prev = 6;
+            _context6.t0 = _context6['catch'](0);
+            message = '';
+            _context6.t1 = _context6.t0;
+            _context6.next = _context6.t1 === 404 ? 12 : _context6.t1 === 500 ? 14 : 16;
+            break;
+
+          case 12:
+            message = 'Extension not found';
+            return _context6.abrupt('break', 16);
+
+          case 14:
+            message = 'Internal server error';
+            return _context6.abrupt('break', 16);
+
+          case 16:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 17:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, _this, [[0, 6]]);
+  }));
+
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }());
 
@@ -706,7 +759,7 @@ var getExtension = function getExtension(_ref) {
   var id = _ref.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT * from EXTENSION where emp_id = ?;\n        ';
+    var queryString = 'SELECT * from EXTENSION where emp_id = ?';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -864,6 +917,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 
+var multer = __webpack_require__(18);
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
@@ -1480,6 +1534,28 @@ router.post('/api/publication/getCoworkers', function () {
   };
 }());
 
+var storage = multer.diskStorage({
+  destination: function destination(req, file, cb) {
+    cb(null, 'src/uploads/');
+  },
+  filename: function filename(req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + ".pdf");
+  }
+});
+
+var upload = multer({ storage: storage }).any();
+
+router.post('/api/publication/attach', function (req, res, next) {
+  upload(req, res, function (err) {
+    if (err) {
+      console.log("sux");
+    } else {
+      console.log(req.File);
+      console.log("success");
+    }
+  });
+});
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -1555,7 +1631,7 @@ var addPublication = function addPublication(_ref3) {
 
   return new Promise(function (resolve, reject) {
     if (start_date === '' || end_date === '') {
-      var queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, null, null, ?);\n        ';
+      var queryString = '\n          call insert_publication( ?, ?, ?, ?, ?, ?, NULL, NULL, ? );\n        ';
 
       var values = [credit_units, category, subcategory, funding, title, role, emp_id];
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
@@ -1568,7 +1644,7 @@ var addPublication = function addPublication(_ref3) {
         return resolve(results.insertId);
       });
     } else {
-      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?);\n        ';
 
       var _values = [credit_units, category, subcategory, funding, title, role, start_date, end_date, emp_id];
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, _values, function (err, results) {
@@ -1774,6 +1850,12 @@ var getCoworkers = function getCoworkers(_ref10) {
 
 /***/ }),
 /* 18 */
+/***/ (function(module, exports) {
+
+module.exports = require("multer");
+
+/***/ }),
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1781,7 +1863,7 @@ var getCoworkers = function getCoworkers(_ref10) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(20);
 
 
 var _this = this;
@@ -1851,7 +1933,7 @@ router.post('/api/signup', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1916,7 +1998,7 @@ var getEmployee = function getEmployee(_ref2) {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1924,7 +2006,7 @@ var getEmployee = function getEmployee(_ref2) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(22);
 
 
 var _this = this;
@@ -1945,7 +2027,7 @@ router.post('/api/studyload/add', function () {
           case 0:
             console.log(req.body);
 
-            if (!(req.body.credits && req.body.courseno && req.session.user.emp_id && req.body.start_time && req.body.school && req.body.no_of_days)) {
+            if (!(req.body.credits && req.body.courseno && req.session.user.emp_id && req.body.start_time && req.body.end_time && req.body.school && req.body.day1 && req.body.day2)) {
               _context.next = 17;
               break;
             }
@@ -1957,7 +2039,7 @@ router.post('/api/studyload/add', function () {
           case 5:
             id = _context.sent;
             _context.next = 8;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */]({ studyload_id: id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */](id);
 
           case 8:
             sample = _context.sent;
@@ -2004,49 +2086,51 @@ router.post('/api/studyload/delete', function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            console.log(req.body);
+
             if (!req.body.studyload_id) {
-              _context2.next = 15;
+              _context2.next = 16;
               break;
             }
 
-            _context2.prev = 1;
-            _context2.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */](req.body);
+            _context2.prev = 2;
+            _context2.next = 5;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */]([req.body.studyload_id]);
 
-          case 4:
+          case 5:
             book = _context2.sent;
-            _context2.next = 7;
+            _context2.next = 8;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* removeStudyLoad */](req.body);
 
-          case 7:
+          case 8:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed study load',
               data: book
             });
-            _context2.next = 13;
+            _context2.next = 14;
             break;
 
-          case 10:
-            _context2.prev = 10;
-            _context2.t0 = _context2['catch'](1);
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2['catch'](2);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 13:
-            _context2.next = 16;
+          case 14:
+            _context2.next = 17;
             break;
 
-          case 15:
+          case 16:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 16:
+          case 17:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[1, 10]]);
+    }, _callee2, _this, [[2, 11]]);
   }));
 
   return function (_x3, _x4) {
@@ -2063,7 +2147,7 @@ router.post('/api/studyload/edit', function () {
           case 0:
             console.log(req.body);
 
-            if (!(req.body.studyload_id && req.body.credits && req.body.courseno && req.body.start_time && req.body.school && req.body.no_of_days && req.session.user)) {
+            if (!(req.body.studyload_id && req.body.credits && req.body.courseno && req.body.start_time && req.body.school && req.body.day1 && req.body.day2 && req.session.user)) {
               _context3.next = 16;
               break;
             }
@@ -2074,17 +2158,15 @@ router.post('/api/studyload/edit', function () {
 
           case 5:
             _context3.next = 7;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */]({
-              studyload_id: req.body.studyload_id
-            });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */]([req.body.studyload_id]);
 
           case 7:
             sample = _context3.sent;
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully edited study load',
-              data: sample
+              message: 'Successfully edited study load'
+              // data: sample
             });
             _context3.next = 14;
             break;
@@ -2175,16 +2257,18 @@ router.post('/api/studyload/viewByStudyloadId', function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            console.log(req.body);
+
             if (!(req.session.user && req.body.studyload_id)) {
-              _context5.next = 21;
+              _context5.next = 22;
               break;
             }
 
-            _context5.prev = 1;
-            _context5.next = 4;
+            _context5.prev = 2;
+            _context5.next = 5;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getStudyLoad */](req.body.studyload_id);
 
-          case 4:
+          case 5:
             book = _context5.sent;
 
             res.status(200).json({
@@ -2192,41 +2276,41 @@ router.post('/api/studyload/viewByStudyloadId', function () {
               message: 'Successfully fetched study load',
               data: book
             });
-            _context5.next = 19;
+            _context5.next = 20;
             break;
 
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5['catch'](1);
+          case 9:
+            _context5.prev = 9;
+            _context5.t0 = _context5['catch'](2);
             message = '';
             _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 404 ? 14 : _context5.t1 === 500 ? 16 : 18;
+            _context5.next = _context5.t1 === 404 ? 15 : _context5.t1 === 500 ? 17 : 19;
             break;
 
-          case 14:
+          case 15:
             message = 'Study load not found';
-            return _context5.abrupt('break', 18);
+            return _context5.abrupt('break', 19);
 
-          case 16:
+          case 17:
             message = 'Internal server error';
-            return _context5.abrupt('break', 18);
-
-          case 18:
-            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+            return _context5.abrupt('break', 19);
 
           case 19:
-            _context5.next = 22;
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+
+          case 20:
+            _context5.next = 23;
             break;
 
-          case 21:
+          case 22:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 22:
+          case 23:
           case 'end':
             return _context5.stop();
         }
       }
-    }, _callee5, _this, [[1, 8]]);
+    }, _callee5, _this, [[2, 9]]);
   }));
 
   return function (_x9, _x10) {
@@ -2391,7 +2475,7 @@ router.post('/api/studyload/editStudyCredentials', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2410,14 +2494,16 @@ var addStudyLoad = function addStudyLoad(_ref, json) {
   var credits = _ref.credits,
       courseno = _ref.courseno,
       start_time = _ref.start_time,
+      end_time = _ref.end_time,
       school = _ref.school,
-      no_of_days = _ref.no_of_days;
+      day1 = _ref.day1,
+      day2 = _ref.day2;
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = "\n      call insert_studyload(?, ?, ?,?,?,?)\n    ";
+    var queryString = "\n      call insert_studyload(?, ?, ?,?,?,?,?,?)\n    ";
 
-    var values = [credits, courseno, emp_id, start_time, school, no_of_days];
+    var values = [credits, courseno, emp_id, start_time, end_time, school, day1, day2];
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
         console.log(err);
@@ -2455,12 +2541,14 @@ var editStudyLoad = function editStudyLoad(json, emp_id) {
   var credits = json.credits;
   var courseno = json.courseno;
   var start_time = json.start_time;
+  var end_time = json.end_time;
   var school = json.school;
-  var no_of_days = json.no_of_days;
+  var day1 = json.day1;
+  var day2 = json.day2;
   return new Promise(function (resolve, reject) {
-    var queryString = "\n    call update_studyload(?,?,?,?,?,?,?)\n    ";
+    var queryString = "\n    call update_studyload(?,?,?,?,?,?,?,?,?)\n    ";
 
-    var values = [studyload_id, credits, courseno, start_time, school, no_of_days, emp_id];
+    var values = [studyload_id, credits, courseno, start_time, end_time, school, day1, day2, emp_id];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
@@ -2477,9 +2565,7 @@ var editStudyLoad = function editStudyLoad(json, emp_id) {
   });
 };
 
-var getStudyLoad = function getStudyLoad(_ref3) {
-  var studyload_id = _ref3.studyload_id;
-
+var getStudyLoad = function getStudyLoad(studyload_id) {
   return new Promise(function (resolve, reject) {
     var queryString = "\n      call view_studyload_id_studyload(?)\n        ";
 
@@ -2585,7 +2671,7 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2593,8 +2679,8 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_util__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_util__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_util__);
 
 
@@ -2894,7 +2980,7 @@ router.get('/api/teachload/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3045,13 +3131,13 @@ var getAllTeachLoad = function getAllTeachLoad() {
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3059,7 +3145,7 @@ module.exports = require("util");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(27);
 
 
 var _this = this;
@@ -3181,7 +3267,7 @@ router.get('/api/faculty/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3233,7 +3319,7 @@ var getAllFaculty = function getAllFaculty() {
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3241,7 +3327,7 @@ var getAllFaculty = function getAllFaculty() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(29);
 
 
 var _this = this;
@@ -3360,7 +3446,7 @@ router.get('/api/fsr/viewApproved', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3410,7 +3496,7 @@ var getPendingFSR = function getPendingFSR() {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3418,7 +3504,7 @@ var getPendingFSR = function getPendingFSR() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(31);
 
 
 var _this = this;
@@ -3712,7 +3798,7 @@ router.get('/api/position/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3840,7 +3926,7 @@ var editPosition = function editPosition(_ref4) {
 };
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3848,7 +3934,7 @@ var editPosition = function editPosition(_ref4) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(33);
 
 
 var _this = this;
@@ -4143,7 +4229,7 @@ router.get('/api/consulHours/view', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4270,7 +4356,7 @@ var editConsulHours = function editConsulHours(_ref4) {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4278,7 +4364,7 @@ var editConsulHours = function editConsulHours(_ref4) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(35);
 
 
 var _this = this;
@@ -4630,7 +4716,7 @@ router.post('/api/facultygrant/edit', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4780,7 +4866,7 @@ var editFacultyGrant = function editFacultyGrant(_ref5) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4788,7 +4874,7 @@ var editFacultyGrant = function editFacultyGrant(_ref5) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(37);
 
 
 var _this = this;
@@ -5061,7 +5147,7 @@ router.get('/api/limitedpractice/viewAll', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5177,7 +5263,7 @@ var getAllLimitedPractice = function getAllLimitedPractice() {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5185,7 +5271,7 @@ var getAllLimitedPractice = function getAllLimitedPractice() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(39);
 
 
 var _this = this;
@@ -5361,7 +5447,7 @@ router.post('/api/faculty/data', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5456,7 +5542,7 @@ var getData = function getData(_ref3) {
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5464,7 +5550,7 @@ var getData = function getData(_ref3) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(41);
 
 
 var _this = this;
@@ -5695,7 +5781,7 @@ router.post('/api/faculty/searchByName', function () {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

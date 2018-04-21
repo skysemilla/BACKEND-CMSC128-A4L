@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import * as Ctrl from './controller';
 var multer  = require('multer')
-var upload = multer({ dest: 'src/uploads/' })
 
 const router = Router();
 
@@ -51,7 +50,7 @@ router.post('/api/publication/viewAll', async (req, res) => {
 });
 
 // add a publication
-router.post('/api/publication/add', upload.any(), async (req, res) => {
+router.post('/api/publication/add', async (req, res) => {
   if (
     req.body.credit_units >= 0 &&
     req.body.category &&
@@ -268,6 +267,28 @@ router.post('/api/publication/getCoworkers', async (req, res) => {
     res.status(200).json({ status, message });
   }
 });
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'src/uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + ".pdf")
+  }
+})
+
+var upload = multer({ storage: storage }).any();
+
+router.post('/api/publication/attach', function (req, res, next) {
+  upload(req, res, (err) => {
+    if(err) {
+      console.log("sux");
+    }else{
+      console.log(req.File);
+      console.log("success");
+    }
+  })
+})
 
 export default router;
 

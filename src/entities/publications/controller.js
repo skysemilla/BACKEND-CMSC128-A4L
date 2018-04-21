@@ -50,16 +50,15 @@ export const addPublication = ({
   role,
   start_date,
   end_date,
-  filename,
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
     if (start_date === '' || end_date === '') {
       const queryString = `
-          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, null, null, ?, ?);
+          call insert_publication( ?, ?, ?, ?, ?, ?, NULL, NULL, ? );
         `;
 
-      const values = [credit_units, category, subcategory, funding, title, role, filename,emp_id];
+      const values = [credit_units, category, subcategory, funding, title, role, emp_id];
       db.query(queryString, values, (err, results) => {
         if (err) {
           console.log(err);
@@ -71,7 +70,7 @@ export const addPublication = ({
       });
     } else {
       const queryString = `
-          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
       const values = [
@@ -83,7 +82,6 @@ export const addPublication = ({
         role,
         start_date,
         end_date,
-        filename,
         emp_id
       ];
       db.query(queryString, values, (err, results) => {
@@ -310,6 +308,4 @@ export const getCoworkers = ({ id }) => {
     });
   });
 };
-
-
 

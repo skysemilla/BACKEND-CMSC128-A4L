@@ -296,6 +296,46 @@ export const getTeachEmp = (json) => {
   });
 };
 
+export const getTeachEmpAdmin = ({emp_id}) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+        call view_employee_teachingload(?);
+        `;
+
+    db.query(queryString, emp_id, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      var newArray = [];
+      var visitedArray = []; 
+      var i, j;
+      for(i=0;i<rows[0].length;i++){
+        var daysArray = [];
+        if(visitedArray.includes(rows[0][i].teachingload_id)){
+
+        }else{
+          for(j=0;j<rows[0].length;j++){
+            if(rows[0][i].teachingload_id==rows[0][j].teachingload_id){
+              daysArray.push(rows[0][j].day);
+            }
+          }
+          rows[0][i].day = daysArray;
+          visitedArray.push(rows[0][i].teachingload_id);
+          newArray.push(rows[0][i]);
+        }
+      }
+
+      return resolve(newArray);
+    });
+  });
+};
+
 export const getAllTeachLoad = () => {
   return new Promise((resolve, reject) => {
     const queryString = `

@@ -4,7 +4,7 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets all pending fsr
-router.get('/api/fsr/viewPending', async (req, res) => {
+router.post('/api/fsr/viewPending', async (req, res) => {
   try {
     const fsr = await Ctrl.getPendingFSR();
     res.status(200).json({
@@ -26,7 +26,7 @@ router.get('/api/fsr/viewPending', async (req, res) => {
 });
 
 // gets all approved fsr
-router.get('/api/fsr/viewApproved', async (req, res) => {
+router.post('/api/fsr/viewApproved', async (req, res) => {
   try {
     const fsr = await Ctrl.getApprovedFSR();
     res.status(200).json({
@@ -44,6 +44,102 @@ router.get('/api/fsr/viewApproved', async (req, res) => {
     }
 
     res.status(200).json({ status, message });
+  }
+});
+
+// get a pending fsr by id
+router.post('/api/fsr/viewPendingById', async (req, res) => {
+  try {
+    const data = await Ctrl.getPendingById(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched FSRs',
+      data: data
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'FSR not found';
+        data = data;
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+// get a pending fsr by name
+router.post('/api/fsr/viewPendingByName', async (req, res) => {
+  try {
+    const data = await Ctrl.getPendingByName(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched FSRs',
+      data: data
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'FSR not found';
+        data: data;
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+// get an approved fsr by id
+router.post('/api/fsr/viewApprovedById', async (req, res) => {
+  try {
+    const data = await Ctrl.getApprovedById(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched FSRs',
+      data: data
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'FSR not found';
+        data = data;
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+// get an approved fsr by name
+router.post('/api/fsr/viewApprovedByName', async (req, res) => {
+  try {
+    const data = await Ctrl.getApprovedByName(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched FSRs',
+      data: data
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'FSR not found';
+        data = data;
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
   }
 });
 

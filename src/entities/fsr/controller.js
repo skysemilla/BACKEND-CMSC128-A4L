@@ -1,13 +1,14 @@
 import db from '../../database';
 
-// gets all fsr
-export const getAllFSR = () => {
+// gets all approved fsr
+export const getApprovedFSR = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
         SELECT 
             *
         FROM 
-            EMPLOYEE a, EMPLOYEE_FSR b
+            EMPLOYEE a, 
+            EMPLOYEE_FSR b
         WHERE
             a.emp_id = b.emp_id
     `;
@@ -52,6 +53,32 @@ export const getPendingFSR = () => {
       }
 
       return resolve(rows);
+    });
+  });
+};
+
+// enables a faculty
+export const sendToAdmin = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+      UPDATE EMPLOYEE
+      SET
+        is_being_approved = 1
+      WHERE
+        emp_id = ?
+    `;
+
+    db.query(queryString, empid, (err, res) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
     });
   });
 };

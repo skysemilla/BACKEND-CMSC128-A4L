@@ -1,13 +1,18 @@
 import db from '../../database';
 
 // add position
-export const addPosition = ({office, credit_units, emp_id}) => {
+export const addPosition = ({
+  office,
+  credit_units,
+  nature_of_work,
+  emp_id
+}) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL insert_position(?, ?, ?);
+      CALL insert_position(?, ?, ?, ?);
     `;
 
-    const values = [office, credit_units, emp_id];
+    const values = [office, credit_units, nature_of_work, emp_id];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
@@ -24,12 +29,8 @@ export const addPosition = ({office, credit_units, emp_id}) => {
 export const getPosition = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          SELECT 
-            *
-          FROM 
-            POSITIONN
-          WHERE
-            position_id = ?;
+          CALL
+          view_position_by_ID(?)
         `;
 
     db.query(queryString, [id, id], (err, rows) => {
@@ -48,13 +49,14 @@ export const getPosition = ({ id }) => {
 };
 
 // get all positions
-export const getAllPositions = ({ id }) => {
+export const getAllPositions = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-          CALL view_position();
+          CALL 
+          view_position();
         `;
 
-    db.query(queryString, [id, id], (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -93,16 +95,18 @@ export const removePosition = ({ id }) => {
 
 // edits a position
 export const editPosition = ({
-  position_id, office, credit_units, emp_id
+  position_id,
+  office,
+  credit_units,
+  nature_of_work,
+  emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL update_position(?, ?, ?, ?);
+      CALL update_position(?, ?, ?, ?, ?);
     `;
 
-    const values = [
-      office, credit_units, emp_id
-    ];
+    const values = [position_id, office, credit_units, nature_of_work, emp_id];
 
     db.query(queryString, values, (err, res) => {
       if (err) {

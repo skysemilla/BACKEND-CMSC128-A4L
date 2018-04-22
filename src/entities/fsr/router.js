@@ -47,4 +47,27 @@ router.get('/api/fsr/viewApproved', async (req, res) => {
   }
 });
 
+// send to admin
+router.post('/api/fsr/send', async (req, res) => {
+  try {
+    await Ctrl.sendToAdmin(req.body);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully sent FSR'
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'FSR not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
 export default router;

@@ -4,18 +4,20 @@ export const addStudyLoad = ({
   credits,
   courseno,
   start_time,
+  end_time,
   school,
-  no_of_days
+  day1,
+  day2
 },
   json
 ) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
     const queryString = `
-      call insert_studyload(?, ?, ?,?,?,?)
+      call insert_studyload(?, ?, ?,?,?,?,?,?)
     `;
 
-    const values = [credits, courseno, emp_id, start_time, school, no_of_days];
+    const values = [credits, courseno, emp_id, start_time,end_time, school, day1,day2];
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
@@ -53,11 +55,13 @@ export const editStudyLoad = (json,emp_id) => {
     const credits = json.credits;
     const courseno = json.courseno;
     const start_time = json.start_time;
+    const end_time = json.end_time;
     const school = json.school;
-    const no_of_days = json.no_of_days
+    const day1 = json.day1;
+    var day2 = json.day2;
   return new Promise((resolve, reject) => {
     const queryString = `
-    call update_studyload(?,?,?,?,?,?,?)
+    call update_studyload(?,?,?,?,?,?,?,?,?)
     `;
 
     const values = [
@@ -65,8 +69,10 @@ export const editStudyLoad = (json,emp_id) => {
       credits,
       courseno,
       start_time,
+      end_time,
       school,
-      no_of_days,
+      day1,
+      day2,
       emp_id
     ];
 
@@ -85,7 +91,7 @@ export const editStudyLoad = (json,emp_id) => {
   });
 };
 
-export const getStudyLoad = ({ studyload_id }) => {
+export const getStudyLoad = ( studyload_id ) => {
   return new Promise((resolve, reject) => {
     const queryString = `
       call view_studyload_id_studyload(?)

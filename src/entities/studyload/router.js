@@ -9,13 +9,15 @@ router.post('/api/studyload/add', async (req, res) => {
       req.body.courseno &&
       req.session.user.emp_id &&
       req.body.start_time &&
+      req.body.end_time &&
       req.body.school &&
-      req.body.no_of_days){
+      req.body.day1 &&
+      req.body.day2){
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
       const id = await Ctrl.addStudyLoad(req.body,req.session.user);
-      const sample = await Ctrl.getStudyLoad({ studyload_id: id });
+      const sample = await Ctrl.getStudyLoad(  id );
 
       res.status(200).json({
         status: 200,
@@ -31,9 +33,10 @@ router.post('/api/studyload/add', async (req, res) => {
 });
 
 router.post('/api/studyload/delete', async (req, res) => {
+  console.log(req.body);
   if (req.body.studyload_id) {
     try {
-      const book = await Ctrl.getStudyLoad(req.body);
+      const book = await Ctrl.getStudyLoad([req.body.studyload_id]);
       await Ctrl.removeStudyLoad(req.body);
 
       res.status(200).json({
@@ -57,18 +60,19 @@ router.post('/api/studyload/edit', async (req, res) => {
     req.body.courseno &&
     req.body.start_time &&
     req.body.school &&
-    req.body.no_of_days &&
+    req.body.day1 &&
+    req.body.day2 &&
     req.session.user
   ) {
     try {
       await Ctrl.editStudyLoad(req.body,req.session.user.emp_id);
-      const sample = await Ctrl.getStudyLoad({
-        studyload_id: req.body.studyload_id
-      });
+      const sample = await Ctrl.getStudyLoad( 
+        [req.body.studyload_id
+      ]);
       res.status(200).json({
         status: 200,
         message: 'Successfully edited study load',
-        data: sample
+        // data: sample
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -100,6 +104,7 @@ router.post('/api/studyload/view', async (req, res) => {
   }
 });
 router.post('/api/studyload/viewByStudyloadId', async (req, res) => {
+  console.log(req.body);
   if(
     req.session.user &&
     req.body.studyload_id

@@ -35,4 +35,27 @@ router.post('/api/signup', async (req, res) => {
   }
 });
 
+// get users
+router.post('/api/checkValid', async (req, res) => {
+  try {
+    const data = await Ctrl.checkValid(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched users',
+      data: data
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'User not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
 export default router;

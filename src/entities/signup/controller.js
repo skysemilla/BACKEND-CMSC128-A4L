@@ -75,3 +75,34 @@ export const getEmployee = ({ id }) => {
     });
   });
 };
+
+// gets an employee
+export const checkValid = ({ empid, username, email }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT 
+            *
+          FROM 
+            EMPLOYEE
+          WHERE
+            emp_id = ? OR
+            username = ? OR
+            email = ?
+        `;
+
+    const values = [empid, username, email];
+
+    db.query(queryString, values, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return resolve(null);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};

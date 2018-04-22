@@ -57,31 +57,64 @@ export const editLimitedPractice = ({
   date_submitted,
   emp_id
 }) => {
+
   return new Promise((resolve, reject) => {
-    const queryString = `
-        CALL
-        update_limited_practice(?, ?, ?, ?)
-      `;
+    if(haveApplied == 1){
+      const queryString = `
+          CALL
+          update_limited_practice(?, ?, ?, ?)
+        `;
 
-    const values = [
-      limited_practice_id,
-      haveApplied,
-      date_submitted,
-      emp_id
-    ];
+      const values = [
+        limited_practice_id,
+        haveApplied,
+        date_submitted,
+        emp_id
+      ];
 
-    db.query(queryString, values, (err, res) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
+      db.query(queryString, values, (err, res) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
 
-      if (!res.affectedRows) {
-        return reject(404);
-      }
+        if (!res.affectedRows) {
+          return reject(404);
+        }
 
-      return resolve();
-    });
+        return resolve();
+      });
+    }else{
+      
+      const queryString = `
+      UPDATE LIMITED_PRACTICE
+        SET
+          haveApplied = ?,
+          date_submitted = null,
+          emp_id = ?
+        WHERE limited_practice_id = ?
+        `;
+
+      const values = [
+        
+        haveApplied,
+        emp_id,
+        limited_practice_id
+      ];
+
+      db.query(queryString, values, (err, res) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
+
+        if (!res.affectedRows) {
+          return reject(404);
+        }
+
+        return resolve();
+      });
+    }
   });
 };
 

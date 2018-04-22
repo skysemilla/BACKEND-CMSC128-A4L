@@ -313,6 +313,104 @@ export const getAllTeachLoad = () => {
     });
   });
 };
+
+export const editAddTeachLoadUnits = ({ units}, json) => {
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    const queryString = `
+      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)+? where emp_id=?;
+    `;
+   
+    const values = [emp_id,units,emp_id];
+    db.query(queryString, values, (err, res) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+export const editRemoveTeachLoadUnits = ({ units}, json) => {
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    const queryString = `
+      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)-? where emp_id=?;
+    `;
+   
+    const values = [emp_id,units,emp_id];
+    db.query(queryString, values, (err, res) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+export const getSubjectByTeachLoad = ({ teachingload_id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+          SELECT subj.subject_code, subj.section_code, subj.units, subj.isLecture, subj.isGraduate, tl.no_of_students FROM SUBJECT subj, TEACHINGLOAD tl
+          WHERE
+            subj.subject_id = (select subject_id from
+            TEACHINGLOAD where teachingload_id=?) and teachingload_id=?;
+        `;
+
+      const values=[teachingload_id, teachingload_id];
+    db.query(queryString, values, (err, rows) => {
+      // console.log(queryString);
+      // console.log(teachingload_id);
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+export const getEmployee = (json) => {
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    const queryString = `
+      select * from EMPLOYEE where emp_id=?;
+    `;
+   
+    const values = [emp_id];
+
+    db.query(queryString, values, (err, res) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.length) {
+        return reject(404);
+      }
+
+      return resolve(res[0]);
+    });
+  });
+};
+
 // SELECT COUNT(*) as count FROM 
 // (SELECT start_time, end_time FROM SUBJECT 
 // WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 

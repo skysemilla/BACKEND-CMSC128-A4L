@@ -25,6 +25,28 @@ router.post('/api/subject/viewAll', async (req, res) => {
   }
 });
 
+// gets samples
+router.post('/api/subject/viewsubject', async (req, res) => {
+  try {
+    const subject = await Ctrl.getSubject(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched subject',
+      data: subject
+    }); 
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(status).json({ status, message });
+  }
+});
+
 // add a sample
 router.post('/api/subject/add', async (req, res) => {
   if (

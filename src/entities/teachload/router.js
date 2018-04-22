@@ -158,4 +158,104 @@ router.get('/api/teachload/viewAll', async (req, res) => {
   }
 });
 
+router.post('/api/teachload/editAddTeachLoadUnits/', async (req, res) => {
+  if (
+    req.body.units
+  ) {
+    try {
+      await Ctrl.editAddTeachLoadUnits(req.body, req.session.user);
+      const sample = await Ctrl.getEmployee(req.session.user);
+
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully edited teach load',
+        data: sample
+      });
+    } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
+  }
+});
+
+router.post('/api/teachload/editRemoveTeachLoadUnits/', async (req, res) => {
+  if (
+    req.body.units
+  ) {
+    try {
+      await Ctrl.editRemoveTeachLoadUnits(req.body, req.session.user);
+      const sample = await Ctrl.getEmployee(req.session.user);
+
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully edited teach load',
+        data: sample
+      });
+    } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
+  }
+});
+
+router.post('/api/teachingload/viewByTeachloadId', async (req, res) => {
+  console.log(req.body);
+  if(
+    req.body.teachingload_id
+  ){
+    try {
+      const book = await Ctrl.getTeachLoad(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched teach load',
+        data: book
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Teach load not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
+    }
+  }else{
+    res.status(400).json({ status: 400, message: 'Bad request' });
+  }
+  });
+
+router.post('/api/teachload/subjectByTeachId', async (req, res) => {
+  // console.log("BODY: "+req.body.teachingload_id);
+  if(
+    req.body.teachingload_id
+  ){
+  try {
+    const book = await Ctrl.getSubjectByTeachLoad(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched subject',
+      data: book
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Subject not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+}else{
+    res.status(400).json({ status: 400, message: 'Bad request' });
+  }
+});
+
 export default router;

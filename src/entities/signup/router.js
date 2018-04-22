@@ -49,7 +49,6 @@ router.post('/api/signup', async (req, res) => {
   }
 });
 
-empid, username, email;
 // get users
 router.post('/api/checkValid', async (req, res) => {
   if (

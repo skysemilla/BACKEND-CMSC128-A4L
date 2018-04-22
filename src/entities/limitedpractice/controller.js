@@ -52,21 +52,20 @@ export const removeLimitedPractice = ({ limited_practice_id }) => {
 
 
 export const editLimitedPractice = ({
-  limited_practice_id,
   haveApplied,
   date_submitted,
   emp_id
 }) => {
-
+  console.log("ALOLOLOLO")
   return new Promise((resolve, reject) => {
     if(haveApplied == 1){
+      console.log("wtf")
       const queryString = `
           CALL
-          update_limited_practice(?, ?, ?, ?)
+          update_limited_practice(?, ?, ?)
         `;
 
       const values = [
-        limited_practice_id,
         haveApplied,
         date_submitted,
         emp_id
@@ -87,19 +86,14 @@ export const editLimitedPractice = ({
     }else{
       
       const queryString = `
-      UPDATE LIMITED_PRACTICE
-        SET
-          haveApplied = ?,
-          date_submitted = null,
-          emp_id = ?
-        WHERE limited_practice_id = ?
+      CALL
+      update_limited_practice(?, null, ?)
         `;
 
       const values = [
         
         haveApplied,
-        emp_id,
-        limited_practice_id
+        emp_id
       ];
 
       db.query(queryString, values, (err, res) => {

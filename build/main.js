@@ -5752,7 +5752,7 @@ router.post('/api/limitedpractice/edit', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(req.body.limited_practice_id && req.body.haveApplied && req.body.date_submitted && req.body.emp_id)) {
+            if (!(req.body.haveApplied && req.body.date_submitted && req.body.emp_id)) {
               _context3.next = 12;
               break;
             }
@@ -5924,7 +5924,7 @@ var addLimitedPractice = function addLimitedPractice(_ref) {
       emp_id = _ref.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL  \n      insert_limited_practice(?, ?, ?)\n    ';
+    var queryString = "\n      CALL  \n      insert_limited_practice(?, ?, ?)\n    ";
 
     var values = [haveApplied, date_submitted, emp_id];
 
@@ -5942,7 +5942,7 @@ var removeLimitedPractice = function removeLimitedPractice(_ref2) {
   var limited_practice_id = _ref2.limited_practice_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        CALL\n        delete_limited_practice(?);\n      ';
+    var queryString = "\n        CALL\n        delete_limited_practice(?);\n      ";
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, limited_practice_id, function (err, results) {
       if (err) {
@@ -5960,17 +5960,17 @@ var removeLimitedPractice = function removeLimitedPractice(_ref2) {
 };
 
 var editLimitedPractice = function editLimitedPractice(_ref3) {
-  var limited_practice_id = _ref3.limited_practice_id,
-      haveApplied = _ref3.haveApplied,
+  var haveApplied = _ref3.haveApplied,
       date_submitted = _ref3.date_submitted,
       emp_id = _ref3.emp_id;
 
-
+  console.log("ALOLOLOLO");
   return new Promise(function (resolve, reject) {
     if (haveApplied == 1) {
-      var queryString = '\n          CALL\n          update_limited_practice(?, ?, ?, ?)\n        ';
+      console.log("wtf");
+      var queryString = "\n          CALL\n          update_limited_practice(?, ?, ?)\n        ";
 
-      var values = [limited_practice_id, haveApplied, date_submitted, emp_id];
+      var values = [haveApplied, date_submitted, emp_id];
 
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
         if (err) {
@@ -5986,9 +5986,9 @@ var editLimitedPractice = function editLimitedPractice(_ref3) {
       });
     } else {
 
-      var _queryString = '\n      UPDATE LIMITED_PRACTICE\n        SET\n          haveApplied = ?,\n          date_submitted = null,\n          emp_id = ?\n        WHERE limited_practice_id = ?\n        ';
+      var _queryString = "\n      CALL\n      update_limited_practice(?, null, ?)\n        ";
 
-      var _values = [haveApplied, emp_id, limited_practice_id];
+      var _values = [haveApplied, emp_id];
 
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, _values, function (err, res) {
         if (err) {
@@ -6010,7 +6010,7 @@ var getLimitedPractice = function getLimitedPractice(_ref4) {
   var emp_id = _ref4.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL\n          view_limited_practice_by_emp_id(?)\n        ';
+    var queryString = "\n          CALL\n          view_limited_practice_by_emp_id(?)\n        ";
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
       if (err) {
@@ -6029,7 +6029,7 @@ var getLimitedPractice = function getLimitedPractice(_ref4) {
 
 var getAllLimitedPractice = function getAllLimitedPractice() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        CALL\n        view_limited_practice()\n      ';
+    var queryString = "\n        CALL\n        view_limited_practice()\n      ";
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {

@@ -11,45 +11,25 @@ router.post('/api/teachload/add', async (req, res) => {
     req.body.section_code 
   ) {
     try {
-      // await Ctrl.checkUser(req.body.empNo);
-      // this checks if the empno is already assigned to a faculty
-      // const existHour = await Ctrl.checkExistHour(req.body, req.session.user);
-      // const existDay = await Ctrl.checkExistDay(req.body, req.session.user);
-      // if(existHour===0){
-      //   if(existDay===0){
-      //     const id = await Ctrl.addTeachLoad(req.body, req.session.user);
-      //     const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
+      const existHourTeachLoad = await Ctrl.checkExistHourTeachLoad(req.body, req.session.user);    //If value > 1 then there is an overlapping schedule with the hour
+      const existDayTeachLoad = await Ctrl.checkExistDayTeachLoad(req.body, req.session.user);      //If value > 1 then there is an overlapping schedule within the day
+      const existHourConsultation = await Ctrl.checkExistHourConsultation(req.body, req.session.user);
+      const existDayConsultation = await Ctrl.checkExistDayConsultation(req.body, req.session.user);
+      if((existDayConsultation==0||existHourConsultation==0)&&(existHourTeachLoad==0||existDayTeachLoad==0)){
+        const id = await Ctrl.addTeachLoad(req.body, req.session.user);
+        const sample = await Ctrl.getTeachLoad({teachingload_id: id});
 
-      //     res.status(200).json({
-      //       status: 200,
-      //       message: 'Successfully created teaching load',
-      //       data: sample
-      //     });
-      //   }else{
-      //     console.log('Overlapping time and day error!');
-      //     console.log(existHour);
-      //     console.log(existDay);
-      //     res.status(400).json({ status: 400, message: ' Bad Request' });
-      //   }
-      // }
-
-      // if(existDay===0){
-      //   if(existHour===0){
-          const id = await Ctrl.addTeachLoad(req.body, req.session.user);
-          const sample = await Ctrl.getTeachLoad({ teachingload_id: id });
-
-          res.status(200).json({
-            status: 200,
-            message: 'Successfully created teaching load',
-            data: sample
-          });
-      //   }else{
-      //     console.log('Overlapping time and day error!');
-      //     console.log(existHour);
-      //     console.log(existDay);
-      //     res.status(400).json({ status: 400, message: ' Bad Request' });
-      //   }
-      // }   
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully created teaching load',
+          data: sample
+        });
+      }else{
+        res.status(400).json({
+          status: 400,
+          message: 'Overlapping schedule error'
+        });
+      }
      
         
     } catch (status) {

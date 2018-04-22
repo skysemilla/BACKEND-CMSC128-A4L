@@ -4023,7 +4023,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 
 // gets all pending fsr
-router.get('/api/fsr/viewPending', function () {
+router.post('/api/fsr/viewPending', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
     var fsr, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -4032,7 +4032,7 @@ router.get('/api/fsr/viewPending', function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getPendingFSR */]();
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* getPendingFSR */]();
 
           case 3:
             fsr = _context.sent;
@@ -4075,7 +4075,7 @@ router.get('/api/fsr/viewPending', function () {
 }());
 
 // gets all approved fsr
-router.get('/api/fsr/viewApproved', function () {
+router.post('/api/fsr/viewApproved', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var fsr, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
@@ -4084,7 +4084,7 @@ router.get('/api/fsr/viewApproved', function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* getApprovedFSR */]();
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getApprovedFSR */]();
 
           case 3:
             fsr = _context2.sent;
@@ -4126,17 +4126,245 @@ router.get('/api/fsr/viewApproved', function () {
   };
 }());
 
-// send to admin
-router.post('/api/fsr/send', function () {
+// get a pending fsr by id
+router.post('/api/fsr/viewPendingById', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var message;
+    var _data, message;
+
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* sendToAdmin */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getPendingById */](req.body);
+
+          case 3:
+            _data = _context3.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: _data
+            });
+            _context3.next = 19;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 16 : 18;
+            break;
+
+          case 13:
+            message = 'FSR not found';
+            data = data;
+            return _context3.abrupt('break', 18);
+
+          case 16:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 18);
+
+          case 18:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 19:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 7]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
+// get a pending fsr by name
+router.post('/api/fsr/viewPendingByName', function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
+    var _data2, message;
+
+    return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPendingByName */](req.body);
+
+          case 3:
+            _data2 = _context4.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: _data2
+            });
+            _context4.next = 19;
+            break;
+
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4['catch'](0);
+            message = '';
+            _context4.t1 = _context4.t0;
+            _context4.next = _context4.t1 === 404 ? 13 : _context4.t1 === 500 ? 16 : 18;
+            break;
+
+          case 13:
+            message = 'FSR not found';
+            data: data;
+            return _context4.abrupt('break', 18);
+
+          case 16:
+            message = 'Internal server error';
+            return _context4.abrupt('break', 18);
+
+          case 18:
+            res.status(_context4.t0).json({ status: _context4.t0, message: message });
+
+          case 19:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, _this, [[0, 7]]);
+  }));
+
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
+
+// get an approved fsr by id
+router.post('/api/fsr/viewApprovedById', function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
+    var _data3, message;
+
+    return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* getApprovedById */](req.body);
+
+          case 3:
+            _data3 = _context5.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: _data3
+            });
+            _context5.next = 19;
+            break;
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5['catch'](0);
+            message = '';
+            _context5.t1 = _context5.t0;
+            _context5.next = _context5.t1 === 404 ? 13 : _context5.t1 === 500 ? 16 : 18;
+            break;
+
+          case 13:
+            message = 'FSR not found';
+            data = data;
+            return _context5.abrupt('break', 18);
+
+          case 16:
+            message = 'Internal server error';
+            return _context5.abrupt('break', 18);
+
+          case 18:
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+
+          case 19:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, _this, [[0, 7]]);
+  }));
+
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+
+// get an approved fsr by name
+router.post('/api/fsr/viewApprovedByName', function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+    var _data4, message;
+
+    return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* getApprovedByName */](req.body);
+
+          case 3:
+            _data4 = _context6.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched FSRs',
+              data: _data4
+            });
+            _context6.next = 19;
+            break;
+
+          case 7:
+            _context6.prev = 7;
+            _context6.t0 = _context6['catch'](0);
+            message = '';
+            _context6.t1 = _context6.t0;
+            _context6.next = _context6.t1 === 404 ? 13 : _context6.t1 === 500 ? 16 : 18;
+            break;
+
+          case 13:
+            message = 'FSR not found';
+            data = data;
+            return _context6.abrupt('break', 18);
+
+          case 16:
+            message = 'Internal server error';
+            return _context6.abrupt('break', 18);
+
+          case 18:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 19:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, _this, [[0, 7]]);
+  }));
+
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}());
+
+// send to admin
+router.post('/api/fsr/send', function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee7(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            _context7.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* sendToAdmin */](req.body);
 
           case 3:
 
@@ -4144,38 +4372,38 @@ router.post('/api/fsr/send', function () {
               status: 200,
               message: 'Successfully sent FSR'
             });
-            _context3.next = 17;
+            _context7.next = 17;
             break;
 
           case 6:
-            _context3.prev = 6;
-            _context3.t0 = _context3['catch'](0);
+            _context7.prev = 6;
+            _context7.t0 = _context7['catch'](0);
             message = '';
-            _context3.t1 = _context3.t0;
-            _context3.next = _context3.t1 === 404 ? 12 : _context3.t1 === 500 ? 14 : 16;
+            _context7.t1 = _context7.t0;
+            _context7.next = _context7.t1 === 404 ? 12 : _context7.t1 === 500 ? 14 : 16;
             break;
 
           case 12:
             message = 'FSR not found';
-            return _context3.abrupt('break', 16);
+            return _context7.abrupt('break', 16);
 
           case 14:
             message = 'Internal server error';
-            return _context3.abrupt('break', 16);
+            return _context7.abrupt('break', 16);
 
           case 16:
-            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+            res.status(_context7.t0).json({ status: _context7.t0, message: message });
 
           case 17:
           case 'end':
-            return _context3.stop();
+            return _context7.stop();
         }
       }
-    }, _callee3, _this, [[0, 6]]);
+    }, _callee7, _this, [[0, 6]]);
   }));
 
-  return function (_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function (_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }());
 
@@ -4186,16 +4414,20 @@ router.post('/api/fsr/send', function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getApprovedFSR; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getPendingFSR; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return sendToAdmin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getApprovedFSR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getApprovedByName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getApprovedById; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getPendingFSR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getPendingByName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getPendingById; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return sendToAdmin; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
 // gets all approved fsr
 var getApprovedFSR = function getApprovedFSR() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        SELECT \n            *\n        FROM \n            EMPLOYEE a, \n            EMPLOYEE_FSR b\n        WHERE\n            a.emp_id = b.emp_id\n    ';
+    var queryString = '\n        SELECT \n            *\n        FROM \n            EMPLOYEE a, \n            EMPLOYEE_FSR b\n        WHERE\n            a.emp_id = b.emp_id\n        AND\n            a.type = "FACULTY"\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -4204,7 +4436,53 @@ var getApprovedFSR = function getApprovedFSR() {
       }
 
       if (!rows.length) {
-        return reject(404);
+        return resolve(null);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// search an approved fsr by name
+var getApprovedByName = function getApprovedByName(_ref) {
+  var name = _ref.name;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n            a.*\n        FROM \n            EMPLOYEE a, \n            EMPLOYEE_FSR b\n        WHERE\n            a.emp_id = b.emp_id\n        AND\n            a.type = "FACULTY"\n        AND\n            (a.f_name = ? OR\n            a.m_name = ? OR\n            a.l_name = ?);\n        ';
+
+    var values = [name, name, name];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return resolve(null);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// search an approved fsr by id
+var getApprovedById = function getApprovedById(_ref2) {
+  var empid = _ref2.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n            a.*\n        FROM \n            EMPLOYEE a, \n            EMPLOYEE_FSR b\n        WHERE\n            a.emp_id = b.emp_id\n        AND\n            a.type = "FACULTY"\n        AND\n            a.emp_id = ?\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return resolve(null);
       }
 
       return resolve(rows);
@@ -4215,7 +4493,7 @@ var getApprovedFSR = function getApprovedFSR() {
 // gets all pending FSR
 var getPendingFSR = function getPendingFSR() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n    SELECT \n        *\n    FROM \n        EMPLOYEE\n    WHERE\n        emp_id\n    AND\n        is_being_approved = 1;\n    ';
+    var queryString = '\n    SELECT \n        *\n    FROM \n        EMPLOYEE\n    WHERE\n        is_being_approved = 1\n    AND\n        type = "FACULTY";\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -4224,7 +4502,7 @@ var getPendingFSR = function getPendingFSR() {
       }
 
       if (!rows.length) {
-        return reject(404);
+        return resolve(null);
       }
 
       return resolve(rows);
@@ -4232,9 +4510,55 @@ var getPendingFSR = function getPendingFSR() {
   });
 };
 
-// enables a faculty
-var sendToAdmin = function sendToAdmin(_ref) {
-  var empid = _ref.empid;
+// search a pending fsr by name
+var getPendingByName = function getPendingByName(_ref3) {
+  var name = _ref3.name;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n            *\n        FROM \n          (SELECT * FROM EMPLOYEE WHERE is_being_approved = 1 AND type = "FACULTY") AS PENDING\n        WHERE\n            PENDING.f_name = ? OR PENDING.m_name = ? OR PENDING.l_name = ?;\n        ';
+
+    var values = [name, name, name];
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return resolve(null);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// search a pending fsr by id
+var getPendingById = function getPendingById(_ref4) {
+  var empid = _ref4.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n        SELECT \n          *\n        FROM \n          EMPLOYEE\n        WHERE\n          is_being_approved = 1\n        AND\n          type = "FACULTY"\n        AND\n          emp_id = ?\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return resolve(null);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+
+// sends fsr to data
+var sendToAdmin = function sendToAdmin(_ref5) {
+  var empid = _ref5.empid;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      UPDATE EMPLOYEE\n      SET\n        is_being_approved = 1\n      WHERE\n        emp_id = ?\n    ';
@@ -6632,7 +6956,7 @@ var getFacultyByName = function getFacultyByName(_ref3) {
       }
 
       if (!rows.length) {
-        return reject(404);
+        return resolve(null);
       }
 
       return resolve(rows);
@@ -6654,7 +6978,7 @@ var getFacultyById = function getFacultyById(_ref4) {
       }
 
       if (!rows.length) {
-        return reject(404);
+        return resolve(null);
       }
 
       return resolve(rows);

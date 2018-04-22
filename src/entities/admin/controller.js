@@ -75,7 +75,7 @@ export const getFacultyByName = ({ name }) => {
       }
 
       if (!rows.length) {
-        return reject(404);
+        return resolve(null);
       }
 
       return resolve(rows);
@@ -102,7 +102,7 @@ export const getFacultyById = ({ empid }) => {
       }
 
       if (!rows.length) {
-        return reject(404);
+        return resolve(null);
       }
 
       return resolve(rows);

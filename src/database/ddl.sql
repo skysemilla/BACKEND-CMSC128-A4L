@@ -128,6 +128,7 @@ create table POSITIONN(
   office varchar(255) not null,
   credit_units int not null,
   nature_of_work varchar(255) not null,
+  work_position varchar(255) not null,
   emp_id varchar(9) not null, 
   constraint position_position_id_pk PRIMARY key (position_id),
   constraint position_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -201,11 +202,9 @@ create table STUDY_CREDENTIALS (
 );
 
 create table LIMITED_PRACTICE(
-  limited_practice_id int not null AUTO_INCREMENT,
   haveApplied boolean not null,
   date_submitted date,
   emp_id varchar(9) not null,
-  constraint limited_practice_id_pk PRIMARY key (limited_practice_id),
   constraint limited_practice_emp_id_fk foreign key (emp_id) references EMPLOYEE(emp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -273,7 +272,7 @@ CREATE PROCEDURE get_min_teaching_units( emp_id_view varchar(20) )
   END;
 GO
 
-CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
+CREATE PROCEDURE insert_employee( emp_id_insert varchar(9),
                                   username_insert varchar(20),
                                   password_insert varchar(256),
                                   type_insert varchar(7), 
@@ -303,6 +302,7 @@ CREATE PROCEDURE insert_employee( emp_id_insert varchar(10),
     call insert_log(concat("Employee #", emp_id_insert, " ", f_name_insert, " has been added to the table EMPLOYEE"));
     call insert_study_credentials(NULL, NULL, emp_id_insert, 1, 0);
     call insert_faculty_grant(NULL, NULL,NULL,NULL,NULL,NULL,NULL, emp_id_insert);
+    call insert_limited_practice(0, NULL, emp_id_insert);
   END;
 GO
 
@@ -526,11 +526,12 @@ GO
 CREATE PROCEDURE insert_position(office varchar(255),
                                 credit_units int(10),
                                 nature_of_work varchar(255),
+                                work_position varchar(255),
                                 emp_id varchar(9))
 BEGIN
     INSERT INTO POSITIONN
-      values (NULL, office, credit_units,nature_of_work, emp_id);
-      call insert_log(concat("Position ", office,"/", nature_of_work, "and", credit_units," has been added to the table POSITIONN"));
+      values (NULL, office, credit_units,nature_of_work, work_position, emp_id);
+      call insert_log(concat("Position at office", office,"as", nature_of_work,"/", work_position, "and", credit_units," has been added to the table POSITIONN"));
 END;
 GO
 
@@ -547,13 +548,15 @@ CREATE PROCEDURE update_position(position_id_update int,
                                 office_update varchar(255),
                                 credit_units_update int,
                                 nature_of_work_update varchar(255),
+                                work_position_update varchar(255),
                                 emp_id_update varchar(10))
   BEGIN 
     UPDATE POSITIONN
         SET  office = office_update,
             credit_units = credit_units_update,
             emp_id = emp_id_update,
-             nature_of_work =nature_of_work_update
+             nature_of_work =nature_of_work_update,
+             work_position = work_position_update
         WHERE position_id = position_id_update;
         call insert_log(concat("Position #", position_id_update, " has been updated"));
 
@@ -1089,7 +1092,7 @@ DELIMITER GO
 
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
   BEGIN 
-    SELECT a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
+    SELECT a.consultation_id, a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
 END;
 GO
 
@@ -1220,7 +1223,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS view_limited_practice; 
 DROP PROCEDURE IF EXISTS view_limited_practice_by_emp_id; 
 DROP PROCEDURE IF EXISTS insert_limited_practice; 
-DROP PROCEDURE IF EXISTS delete_limited_practice;
+
 DROP PROCEDURE IF EXISTS insert_date_if_no;
 DROP PROCEDURE IF EXISTS update_limited_practice;
 DELIMITER GO
@@ -1238,13 +1241,13 @@ CREATE PROCEDURE view_limited_practice_by_emp_id(emp_id_view_limited_practice in
   END;
 GO
 
-CREATE PROCEDURE insert_date_if_no( limited_practice_id_u int
+CREATE PROCEDURE insert_date_if_no( emp_id_u int
                                      )
   BEGIN 
     UPDATE LIMITED_PRACTICE
         SET date_submitted = NULL
-        WHERE limited_practice_id = limited_practice_id_u;
-        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+        WHERE emp_id = emp_id_u;
+        call insert_log(concat("Limited practice  ", emp_id_u, " has been updated from the table LIMITED PRACTICE"));
 END;
 GO
 
@@ -1254,33 +1257,22 @@ CREATE PROCEDURE insert_limited_practice( haveApplied boolean,
                       emp_id varchar(9) )
 BEGIN
     INSERT INTO LIMITED_PRACTICE
-      values (NULL, haveApplied, date_submitted,emp_id);
+      values (haveApplied, date_submitted,emp_id);
       call insert_log(concat("Limited practice of profession with emp_id ", emp_id, " has been added to the table LIMITED PRACTICE"));
 END;
 GO
 
-CREATE PROCEDURE delete_limited_practice(limited_practice_id_del int)
-  BEGIN 
-    DELETE FROM LIMITED_PRACTICE
-      where limited_practice_id = limited_practice_id_del;
-      call insert_log(concat("Limited practice", limited_practice_id_del, " has been deleted from the table LIMITED PRACTICE"));
-END;
-GO
 
-
-CREATE PROCEDURE update_limited_practice( limited_practice_id_u int,
-                                haveApplied_u boolean,
+CREATE PROCEDURE update_limited_practice( haveApplied_u boolean,
                                 date_submitted_u date,
                                 emp_id_u varchar(10)
                                 )
   BEGIN 
     UPDATE LIMITED_PRACTICE
-        SET  limited_practice_id = limited_practice_id_u,
-          haveApplied = haveApplied_u,
-          date_submitted = date_submitted_u,
-          emp_id = emp_id_u
-        WHERE limited_practice_id = limited_practice_id_u;
-        call insert_log(concat("Limited practice  ", limited_practice_id_u, " has been updated from the table LIMITED PRACTICE"));
+        SET haveApplied = haveApplied_u,
+          date_submitted = date_submitted_u
+        WHERE emp_id = emp_id_u;
+        call insert_log(concat("Limited practice  ", emp_id_u, " has been updated from the table LIMITED PRACTICE"));
 END;
 GO
 DELIMITER ;
@@ -1386,16 +1378,16 @@ call insert_consultation(('2:30:01'),('2:30:01'), "schoolw", "monday" , "0000000
 call insert_consultation(('2:30:01'),('2:30:01'), "schoosl", "monday" , "000000000");
 call insert_consultation(('2:30:01'),('2:30:01'), "schooal", "monday" , "000000001");
 
-call insert_position("aaron", 2, "A committee","000000000");
-call insert_position("aaron", 2, "B committee","000000002");
-call insert_position("aaron", 2, "A committee","000000001");
-call insert_position("aaron", 2, "A committee","000000000");
-call insert_position("aaron", 2, "A committee","000000003");
-call insert_position("aaron", 2,"A committee", "000000004");
-call insert_position("aaron", 2,"A committee", "000000005");
-call insert_position("aaron", 2, "A committee","000000006");
-call insert_position("aaron", 2, "A committee","000000006");
-call insert_position("aaron", 2, "A committee","000000000");
+call insert_position("office A", 2, "A committee","Member","000000000");
+call insert_position("office A", 2, "B committee","Member","000000002");
+call insert_position("office A", 2, "A committee","Member","000000001");
+call insert_position("office A", 2, "A committee","Member","000000000");
+call insert_position("office A", 2, "A committee","Member","000000003");
+call insert_position("office A", 2,"A committee","Member", "000000004");
+call insert_position("office A", 2,"A committee", "Member","000000005");
+call insert_position("office A", 2, "A committee","Member","000000006");
+call insert_position("office A", 2, "A committee","Member","000000006");
+call insert_position("office A", 2, "A committee","Member","000000000");
 
 call add_subject("cmsc 111", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
 call add_subject("cmsc 11", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));

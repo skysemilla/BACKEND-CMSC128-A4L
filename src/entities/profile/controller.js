@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 // edits the faculty
 export const editFaculty = ({
@@ -16,10 +17,6 @@ export const editFaculty = ({
   is_full_time
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
-    `;
-
     const values = [
       empid,
       username,
@@ -34,8 +31,14 @@ export const editFaculty = ({
       email,
       is_full_time
     ];
+    const queryString = SqlString.format(
+      `
+      call update_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
+    `,
+      values
+    );
 
-    db.query(queryString, values, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -53,7 +56,9 @@ export const editFaculty = ({
 // edits the faculty
 export const editTerm = ({ empid, year, term, isnew }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [year, term, isnew, empid];
+    const queryString = SqlString.format(
+      `
     UPDATE 
       EMPLOYEE
     SET 
@@ -62,11 +67,11 @@ export const editTerm = ({ empid, year, term, isnew }) => {
       is_new = ?
     WHERE 
       emp_id = ?;
-    `;
+    `,
+      values
+    );
 
-    const values = [year, term, isnew, empid];
-
-    db.query(queryString, values, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -84,16 +89,19 @@ export const editTerm = ({ empid, year, term, isnew }) => {
 // gets faculty data
 export const getData = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
           SELECT 
             *
           FROM 
             EMPLOYEE
           WHERE
             emp_id = ?
-        `;
+        `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

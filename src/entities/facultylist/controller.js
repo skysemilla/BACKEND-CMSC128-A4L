@@ -1,13 +1,17 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 // gets one faculty
 export const getFaculty = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
           call view_employee_by_id(?);
-        `;
+        `,
+      [id]
+    );
 
-    db.query(queryString, id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

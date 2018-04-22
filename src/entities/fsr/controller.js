@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 // gets all approved fsr
 export const getApprovedFSR = () => {
@@ -33,7 +34,9 @@ export const getApprovedFSR = () => {
 // search an approved fsr by name
 export const getApprovedByName = ({ name }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [name, name, name];
+    const queryString = SqlString.format(
+      `
         SELECT 
             a.*
         FROM 
@@ -47,11 +50,11 @@ export const getApprovedByName = ({ name }) => {
             (a.f_name = ? OR
             a.m_name = ? OR
             a.l_name = ?);
-        `;
+        `,
+      values
+    );
 
-    var values = [name, name, name];
-
-    db.query(queryString, values, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -69,7 +72,8 @@ export const getApprovedByName = ({ name }) => {
 // search an approved fsr by id
 export const getApprovedById = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
         SELECT 
             a.*
         FROM 
@@ -81,9 +85,11 @@ export const getApprovedById = ({ empid }) => {
             a.type = "FACULTY"
         AND
             a.emp_id = ?
-    `;
+    `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -130,18 +136,20 @@ export const getPendingFSR = () => {
 // search a pending fsr by name
 export const getPendingByName = ({ name }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [name, name, name];
+    const queryString = SqlString.format(
+      `
         SELECT 
             *
         FROM 
           (SELECT * FROM EMPLOYEE WHERE is_being_approved = 1 AND type = "FACULTY") AS PENDING
         WHERE
             PENDING.f_name = ? OR PENDING.m_name = ? OR PENDING.l_name = ?;
-        `;
+        `,
+      values
+    );
 
-    var values = [name, name, name];
-
-    db.query(queryString, values, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -159,7 +167,8 @@ export const getPendingByName = ({ name }) => {
 // search a pending fsr by id
 export const getPendingById = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
         SELECT 
           *
         FROM 
@@ -170,9 +179,11 @@ export const getPendingById = ({ empid }) => {
           type = "FACULTY"
         AND
           emp_id = ?
-    `;
+    `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -190,15 +201,18 @@ export const getPendingById = ({ empid }) => {
 // sends fsr to data
 export const sendToAdmin = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
       UPDATE EMPLOYEE
       SET
         is_being_approved = 1
       WHERE
         emp_id = ?
-    `;
+    `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);

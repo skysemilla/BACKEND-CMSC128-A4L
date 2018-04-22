@@ -1,17 +1,21 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 // enables a faculty
 export const enableFaculty = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
       UPDATE EMPLOYEE
       SET
         is_active = 1
       WHERE
         emp_id = ?
-    `;
+    `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -29,15 +33,18 @@ export const enableFaculty = ({ empid }) => {
 // disables a faculty
 export const disableFaculty = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
         UPDATE EMPLOYEE
         SET
           is_active = 0
         WHERE
           emp_id = ?
-      `;
+      `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -55,7 +62,9 @@ export const disableFaculty = ({ empid }) => {
 // search a faculty by name
 export const getFacultyByName = ({ name }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    var values = [name, name, name];
+    const queryString = SqlString.format(
+      `
         SELECT 
             *
         FROM 
@@ -64,11 +73,11 @@ export const getFacultyByName = ({ name }) => {
             f_name = ? OR
             m_name = ? OR
             l_name = ?
-        `;
+        `,
+      values
+    );
 
-    var values = [name, name, name];
-
-    db.query(queryString, values, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -86,16 +95,19 @@ export const getFacultyByName = ({ name }) => {
 // search a faculty by id
 export const getFacultyById = ({ empid }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
         SELECT 
         *
         FROM 
         EMPLOYEE
         WHERE
         emp_id = ?
-    `;
+    `,
+      [empid]
+    );
 
-    db.query(queryString, empid, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

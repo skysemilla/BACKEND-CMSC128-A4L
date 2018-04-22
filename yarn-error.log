@@ -1,8 +1,8 @@
 Arguments: 
-  /home/aaron/.nvm/versions/node/v8.6.0/bin/node /home/aaron/.nvm/versions/node/v8.6.0/bin/yarn add backpack
+  /home/jomajomajoma/.nvm/versions/node/v8.6.0/bin/node /usr/local/bin/yarn seed
 
 PATH: 
-  /home/aaron/.nvm/versions/node/v8.6.0/bin:/home/aaron/bin:/home/aaron/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /home/jomajomajoma/.nvm/versions/node/v8.6.0/bin:/home/jomajomajoma/.local/share/umake/bin:/home/jomajomajoma/bin:/home/jomajomajoma/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.5.1
@@ -4102,151 +4102,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 Trace: 
-  Error: /home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer: Command failed.
+  Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c node-gyp rebuild
-  Directory: /home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer
+  Arguments: -c mysql -u root -p < src/database/ddl.sql
+  Directory: /home/jomajomajoma/Desktop/BACKEND-CMSC128-A4L-1
   Output:
-  gyp info it worked if it ends with ok
-  gyp info using node-gyp@3.6.2
-  gyp info using node@8.6.0 | linux | x64
-  gyp info spawn /usr/bin/python2
-  gyp info spawn args [ '/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py',
-  gyp info spawn args   'binding.gyp',
-  gyp info spawn args   '-f',
-  gyp info spawn args   'make',
-  gyp info spawn args   '-I',
-  gyp info spawn args   '/home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer/build/config.gypi',
-  gyp info spawn args   '-I',
-  gyp info spawn args   '/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi',
-  gyp info spawn args   '-I',
-  gyp info spawn args   '/home/aaron/.node-gyp/8.6.0/include/node/common.gypi',
-  gyp info spawn args   '-Dlibrary=shared_library',
-  gyp info spawn args   '-Dvisibility=default',
-  gyp info spawn args   '-Dnode_root_dir=/home/aaron/.node-gyp/8.6.0',
-  gyp info spawn args   '-Dnode_gyp_dir=/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/npm/node_modules/node-gyp',
-  gyp info spawn args   '-Dnode_lib_file=/home/aaron/.node-gyp/8.6.0/<(target_arch)/node.lib',
-  gyp info spawn args   '-Dmodule_root_dir=/home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer',
-  gyp info spawn args   '-Dnode_engine=v8',
-  gyp info spawn args   '--depth=.',
-  gyp info spawn args   '--no-parallel',
-  gyp info spawn args   '--generator-output',
-  gyp info spawn args   'build',
-  gyp info spawn args   '-Goutput_dir=.' ]
-  gyp info spawn make
-  gyp info spawn args [ 'BUILDTYPE=Release', '-C', 'build' ]
-  make: Entering directory '/home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer/build'
-    CXX(target) Release/obj.target/aligned_buffer/src/aligned-buffer.o
-  ../src/aligned-buffer.cc: In function ‘v8::Handle<v8::Value> ThrowNodeError(const char*)’:
-  ../src/aligned-buffer.cc:16:44: error: ‘New’ is not a member of ‘v8::String’
-       return ThrowException(Exception::Error(String::New(what)));
-                                              ^
-  ../src/aligned-buffer.cc:16:62: error: ‘ThrowException’ was not declared in this scope
-       return ThrowException(Exception::Error(String::New(what)));
-                                                                ^
-  ../src/aligned-buffer.cc: At global scope:
-  ../src/aligned-buffer.cc:19:31: error: ‘Arguments’ does not name a type
-   Handle<Value> alignment(const Arguments &args) {
-                                 ^
-  ../src/aligned-buffer.cc: In function ‘v8::Handle<v8::Value> alignment(const int&)’:
-  ../src/aligned-buffer.cc:20:45: error: no matching function for call to ‘v8::Number::New(long int)’
-       return Number::New(sysconf(_SC_PAGESIZE));
-                                               ^
-  In file included from /home/aaron/.node-gyp/8.6.0/include/node/node.h:63:0,
-                   from /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:25,
-                   from ../src/aligned-buffer.cc:3:
-  /home/aaron/.node-gyp/8.6.0/include/node/v8.h:2857:24: note: candidate: static v8::Local<v8::Number> v8::Number::New(v8::Isolate*, double)
-     static Local<Number> New(Isolate* isolate, double value);
-                          ^
-  /home/aaron/.node-gyp/8.6.0/include/node/v8.h:2857:24: note:   candidate expects 2 arguments, 1 provided
-  ../src/aligned-buffer.cc: At global scope:
-  ../src/aligned-buffer.cc:23:28: error: ‘Arguments’ does not name a type
-   Handle<Value> buffer(const Arguments &args) {
-                              ^
-  ../src/aligned-buffer.cc: In function ‘v8::Handle<v8::Value> buffer(const int&)’:
-  ../src/aligned-buffer.cc:24:14: error: request for member ‘Length’ in ‘args’, which is of non-class type ‘const int’
-       if (args.Length() < 2) {
-                ^
-  ../src/aligned-buffer.cc:28:39: error: invalid types ‘const int[int]’ for array subscript
-       size_t alignment = (size_t) args[0]->ToNumber()->Value();
-                                         ^
-  ../src/aligned-buffer.cc:29:39: error: invalid types ‘const int[int]’ for array subscript
-       size_t size      = (size_t) args[1]->ToNumber()->Value();
-                                         ^
-  ../src/aligned-buffer.cc:42:12: error: expected primary-expression before ‘*’ token
-       Buffer * Result = Buffer::New((char *) buf, size, free_aligned_buffer, NULL);
-              ^
-  ../src/aligned-buffer.cc:42:14: error: ‘Result’ was not declared in this scope
-       Buffer * Result = Buffer::New((char *) buf, size, free_aligned_buffer, NULL);
-                ^
-  ../src/aligned-buffer.cc:42:80: error: no matching function for call to ‘New(char*, size_t&, void (&)(char*, void*), NULL)’
-       Buffer * Result = Buffer::New((char *) buf, size, free_aligned_buffer, NULL);
-                                                                                  ^
-  In file included from ../src/aligned-buffer.cc:3:0:
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:52:40: note: candidate: v8::MaybeLocal<v8::Object> node::Buffer::New(v8::Isolate*, size_t)
-   NODE_EXTERN v8::MaybeLocal<v8::Object> New(v8::Isolate* isolate, size_t length);
-                                          ^
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:52:40: note:   candidate expects 2 arguments, 4 provided
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:55:40: note: candidate: v8::MaybeLocal<v8::Object> node::Buffer::New(v8::Isolate*, v8::Local<v8::String>, node::encoding)
-   NODE_EXTERN v8::MaybeLocal<v8::Object> New(v8::Isolate* isolate,
-                                          ^
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:55:40: note:   candidate expects 3 arguments, 4 provided
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:60:40: note: candidate: v8::MaybeLocal<v8::Object> node::Buffer::New(v8::Isolate*, char*, size_t, node::Buffer::FreeCallback, void*)
-   NODE_EXTERN v8::MaybeLocal<v8::Object> New(v8::Isolate* isolate,
-                                          ^
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:60:40: note:   candidate expects 5 arguments, 4 provided
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:67:40: note: candidate: v8::MaybeLocal<v8::Object> node::Buffer::New(v8::Isolate*, char*, size_t)
-   NODE_EXTERN v8::MaybeLocal<v8::Object> New(v8::Isolate* isolate,
-                                          ^
-  /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:67:40: note:   candidate expects 3 arguments, 4 provided
-  In file included from /home/aaron/.node-gyp/8.6.0/include/node/node.h:63:0,
-                   from /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:25,
-                   from ../src/aligned-buffer.cc:3:
-  /home/aaron/.node-gyp/8.6.0/include/node/v8.h:876:13: error: ‘v8::HandleScope::HandleScope()’ is protected
-     V8_INLINE HandleScope() {}
-               ^
-  ../src/aligned-buffer.cc:44:17: error: within this context
-       HandleScope scope;
-                   ^
-  ../src/aligned-buffer.cc:46:18: error: ‘class v8::HandleScope’ has no member named ‘Close’
-       return scope.Close(Result->handle_);
-                    ^
-  ../src/aligned-buffer.cc: In function ‘void init(v8::Handle<v8::Object>)’:
-  ../src/aligned-buffer.cc:51:51: error: invalid conversion from ‘v8::Handle<v8::Value> (*)(const int&) {aka v8::Local<v8::Value> (*)(const int&)}’ to ‘v8::FunctionCallback {aka void (*)(const v8::FunctionCallbackInfo<v8::Value>&)}’ [-fpermissive]
-       NODE_SET_METHOD(target, "alignment", alignment);
-                                                     ^
-  In file included from /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:25:0,
-                   from ../src/aligned-buffer.cc:3:
-  /home/aaron/.node-gyp/8.6.0/include/node/node.h:287:13: note:   initializing argument 3 of ‘void node::NODE_SET_METHOD(v8::Local<v8::Object>, const char*, v8::FunctionCallback)’
-   inline void NODE_SET_METHOD(v8::Local<v8::Object> recv,
-               ^
-  ../src/aligned-buffer.cc:52:45: error: invalid conversion from ‘v8::Handle<v8::Value> (*)(const int&) {aka v8::Local<v8::Value> (*)(const int&)}’ to ‘v8::FunctionCallback {aka void (*)(const v8::FunctionCallbackInfo<v8::Value>&)}’ [-fpermissive]
-       NODE_SET_METHOD(target, "buffer", buffer);
-                                               ^
-  In file included from /home/aaron/.node-gyp/8.6.0/include/node/node_buffer.h:25:0,
-                   from ../src/aligned-buffer.cc:3:
-  /home/aaron/.node-gyp/8.6.0/include/node/node.h:287:13: note:   initializing argument 3 of ‘void node::NODE_SET_METHOD(v8::Local<v8::Object>, const char*, v8::FunctionCallback)’
-   inline void NODE_SET_METHOD(v8::Local<v8::Object> recv,
-               ^
-  aligned_buffer.target.mk:95: recipe for target 'Release/obj.target/aligned_buffer/src/aligned-buffer.o' failed
-  make: Leaving directory '/home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer/build'
-  make: *** [Release/obj.target/aligned_buffer/src/aligned-buffer.o] Error 1
-  gyp ERR! build error 
-  gyp ERR! stack Error: `make` failed with exit code: 2
-  gyp ERR! stack     at ChildProcess.onExit (/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/npm/node_modules/node-gyp/lib/build.js:258:23)
-  gyp ERR! stack     at emitTwo (events.js:125:13)
-  gyp ERR! stack     at ChildProcess.emit (events.js:213:7)
-  gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:200:12)
-  gyp ERR! System Linux 4.10.0-28-generic
-  gyp ERR! command "/home/aaron/.nvm/versions/node/v8.6.0/bin/node" "/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild"
-  gyp ERR! cwd /home/aaron/Documents/BACKEND-CMSC128-A4L-1/node_modules/aligned-buffer
-  gyp ERR! node -v v8.6.0
-  gyp ERR! node-gyp -v v3.6.2
-  gyp ERR! not ok
-      at ProcessTermError.MessageError (/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/home/aaron/.nvm/versions/node/v8.6.0/lib/node_modules/yarn/lib/cli.js:30281:17)
+  
+      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
       at emitTwo (events.js:125:13)
       at ChildProcess.emit (events.js:213:7)
       at maybeClose (internal/child_process.js:927:16)

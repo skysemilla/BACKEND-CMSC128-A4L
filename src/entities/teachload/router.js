@@ -115,6 +115,32 @@ router.post('/api/teachingload/viewByTeachloadId', async (req, res) => {
   }
   });
 
+router.post('/api/teachload/viewempadmin', async (req, res) => {
+  console.log(req.body.emp_id);
+  if(req.body.emp_id){    
+    try {
+      const book = await Ctrl.getTeachEmpAdmin(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched teach load',
+        data: book
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Teach load not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
+    }
+  }
+});
+
+
 router.post('/api/teachload/view', async (req, res) => {
   try {
     const book = await Ctrl.getTeachEmp(req.session.user);

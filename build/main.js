@@ -3669,6 +3669,59 @@ router.get('/api/fsr/viewApproved', function () {
   };
 }());
 
+// send to admin
+router.post('/api/fsr/send', function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* sendToAdmin */](req.body);
+
+          case 3:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully sent FSR'
+            });
+            _context3.next = 17;
+            break;
+
+          case 6:
+            _context3.prev = 6;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 404 ? 12 : _context3.t1 === 500 ? 14 : 16;
+            break;
+
+          case 12:
+            message = 'FSR not found';
+            return _context3.abrupt('break', 16);
+
+          case 14:
+            message = 'Internal server error';
+            return _context3.abrupt('break', 16);
+
+          case 16:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 17:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[0, 6]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -3678,6 +3731,7 @@ router.get('/api/fsr/viewApproved', function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getApprovedFSR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getPendingFSR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return sendToAdmin; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 
@@ -3717,6 +3771,28 @@ var getPendingFSR = function getPendingFSR() {
       }
 
       return resolve(rows);
+    });
+  });
+};
+
+// enables a faculty
+var sendToAdmin = function sendToAdmin(_ref) {
+  var empid = _ref.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n      UPDATE EMPLOYEE\n      SET\n        is_being_approved = 1\n      WHERE\n        emp_id = ?\n    ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
     });
   });
 };

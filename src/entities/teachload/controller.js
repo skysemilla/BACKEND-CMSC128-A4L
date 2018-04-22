@@ -272,7 +272,26 @@ export const getTeachEmp = (json) => {
         return reject(404);
       }
 
-      return resolve(rows[0]);
+      var newArray = [];
+      var visitedArray = []; 
+      var i, j;
+      for(i=0;i<rows[0].length;i++){
+        var daysArray = [];
+        if(visitedArray.includes(rows[0][i].teachingload_id)){
+
+        }else{
+          for(j=0;j<rows[0].length;j++){
+            if(rows[0][i].teachingload_id==rows[0][j].teachingload_id){
+              daysArray.push(rows[0][j].day);
+            }
+          }
+          rows[0][i].day = daysArray;
+          visitedArray.push(rows[0][i].teachingload_id);
+          newArray.push(rows[0][i]);
+        }
+      }
+
+      return resolve(newArray);
     });
   });
 };

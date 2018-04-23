@@ -520,7 +520,7 @@ GO
 CREATE PROCEDURE view_position_by_ID( emp_id_v varchar(10) )
   BEGIN
     SELECT * FROM POSITIONN
-    WHERE emp_id = emp_id_v;
+    WHERE position_id = emp_id_v;
   END;
 GO
 

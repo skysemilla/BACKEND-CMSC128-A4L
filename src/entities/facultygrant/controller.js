@@ -1,53 +1,55 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 //adds a faculty grant
-  export const addFacultyGrant = ({emp_id}) => {
-    return new Promise((resolve, reject) => {
-      const values = [emp_id];
-      const queryString = SqlString.format(`
+export const addFacultyGrant = ({ emp_id }) => {
+  return new Promise((resolve, reject) => {
+    const values = [emp_id];
+    const queryString = SqlString.format(
+      `
         CALL 
         insert_faculty_grant(NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?);
       `,
       values
     );
-      
-      db.query(queryString,values, (err, results) => {
-        if (err) {
-          console.log(err.message);
-          return reject(500);
-        }
-        return resolve(results.insertId);
-      });
+
+    db.query(queryString, (err, results) => {
+      if (err) {
+        console.log(err.message);
+        return reject(500);
+      }
+      return resolve(results.insertId);
     });
-  };
-  
+  });
+};
+
 // gets all faculty
-  export const getAllFacultyGrant = () => {
-    return new Promise((resolve, reject) => {
-      const queryString = SqlString.format(`
+export const getAllFacultyGrant = () => {
+  return new Promise((resolve, reject) => {
+    const queryString = SqlString.format(`
         CALL view_faculty_grant();
-      `
-    );
-  
-      db.query(queryString, (err, rows) => {
-        if (err) {
-          console.log(err);
-          return reject(500);
-        }
-  
-        if (!rows.length) {
-          return reject(404);
-        }
-  
-        return resolve(rows);
-      });
+      `);
+
+    db.query(queryString, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
     });
-  };
-  
+  });
+};
+
 // gets a faculty grant by id
 export const getFacultyGrant = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
+    const queryString = SqlString.format(
+      `
           SELECT 
             *
           FROM 
@@ -55,10 +57,10 @@ export const getFacultyGrant = ({ id }) => {
           WHERE
             faculty_grant_id = ?
         `,
-        [id]
-      );
+      [id]
+    );
 
-    db.query(queryString, id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -76,13 +78,14 @@ export const getFacultyGrant = ({ id }) => {
 // gets a faculty grant by id by emp_id
 export const getAllFacultyGrantByEmp = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
+    const queryString = SqlString.format(
+      `
           CALL view_faculty_grant_by_emp_id(?)
         `,
-        [id]
-      );
+      [id]
+    );
 
-    db.query(queryString, id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -97,18 +100,18 @@ export const getAllFacultyGrantByEmp = ({ id }) => {
   });
 };
 
-
 // removes a faculty grant
 export const removeFacultyGrant = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
+    const queryString = SqlString.format(
+      `
       CALL
       delete_faculty_grant(?);
     `,
       [id]
-  );
+    );
 
-    db.query(queryString, id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -118,7 +121,7 @@ export const removeFacultyGrant = ({ id }) => {
         return reject(404);
       }
 
-      return resolve(); 
+      return resolve();
     });
   });
 };
@@ -126,18 +129,16 @@ export const removeFacultyGrant = ({ id }) => {
 // edits a faculty grant
 export const editFacultyGrant = ({
   emp_id,
-	type,
-	is_approved,
-	professional_chair,
-	grants,
-	grant_title,
-	start_date,
-	end_date
-
+  type,
+  is_approved,
+  professional_chair,
+  grants,
+  grant_title,
+  start_date,
+  end_date
 }) => {
   return new Promise((resolve, reject) => {
-    if(type === "Yes")
-    {
+    if (type === 'Yes') {
       const values = [
         emp_id,
         type,
@@ -148,17 +149,15 @@ export const editFacultyGrant = ({
         start_date,
         end_date
       ];
-      const queryString = SqlString.format(`
+      const queryString = SqlString.format(
+        `
       CALL 
       update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);
     `,
-    values
-  );
+        values
+      );
 
-    
-  
-
-      db.query(queryString, values, (err, res) => {
+      db.query(queryString, (err, res) => {
         if (err) {
           console.log(err);
           return reject(500);
@@ -170,20 +169,17 @@ export const editFacultyGrant = ({
 
         return resolve();
       });
-    }
-    else{
-        const values = [
-          emp_id,
-        ];
-        const queryString = SqlString.format(`
+    } else {
+      const values = [emp_id];
+      const queryString = SqlString.format(
+        `
         CALL 
         update_faculty_grant(?, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       `,
         values
-    );
+      );
 
-      
-      db.query(queryString, values, (err, res) => {
+      db.query(queryString, (err, res) => {
         if (err) {
           console.log(err);
           return reject(500);

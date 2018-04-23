@@ -1,25 +1,18 @@
 import db from '../../database';
 var SqlString = require('sqlstring');
 
-export const addLimitedPractice = ({
-  haveApplied,
-  date_submitted,
-  emp_id
-}) => {
+export const addLimitedPractice = ({ haveApplied, date_submitted, emp_id }) => {
   return new Promise((resolve, reject) => {
-    const values = [
-      haveApplied,
-      date_submitted,
-      emp_id
-    ];
-    const queryString = SqlString.format(`
+    const values = [haveApplied, date_submitted, emp_id];
+    const queryString = SqlString.format(
+      `
       CALL  
       insert_limited_practice(?, ?, ?)
     `,
-    values
-  );
-    
-    db.query(queryString, values, (err, results) => {
+      values
+    );
+
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -29,17 +22,17 @@ export const addLimitedPractice = ({
   });
 };
 
-
 export const removeLimitedPractice = ({ limited_practice_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
+    const queryString = SqlString.format(
+      `
         CALL
         delete_limited_practice(?);
       `,
       [limited_practice_id]
     );
 
-    db.query(queryString, limited_practice_id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -54,30 +47,23 @@ export const removeLimitedPractice = ({ limited_practice_id }) => {
   });
 };
 
-
 export const editLimitedPractice = ({
   haveApplied,
   date_submitted,
   emp_id
 }) => {
-  
   return new Promise((resolve, reject) => {
-    if(haveApplied == 1){
-      const values = [
-        haveApplied,
-        date_submitted,
-        emp_id
-      ];
-      const queryString = SqlString.format(`
+    if (haveApplied == 1) {
+      const values = [haveApplied, date_submitted, emp_id];
+      const queryString = SqlString.format(
+        `
           CALL
           update_limited_practice(?, ?, ?)
         `,
         values
       );
 
-      
-
-      db.query(queryString, values, (err, res) => {
+      db.query(queryString, (err, res) => {
         if (err) {
           console.log(err);
           return reject(500);
@@ -89,19 +75,17 @@ export const editLimitedPractice = ({
 
         return resolve();
       });
-    }else{
-      const values = [
-        haveApplied,
-        emp_id
-      ];
-      const queryString = SqlString.format(`
+    } else {
+      const values = [haveApplied, emp_id];
+      const queryString = SqlString.format(
+        `
       CALL
       update_limited_practice(?, null, ?)
         `,
         values
       );
 
-      db.query(queryString, values, (err, res) => {
+      db.query(queryString, (err, res) => {
         if (err) {
           console.log(err);
           return reject(500);
@@ -119,14 +103,15 @@ export const editLimitedPractice = ({
 
 export const getLimitedPractice = ({ emp_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
+    const queryString = SqlString.format(
+      `
           CALL
           view_limited_practice_by_emp_id(?)
         `,
-        [emp_id]
-      );
+      [emp_id]
+    );
 
-    db.query(queryString, emp_id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -146,8 +131,7 @@ export const getAllLimitedPractice = () => {
     const queryString = SqlString.format(`
         CALL
         view_limited_practice()
-      `
-    );
+      `);
 
     db.query(queryString, (err, rows) => {
       if (err) {

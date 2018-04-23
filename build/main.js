@@ -429,6 +429,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+var alphanumRegex = /^[a-zA-Z0-9 ]*[a-zA-Z ][a-zA-Z0-9 ]*$/;
+var numRegex = /^[0-9\s\-']+$/;
+var creditRegex = /^[0-9]$/;
+var empidRegex = /^[0-9]{9}$/;
+var nameRegex = /^[A-Za-z\-'\s]+$/;
 
 // gets extension
 router.post('/api/extension/viewByID', function () {
@@ -482,19 +487,23 @@ router.post('/api/extension/viewByID', function () {
   };
 }());
 
-// get a extensions
-router.post('/api/extension/view', function () {
+router.post('/api/extension/viewByID', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
     var extension, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getExtension */](req.body);
+            if (!req.body.id) {
+              _context2.next = 19;
+              break;
+            }
 
-          case 3:
+            _context2.prev = 1;
+            _context2.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getExtensionByID */](req.body);
+
+          case 4:
             extension = _context2.sent;
 
             res.status(200).json({
@@ -502,34 +511,34 @@ router.post('/api/extension/view', function () {
               message: 'Successfully fetched Extension',
               data: extension
             });
-            _context2.next = 18;
+            _context2.next = 19;
             break;
 
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2['catch'](0);
+          case 8:
+            _context2.prev = 8;
+            _context2.t0 = _context2['catch'](1);
             message = '';
             _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 404 ? 13 : _context2.t1 === 500 ? 15 : 17;
+            _context2.next = _context2.t1 === 404 ? 14 : _context2.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Extension not found';
-            return _context2.abrupt('break', 17);
+            return _context2.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context2.abrupt('break', 17);
-
-          case 17:
-            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+            return _context2.abrupt('break', 18);
 
           case 18:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 19:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 7]]);
+    }, _callee2, _this, [[1, 8]]);
   }));
 
   return function (_x3, _x4) {
@@ -537,18 +546,24 @@ router.post('/api/extension/view', function () {
   };
 }());
 
-router.post('/api/extension/viewByID', function () {
+// get a extensions
+router.post('/api/extension/view', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
     var extension, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getExtensionByID */](req.body);
+            if (!req.body.id) {
+              _context3.next = 19;
+              break;
+            }
 
-          case 3:
+            _context3.prev = 1;
+            _context3.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getExtension */](req.body);
+
+          case 4:
             extension = _context3.sent;
 
             res.status(200).json({
@@ -556,40 +571,52 @@ router.post('/api/extension/viewByID', function () {
               message: 'Successfully fetched Extension',
               data: extension
             });
-            _context3.next = 18;
+            _context3.next = 19;
             break;
 
-          case 7:
-            _context3.prev = 7;
-            _context3.t0 = _context3['catch'](0);
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3['catch'](1);
             message = '';
             _context3.t1 = _context3.t0;
-            _context3.next = _context3.t1 === 404 ? 13 : _context3.t1 === 500 ? 15 : 17;
+            _context3.next = _context3.t1 === 404 ? 14 : _context3.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Extension not found';
-            return _context3.abrupt('break', 17);
+            return _context3.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context3.abrupt('break', 17);
-
-          case 17:
-            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+            return _context3.abrupt('break', 18);
 
           case 18:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 19:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[0, 7]]);
+    }, _callee3, _this, [[1, 8]]);
   }));
 
   return function (_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }());
+
+// credit_unit,
+//   extension_name,
+//   extension_type,
+//   no_of_hours,
+//   no_of_participants,
+//   extension_role,
+//   start_time,
+//   end_time,
+//   funding_agency,
+//   emp_id
+
 // add a extension
 router.post('/api/extension/add', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
@@ -598,7 +625,7 @@ router.post('/api/extension/add', function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            if (!(req.body.extension_type && req.body.extension_name && req.body.no_of_participants >= 0 && req.body.extension_role && req.body.credit_unit >= 0 && req.body.funding_agency)) {
+            if (!(req.body.credit_unit >= 0 && req.body.extension_type && req.body.extension_name && req.body.no_of_participants >= 0 && req.body.extension_role && req.body.funding_agency && req.body.funding_agency.match(numRegex) === false)) {
               _context4.next = 13;
               break;
             }
@@ -654,45 +681,50 @@ router.post('/api/extension/delete', function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
+            if (!req.body.id) {
+              _context5.next = 18;
+              break;
+            }
+
+            _context5.prev = 1;
+            _context5.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeExtension */](req.body);
 
-          case 3:
+          case 4:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed sample'
               // data: extension
             });
-            _context5.next = 17;
+            _context5.next = 18;
             break;
 
-          case 6:
-            _context5.prev = 6;
-            _context5.t0 = _context5['catch'](0);
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5['catch'](1);
             message = '';
             _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 404 ? 12 : _context5.t1 === 500 ? 14 : 16;
+            _context5.next = _context5.t1 === 404 ? 13 : _context5.t1 === 500 ? 15 : 17;
             break;
 
-          case 12:
+          case 13:
             message = 'Cannot Delete: Extension not found';
-            return _context5.abrupt('break', 16);
+            return _context5.abrupt('break', 17);
 
-          case 14:
+          case 15:
             message = 'Internal server error';
-            return _context5.abrupt('break', 16);
-
-          case 16:
-            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+            return _context5.abrupt('break', 17);
 
           case 17:
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+
+          case 18:
           case 'end':
             return _context5.stop();
         }
       }
-    }, _callee5, _this, [[0, 6]]);
+    }, _callee5, _this, [[1, 7]]);
   }));
 
   return function (_x9, _x10) {
@@ -708,11 +740,16 @@ router.post('/api/extension/edit', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            if (!req.body.id) {
+              _context6.next = 18;
+              break;
+            }
+
+            _context6.prev = 1;
+            _context6.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editExtension */](req.body);
 
-          case 3:
+          case 4:
             // const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
 
             res.status(200).json({
@@ -720,34 +757,34 @@ router.post('/api/extension/edit', function () {
               message: 'Successfully edited extension'
               // data: extensionEdited
             });
-            _context6.next = 17;
+            _context6.next = 18;
             break;
 
-          case 6:
-            _context6.prev = 6;
-            _context6.t0 = _context6['catch'](0);
+          case 7:
+            _context6.prev = 7;
+            _context6.t0 = _context6['catch'](1);
             message = '';
             _context6.t1 = _context6.t0;
-            _context6.next = _context6.t1 === 404 ? 12 : _context6.t1 === 500 ? 14 : 16;
+            _context6.next = _context6.t1 === 404 ? 13 : _context6.t1 === 500 ? 15 : 17;
             break;
 
-          case 12:
+          case 13:
             message = 'Extension not found';
-            return _context6.abrupt('break', 16);
+            return _context6.abrupt('break', 17);
 
-          case 14:
+          case 15:
             message = 'Internal server error';
-            return _context6.abrupt('break', 16);
-
-          case 16:
-            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+            return _context6.abrupt('break', 17);
 
           case 17:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 18:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, _this, [[0, 6]]);
+    }, _callee6, _this, [[1, 7]]);
   }));
 
   return function (_x11, _x12) {
@@ -770,13 +807,14 @@ router.post('/api/extension/edit', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editExtension; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 // gets extensions
 var getExtension = function getExtension(_ref) {
   var id = _ref.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = 'SELECT * from EXTENSION where emp_id = ?';
+    var queryString = SqlString.format('SELECT * from EXTENSION where emp_id = ?', [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -798,7 +836,7 @@ var getExtensionByID = function getExtensionByID(_ref2) {
   var id = _ref2.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT * from EXTENSION where extension_id = ?;\n        ';
+    var queryString = SqlString.format('\n          SELECT * from EXTENSION where extension_id = ?;\n        ', [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -845,7 +883,7 @@ var addExtension = function addExtension(_ref3) {
       emp_id = _ref3.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n        ';
+    var queryString = SqlString.format('\n            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n        ', addExtension);
 
     var values = [credit_unit, extension_name, extension_type, no_of_hours, no_of_participants, extension_role, start_time, end_time, funding_agency, emp_id];
 
@@ -897,7 +935,7 @@ var editExtension = function editExtension(_ref5) {
       emp_id_update = _ref5.emp_id_update;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+    var queryString = SqlString.format('\n      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ', editExtension);
 
     var values = [extension_id_update, credit_unit_update, extension_name_update, extension_type_update, no_of_hours_update, no_of_participants_update, extension_role_update, start_time_update, end_time_update, funding_agency_update, emp_id_update];
 

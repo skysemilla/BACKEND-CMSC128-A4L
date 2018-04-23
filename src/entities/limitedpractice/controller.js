@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 export const addLimitedPractice = ({
   haveApplied,
@@ -6,17 +7,18 @@ export const addLimitedPractice = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-      CALL  
-      insert_limited_practice(?, ?, ?)
-    `;
-    
     const values = [
       haveApplied,
       date_submitted,
       emp_id
     ];
-
+    const queryString = SqlString.format(`
+      CALL  
+      insert_limited_practice(?, ?, ?)
+    `,
+    values
+  );
+    
     db.query(queryString, values, (err, results) => {
       if (err) {
         console.log(err);
@@ -30,10 +32,12 @@ export const addLimitedPractice = ({
 
 export const removeLimitedPractice = ({ limited_practice_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
         CALL
         delete_limited_practice(?);
-      `;
+      `,
+      [limited_practice_id]
+    );
 
     db.query(queryString, limited_practice_id, (err, results) => {
       if (err) {
@@ -56,18 +60,22 @@ export const editLimitedPractice = ({
   date_submitted,
   emp_id
 }) => {
+  
   return new Promise((resolve, reject) => {
     if(haveApplied == 1){
-      const queryString = `
-          CALL
-          update_limited_practice(?, ?, ?)
-        `;
-
       const values = [
         haveApplied,
         date_submitted,
         emp_id
       ];
+      const queryString = SqlString.format(`
+          CALL
+          update_limited_practice(?, ?, ?)
+        `,
+        values
+      );
+
+      
 
       db.query(queryString, values, (err, res) => {
         if (err) {
@@ -82,11 +90,16 @@ export const editLimitedPractice = ({
         return resolve();
       });
     }else{
-      
-      const queryString = `
+      const values = [
+        haveApplied,
+        emp_id
+      ];
+      const queryString = SqlString.format(`
       CALL
       update_limited_practice(?, null, ?)
-        `;
+        `,
+        values
+      );
 
       const values = [
         
@@ -112,10 +125,12 @@ export const editLimitedPractice = ({
 
 export const getLimitedPractice = ({ emp_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
           CALL
           view_limited_practice_by_emp_id(?)
-        `;
+        `,
+        [emp_id]
+      );
 
     db.query(queryString, emp_id, (err, rows) => {
       if (err) {
@@ -134,10 +149,11 @@ export const getLimitedPractice = ({ emp_id }) => {
 
 export const getAllLimitedPractice = () => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
         CALL
         view_limited_practice()
-      `;
+      `
+    );
 
     db.query(queryString, (err, rows) => {
       if (err) {

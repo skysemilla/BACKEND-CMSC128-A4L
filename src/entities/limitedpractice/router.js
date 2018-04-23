@@ -51,7 +51,6 @@ router.post('/api/limitedpractice/delete', async (req, res) => {
 
 router.post('/api/limitedpractice/edit', async (req, res) => {
   if (
-    req.body.limited_practice_id &&
     req.body.haveApplied &&
     req.body.date_submitted &&
     req.body.emp_id

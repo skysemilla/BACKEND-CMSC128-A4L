@@ -4,9 +4,9 @@ import * as Ctrl from './controller';
 const router = Router();
 
 // gets samples
-router.get('/api/subject/viewAll', async (req, res) => {
+router.post('/api/subject/viewAll', async (req, res) => {
   try {
-    const subject = await Ctrl.getSamples();
+    const subject = await Ctrl.getSubjects();
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched all subjects',
@@ -22,6 +22,28 @@ router.get('/api/subject/viewAll', async (req, res) => {
     }
 
     res.status(200).json({ status, message });
+  }
+});
+
+// gets samples
+router.post('/api/subject/viewsubject', async (req, res) => {
+  try {
+    const subject = await Ctrl.getSubject(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched subject',
+      data: subject
+    }); 
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(status).json({ status, message });
   }
 });
 

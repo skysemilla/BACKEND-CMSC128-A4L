@@ -1,7 +1,7 @@
 import db from '../../database';
 
 
-export const getSubject = ({ id }) => {
+export const getSubject = ({ subject_code, section_code }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
           SELECT 
@@ -9,19 +9,17 @@ export const getSubject = ({ id }) => {
           FROM 
             SUBJECT
           WHERE
-            id = ?
+            subject_code = ? and section_code = ?;
         `;
-
-    db.query(queryString, id, (err, rows) => {
+    const values = [subject_code, section_code]
+    db.query(queryString, values, (err, rows) => {
       if (err) {
-        console.log(err);
         return reject(500);
       }
 
       if (!rows.length) {
         return reject(404);
       }
-
       return resolve(rows[0]);
     });
   });
@@ -30,8 +28,11 @@ export const getSubject = ({ id }) => {
 // gets all subjects
 export const getSubjects = () => {
   return new Promise((resolve, reject) => {
+    // const queryString = `
+      // CALL view_subjects()
+    // `;
     const queryString = `
-      CALL view_subjects()
+      SELECT * FROM SUBJECT;
     `;
 
     db.query(queryString, (err, rows) => {
@@ -103,6 +104,36 @@ export const editSubject = ({subject_id, subject_code, section_code, isLecture, 
       }
 
       return resolve();
+    });
+  });
+};
+
+export const getSubjectDay = (json) => {
+  return new Promise((resolve, reject) => {
+    const emp_id = json.emp_id;
+    // const queryString = 
+    // `
+    //       SELECT 
+    //         CONCAT(
+    //         (SELECT subject_code,section_code, room,start_time,end_time FROM SUBJECT WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD WHERE emp_id = ?)),
+    //         (SELECT no_of_students FROM TEACHINGLOAD WHERE emp_id = ?), 
+    //         (SELECT * FROM SUBJECT_DAY WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD WHERE emp_id = ?)) 
+    //         );
+    //     `;
+
+    const queryString =  `
+      SELECT * FROM TEACHINGLOAD JOIN SUBJECT_DAY WHERE SUBJECT_DAY.subject_id = TEACHINGLOAD.subject_id ;
+    `;
+    db.query(queryString, emp_id, (err, results) => {
+      if (err) {
+        return reject(500);
+      }
+
+      if (!results.length) {
+        return reject(404);
+      }
+      console.log(results);
+      return resolve(results);
     });
   });
 };

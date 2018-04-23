@@ -1,8 +1,11 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 export const login = ({ username, password }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [username, password];
+    const queryString = SqlString.format(
+      `
       SELECT 
         *
       FROM
@@ -10,11 +13,11 @@ export const login = ({ username, password }) => {
       WHERE
         username = BINARY ? and
         password = BINARY sha2(?,256)
-    `;
+    `,
+      values
+    );
 
-    const values = [username, password];
-
-    db.query(queryString, values, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

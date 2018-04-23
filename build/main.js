@@ -3073,7 +3073,7 @@ router.post('/api/teachload/add', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code)) {
+            if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code && req.session.user)) {
               _context.next = 32;
               break;
             }
@@ -3416,11 +3416,16 @@ router.post('/api/teachload/view', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            if (!req.session.user) {
+              _context6.next = 19;
+              break;
+            }
+
+            _context6.prev = 1;
+            _context6.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["l" /* getTeachEmp */](req.session.user);
 
-          case 3:
+          case 4:
             book = _context6.sent;
 
             res.status(200).json({
@@ -3428,34 +3433,34 @@ router.post('/api/teachload/view', function () {
               message: 'Successfully fetched teach load',
               data: book
             });
-            _context6.next = 18;
+            _context6.next = 19;
             break;
 
-          case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6['catch'](0);
+          case 8:
+            _context6.prev = 8;
+            _context6.t0 = _context6['catch'](1);
             message = '';
             _context6.t1 = _context6.t0;
-            _context6.next = _context6.t1 === 404 ? 13 : _context6.t1 === 500 ? 15 : 17;
+            _context6.next = _context6.t1 === 404 ? 14 : _context6.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Teach load not found';
-            return _context6.abrupt('break', 17);
+            return _context6.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context6.abrupt('break', 17);
-
-          case 17:
-            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+            return _context6.abrupt('break', 18);
 
           case 18:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 19:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, _this, [[0, 7]]);
+    }, _callee6, _this, [[1, 8]]);
   }));
 
   return function (_x11, _x12) {
@@ -3521,7 +3526,7 @@ router.post('/api/teachload/editAddTeachLoadUnits/', function () {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            if (!req.body.units) {
+            if (!(req.body.units && req.session.user)) {
               _context8.next = 15;
               break;
             }
@@ -3579,7 +3584,7 @@ router.post('/api/teachload/editRemoveTeachLoadUnits/', function () {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            if (!req.body.units) {
+            if (!(req.body.units && req.session.user)) {
               _context9.next = 15;
               break;
             }
@@ -5846,11 +5851,16 @@ router.post('/api/facultygrant/viewEmp', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            if (!req.body.id) {
+              _context.next = 21;
+              break;
+            }
+
+            _context.prev = 1;
+            _context.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getAllFacultyGrantByEmp */](req.body);
 
-          case 3:
+          case 4:
             facultygrant = _context.sent;
 
             res.status(200).json({
@@ -5858,34 +5868,41 @@ router.post('/api/facultygrant/viewEmp', function () {
               message: 'Successfully fetched faculty grant',
               data: facultygrant
             });
-            _context.next = 18;
+            _context.next = 19;
             break;
 
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context['catch'](0);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context['catch'](1);
             message = '';
             _context.t1 = _context.t0;
-            _context.next = _context.t1 === 404 ? 13 : _context.t1 === 500 ? 15 : 17;
+            _context.next = _context.t1 === 404 ? 14 : _context.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Faculty grant not found';
-            return _context.abrupt('break', 17);
+            return _context.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context.abrupt('break', 17);
-
-          case 17:
-            res.status(_context.t0).json({ status: _context.t0, message: message });
+            return _context.abrupt('break', 18);
 
           case 18:
+            res.status(_context.t0).json({ status: _context.t0, message: message });
+
+          case 19:
+            _context.next = 22;
+            break;
+
+          case 21:
+            res.status(400).json({ status: 400, message: 'Bad Request' });
+
+          case 22:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, _this, [[0, 7]]);
+    }, _callee, _this, [[1, 8]]);
   }));
 
   return function (_x, _x2) {
@@ -5901,11 +5918,16 @@ router.get('/api/facultygrant/view', function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            if (!req.body.id) {
+              _context2.next = 21;
+              break;
+            }
+
+            _context2.prev = 1;
+            _context2.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getFacultyGrant */](req.body);
 
-          case 3:
+          case 4:
             facultygrant = _context2.sent;
 
             res.status(200).json({
@@ -5913,34 +5935,41 @@ router.get('/api/facultygrant/view', function () {
               message: 'Successfully fetched faculty grant',
               data: facultygrant
             });
-            _context2.next = 18;
+            _context2.next = 19;
             break;
 
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2['catch'](0);
+          case 8:
+            _context2.prev = 8;
+            _context2.t0 = _context2['catch'](1);
             message = '';
             _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 404 ? 13 : _context2.t1 === 500 ? 15 : 17;
+            _context2.next = _context2.t1 === 404 ? 14 : _context2.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Faculty grant not found';
-            return _context2.abrupt('break', 17);
+            return _context2.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context2.abrupt('break', 17);
-
-          case 17:
-            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+            return _context2.abrupt('break', 18);
 
           case 18:
+            res.status(_context2.t0).json({ status: _context2.t0, message: message });
+
+          case 19:
+            _context2.next = 22;
+            break;
+
+          case 21:
+            res.status(400).json({ status: 400, message: 'Bad Request' });
+
+          case 22:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 7]]);
+    }, _callee2, _this, [[1, 8]]);
   }));
 
   return function (_x3, _x4) {
@@ -6126,11 +6155,16 @@ router.post('/api/facultygrant/edit', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            if (!(req.body.emp_id && req.body.type && req.body.is_approved && req.body.professional_chair && req.body.grants && req.body.grant_title && req.body.start_date && req.body.end_date)) {
+              _context6.next = 20;
+              break;
+            }
+
+            _context6.prev = 1;
+            _context6.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editFacultyGrant */](req.body);
 
-          case 3:
+          case 4:
             // const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body)({
             //   emp_id: req.body.emp_id
             // });
@@ -6140,34 +6174,41 @@ router.post('/api/facultygrant/edit', function () {
               message: 'Successfully edited faculty grant'
               // data: facultygrant
             });
-            _context6.next = 17;
+            _context6.next = 18;
             break;
 
-          case 6:
-            _context6.prev = 6;
-            _context6.t0 = _context6['catch'](0);
+          case 7:
+            _context6.prev = 7;
+            _context6.t0 = _context6['catch'](1);
             message = '';
             _context6.t1 = _context6.t0;
-            _context6.next = _context6.t1 === 404 ? 12 : _context6.t1 === 500 ? 14 : 16;
+            _context6.next = _context6.t1 === 404 ? 13 : _context6.t1 === 500 ? 15 : 17;
             break;
 
-          case 12:
+          case 13:
             message = 'Faculty grant not found';
-            return _context6.abrupt('break', 16);
+            return _context6.abrupt('break', 17);
 
-          case 14:
+          case 15:
             message = 'Internal server error';
-            return _context6.abrupt('break', 16);
-
-          case 16:
-            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+            return _context6.abrupt('break', 17);
 
           case 17:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 18:
+            _context6.next = 21;
+            break;
+
+          case 20:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
+          case 21:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, _this, [[0, 6]]);
+    }, _callee6, _this, [[1, 7]]);
   }));
 
   return function (_x11, _x12) {
@@ -6195,10 +6236,9 @@ router.post('/api/facultygrant/edit', function () {
 var addFacultyGrant = function addFacultyGrant(_ref) {
   var emp_id = _ref.emp_id;
 
-  console.log({ emp_id: emp_id });
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        CALL \n        insert_faculty_grant(NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?);\n      ';
     var values = [emp_id];
+    var queryString = SqlString.format("\n        CALL \n        insert_faculty_grant(NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?);\n      ", values);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
@@ -6213,7 +6253,7 @@ var addFacultyGrant = function addFacultyGrant(_ref) {
 // gets all faculty
 var getAllFacultyGrant = function getAllFacultyGrant() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        CALL view_faculty_grant();\n      ';
+    var queryString = SqlString.format("\n        CALL view_faculty_grant();\n      ");
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -6235,7 +6275,7 @@ var getFacultyGrant = function getFacultyGrant(_ref2) {
   var id = _ref2.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            FACULTYGRANT\n          WHERE\n            faculty_grant_id = ?\n        ';
+    var queryString = SqlString.format("\n          SELECT \n            *\n          FROM \n            FACULTYGRANT\n          WHERE\n            faculty_grant_id = ?\n        ", [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -6257,7 +6297,7 @@ var getAllFacultyGrantByEmp = function getAllFacultyGrantByEmp(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL view_faculty_grant_by_emp_id(?)\n        ';
+    var queryString = SqlString.format("\n          CALL view_faculty_grant_by_emp_id(?)\n        ", [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -6279,7 +6319,7 @@ var removeFacultyGrant = function removeFacultyGrant(_ref4) {
   var id = _ref4.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL\n      delete_faculty_grant();\n    ';
+    var queryString = SqlString.format("\n      CALL\n      delete_faculty_grant(?);\n    ", [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
       if (err) {
@@ -6308,22 +6348,39 @@ var editFacultyGrant = function editFacultyGrant(_ref5) {
       end_date = _ref5.end_date;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL \n      update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);\n    ';
+    if (type === "Yes") {
+      var values = [emp_id, type, is_approved, professional_chair, grants, grant_title, start_date, end_date];
+      var queryString = SqlString.format("\n      CALL \n      update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);\n    ", values);
 
-    var values = [emp_id, type, is_approved, professional_chair, grants, grant_title, start_date, end_date];
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
+        if (!res.affectedRows) {
+          return reject(404);
+        }
 
-      if (!res.affectedRows) {
-        return reject(404);
-      }
+        return resolve();
+      });
+    } else {
+      var _values = [emp_id];
+      var _queryString = SqlString.format("\n        CALL \n        update_faculty_grant(?, NULL, NULL, NULL, NULL, NULL, NULL, NULL);\n      ", _values);
 
-      return resolve();
-    });
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, _values, function (err, res) {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
+
+        if (!res.affectedRows) {
+          return reject(404);
+        }
+
+        return resolve();
+      });
+    }
   });
 };
 
@@ -6620,6 +6677,7 @@ router.get('/api/limitedpractice/viewAll', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllLimitedPractice; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 var addLimitedPractice = function addLimitedPractice(_ref) {
   var haveApplied = _ref.haveApplied,
@@ -6627,9 +6685,8 @@ var addLimitedPractice = function addLimitedPractice(_ref) {
       emp_id = _ref.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = "\n      CALL  \n      insert_limited_practice(?, ?, ?)\n    ";
-
     var values = [haveApplied, date_submitted, emp_id];
+    var queryString = SqlString.format('\n      CALL  \n      insert_limited_practice(?, ?, ?)\n    ', values);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       if (err) {
@@ -6645,7 +6702,7 @@ var removeLimitedPractice = function removeLimitedPractice(_ref2) {
   var limited_practice_id = _ref2.limited_practice_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = "\n        CALL\n        delete_limited_practice(?);\n      ";
+    var queryString = SqlString.format('\n        CALL\n        delete_limited_practice(?);\n      ', [limited_practice_id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, limited_practice_id, function (err, results) {
       if (err) {
@@ -6667,13 +6724,11 @@ var editLimitedPractice = function editLimitedPractice(_ref3) {
       date_submitted = _ref3.date_submitted,
       emp_id = _ref3.emp_id;
 
-  console.log("ALOLOLOLO");
+
   return new Promise(function (resolve, reject) {
     if (haveApplied == 1) {
-      console.log("wtf");
-      var queryString = "\n          CALL\n          update_limited_practice(?, ?, ?)\n        ";
-
       var values = [haveApplied, date_submitted, emp_id];
+      var queryString = SqlString.format('\n          CALL\n          update_limited_practice(?, ?, ?)\n        ', values);
 
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
         if (err) {
@@ -6688,10 +6743,8 @@ var editLimitedPractice = function editLimitedPractice(_ref3) {
         return resolve();
       });
     } else {
-
-      var _queryString = "\n      CALL\n      update_limited_practice(?, null, ?)\n        ";
-
       var _values = [haveApplied, emp_id];
+      var _queryString = SqlString.format('\n      CALL\n      update_limited_practice(?, null, ?)\n        ', _values);
 
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, _values, function (err, res) {
         if (err) {
@@ -6713,7 +6766,7 @@ var getLimitedPractice = function getLimitedPractice(_ref4) {
   var emp_id = _ref4.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = "\n          CALL\n          view_limited_practice_by_emp_id(?)\n        ";
+    var queryString = SqlString.format('\n          CALL\n          view_limited_practice_by_emp_id(?)\n        ', [emp_id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
       if (err) {
@@ -6732,7 +6785,7 @@ var getLimitedPractice = function getLimitedPractice(_ref4) {
 
 var getAllLimitedPractice = function getAllLimitedPractice() {
   return new Promise(function (resolve, reject) {
-    var queryString = "\n        CALL\n        view_limited_practice()\n      ";
+    var queryString = SqlString.format('\n        CALL\n        view_limited_practice()\n      ');
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {

@@ -4,9 +4,12 @@ var SqlString = require('sqlstring');
 // gets extensions
 export const getExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`SELECT * from EXTENSION where emp_id = ?`, [id]);
+    const queryString = SqlString.format(
+      `SELECT * from EXTENSION where emp_id = ?`,
+      [id]
+    );
 
-    db.query(queryString, id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -24,11 +27,14 @@ export const getExtension = ({ id }) => {
 // gets a extension
 export const getExtensionByID = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
+    const queryString = SqlString.format(
+      `
           SELECT * from EXTENSION where extension_id = ?;
-        `, [id]);
+        `,
+      [id]
+    );
 
-    db.query(queryString, id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -42,7 +48,6 @@ export const getExtensionByID = ({ id }) => {
     });
   });
 };
-
 
 // gets all extensions
 export const getExtensions = () => {
@@ -77,10 +82,6 @@ export const addExtension = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
-            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        `, addExtension);
-
     const values = [
       credit_unit,
       extension_name,
@@ -93,8 +94,14 @@ export const addExtension = ({
       funding_agency,
       emp_id
     ];
+    const queryString = SqlString.format(
+      `
+            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        `,
+      values
+    );
 
-    db.query(queryString, values, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -108,11 +115,14 @@ export const addExtension = ({
 // removes a extension
 export const removeExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
       CALL delete_extension(?);
-    `;
+    `,
+      [id]
+    );
 
-    db.query(queryString, id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -142,10 +152,6 @@ export const editExtension = ({
   emp_id_update
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = SqlString.format(`
-      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-    `, editExtension);
-
     const values = [
       extension_id_update,
       credit_unit_update,
@@ -159,8 +165,14 @@ export const editExtension = ({
       funding_agency_update,
       emp_id_update
     ];
+    const queryString = SqlString.format(
+      `
+      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    `,
+      values
+    );
 
-    db.query(queryString, values, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -174,4 +186,3 @@ export const editExtension = ({
     });
   });
 };
-

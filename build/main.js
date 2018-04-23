@@ -816,7 +816,7 @@ var getExtension = function getExtension(_ref) {
   return new Promise(function (resolve, reject) {
     var queryString = SqlString.format('SELECT * from EXTENSION where emp_id = ?', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -838,7 +838,7 @@ var getExtensionByID = function getExtensionByID(_ref2) {
   return new Promise(function (resolve, reject) {
     var queryString = SqlString.format('\n          SELECT * from EXTENSION where extension_id = ?;\n        ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -883,11 +883,10 @@ var addExtension = function addExtension(_ref3) {
       emp_id = _ref3.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n        ', addExtension);
-
     var values = [credit_unit, extension_name, extension_type, no_of_hours, no_of_participants, extension_role, start_time, end_time, funding_agency, emp_id];
+    var queryString = SqlString.format('\n            CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n        ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -903,9 +902,9 @@ var removeExtension = function removeExtension(_ref4) {
   var id = _ref4.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL delete_extension(?);\n    ';
+    var queryString = SqlString.format('\n      CALL delete_extension(?);\n    ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -935,11 +934,10 @@ var editExtension = function editExtension(_ref5) {
       emp_id_update = _ref5.emp_id_update;
 
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ', editExtension);
-
     var values = [extension_id_update, credit_unit_update, extension_name_update, extension_type_update, no_of_hours_update, no_of_participants_update, extension_role_update, start_time_update, end_time_update, funding_agency_update, emp_id_update];
+    var queryString = SqlString.format('\n      CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n    ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);

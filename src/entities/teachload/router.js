@@ -60,10 +60,9 @@ router.post('/api/teachload/delete/', async (req, res) => {
 });
 
 router.post('/api/teachload/edit/', async (req, res) => {
+  console.log(req.body);
   if (
     req.body.no_of_students &&
-    req.body.subject_code &&
-    req.body.section_code &&
     req.body.teachingload_id
   ) {
     try {

@@ -1,21 +1,24 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
+
 
 export const addTeachLoad = ({ no_of_students, subject_code, section_code, room, days, start_time, end_time, creditw},json) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
+    const values = [emp_id, no_of_students, subject_code, section_code];
+
+    const queryString = SqlString.format(
+      `
       INSERT INTO TEACHINGLOAD
           (emp_id, no_of_students, subject_id)
         VALUES
           (?, ?, (SELECT subject_id FROM SUBJECT 
                   WHERE subject_code = ? AND
                         section_code = ? limit 1));
-    `;
-    //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
-    // console.log(no_of_students);
-    const values = [emp_id, no_of_students, subject_code, section_code];
+      `,
+      values);
 
-    db.query(queryString, values, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -29,41 +32,16 @@ export const addTeachLoad = ({ no_of_students, subject_code, section_code, room,
 export const checkExistDayTeachLoad = ({ subject_code, section_code}, json) =>{
   return new Promise((resolve, reject) =>{
     const emp_id = json.emp_id;
-
-                      const queryString = `
-                        SELECT COUNT(*) as count FROM
-                        (SELECT day from SUBJECT_DAY where subject_id = (SELECT subject_id from SUBJECT where subject_code = ? and section_code = ? ))a,
-                        (SELECT day from SUBJECT_DAY where subject_id IN (SELECT subject_id FROM SUBJECT NATURAL JOIN TEACHINGLOAD where emp_id = ?))b
-                        WHERE(
-                        a.day=b.day
-                        );
-                      `;
-
-                      // const queryString = `
-                      //   SELECT COUNT(*) as count FROM
-                      //   (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = ? and section_code = ?)a,
-                      //   (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = ?)b
-                      //   WHERE(
-                      //   a.day=b.day);
-                      // `;
-
-    // SELECT COUNT(*) as count FROM
-    // (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = 'cmsc 11' and section_code = 'a')a,
-    // (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = '000000001')b
-    // WHERE(
-    // a.day=b.day);
-
-    // const queryString = `
-    //   SELECT COUNT(*) as count FROM
-    //   (SELECT day from SUBJECT NATURAL JOIN SUBJECT_DAY where subject_code = ? and section_code = ?)a,
-    //   (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION WHERE emp_id = ?)b,
-    //   (SELECT day FROM SUBJECT NATURAL JOIN SUBJECT_DAY WHERE subject_id IN(SELECT subject_id FROM SUBJECT NATURAL JOIN TEACHINGLOAD where emp_id = ?))c
-    //   WHERE
-    //   a.day = b.day OR a.day = c.day OR b.day = c.day;
-    // `;
-
     const values = [subject_code, section_code, emp_id];
-    db.query(queryString, values, (err, results) =>{
+
+
+    const queryString = SqlString.format(`
+      SELECT COUNT(*) as count FROM
+      (SELECT day from SUBJECT_DAY where subject_id = (SELECT subject_id from SUBJECT where subject_code = ? and section_code = ? ))a,
+      (SELECT day from SUBJECT_DAY where subject_id IN (SELECT subject_id FROM SUBJECT NATURAL JOIN TEACHINGLOAD where emp_id = ?))b
+      WHERE(a.day=b.day);`,values);
+
+    db.query(queryString, (err, results) =>{
       console.log(results);
       if (err){
         console.log('swswswswswsw');
@@ -77,18 +55,18 @@ export const checkExistDayTeachLoad = ({ subject_code, section_code}, json) =>{
 export const checkExistDayConsultation = ({ subject_code, section_code}, json ) =>{
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
+    const values = [ subject_code, section_code, emp_id];
 
-    const queryString = `
+    const queryString = SqlString.format(`
      SELECT COUNT(*) as count FROM
      (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = ? and section_code = ?)a,
       (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = ?)b
       WHERE(
       a.day=b.day);
-    `;
+    `, values);
 
     
-    const values = [ subject_code, section_code, emp_id];
-    db.query(queryString, values, (err, results) =>{
+    db.query(queryString, (err, results) =>{
       console.log(results);
       if(err){
         console.log('AHHHHHHHHHHHHK');
@@ -102,8 +80,9 @@ export const checkExistDayConsultation = ({ subject_code, section_code}, json ) 
 export const checkExistHourConsultation = ({ subject_code, section_code}, json ) =>{
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
+    const values = [ emp_id, subject_code, section_code];
 
-    const queryString = `
+    const queryString = SqlString.format(`
       SELECT COUNT(*) as count FROM
       (SELECT consultation_start_time,consultation_end_time from CONSULTATION WHERE emp_id = ?)a,
       (SELECT start_time, end_time FROM SUBJECT WHERE subject_code = ? and section_code = ?)b
@@ -111,10 +90,9 @@ export const checkExistHourConsultation = ({ subject_code, section_code}, json )
       (b.start_time > a.consultation_start_time AND b.start_time < a.consultation_end_time) OR
       (b.end_time > a.consultation_start_time AND b.end_time < a.consultation_end_time) OR
       (b.start_time = a.consultation_start_time AND b.end_time = a.consultation_end_time));
-    `;
+    `,values);
 
-    const values = [ emp_id, subject_code, section_code];
-    db.query(queryString, values, (err, results) =>{
+    db.query(queryString, (err, results) =>{
       console.log(results);
       if(err){
         console.log('Bepis');
@@ -128,33 +106,9 @@ export const checkExistHourConsultation = ({ subject_code, section_code}, json )
 export const checkExistHourTeachLoad = ({ subject_code, section_code}, json) =>{
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    //  const queryString = `
-    //   SELECT COUNT(*) as count FROM (SELECT start_time, end_time FROM SUBJECT 
-    //   WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
-    //   WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
-    //   SUBJECT WHERE subject_code = ? and 
-    //   section_code = ? limit 1)b 
-    //   WHERE
-    //   (b.start_time < b.end_time and b.end_time < a.start_time) OR 
-    //   (b.start_time > a.end_time and b.end_time > b.start_time) OR 
-    //   (a.start_time > b.start_time and b.end_time > b.start_time);
-    // `;
+    const values = [emp_id, subject_code, section_code];
 
-    // const queryString = `
-    //   SELECT COUNT(*) as count FROM 
-    //   (SELECT start_time, end_time FROM SUBJECT 
-    //   WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
-    //   WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
-    //   SUBJECT WHERE subject_code = ? and 
-    //   section_code = ? limit 1)b 
-    //   WHERE(
-    //   (b.start_time < b.end_time and b.end_time < a.start_time) OR 
-    //   (b.start_time > a.end_time and b.end_time > b.start_time) OR 
-    //   (a.start_time > b.start_time and b.end_time > b.start_time) OR
-    //   (b.start_time < a.end_time and b.end_time > a.end_time));
-    //   `;
-
-    const queryString = `
+    const queryString = SqlString.format(`
       SELECT COUNT(*) as count FROM
       (SELECT start_time,end_time from TEACHINGLOAD NATURAL JOIN SUBJECT WHERE emp_id = ?)a,
       (SELECT start_time, end_time FROM SUBJECT WHERE subject_code = ? and section_code = ?)b
@@ -162,9 +116,8 @@ export const checkExistHourTeachLoad = ({ subject_code, section_code}, json) =>{
       (b.start_time > a.start_time AND b.start_time < a.end_time) OR
       (b.end_time > a.start_time AND b.end_time < a.end_time) OR
       (b.end_time = a.end_time AND b.start_time = a.start_time));
-    `;
+    `,values);
 
-    const values = [emp_id, subject_code, section_code];
 
     db.query(queryString, values, (err, results) =>{
       console.log(results);
@@ -180,14 +133,14 @@ export const checkExistHourTeachLoad = ({ subject_code, section_code}, json) =>{
 
 export const removeTeachLoad = ({ teachingload_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
         DELETE 
           FROM TEACHINGLOAD
         WHERE 
           teachingload_id = ?
-      `;
+      `,teachingload_id);
 
-    db.query(queryString, teachingload_id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -202,19 +155,20 @@ export const removeTeachLoad = ({ teachingload_id }) => {
   });
 };
 
-export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_code, room, days, start_time, end_time, creditw, teachingload_id}) => {
+export const editTeachLoad = ({ no_of_students, teachingload_id}) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [no_of_students, teachingload_id];
+
+    const queryString = SqlString.format(`
       UPDATE TEACHINGLOAD
         SET
           no_of_students = ?
         WHERE
           teachingload_id=?;
-    `;
+    `,values);
    
-    const values = [no_of_students, teachingload_id];
 
-    db.query(queryString, values, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -231,16 +185,16 @@ export const editTeachLoad = ({ no_of_students, emp_id, subject_code, section_co
 
 export const getTeachLoad = ({ teachingload_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
           SELECT 
             *
           FROM 
             TEACHINGLOAD
           WHERE
             teachingload_id = ?;
-        `;
+        `,teachingload_id);
 
-    db.query(queryString, teachingload_id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -258,11 +212,11 @@ export const getTeachLoad = ({ teachingload_id }) => {
 export const getTeachEmp = (json) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
+    const queryString = SqlString.format(`
         call view_employee_teachingload(?)
-        `;
+        `,[emp_id]);
 
-    db.query(queryString, [emp_id], (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -298,11 +252,15 @@ export const getTeachEmp = (json) => {
 
 export const getTeachEmpAdmin = ({emp_id}) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-        call view_employee_teachingload(?);
-        `;
+    // const queryString = `
+    //     call view_employee_teachingload(?);
+    //     `;
+    const queryString = SqlString.format(`
+      SELECT * FROM TEACHINGLOAD NATURAL JOIN SUBJECT NATURAL JOIN SUBJECT_DAY WHERE
+      emp_id = ?;
+    `,emp_id);
 
-    db.query(queryString, emp_id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -331,6 +289,7 @@ export const getTeachEmpAdmin = ({emp_id}) => {
         }
       }
 
+      console.log(newArray)
       return resolve(newArray);
     });
   });
@@ -338,10 +297,10 @@ export const getTeachEmpAdmin = ({emp_id}) => {
 
 export const getAllTeachLoad = () => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
           SELECT *
           FROM TEACHINGLOAD
-        `;
+        `);
 
     db.query(queryString, (err, rows) => {
       if (err) {
@@ -357,12 +316,13 @@ export const getAllTeachLoad = () => {
 export const editAddTeachLoadUnits = ({ units}, json) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
-      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)+? where emp_id=?;
-    `;
-   
     const values = [emp_id,units,emp_id];
-    db.query(queryString, values, (err, res) => {
+
+    const queryString = SqlString.format(`
+      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)+? where emp_id=?;
+    `,values);
+   
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -380,12 +340,14 @@ export const editAddTeachLoadUnits = ({ units}, json) => {
 export const editRemoveTeachLoadUnits = ({ units}, json) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
-      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)-? where emp_id=?;
-    `;
-   
     const values = [emp_id,units,emp_id];
-    db.query(queryString, values, (err, res) => {
+
+    const queryString = SqlString.format(`
+      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)-? where emp_id=?;
+    `,values);
+   
+
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -402,15 +364,16 @@ export const editRemoveTeachLoadUnits = ({ units}, json) => {
 
 export const getSubjectByTeachLoad = ({ teachingload_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values=[teachingload_id, teachingload_id];
+
+    const queryString = SqlString.format(`
           SELECT subj.subject_code, subj.section_code, subj.units, subj.isLecture, subj.isGraduate, tl.no_of_students FROM SUBJECT subj, TEACHINGLOAD tl
           WHERE
             subj.subject_id = (select subject_id from
             TEACHINGLOAD where teachingload_id=?) and teachingload_id=?;
-        `;
+        `,values);
 
-      const values=[teachingload_id, teachingload_id];
-    db.query(queryString, values, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       // console.log(queryString);
       // console.log(teachingload_id);
       if (err) {
@@ -430,13 +393,14 @@ export const getSubjectByTeachLoad = ({ teachingload_id }) => {
 export const getEmployee = (json) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
-      select * from EMPLOYEE where emp_id=?;
-    `;
-   
     const values = [emp_id];
 
-    db.query(queryString, values, (err, res) => {
+    const queryString = SqlString.format(`
+      select * from EMPLOYEE where emp_id=?;
+    `,values);
+   
+
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -450,15 +414,3 @@ export const getEmployee = (json) => {
     });
   });
 };
-
-// SELECT COUNT(*) as count FROM 
-// (SELECT start_time, end_time FROM SUBJECT 
-// WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
-// WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
-// SUBJECT WHERE subject_code = ? and 
-// section_code = ? limit 1)b 
-// WHERE(
-// (b.start_time < b.end_time and b.end_time < a.start_time) OR 
-// (b.start_time > a.end_time and b.end_time > b.start_time) OR 
-// (a.start_time > b.start_time and b.end_time > b.start_time) OR
-// (b.start_time < a.end_time and b.end_time > a.end_time));

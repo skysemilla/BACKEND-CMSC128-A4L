@@ -56,10 +56,8 @@ export const editLimitedPractice = ({
   date_submitted,
   emp_id
 }) => {
-  console.log("ALOLOLOLO")
   return new Promise((resolve, reject) => {
     if(haveApplied == 1){
-      console.log("wtf")
       const queryString = `
           CALL
           update_limited_practice(?, ?, ?)

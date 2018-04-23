@@ -3063,7 +3063,7 @@ router.post('/api/teachload/add', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code)) {
+            if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code && req.session.user)) {
               _context.next = 32;
               break;
             }
@@ -3406,11 +3406,16 @@ router.post('/api/teachload/view', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            if (!req.session.user) {
+              _context6.next = 19;
+              break;
+            }
+
+            _context6.prev = 1;
+            _context6.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["l" /* getTeachEmp */](req.session.user);
 
-          case 3:
+          case 4:
             book = _context6.sent;
 
             res.status(200).json({
@@ -3418,34 +3423,34 @@ router.post('/api/teachload/view', function () {
               message: 'Successfully fetched teach load',
               data: book
             });
-            _context6.next = 18;
+            _context6.next = 19;
             break;
 
-          case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6['catch'](0);
+          case 8:
+            _context6.prev = 8;
+            _context6.t0 = _context6['catch'](1);
             message = '';
             _context6.t1 = _context6.t0;
-            _context6.next = _context6.t1 === 404 ? 13 : _context6.t1 === 500 ? 15 : 17;
+            _context6.next = _context6.t1 === 404 ? 14 : _context6.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Teach load not found';
-            return _context6.abrupt('break', 17);
+            return _context6.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context6.abrupt('break', 17);
-
-          case 17:
-            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+            return _context6.abrupt('break', 18);
 
           case 18:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 19:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, _this, [[0, 7]]);
+    }, _callee6, _this, [[1, 8]]);
   }));
 
   return function (_x11, _x12) {
@@ -3511,7 +3516,7 @@ router.post('/api/teachload/editAddTeachLoadUnits/', function () {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            if (!req.body.units) {
+            if (!(req.body.units && req.session.user)) {
               _context8.next = 15;
               break;
             }
@@ -3569,7 +3574,7 @@ router.post('/api/teachload/editRemoveTeachLoadUnits/', function () {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            if (!req.body.units) {
+            if (!(req.body.units && req.session.user)) {
               _context9.next = 15;
               break;
             }

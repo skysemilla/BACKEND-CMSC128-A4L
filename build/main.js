@@ -937,6 +937,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var multer = __webpack_require__(19);
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
+var alphanumRegex = /^[a-zA-Z0-9 ]*[a-zA-Z ][a-zA-Z0-9 ]*$/;
+var numRegex = /^[0-9\s\-']+$/;
+var creditRegex = /^[0-9]$/;
 
 // gets a publication by id
 router.post('/api/publication/view', function () {
@@ -946,11 +949,16 @@ router.post('/api/publication/view', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            if (!req.body.id) {
+              _context.next = 19;
+              break;
+            }
+
+            _context.prev = 1;
+            _context.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */](req.body);
 
-          case 3:
+          case 4:
             publication = _context.sent;
 
             res.status(200).json({
@@ -958,34 +966,34 @@ router.post('/api/publication/view', function () {
               message: 'Successfully fetched publication',
               data: publication
             });
-            _context.next = 18;
+            _context.next = 19;
             break;
 
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context['catch'](0);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context['catch'](1);
             message = '';
             _context.t1 = _context.t0;
-            _context.next = _context.t1 === 404 ? 13 : _context.t1 === 500 ? 15 : 17;
+            _context.next = _context.t1 === 404 ? 14 : _context.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Publication not found';
-            return _context.abrupt('break', 17);
+            return _context.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context.abrupt('break', 17);
-
-          case 17:
-            res.status(_context.t0).json({ status: _context.t0, message: message });
+            return _context.abrupt('break', 18);
 
           case 18:
+            res.status(_context.t0).json({ status: _context.t0, message: message });
+
+          case 19:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, _this, [[0, 7]]);
+    }, _callee, _this, [[1, 8]]);
   }));
 
   return function (_x, _x2) {
@@ -1001,11 +1009,16 @@ router.post('/api/publication/viewAll', function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            if (!req.body.empid) {
+              _context2.next = 17;
+              break;
+            }
+
+            _context2.prev = 1;
+            _context2.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* getPublications */](req.body);
 
-          case 3:
+          case 4:
             publications = _context2.sent;
 
             res.status(200).json({
@@ -1013,31 +1026,31 @@ router.post('/api/publication/viewAll', function () {
               message: 'Successfully fetched all publications',
               data: publications
             });
-            _context2.next = 16;
+            _context2.next = 17;
             break;
 
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2['catch'](0);
+          case 8:
+            _context2.prev = 8;
+            _context2.t0 = _context2['catch'](1);
             message = '';
             _context2.t1 = _context2.t0;
-            _context2.next = _context2.t1 === 500 ? 13 : 15;
+            _context2.next = _context2.t1 === 500 ? 14 : 16;
             break;
 
-          case 13:
+          case 14:
             message = 'Internal server error';
-            return _context2.abrupt('break', 15);
+            return _context2.abrupt('break', 16);
 
-          case 15:
+          case 16:
 
             res.status(200).json({ status: _context2.t0, message: message });
 
-          case 16:
+          case 17:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this, [[0, 7]]);
+    }, _callee2, _this, [[1, 8]]);
   }));
 
   return function (_x3, _x4) {
@@ -1053,13 +1066,7 @@ router.post('/api/publication/add', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(req.body.credit_units >= 0 && req.body.category &&
-            // req.body.funding &&
-            req.body.title
-            // req.body.role &&
-            // req.body.start_date &&
-            // req.body.end_date
-            )) {
+            if (!(req.body.category && req.body.subcategory && req.body.title && !req.body.title.match(numRegex) && req.body.title.match(alphanumRegex) && req.body.credit_units >= 0 && req.body.credit_units.match(creditRegex))) {
               _context3.next = 15;
               break;
             }
@@ -1172,50 +1179,55 @@ router.post('/api/publication/delete', function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
+            if (!req.body.id) {
+              _context5.next = 21;
+              break;
+            }
+
+            _context5.prev = 1;
+            _context5.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */](req.body);
 
-          case 3:
+          case 4:
             publication = _context5.sent;
-            _context5.next = 6;
+            _context5.next = 7;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["j" /* removePublication */](req.body);
 
-          case 6:
+          case 7:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed publication',
               data: publication
             });
-            _context5.next = 20;
+            _context5.next = 21;
             break;
 
-          case 9:
-            _context5.prev = 9;
-            _context5.t0 = _context5['catch'](0);
+          case 10:
+            _context5.prev = 10;
+            _context5.t0 = _context5['catch'](1);
             message = '';
             _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 404 ? 15 : _context5.t1 === 500 ? 17 : 19;
+            _context5.next = _context5.t1 === 404 ? 16 : _context5.t1 === 500 ? 18 : 20;
             break;
 
-          case 15:
+          case 16:
             message = 'Publication not found';
-            return _context5.abrupt('break', 19);
+            return _context5.abrupt('break', 20);
 
-          case 17:
+          case 18:
             message = 'Internal server error';
-            return _context5.abrupt('break', 19);
-
-          case 19:
-            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+            return _context5.abrupt('break', 20);
 
           case 20:
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+
+          case 21:
           case 'end':
             return _context5.stop();
         }
       }
-    }, _callee5, _this, [[0, 9]]);
+    }, _callee5, _this, [[1, 10]]);
   }));
 
   return function (_x9, _x10) {
@@ -1231,17 +1243,22 @@ router.post('/api/publication/edit', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
+            if (!(req.body.category && req.body.subcategory && req.body.title && !req.body.title.match(numRegex) && req.body.title.match(alphanumRegex) && req.body.credit_units >= 0 && req.body.credit_units.toString().match(creditRegex) && req.body.publication_id)) {
+              _context6.next = 21;
+              break;
+            }
+
+            _context6.prev = 1;
+            _context6.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* editPublication */](req.body);
 
-          case 3:
-            _context6.next = 5;
+          case 4:
+            _context6.next = 6;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* getPublication */]({
               id: req.body.publication_id
             });
 
-          case 5:
+          case 6:
             publication = _context6.sent;
 
 
@@ -1250,34 +1267,34 @@ router.post('/api/publication/edit', function () {
               message: 'Successfully edited publication',
               data: publication
             });
-            _context6.next = 20;
+            _context6.next = 21;
             break;
 
-          case 9:
-            _context6.prev = 9;
-            _context6.t0 = _context6['catch'](0);
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6['catch'](1);
             message = '';
             _context6.t1 = _context6.t0;
-            _context6.next = _context6.t1 === 404 ? 15 : _context6.t1 === 500 ? 17 : 19;
+            _context6.next = _context6.t1 === 404 ? 16 : _context6.t1 === 500 ? 18 : 20;
             break;
 
-          case 15:
+          case 16:
             message = 'Publication not found';
-            return _context6.abrupt('break', 19);
+            return _context6.abrupt('break', 20);
 
-          case 17:
+          case 18:
             message = 'Internal server error';
-            return _context6.abrupt('break', 19);
-
-          case 19:
-            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+            return _context6.abrupt('break', 20);
 
           case 20:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 21:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, _this, [[0, 9]]);
+    }, _callee6, _this, [[1, 10]]);
   }));
 
   return function (_x11, _x12) {
@@ -1345,11 +1362,16 @@ router.post('/api/publication/viewEmployeeCoworkers', function () {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            _context8.prev = 0;
-            _context8.next = 3;
+            if (!req.body.empid) {
+              _context8.next = 17;
+              break;
+            }
+
+            _context8.prev = 1;
+            _context8.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getEmployeeCoworkers */](req.body);
 
-          case 3:
+          case 4:
             publications = _context8.sent;
 
             res.status(200).json({
@@ -1357,31 +1379,31 @@ router.post('/api/publication/viewEmployeeCoworkers', function () {
               message: 'Successfully fetched all possible coworkers',
               data: publications
             });
-            _context8.next = 16;
+            _context8.next = 17;
             break;
 
-          case 7:
-            _context8.prev = 7;
-            _context8.t0 = _context8['catch'](0);
+          case 8:
+            _context8.prev = 8;
+            _context8.t0 = _context8['catch'](1);
             message = '';
             _context8.t1 = _context8.t0;
-            _context8.next = _context8.t1 === 500 ? 13 : 15;
+            _context8.next = _context8.t1 === 500 ? 14 : 16;
             break;
 
-          case 13:
+          case 14:
             message = 'Internal server error';
-            return _context8.abrupt('break', 15);
+            return _context8.abrupt('break', 16);
 
-          case 15:
+          case 16:
 
             res.status(200).json({ status: _context8.t0, message: message });
 
-          case 16:
+          case 17:
           case 'end':
             return _context8.stop();
         }
       }
-    }, _callee8, _this, [[0, 7]]);
+    }, _callee8, _this, [[1, 8]]);
   }));
 
   return function (_x15, _x16) {
@@ -1397,11 +1419,16 @@ router.get('/api/publication/viewCoworkers', function () {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            _context9.prev = 0;
-            _context9.next = 3;
+            if (!req.body.id) {
+              _context9.next = 17;
+              break;
+            }
+
+            _context9.prev = 1;
+            _context9.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getCoworkers */](req.body);
 
-          case 3:
+          case 4:
             publications = _context9.sent;
 
             res.status(200).json({
@@ -1409,31 +1436,31 @@ router.get('/api/publication/viewCoworkers', function () {
               message: 'Successfully fetched all coworkers',
               data: publications
             });
-            _context9.next = 16;
+            _context9.next = 17;
             break;
 
-          case 7:
-            _context9.prev = 7;
-            _context9.t0 = _context9['catch'](0);
+          case 8:
+            _context9.prev = 8;
+            _context9.t0 = _context9['catch'](1);
             message = '';
             _context9.t1 = _context9.t0;
-            _context9.next = _context9.t1 === 500 ? 13 : 15;
+            _context9.next = _context9.t1 === 500 ? 14 : 16;
             break;
 
-          case 13:
+          case 14:
             message = 'Internal server error';
-            return _context9.abrupt('break', 15);
+            return _context9.abrupt('break', 16);
 
-          case 15:
+          case 16:
 
             res.status(200).json({ status: _context9.t0, message: message });
 
-          case 16:
+          case 17:
           case 'end':
             return _context9.stop();
         }
       }
-    }, _callee9, _this, [[0, 7]]);
+    }, _callee9, _this, [[1, 8]]);
   }));
 
   return function (_x17, _x18) {
@@ -1449,45 +1476,50 @@ router.post('/api/publication/deleteCoworkers', function () {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
-            _context10.prev = 0;
-            _context10.next = 3;
+            if (!req.body.id) {
+              _context10.next = 18;
+              break;
+            }
+
+            _context10.prev = 1;
+            _context10.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* removeCoworkers */](req.body);
 
-          case 3:
+          case 4:
 
             res.status(200).json({
               status: 200,
               message: 'Successfully removed coworkers'
               // data: publication
             });
-            _context10.next = 17;
+            _context10.next = 18;
             break;
 
-          case 6:
-            _context10.prev = 6;
-            _context10.t0 = _context10['catch'](0);
+          case 7:
+            _context10.prev = 7;
+            _context10.t0 = _context10['catch'](1);
             message = '';
             _context10.t1 = _context10.t0;
-            _context10.next = _context10.t1 === 404 ? 12 : _context10.t1 === 500 ? 14 : 16;
+            _context10.next = _context10.t1 === 404 ? 13 : _context10.t1 === 500 ? 15 : 17;
             break;
 
-          case 12:
+          case 13:
             message = 'Publication not found';
-            return _context10.abrupt('break', 16);
+            return _context10.abrupt('break', 17);
 
-          case 14:
+          case 15:
             message = 'Internal server error';
-            return _context10.abrupt('break', 16);
-
-          case 16:
-            res.status(_context10.t0).json({ status: _context10.t0, message: message });
+            return _context10.abrupt('break', 17);
 
           case 17:
+            res.status(_context10.t0).json({ status: _context10.t0, message: message });
+
+          case 18:
           case 'end':
             return _context10.stop();
         }
       }
-    }, _callee10, _this, [[0, 6]]);
+    }, _callee10, _this, [[1, 7]]);
   }));
 
   return function (_x19, _x20) {
@@ -1503,11 +1535,16 @@ router.post('/api/publication/getCoworkers', function () {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.prev = 0;
-            _context11.next = 3;
+            if (!req.body.id) {
+              _context11.next = 19;
+              break;
+            }
+
+            _context11.prev = 1;
+            _context11.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getCoworkers */](req.body);
 
-          case 3:
+          case 4:
             publications = _context11.sent;
 
             res.status(200).json({
@@ -1515,35 +1552,35 @@ router.post('/api/publication/getCoworkers', function () {
               message: 'Successfully fetched all emps',
               data: publications
             });
-            _context11.next = 18;
+            _context11.next = 19;
             break;
 
-          case 7:
-            _context11.prev = 7;
-            _context11.t0 = _context11['catch'](0);
+          case 8:
+            _context11.prev = 8;
+            _context11.t0 = _context11['catch'](1);
             message = '';
             _context11.t1 = _context11.t0;
-            _context11.next = _context11.t1 === 404 ? 13 : _context11.t1 === 500 ? 15 : 17;
+            _context11.next = _context11.t1 === 404 ? 14 : _context11.t1 === 500 ? 16 : 18;
             break;
 
-          case 13:
+          case 14:
             message = 'Publication not found';
-            return _context11.abrupt('break', 17);
+            return _context11.abrupt('break', 18);
 
-          case 15:
+          case 16:
             message = 'Internal server error';
-            return _context11.abrupt('break', 17);
+            return _context11.abrupt('break', 18);
 
-          case 17:
+          case 18:
 
             res.status(200).json({ status: _context11.t0, message: message });
 
-          case 18:
+          case 19:
           case 'end':
             return _context11.stop();
         }
       }
-    }, _callee11, _this, [[0, 7]]);
+    }, _callee11, _this, [[1, 8]]);
   }));
 
   return function (_x21, _x22) {
@@ -1556,7 +1593,7 @@ var storage = multer.diskStorage({
     cb(null, 'src/uploads/');
   },
   filename: function filename(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + ".pdf");
+    cb(null, file.fieldname + '-' + Date.now() + '.pdf');
   }
 });
 
@@ -1565,10 +1602,10 @@ var upload = multer({ storage: storage }).any();
 router.post('/api/publication/attach', function (req, res, next) {
   upload(req, res, function (err) {
     if (err) {
-      console.log("sux");
+      console.log('sux');
     } else {
       console.log(req.File);
-      console.log("success");
+      console.log('success');
     }
   });
 });
@@ -1593,15 +1630,16 @@ router.post('/api/publication/attach', function (req, res, next) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getCoworkers; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 // gets a publication by id
 var getPublication = function getPublication(_ref) {
   var id = _ref.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL view_publication_by_ID(?);\n        ';
+    var queryString = SqlString.format('\n          CALL view_publication_by_ID(?);\n        ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -1621,9 +1659,9 @@ var getPublications = function getPublications(_ref2) {
   var empid = _ref2.empid;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL view_employee_publication(?);\n    ';
+    var queryString = SqlString.format('\n      CALL view_employee_publication(?);\n    ', [empid]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -1648,10 +1686,10 @@ var addPublication = function addPublication(_ref3) {
 
   return new Promise(function (resolve, reject) {
     if (start_date === '' || end_date === '') {
-      var queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?);\n        ';
-
       var values = [credit_units, category, subcategory, funding, title, role, emp_id];
-      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+      var queryString = SqlString.format('\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?);\n        ', values);
+
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
         if (err) {
           console.log(err);
           console.log('ERROR!!');
@@ -1661,10 +1699,10 @@ var addPublication = function addPublication(_ref3) {
         return resolve(results.insertId);
       });
     } else {
-      var _queryString = '\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?);\n        ';
-
       var _values = [credit_units, category, subcategory, funding, title, role, start_date, end_date, emp_id];
-      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, _values, function (err, results) {
+      var _queryString = SqlString.format('\n          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?);\n        ', _values);
+
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString, function (err, results) {
         if (err) {
           console.log(err);
           console.log('ERROR!!');
@@ -1681,11 +1719,10 @@ var addPublicationLog = function addPublicationLog(_ref4) {
   var title = _ref4.title;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        call insert_log(concat("Publication with title", ?, " has been added to the table PUBLICATION"));\n        ';
-
     var values = [title];
+    var queryString = SqlString.format('\n        call insert_log(concat("Publication with title", ?, " has been added to the table PUBLICATION"));\n        ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         console.log('ERROR!!');
@@ -1703,11 +1740,10 @@ var addCoworker = function addCoworker(_ref5) {
       publication_id = _ref5.publication_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n            CALL insert_coworker(?, ?);\n        ';
-
     var values = [coworker_id, publication_id];
+    var queryString = SqlString.format('\n            CALL insert_coworker(?, ?);\n        ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -1723,9 +1759,9 @@ var removePublication = function removePublication(_ref6) {
   var id = _ref6.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL delete_publication(?);\n    ';
+    var queryString = SqlString.format('\n      CALL delete_publication(?);\n    ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -1754,11 +1790,10 @@ var editPublication = function editPublication(_ref7) {
 
   return new Promise(function (resolve, reject) {
     if (start_date === '' || end_date === '') {
-      var queryString = '\n        CALL update_publication(?, ?, ?, ?, ?, ?, null, null, ?);\n      ';
-
       var values = [credit_units, category, subcategory, funding, title, role, publication_id];
+      var queryString = SqlString.format('\n        CALL update_publication(?, ?, ?, ?, ?, ?, null, null, ?);\n      ', values);
 
-      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
         if (err) {
           console.log(err);
           return reject(500);
@@ -1771,11 +1806,10 @@ var editPublication = function editPublication(_ref7) {
         return resolve();
       });
     } else {
-      var _queryString2 = '\n        CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?, ?);\n      ';
-
       var _values2 = [credit_units, category, subcategory, funding, title, role, start_date, end_date, publication_id];
+      var _queryString2 = SqlString.format('\n        CALL update_publication(?, ?, ?, ?, ?, ?, ?, ?, ?);\n      ', _values2);
 
-      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString2, _values2, function (err, res) {
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(_queryString2, function (err, res) {
         if (err) {
           console.log(err);
           return reject(500);
@@ -1812,9 +1846,9 @@ var getEmployeeCoworkers = function getEmployeeCoworkers(_ref8) {
   var empid = _ref8.empid;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      SELECT * from EMPLOYEE WHERE emp_id != ?;\n    ';
+    var queryString = SqlString.format('\n      SELECT * from EMPLOYEE WHERE emp_id != ?;\n    ', [empid]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, empid, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -1830,9 +1864,9 @@ var removeCoworkers = function removeCoworkers(_ref9) {
   var id = _ref9.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL delete_coworker(?);\n    ';
+    var queryString = SqlString.format('\n      CALL delete_coworker(?);\n    ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -1852,9 +1886,9 @@ var getCoworkers = function getCoworkers(_ref10) {
   var id = _ref10.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      SELECT c.emp_id, e.f_name, e.l_name FROM COWORKER c, EMPLOYEE e WHERE c.emp_id = e.emp_id and publication_id = ?;\n    ';
+    var queryString = SqlString.format('\n      SELECT c.emp_id, e.f_name, e.l_name FROM COWORKER c, EMPLOYEE e WHERE c.emp_id = e.emp_id and publication_id = ?;\n    ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);

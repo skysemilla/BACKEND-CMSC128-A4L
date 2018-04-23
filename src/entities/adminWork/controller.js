@@ -72,6 +72,26 @@ export const getAllPositions = () => {
   });
 };
 
+export const getHisPosition = ({ id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+    SELECT * from POSITIONN where emp_id = ?
+        `;
+
+    db.query(queryString, [id], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
 // removes position
 export const removePosition = ({ id }) => {
   return new Promise((resolve, reject) => {

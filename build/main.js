@@ -5047,12 +5047,12 @@ router.post('/api/position/delete', function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getPosition */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPosition */](req.body);
 
           case 3:
             consultation = _context2.sent;
             _context2.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removePosition */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* removePosition */](req.body);
 
           case 6:
 
@@ -5111,7 +5111,7 @@ router.post('/api/position/edit', function () {
 
           case 4:
             _context3.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getPosition */]({ id: req.body.id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPosition */]({ id: req.body.id });
 
           case 6:
             position = _context3.sent;
@@ -5166,7 +5166,7 @@ router.post('/api/position/view', function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getPosition */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getPosition */](req.body);
 
           case 3:
             book = _context4.sent;
@@ -5211,54 +5211,110 @@ router.post('/api/position/view', function () {
   };
 }());
 
-router.get('/api/position/viewAll', function () {
+router.post('/api/position/viewHis', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
-    var positions, message;
+    var book, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            _context5.next = 3;
+
+            console.log(req.body);
+            _context5.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getHisPosition */](req.body);
+
+          case 4:
+            book = _context5.sent;
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully fetched position',
+              data: book
+            });
+            _context5.next = 19;
+            break;
+
+          case 8:
+            _context5.prev = 8;
+            _context5.t0 = _context5['catch'](0);
+            message = '';
+            _context5.t1 = _context5.t0;
+            _context5.next = _context5.t1 === 404 ? 14 : _context5.t1 === 500 ? 16 : 18;
+            break;
+
+          case 14:
+            message = 'Position not found';
+            return _context5.abrupt('break', 18);
+
+          case 16:
+            message = 'Internal server error';
+            return _context5.abrupt('break', 18);
+
+          case 18:
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+
+          case 19:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, _this, [[0, 8]]);
+  }));
+
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+
+router.get('/api/position/viewAll', function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+    var positions, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getAllPositions */]();
 
           case 3:
-            positions = _context5.sent;
+            positions = _context6.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully fetched all positions',
               data: positions
             });
-            _context5.next = 16;
+            _context6.next = 16;
             break;
 
           case 7:
-            _context5.prev = 7;
-            _context5.t0 = _context5['catch'](0);
+            _context6.prev = 7;
+            _context6.t0 = _context6['catch'](0);
             message = '';
-            _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 500 ? 13 : 15;
+            _context6.t1 = _context6.t0;
+            _context6.next = _context6.t1 === 500 ? 13 : 15;
             break;
 
           case 13:
             message = 'Internal server error';
-            return _context5.abrupt('break', 15);
+            return _context6.abrupt('break', 15);
 
           case 15:
 
-            res.status(200).json({ status: _context5.t0, message: message });
+            res.status(200).json({ status: _context6.t0, message: message });
 
           case 16:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, _this, [[0, 7]]);
+    }, _callee6, _this, [[0, 7]]);
   }));
 
-  return function (_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }());
 
@@ -5270,9 +5326,10 @@ router.get('/api/position/viewAll', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addPosition; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllPositions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removePosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getHisPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removePosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editPosition; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
@@ -5343,9 +5400,29 @@ var getAllPositions = function getAllPositions() {
   });
 };
 
-// removes position
-var removePosition = function removePosition(_ref3) {
+var getHisPosition = function getHisPosition(_ref3) {
   var id = _ref3.id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = '\n    SELECT * from POSITIONN where emp_id = ?\n        ';
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [id], function (err, rows) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
+// removes position
+var removePosition = function removePosition(_ref4) {
+  var id = _ref4.id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      CALL delete_position(?);\n    ';
@@ -5366,13 +5443,13 @@ var removePosition = function removePosition(_ref3) {
 };
 
 // edits a position
-var editPosition = function editPosition(_ref4) {
-  var position_id = _ref4.position_id,
-      office = _ref4.office,
-      credit_units = _ref4.credit_units,
-      nature_of_work = _ref4.nature_of_work,
-      work_position = _ref4.work_position,
-      emp_id = _ref4.emp_id;
+var editPosition = function editPosition(_ref5) {
+  var position_id = _ref5.position_id,
+      office = _ref5.office,
+      credit_units = _ref5.credit_units,
+      nature_of_work = _ref5.nature_of_work,
+      work_position = _ref5.work_position,
+      emp_id = _ref5.emp_id;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n      CALL update_position(?, ?, ?, ?, ?, ?);\n    ';

@@ -9,6 +9,7 @@ router.post('/api/position/add', async (req, res) => {
     req.body.office &&
     req.body.credit_units &&
     req.body.nature_of_work &&
+    req.body.work_position &&
     req.body.emp_id
   ) {
     try {

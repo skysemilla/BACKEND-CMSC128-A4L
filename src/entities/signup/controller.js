@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 //adds an employee
 export const addEmployee = ({

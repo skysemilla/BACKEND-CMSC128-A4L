@@ -2024,6 +2024,7 @@ router.post('/api/checkValid', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return checkValid; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 //adds an employee
 var addEmployee = function addEmployee(_ref) {

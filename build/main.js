@@ -940,6 +940,7 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 var alphanumRegex = /^[a-zA-Z0-9 ]*[a-zA-Z ][a-zA-Z0-9 ]*$/;
 var numRegex = /^[0-9\s\-']+$/;
 var creditRegex = /^[0-9]$/;
+var empidRegex = /^[0-9]{9}$/;
 
 // gets a publication by id
 router.post('/api/publication/view', function () {
@@ -1009,7 +1010,7 @@ router.post('/api/publication/viewAll', function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            if (!req.body.empid) {
+            if (!req.body.empid.match(empidRegex)) {
               _context2.next = 17;
               break;
             }
@@ -1362,7 +1363,7 @@ router.post('/api/publication/viewEmployeeCoworkers', function () {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            if (!req.body.empid) {
+            if (!req.body.empid.match(empidRegex)) {
               _context8.next = 17;
               break;
             }
@@ -3214,22 +3215,24 @@ router.post('/api/teachload/edit/', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(req.body.no_of_students && req.body.subject_code && req.body.section_code && req.body.teachingload_id)) {
-              _context3.next = 15;
+            console.log(req.body);
+
+            if (!(req.body.no_of_students && req.body.teachingload_id)) {
+              _context3.next = 16;
               break;
             }
 
-            _context3.prev = 1;
-            _context3.next = 4;
+            _context3.prev = 2;
+            _context3.next = 5;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* editTeachLoad */](req.body);
 
-          case 4:
-            _context3.next = 6;
+          case 5:
+            _context3.next = 7;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["n" /* getTeachLoad */]({
               teachingload_id: req.body.teachingload_id
             });
 
-          case 6:
+          case 7:
             sample = _context3.sent;
 
 
@@ -3238,28 +3241,28 @@ router.post('/api/teachload/edit/', function () {
               message: 'Successfully edited teach load',
               data: sample
             });
-            _context3.next = 13;
+            _context3.next = 14;
             break;
 
-          case 10:
-            _context3.prev = 10;
-            _context3.t0 = _context3['catch'](1);
+          case 11:
+            _context3.prev = 11;
+            _context3.t0 = _context3['catch'](2);
 
             res.status(500).json({ status: 500, message: 'Internal server error' });
 
-          case 13:
-            _context3.next = 16;
+          case 14:
+            _context3.next = 17;
             break;
 
-          case 15:
+          case 16:
             res.status(400).json({ status: 400, message: 'Bad request' });
 
-          case 16:
+          case 17:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[1, 10]]);
+    }, _callee3, _this, [[2, 11]]);
   }));
 
   return function (_x5, _x6) {
@@ -3775,6 +3778,7 @@ router.post('/api/teachload/subjectByTeachId', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return getEmployee; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 var addTeachLoad = function addTeachLoad(_ref, json) {
   var no_of_students = _ref.no_of_students,
@@ -3788,12 +3792,11 @@ var addTeachLoad = function addTeachLoad(_ref, json) {
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = '\n      INSERT INTO TEACHINGLOAD\n          (emp_id, no_of_students, subject_id)\n        VALUES\n          (?, ?, (SELECT subject_id FROM SUBJECT \n                  WHERE subject_code = ? AND\n                        section_code = ? limit 1));\n    ';
-    //FIX QUERY LATER ON ADD SUBJECT IF SUBJECT DOES NOT EXIST
-    // console.log(no_of_students);
     var values = [emp_id, no_of_students, subject_code, section_code];
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+    var queryString = SqlString.format('\n      INSERT INTO TEACHINGLOAD\n          (emp_id, no_of_students, subject_id)\n        VALUES\n          (?, ?, (SELECT subject_id FROM SUBJECT \n                  WHERE subject_code = ? AND\n                        section_code = ? limit 1));\n      ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -3810,34 +3813,11 @@ var checkExistDayTeachLoad = function checkExistDayTeachLoad(_ref2, json) {
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-
-    var queryString = '\n                        SELECT COUNT(*) as count FROM\n                        (SELECT day from SUBJECT_DAY where subject_id = (SELECT subject_id from SUBJECT where subject_code = ? and section_code = ? ))a,\n                        (SELECT day from SUBJECT_DAY where subject_id IN (SELECT subject_id FROM SUBJECT NATURAL JOIN TEACHINGLOAD where emp_id = ?))b\n                        WHERE(\n                        a.day=b.day\n                        );\n                      ';
-
-    // const queryString = `
-    //   SELECT COUNT(*) as count FROM
-    //   (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = ? and section_code = ?)a,
-    //   (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = ?)b
-    //   WHERE(
-    //   a.day=b.day);
-    // `;
-
-    // SELECT COUNT(*) as count FROM
-    // (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = 'cmsc 11' and section_code = 'a')a,
-    // (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = '000000001')b
-    // WHERE(
-    // a.day=b.day);
-
-    // const queryString = `
-    //   SELECT COUNT(*) as count FROM
-    //   (SELECT day from SUBJECT NATURAL JOIN SUBJECT_DAY where subject_code = ? and section_code = ?)a,
-    //   (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION WHERE emp_id = ?)b,
-    //   (SELECT day FROM SUBJECT NATURAL JOIN SUBJECT_DAY WHERE subject_id IN(SELECT subject_id FROM SUBJECT NATURAL JOIN TEACHINGLOAD where emp_id = ?))c
-    //   WHERE
-    //   a.day = b.day OR a.day = c.day OR b.day = c.day;
-    // `;
-
     var values = [subject_code, section_code, emp_id];
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+
+    var queryString = SqlString.format('\n      SELECT COUNT(*) as count FROM\n      (SELECT day from SUBJECT_DAY where subject_id = (SELECT subject_id from SUBJECT where subject_code = ? and section_code = ? ))a,\n      (SELECT day from SUBJECT_DAY where subject_id IN (SELECT subject_id FROM SUBJECT NATURAL JOIN TEACHINGLOAD where emp_id = ?))b\n      WHERE(a.day=b.day);', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       console.log(results);
       if (err) {
         console.log('swswswswswsw');
@@ -3854,11 +3834,11 @@ var checkExistDayConsultation = function checkExistDayConsultation(_ref3, json) 
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-
-    var queryString = '\n     SELECT COUNT(*) as count FROM\n     (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = ? and section_code = ?)a,\n      (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = ?)b\n      WHERE(\n      a.day=b.day);\n    ';
-
     var values = [subject_code, section_code, emp_id];
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+
+    var queryString = SqlString.format('\n     SELECT COUNT(*) as count FROM\n     (SELECT day from SUBJECT_DAY NATURAL JOIN SUBJECT where subject_code = ? and section_code = ?)a,\n      (SELECT day from CONSULTATION_DAY NATURAL JOIN CONSULTATION where emp_id = ?)b\n      WHERE(\n      a.day=b.day);\n    ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       console.log(results);
       if (err) {
         console.log('AHHHHHHHHHHHHK');
@@ -3875,11 +3855,11 @@ var checkExistHourConsultation = function checkExistHourConsultation(_ref4, json
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-
-    var queryString = '\n      SELECT COUNT(*) as count FROM\n      (SELECT consultation_start_time,consultation_end_time from CONSULTATION WHERE emp_id = ?)a,\n      (SELECT start_time, end_time FROM SUBJECT WHERE subject_code = ? and section_code = ?)b\n      WHERE(\n      (b.start_time > a.consultation_start_time AND b.start_time < a.consultation_end_time) OR\n      (b.end_time > a.consultation_start_time AND b.end_time < a.consultation_end_time) OR\n      (b.start_time = a.consultation_start_time AND b.end_time = a.consultation_end_time));\n    ';
-
     var values = [emp_id, subject_code, section_code];
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+
+    var queryString = SqlString.format('\n      SELECT COUNT(*) as count FROM\n      (SELECT consultation_start_time,consultation_end_time from CONSULTATION WHERE emp_id = ?)a,\n      (SELECT start_time, end_time FROM SUBJECT WHERE subject_code = ? and section_code = ?)b\n      WHERE(\n      (b.start_time > a.consultation_start_time AND b.start_time < a.consultation_end_time) OR\n      (b.end_time > a.consultation_start_time AND b.end_time < a.consultation_end_time) OR\n      (b.start_time = a.consultation_start_time AND b.end_time = a.consultation_end_time));\n    ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       console.log(results);
       if (err) {
         console.log('Bepis');
@@ -3896,35 +3876,9 @@ var checkExistHourTeachLoad = function checkExistHourTeachLoad(_ref5, json) {
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    //  const queryString = `
-    //   SELECT COUNT(*) as count FROM (SELECT start_time, end_time FROM SUBJECT 
-    //   WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
-    //   WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
-    //   SUBJECT WHERE subject_code = ? and 
-    //   section_code = ? limit 1)b 
-    //   WHERE
-    //   (b.start_time < b.end_time and b.end_time < a.start_time) OR 
-    //   (b.start_time > a.end_time and b.end_time > b.start_time) OR 
-    //   (a.start_time > b.start_time and b.end_time > b.start_time);
-    // `;
-
-    // const queryString = `
-    //   SELECT COUNT(*) as count FROM 
-    //   (SELECT start_time, end_time FROM SUBJECT 
-    //   WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
-    //   WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
-    //   SUBJECT WHERE subject_code = ? and 
-    //   section_code = ? limit 1)b 
-    //   WHERE(
-    //   (b.start_time < b.end_time and b.end_time < a.start_time) OR 
-    //   (b.start_time > a.end_time and b.end_time > b.start_time) OR 
-    //   (a.start_time > b.start_time and b.end_time > b.start_time) OR
-    //   (b.start_time < a.end_time and b.end_time > a.end_time));
-    //   `;
-
-    var queryString = '\n      SELECT COUNT(*) as count FROM\n      (SELECT start_time,end_time from TEACHINGLOAD NATURAL JOIN SUBJECT WHERE emp_id = ?)a,\n      (SELECT start_time, end_time FROM SUBJECT WHERE subject_code = ? and section_code = ?)b\n      WHERE(\n      (b.start_time > a.start_time AND b.start_time < a.end_time) OR\n      (b.end_time > a.start_time AND b.end_time < a.end_time) OR\n      (b.end_time = a.end_time AND b.start_time = a.start_time));\n    ';
-
     var values = [emp_id, subject_code, section_code];
+
+    var queryString = SqlString.format('\n      SELECT COUNT(*) as count FROM\n      (SELECT start_time,end_time from TEACHINGLOAD NATURAL JOIN SUBJECT WHERE emp_id = ?)a,\n      (SELECT start_time, end_time FROM SUBJECT WHERE subject_code = ? and section_code = ?)b\n      WHERE(\n      (b.start_time > a.start_time AND b.start_time < a.end_time) OR\n      (b.end_time > a.start_time AND b.end_time < a.end_time) OR\n      (b.end_time = a.end_time AND b.start_time = a.start_time));\n    ', values);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
       console.log(results);
@@ -3942,9 +3896,9 @@ var removeTeachLoad = function removeTeachLoad(_ref6) {
   var teachingload_id = _ref6.teachingload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        DELETE \n          FROM TEACHINGLOAD\n        WHERE \n          teachingload_id = ?\n      ';
+    var queryString = SqlString.format('\n        DELETE \n          FROM TEACHINGLOAD\n        WHERE \n          teachingload_id = ?\n      ', teachingload_id);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -3961,22 +3915,14 @@ var removeTeachLoad = function removeTeachLoad(_ref6) {
 
 var editTeachLoad = function editTeachLoad(_ref7) {
   var no_of_students = _ref7.no_of_students,
-      emp_id = _ref7.emp_id,
-      subject_code = _ref7.subject_code,
-      section_code = _ref7.section_code,
-      room = _ref7.room,
-      days = _ref7.days,
-      start_time = _ref7.start_time,
-      end_time = _ref7.end_time,
-      creditw = _ref7.creditw,
       teachingload_id = _ref7.teachingload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      UPDATE TEACHINGLOAD\n        SET\n          no_of_students = ?\n        WHERE\n          teachingload_id=?;\n    ';
-
     var values = [no_of_students, teachingload_id];
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+    var queryString = SqlString.format('\n      UPDATE TEACHINGLOAD\n        SET\n          no_of_students = ?\n        WHERE\n          teachingload_id=?;\n    ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -3995,9 +3941,9 @@ var getTeachLoad = function getTeachLoad(_ref8) {
   var teachingload_id = _ref8.teachingload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            teachingload_id = ?;\n        ';
+    var queryString = SqlString.format('\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            teachingload_id = ?;\n        ', teachingload_id);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, teachingload_id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4015,9 +3961,9 @@ var getTeachLoad = function getTeachLoad(_ref8) {
 var getTeachEmp = function getTeachEmp(json) {
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = '\n        call view_employee_teachingload(?)\n        ';
+    var queryString = SqlString.format('\n        call view_employee_teachingload(?)\n        ', [emp_id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [emp_id], function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4053,9 +3999,12 @@ var getTeachEmpAdmin = function getTeachEmpAdmin(_ref9) {
   var emp_id = _ref9.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n        call view_employee_teachingload(?);\n        ';
+    // const queryString = `
+    //     call view_employee_teachingload(?);
+    //     `;
+    var queryString = SqlString.format('\n      SELECT * FROM TEACHINGLOAD NATURAL JOIN SUBJECT NATURAL JOIN SUBJECT_DAY WHERE\n      emp_id = ?;\n    ', emp_id);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, emp_id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4082,6 +4031,7 @@ var getTeachEmpAdmin = function getTeachEmpAdmin(_ref9) {
         }
       }
 
+      console.log(newArray);
       return resolve(newArray);
     });
   });
@@ -4089,7 +4039,7 @@ var getTeachEmpAdmin = function getTeachEmpAdmin(_ref9) {
 
 var getAllTeachLoad = function getAllTeachLoad() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT *\n          FROM TEACHINGLOAD\n        ';
+    var queryString = SqlString.format('\n          SELECT *\n          FROM TEACHINGLOAD\n        ');
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -4107,10 +4057,11 @@ var editAddTeachLoadUnits = function editAddTeachLoadUnits(_ref10, json) {
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = '\n      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)+? where emp_id=?;\n    ';
-
     var values = [emp_id, units, emp_id];
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+
+    var queryString = SqlString.format('\n      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)+? where emp_id=?;\n    ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4130,10 +4081,11 @@ var editRemoveTeachLoadUnits = function editRemoveTeachLoadUnits(_ref11, json) {
 
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = '\n      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)-? where emp_id=?;\n    ';
-
     var values = [emp_id, units, emp_id];
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+
+    var queryString = SqlString.format('\n      update EMPLOYEE set current_teaching_units=(select current_teaching_units from (select * from EMPLOYEE)e  where e.emp_id=?)-? where emp_id=?;\n    ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4152,10 +4104,11 @@ var getSubjectByTeachLoad = function getSubjectByTeachLoad(_ref12) {
   var teachingload_id = _ref12.teachingload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          SELECT subj.subject_code, subj.section_code, subj.units, subj.isLecture, subj.isGraduate, tl.no_of_students FROM SUBJECT subj, TEACHINGLOAD tl\n          WHERE\n            subj.subject_id = (select subject_id from\n            TEACHINGLOAD where teachingload_id=?) and teachingload_id=?;\n        ';
-
     var values = [teachingload_id, teachingload_id];
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, rows) {
+
+    var queryString = SqlString.format('\n          SELECT subj.subject_code, subj.section_code, subj.units, subj.isLecture, subj.isGraduate, tl.no_of_students FROM SUBJECT subj, TEACHINGLOAD tl\n          WHERE\n            subj.subject_id = (select subject_id from\n            TEACHINGLOAD where teachingload_id=?) and teachingload_id=?;\n        ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       // console.log(queryString);
       // console.log(teachingload_id);
       if (err) {
@@ -4175,11 +4128,11 @@ var getSubjectByTeachLoad = function getSubjectByTeachLoad(_ref12) {
 var getEmployee = function getEmployee(json) {
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = '\n      select * from EMPLOYEE where emp_id=?;\n    ';
-
     var values = [emp_id];
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+    var queryString = SqlString.format('\n      select * from EMPLOYEE where emp_id=?;\n    ', values);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -4193,18 +4146,6 @@ var getEmployee = function getEmployee(json) {
     });
   });
 };
-
-// SELECT COUNT(*) as count FROM 
-// (SELECT start_time, end_time FROM SUBJECT 
-// WHERE subject_id IN(SELECT subject_id FROM TEACHINGLOAD 
-// WHERE emp_id = ?))a, (SELECT start_time, end_time FROM 
-// SUBJECT WHERE subject_code = ? and 
-// section_code = ? limit 1)b 
-// WHERE(
-// (b.start_time < b.end_time and b.end_time < a.start_time) OR 
-// (b.start_time > a.end_time and b.end_time > b.start_time) OR 
-// (a.start_time > b.start_time and b.end_time > b.start_time) OR
-// (b.start_time < a.end_time and b.end_time > a.end_time));
 
 /***/ }),
 /* 26 */

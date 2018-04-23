@@ -1,9 +1,10 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 // gets extensions
 export const getExtension = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `SELECT * from EXTENSION where emp_id = ?`;
+    const queryString = SqlString.format(`SELECT * from EXTENSION where emp_id = ?`, [id]);
 
     db.query(queryString, id, (err, rows) => {
       if (err) {
@@ -23,9 +24,9 @@ export const getExtension = ({ id }) => {
 // gets a extension
 export const getExtensionByID = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
           SELECT * from EXTENSION where extension_id = ?;
-        `;
+        `, [id]);
 
     db.query(queryString, id, (err, rows) => {
       if (err) {
@@ -76,9 +77,9 @@ export const addExtension = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
             CALL insert_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        `;
+        `, addExtension);
 
     const values = [
       credit_unit,
@@ -141,9 +142,9 @@ export const editExtension = ({
   emp_id_update
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(`
       CALL update_extension(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-    `;
+    `, editExtension);
 
     const values = [
       extension_id_update,

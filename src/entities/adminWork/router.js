@@ -9,6 +9,7 @@ router.post('/api/position/add', async (req, res) => {
     req.body.office &&
     req.body.credit_units &&
     req.body.nature_of_work &&
+    req.body.work_position &&
     req.body.emp_id
   ) {
     try {
@@ -79,6 +80,29 @@ router.post('/api/position/edit', async (req, res) => {
 router.post('/api/position/view', async (req, res) => {
   try {
     const book = await Ctrl.getPosition(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched position',
+      data: book
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Position not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+router.post('/api/position/viewHis', async (req, res) => {
+  try {
+    console.log(req.body);
+    const book = await Ctrl.getHisPosition(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched position',

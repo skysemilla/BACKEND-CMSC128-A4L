@@ -5,14 +5,15 @@ export const addPosition = ({
   office,
   credit_units,
   nature_of_work,
+  work_position,
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL insert_position(?, ?, ?, ?);
+      CALL insert_position(?, ?, ?, ?, ?);
     `;
 
-    const values = [office, credit_units, nature_of_work, emp_id];
+    const values = [office, credit_units, nature_of_work, work_position, emp_id];
 
     db.query(queryString, values, (err, results) => {
       if (err) {
@@ -71,6 +72,26 @@ export const getAllPositions = () => {
   });
 };
 
+export const getHisPosition = ({ id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = `
+    SELECT * from POSITIONN where emp_id = ?
+        `;
+
+    db.query(queryString, [id], (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows);
+    });
+  });
+};
 // removes position
 export const removePosition = ({ id }) => {
   return new Promise((resolve, reject) => {
@@ -99,14 +120,15 @@ export const editPosition = ({
   office,
   credit_units,
   nature_of_work,
+  work_position,
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      CALL update_position(?, ?, ?, ?, ?);
+      CALL update_position(?, ?, ?, ?, ?, ?);
     `;
 
-    const values = [position_id, office, credit_units, nature_of_work, emp_id];
+    const values = [position_id, office, credit_units, nature_of_work, work_position, emp_id];
 
     db.query(queryString, values, (err, res) => {
       if (err) {

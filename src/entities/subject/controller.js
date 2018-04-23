@@ -27,6 +27,31 @@ export const getSubject = ({ subject_code, section_code }) => {
   });
 };
 
+export const getSubjectByID = ({ subject_id }) => {
+  return new Promise((resolve, reject) => {
+    const queryString =  SqlString.format(
+    `
+          SELECT 
+            *
+          FROM 
+            SUBJECT
+          WHERE
+            subject_id = ?;
+        `, [subject_id]
+        );
+    db.query(queryString, (err, rows) => {
+      if (err) {
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+      return resolve(rows[0]);
+    });
+  });
+};
+
 // gets all subjects
 export const getSubjects = () => {
   return new Promise((resolve, reject) => {
@@ -49,12 +74,12 @@ export const getSubjects = () => {
 };
 
 // adds a sample
-export const addSubject = ({ subject_code, section_code, isLecture, units, room, start_time, end_time }) => {
+export const addSubject = ({ subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time }) => {
   return new Promise((resolve, reject) => {
-    const values = [subject_code, section_code, isLecture, units, room, start_time, end_time];
+    const values = [subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time];
     const queryString = SqlString.format(
     `
-            CALL add_subject(?,?,?,?,?,?,?)
+            CALL add_subject(?,?,?,?,?,?,?, ?);
     `, values
     );
 
@@ -62,8 +87,10 @@ export const addSubject = ({ subject_code, section_code, isLecture, units, room,
     db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
+        console.log('ERROR!!');
         return reject(500);
       }
+      // console.log("CTRL: "+results.insertId);
 
       return resolve(results.insertId);
     });
@@ -71,12 +98,12 @@ export const addSubject = ({ subject_code, section_code, isLecture, units, room,
 };
 
 // removes a sample
-export const removeSubject = ({ id }) => {
+export const removeSubject = ({ subject_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = SqlString.format(
       `
       CALL delete_subject(?)
-    `, [id]
+    `, [subject_id]
     );
 
     db.query(queryString, (err, results) => {
@@ -93,12 +120,12 @@ export const removeSubject = ({ id }) => {
     });
   });
 };
-export const editSubject = ({subject_id, subject_code, section_code, isLecture, units, room, start_time, end_time}) => {
+export const editSubject = ({subject_id, subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time}) => {
   return new Promise((resolve, reject) => {
-    const values = [subject_id, subject_code, section_code, isLecture, units, room, start_time, end_time];
+    const values = [subject_id, subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time];
     const queryString = SqlString.format(
       `
-        CALL update_subject(?, ?, ?, ?, ?, ?, ?, ?)
+        CALL update_subject(?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, values
       );
 

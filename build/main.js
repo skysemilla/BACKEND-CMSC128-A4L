@@ -7483,23 +7483,22 @@ var router = Object(__WEBPACK_IMPORTED_MODULE_1_express__["Router"])();
 // gets samples
 router.post('/api/subject/viewAll', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(req, res) {
-    var _subject, message;
-
+    var subject, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getSubjects */]();
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* getSubjects */]();
 
           case 3:
-            _subject = _context.sent;
+            subject = _context.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully fetched all subjects',
-              data: _subject
+              data: subject
             });
             _context.next = 16;
             break;
@@ -7533,26 +7532,24 @@ router.post('/api/subject/viewAll', function () {
   };
 }());
 
-// gets samples
-router.post('/api/subject/viewsubject', function () {
+router.post('/api/subject/getsubjectid', function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(req, res) {
-    var _subject2, message;
-
+    var subject, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getSubject */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getSubjectByID */](req.body);
 
           case 3:
-            _subject2 = _context2.sent;
+            subject = _context2.sent;
 
             res.status(200).json({
               status: 200,
               message: 'Successfully fetched subject',
-              data: _subject2
+              data: subject
             });
             _context2.next = 16;
             break;
@@ -7586,55 +7583,51 @@ router.post('/api/subject/viewsubject', function () {
   };
 }());
 
-// add a sample
-router.post('/api/subject/add', function () {
+// gets sample
+router.post('/api/subject/viewsubject', function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(req, res) {
-    var id;
+    var subject, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(req.body.subject_code && req.body.section_code && req.body.units && req.body.room && req.body.start_time && req.body.end_time)) {
-              _context3.next = 13;
-              break;
-            }
+            _context3.prev = 0;
+            _context3.next = 3;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getSubject */](req.body);
 
-            _context3.prev = 1;
-            _context3.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addSubject */](req.body);
-
-          case 4:
-            id = _context3.sent;
-
-            //const subject = await Ctrl.getSubject({ id: id });
+          case 3:
+            subject = _context3.sent;
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully created subject',
+              message: 'Successfully fetched subject',
               data: subject
             });
-            _context3.next = 11;
+            _context3.next = 16;
             break;
 
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3['catch'](1);
-
-            res.status(500).json({ status: 500, message: 'Internal server error' });
-
-          case 11:
-            _context3.next = 14;
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3['catch'](0);
+            message = '';
+            _context3.t1 = _context3.t0;
+            _context3.next = _context3.t1 === 500 ? 13 : 15;
             break;
 
           case 13:
-            res.status(400).json({ status: 400, message: 'Bad request' });
+            message = 'Internal server error';
+            return _context3.abrupt('break', 15);
 
-          case 14:
+          case 15:
+
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 16:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[1, 8]]);
+    }, _callee3, _this, [[0, 7]]);
   }));
 
   return function (_x5, _x6) {
@@ -7642,59 +7635,58 @@ router.post('/api/subject/add', function () {
   };
 }());
 
-// removes a subject
-router.delete('/api/subject/remove', function () {
+// add a sample
+router.post('/api/subject/add', function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(req, res) {
-    var _subject3, message;
-
+    var id;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getSubject */](req.params);
+            console.log(req.body);
 
-          case 3:
-            _subject3 = _context4.sent;
-            _context4.next = 6;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeSubject */](req.params);
+            if (!(req.body.subject_code && req.body.section_code && req.body.isLecture && req.body.isGraduate && req.body.units && req.body.room && req.body.start_time && req.body.end_time)) {
+              _context4.next = 14;
+              break;
+            }
 
-          case 6:
+            _context4.prev = 2;
+            _context4.next = 5;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* addSubject */](req.body);
+
+          case 5:
+            id = _context4.sent;
+
+            // console.log(id);
+            // const subject = await Ctrl.getSubjectByID({ subject_id: id });
 
             res.status(200).json({
               status: 200,
-              message: 'Successfully removed subject',
-              data: _subject3
+              message: 'Successfully created subject',
+              data: id
             });
-            _context4.next = 20;
+            _context4.next = 12;
             break;
 
           case 9:
             _context4.prev = 9;
-            _context4.t0 = _context4['catch'](0);
-            message = '';
-            _context4.t1 = _context4.t0;
-            _context4.next = _context4.t1 === 404 ? 15 : _context4.t1 === 500 ? 17 : 19;
+            _context4.t0 = _context4['catch'](2);
+
+            res.status(500).json({ status: 500, message: 'Internal server error' });
+
+          case 12:
+            _context4.next = 15;
             break;
 
+          case 14:
+            res.status(400).json({ status: 400, message: 'Bad request' });
+
           case 15:
-            message = 'Sample not found';
-            return _context4.abrupt('break', 19);
-
-          case 17:
-            message = 'Internal server error';
-            return _context4.abrupt('break', 19);
-
-          case 19:
-            res.status(_context4.t0).json({ status: _context4.t0, message: message });
-
-          case 20:
           case 'end':
             return _context4.stop();
         }
       }
-    }, _callee4, _this, [[0, 9]]);
+    }, _callee4, _this, [[2, 9]]);
   }));
 
   return function (_x7, _x8) {
@@ -7702,64 +7694,124 @@ router.delete('/api/subject/remove', function () {
   };
 }());
 
-// edits a subject
-router.put('/api/subject/edit', function () {
+// removes a subject
+router.post('/api/subject/delete', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
-    var _subject4, message;
-
+    var subject, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
+            console.log(req.body);
+            _context5.prev = 1;
+            _context5.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getSubjectByID */](req.body);
+
+          case 4:
+            subject = _context5.sent;
+            _context5.next = 7;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["f" /* removeSubject */](req.body);
+
+          case 7:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully removed subject',
+              data: subject
+            });
+            _context5.next = 21;
+            break;
+
+          case 10:
+            _context5.prev = 10;
+            _context5.t0 = _context5['catch'](1);
+            message = '';
+            _context5.t1 = _context5.t0;
+            _context5.next = _context5.t1 === 404 ? 16 : _context5.t1 === 500 ? 18 : 20;
+            break;
+
+          case 16:
+            message = 'Sample not found';
+            return _context5.abrupt('break', 20);
+
+          case 18:
+            message = 'Internal server error';
+            return _context5.abrupt('break', 20);
+
+          case 20:
+            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+
+          case 21:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, _this, [[1, 10]]);
+  }));
+
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+
+// edits a subject
+router.post('/api/subject/edit', function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee6(req, res) {
+    var subject, message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_vivian_Documents_128_latest_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            console.log(req.body);
+            _context6.prev = 1;
+            _context6.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editSubject */](req.body);
 
-          case 3:
-            _context5.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["c" /* getSubject */]({ id: req.body.id });
+          case 4:
+            _context6.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getSubjectByID */](req.body);
 
-          case 5:
-            _subject4 = _context5.sent;
+          case 6:
+            subject = _context6.sent;
 
 
             res.status(200).json({
               status: 200,
               message: 'Successfully edited subject',
-              data: _subject4
+              data: subject
             });
-            _context5.next = 20;
+            _context6.next = 21;
             break;
 
-          case 9:
-            _context5.prev = 9;
-            _context5.t0 = _context5['catch'](0);
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6['catch'](1);
             message = '';
-            _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 404 ? 15 : _context5.t1 === 500 ? 17 : 19;
+            _context6.t1 = _context6.t0;
+            _context6.next = _context6.t1 === 404 ? 16 : _context6.t1 === 500 ? 18 : 20;
             break;
 
-          case 15:
+          case 16:
             message = 'Subject not found';
-            return _context5.abrupt('break', 19);
+            return _context6.abrupt('break', 20);
 
-          case 17:
+          case 18:
             message = 'Internal server error';
-            return _context5.abrupt('break', 19);
-
-          case 19:
-            res.status(_context5.t0).json({ status: _context5.t0, message: message });
+            return _context6.abrupt('break', 20);
 
           case 20:
+            res.status(_context6.t0).json({ status: _context6.t0, message: message });
+
+          case 21:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, _this, [[0, 9]]);
+    }, _callee6, _this, [[1, 10]]);
   }));
 
-  return function (_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }());
 
@@ -7771,9 +7823,10 @@ router.put('/api/subject/edit', function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getSubject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getSubjects; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getSubjectByID; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getSubjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addSubject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeSubject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeSubject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editSubject; });
 /* unused harmony export getSubjectDay */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
@@ -7787,6 +7840,24 @@ var getSubject = function getSubject(_ref) {
   return new Promise(function (resolve, reject) {
     var values = [subject_code, section_code];
     var queryString = SqlString.format('\n          SELECT \n            *\n          FROM \n            SUBJECT\n          WHERE\n            subject_code = ? and section_code = ?;\n        ', values);
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
+      if (err) {
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+      return resolve(rows[0]);
+    });
+  });
+};
+
+var getSubjectByID = function getSubjectByID(_ref2) {
+  var subject_id = _ref2.subject_id;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = SqlString.format('\n          SELECT \n            *\n          FROM \n            SUBJECT\n          WHERE\n            subject_id = ?;\n        ', [subject_id]);
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         return reject(500);
@@ -7820,24 +7891,27 @@ var getSubjects = function getSubjects() {
 };
 
 // adds a sample
-var addSubject = function addSubject(_ref2) {
-  var subject_code = _ref2.subject_code,
-      section_code = _ref2.section_code,
-      isLecture = _ref2.isLecture,
-      units = _ref2.units,
-      room = _ref2.room,
-      start_time = _ref2.start_time,
-      end_time = _ref2.end_time;
+var addSubject = function addSubject(_ref3) {
+  var subject_code = _ref3.subject_code,
+      section_code = _ref3.section_code,
+      isLecture = _ref3.isLecture,
+      isGraduate = _ref3.isGraduate,
+      units = _ref3.units,
+      room = _ref3.room,
+      start_time = _ref3.start_time,
+      end_time = _ref3.end_time;
 
   return new Promise(function (resolve, reject) {
-    var values = [subject_code, section_code, isLecture, units, room, start_time, end_time];
-    var queryString = SqlString.format('\n            CALL add_subject(?,?,?,?,?,?,?)\n    ', values);
+    var values = [subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time];
+    var queryString = SqlString.format('\n            CALL add_subject(?,?,?,?,?,?,?, ?);\n    ', values);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
+        console.log('ERROR!!');
         return reject(500);
       }
+      // console.log("CTRL: "+results.insertId);
 
       return resolve(results.insertId);
     });
@@ -7845,11 +7919,11 @@ var addSubject = function addSubject(_ref2) {
 };
 
 // removes a sample
-var removeSubject = function removeSubject(_ref3) {
-  var id = _ref3.id;
+var removeSubject = function removeSubject(_ref4) {
+  var subject_id = _ref4.subject_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n      CALL delete_subject(?)\n    ', [id]);
+    var queryString = SqlString.format('\n      CALL delete_subject(?)\n    ', [subject_id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
@@ -7865,19 +7939,20 @@ var removeSubject = function removeSubject(_ref3) {
     });
   });
 };
-var editSubject = function editSubject(_ref4) {
-  var subject_id = _ref4.subject_id,
-      subject_code = _ref4.subject_code,
-      section_code = _ref4.section_code,
-      isLecture = _ref4.isLecture,
-      units = _ref4.units,
-      room = _ref4.room,
-      start_time = _ref4.start_time,
-      end_time = _ref4.end_time;
+var editSubject = function editSubject(_ref5) {
+  var subject_id = _ref5.subject_id,
+      subject_code = _ref5.subject_code,
+      section_code = _ref5.section_code,
+      isLecture = _ref5.isLecture,
+      isGraduate = _ref5.isGraduate,
+      units = _ref5.units,
+      room = _ref5.room,
+      start_time = _ref5.start_time,
+      end_time = _ref5.end_time;
 
   return new Promise(function (resolve, reject) {
-    var values = [subject_id, subject_code, section_code, isLecture, units, room, start_time, end_time];
-    var queryString = SqlString.format('\n        CALL update_subject(?, ?, ?, ?, ?, ?, ?, ?)\n      ', values);
+    var values = [subject_id, subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time];
+    var queryString = SqlString.format('\n        CALL update_subject(?, ?, ?, ?, ?, ?, ?, ?, ?)\n      ', values);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {

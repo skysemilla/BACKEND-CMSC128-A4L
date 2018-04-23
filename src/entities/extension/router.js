@@ -4,28 +4,31 @@ import * as Ctrl from './controller';
 const router = Router();
 const alphanumRegex = /^[a-zA-Z0-9 ]*[a-zA-Z ][a-zA-Z0-9 ]*$/;
 const numRegex = /^[0-9\s\-']+$/;
+const creditRegex = /^[0-9]$/;
+const empidRegex = /^[0-9]{9}$/;
+const nameRegex = /^[A-Za-z\-'\s]+$/;
 
 // gets extension
-// router.post('/api/extension/viewByID', async (req, res) => {
-//   try {
-//     const extensions = await Ctrl.getExtensionByID(req.body);
-//     res.status(200).json({
-//       status: 200,
-//       message: 'Successfully fetched all Extensions',
-//       data: extensions
-//     });
-//   } catch (status) {
-//     let message = '';
+router.post('/api/extension/viewByID', async (req, res) => {
+  try {
+    const extensions = await Ctrl.getExtensionByID(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched all Extensions',
+      data: extensions
+    });
+  } catch (status) {
+    let message = '';
 
-//     switch (status) {
-//       case 500:
-//         message = 'Internal server error';
-//         break;
-//     }
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
 
-//     res.status(200).json({ status, message });
-//   }
-// });
+    res.status(200).json({ status, message });
+  }
+});
 
 router.post('/api/extension/viewByID', async (req, res) => {
   if(req.body.id){
@@ -76,15 +79,27 @@ router.post('/api/extension/view', async (req, res) => {
   }
 });
 
+// credit_unit,
+//   extension_name,
+//   extension_type,
+//   no_of_hours,
+//   no_of_participants,
+//   extension_role,
+//   start_time,
+//   end_time,
+//   funding_agency,
+//   emp_id
+
 // add a extension
 router.post('/api/extension/add', async (req, res) => {
   if (
+    req.body.credit_unit >= 0 &&
     req.body.extension_type &&
     req.body.extension_name &&
     req.body.no_of_participants >= 0 &&
     req.body.extension_role &&
-    req.body.credit_unit >= 0 &&
-    req.body.funding_agency
+    req.body.funding_agency &&
+    (req.body.funding_agency.match(numRegex) === false)
   ){
     try {
       const id = await Ctrl.addExtension(req.body);

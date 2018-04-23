@@ -61,7 +61,7 @@ export const getConsultation = ({ id }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
           CALL
-          view_consultation_by_ID(?);
+          view_employee_consultation(?);
         `;
 
     db.query(queryString, id, (err, rows) => {
@@ -101,13 +101,12 @@ export const getAllConsulHours = () => {
     });
   });
 };
-
 export const editConsulHours = ({
+  consultation_id,
   consultation_start_time,
   consultation_end_time,
   consultation_place,
-  day,
-  consultation_id
+  day
 }) => {
   return new Promise((resolve, reject) => {
     const queryString = `
@@ -116,11 +115,11 @@ export const editConsulHours = ({
     `;
 
     const values = [
+      consultation_id,
       consultation_start_time,
       consultation_end_time,
       consultation_place,
-      day,
-      consultation_id
+      day
     ];
 
     db.query(queryString, values, (err, res) => {

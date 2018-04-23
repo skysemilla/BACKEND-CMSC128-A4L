@@ -5596,7 +5596,7 @@ router.post('/api/consulHours/delete', function () {
             // const consultation = await Ctrl.getConsultation({ id: req.body.id });
             console.log(req.body);
             _context2.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeConsulHours */]({ id: req.body.id });
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["e" /* removeConsulHours */]({ id: req.body.consultation_id });
 
           case 4:
 
@@ -5649,16 +5649,16 @@ router.post('/api/consulHours/edit', function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            _context3.next = 3;
+
+            console.log(req.body);
+            _context3.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["b" /* editConsulHours */](req.body);
 
-          case 3:
-            _context3.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */]({
-              id: req.body.consultation_id
-            });
+          case 4:
+            _context3.next = 6;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */]({ id: req.body.consultation_id });
 
-          case 5:
+          case 6:
             consultation = _context3.sent;
 
 
@@ -5667,34 +5667,34 @@ router.post('/api/consulHours/edit', function () {
               message: 'Successfully edited consultation hour',
               data: consultation
             });
-            _context3.next = 20;
+            _context3.next = 21;
             break;
 
-          case 9:
-            _context3.prev = 9;
+          case 10:
+            _context3.prev = 10;
             _context3.t0 = _context3['catch'](0);
             message = '';
             _context3.t1 = _context3.t0;
-            _context3.next = _context3.t1 === 404 ? 15 : _context3.t1 === 500 ? 17 : 19;
+            _context3.next = _context3.t1 === 404 ? 16 : _context3.t1 === 500 ? 18 : 20;
             break;
 
-          case 15:
+          case 16:
             message = 'Consultation not found';
-            return _context3.abrupt('break', 19);
+            return _context3.abrupt('break', 20);
 
-          case 17:
+          case 18:
             message = 'Internal server error';
-            return _context3.abrupt('break', 19);
-
-          case 19:
-            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+            return _context3.abrupt('break', 20);
 
           case 20:
+            res.status(_context3.t0).json({ status: _context3.t0, message: message });
+
+          case 21:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[0, 9]]);
+    }, _callee3, _this, [[0, 10]]);
   }));
 
   return function (_x5, _x6) {
@@ -5754,7 +5754,7 @@ router.get('/api/consulHours/viewAll', function () {
   };
 }());
 
-router.get('/api/consulHours/view', function () {
+router.post('/api/consulHours/view', function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee5(req, res) {
     var book, message;
     return __WEBPACK_IMPORTED_MODULE_0__home_psyche_Documents_128_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
@@ -5762,12 +5762,10 @@ router.get('/api/consulHours/view', function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-
-            console.log(req.body);
-            _context5.next = 4;
+            _context5.next = 3;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getConsultation */](req.body);
 
-          case 4:
+          case 3:
             book = _context5.sent;
 
             res.status(200).json({
@@ -5775,34 +5773,34 @@ router.get('/api/consulHours/view', function () {
               message: 'Successfully fetched consultation',
               data: book
             });
-            _context5.next = 19;
+            _context5.next = 18;
             break;
 
-          case 8:
-            _context5.prev = 8;
+          case 7:
+            _context5.prev = 7;
             _context5.t0 = _context5['catch'](0);
             message = '';
             _context5.t1 = _context5.t0;
-            _context5.next = _context5.t1 === 404 ? 14 : _context5.t1 === 500 ? 16 : 18;
+            _context5.next = _context5.t1 === 404 ? 13 : _context5.t1 === 500 ? 15 : 17;
             break;
 
-          case 14:
+          case 13:
             message = 'Consultation not found';
-            return _context5.abrupt('break', 18);
+            return _context5.abrupt('break', 17);
 
-          case 16:
+          case 15:
             message = 'Internal server error';
-            return _context5.abrupt('break', 18);
+            return _context5.abrupt('break', 17);
 
-          case 18:
+          case 17:
             res.status(_context5.t0).json({ status: _context5.t0, message: message });
 
-          case 19:
+          case 18:
           case 'end':
             return _context5.stop();
         }
       }
-    }, _callee5, _this, [[0, 8]]);
+    }, _callee5, _this, [[0, 7]]);
   }));
 
   return function (_x9, _x10) {
@@ -5875,7 +5873,7 @@ var getConsultation = function getConsultation(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL\n          view_consultation_by_ID(?);\n        ';
+    var queryString = '\n          CALL\n          view_employee_consultation(?);\n        ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
       if (err) {
@@ -5911,18 +5909,17 @@ var getAllConsulHours = function getAllConsulHours() {
     });
   });
 };
-
 var editConsulHours = function editConsulHours(_ref4) {
-  var consultation_start_time = _ref4.consultation_start_time,
+  var consultation_id = _ref4.consultation_id,
+      consultation_start_time = _ref4.consultation_start_time,
       consultation_end_time = _ref4.consultation_end_time,
       consultation_place = _ref4.consultation_place,
-      day = _ref4.day,
-      consultation_id = _ref4.consultation_id;
+      day = _ref4.day;
 
   return new Promise(function (resolve, reject) {
     var queryString = '\n     CALL \n     update_consultation(?, ?, ?, ?, ?);\n    ';
 
-    var values = [consultation_start_time, consultation_end_time, consultation_place, day, consultation_id];
+    var values = [consultation_id, consultation_start_time, consultation_end_time, consultation_place, day];
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {

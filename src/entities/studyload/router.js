@@ -5,21 +5,22 @@ const router = Router();
 
 router.post('/api/studyload/add', async (req, res) => {
   // console.log(req.body);
-  if (req.body.credits &&
-      req.body.courseno &&
-      req.session.user.emp_id &&
-      req.body.start_time &&
-      req.body.end_time &&
-      req.body.school &&
-      req.body.days
-     ){
+  if (
+    req.body.credits &&
+    req.body.courseno &&
+    req.session.user.emp_id &&
+    req.body.start_time &&
+    req.body.end_time &&
+    req.body.school &&
+    req.body.days
+  ) {
     try {
       // await Ctrl.checkUser(req.body.empNo);
       // this checks if the empno is already assigned to a faculty
-      const id = await Ctrl.addStudyLoad(req.body,req.session.user);
+      const id = await Ctrl.addStudyLoad(req.body, req.session.user);
       res.status(200).json({
         status: 200,
-        message: 'Successfully created study load'//,
+        message: 'Successfully created study load' //,
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -62,15 +63,13 @@ router.post('/api/studyload/edit', async (req, res) => {
     req.session.user
   ) {
     try {
-      await Ctrl.editStudyLoad(req.body,req.session.user.emp_id);
-      const sample = await Ctrl.getStudyLoad( 
-        [req.body.studyload_id
-      ]);
+      await Ctrl.editStudyLoad(req.body, req.session.user.emp_id);
+      const sample = await Ctrl.getStudyLoad([req.body.studyload_id]);
       await Ctrl.removeStudyLoadDays(req.body.studyload_id);
-      await Ctrl.addDays(req.body.studyload_id,req.body.days);
+      await Ctrl.addDays(req.body.studyload_id, req.body.days);
       res.status(200).json({
         status: 200,
-        message: 'Successfully edited study load',
+        message: 'Successfully edited study load'
         // data: sample
       });
     } catch (status) {
@@ -104,10 +103,7 @@ router.post('/api/studyload/view', async (req, res) => {
 });
 router.post('/api/studyload/viewByStudyloadId', async (req, res) => {
   console.log(req.body);
-  if(
-    req.session.user &&
-    req.body.studyload_id
-  ){
+  if (req.session.user && req.body.studyload_id) {
     try {
       const book = await Ctrl.getStudyLoad(req.body.studyload_id);
       res.status(200).json({
@@ -127,10 +123,10 @@ router.post('/api/studyload/viewByStudyloadId', async (req, res) => {
       }
       res.status(status).json({ status, message });
     }
-  }else{
+  } else {
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
-  });
+});
 
 router.get('/api/studyload/viewAll', async (req, res) => {
   try {
@@ -184,10 +180,10 @@ router.post('/api/studyload/editStudyCredentials', async (req, res) => {
     req.session.user
   ) {
     try {
-      await Ctrl.editStudyCredentials(req.body,req.session.user.emp_id);
+      await Ctrl.editStudyCredentials(req.body, req.session.user.emp_id);
       res.status(200).json({
         status: 200,
-        message: 'Successfully edited study credentials',
+        message: 'Successfully edited study credentials'
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -196,58 +192,52 @@ router.post('/api/studyload/editStudyCredentials', async (req, res) => {
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
-router.post('/api/studyload/getDays',async(req,res)=>{
-  if(req.body.studyload_id &&
-      req.session.user.emp_id
-  ){
-   try{
-    const out = await Ctrl.getDays(req.body.studyload_id);
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully got days',
-      data: out
-    });
-  } catch (status) {
-    res.status(500).json({ status: 500, message: 'Internal server error' });
+router.post('/api/studyload/getDays', async (req, res) => {
+  if (req.body.studyload_id && req.session.user.emp_id) {
+    try {
+      const out = await Ctrl.getDays(req.body.studyload_id);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully got days',
+        data: out
+      });
+    } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
   }
-  }else{
-    res.status(400).json({ status: 400, message: 'Bad request' });    
+});
+router.post('/api/studyload/getStudyLoadFSR', async (req, res) => {
+  if (req.body.emp_id && req.session.user.emp_id) {
+    try {
+      const out = await Ctrl.getStudyEmp(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully got Studyload',
+        data: out
+      });
+    } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
   }
-})
-router.post('/api/studyload/getStudyLoadFSR',async(req,res)=>{
-  if(req.body.emp_id &&
-      req.session.user.emp_id
-  ){
-   try{
-    const out = await Ctrl.getStudyEmp(req.body);
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully got Studyload',
-      data: out
-    });
-  } catch (status) {
-    res.status(500).json({ status: 500, message: 'Internal server error' });
+});
+router.post('/api/studyload/getStudyLoadCredentialsFSR', async (req, res) => {
+  if (req.body.emp_id && req.session.user.emp_id) {
+    try {
+      const out = await Ctrl.getStudyCredentials(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully got Studyload',
+        data: out
+      });
+    } catch (status) {
+      res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
   }
-  }else{
-    res.status(400).json({ status: 400, message: 'Bad request' });    
-  }
-})
-router.post('/api/studyload/getStudyLoadCredentialsFSR',async(req,res)=>{
-  if(req.body.emp_id &&
-      req.session.user.emp_id
-  ){
-   try{
-    const out = await Ctrl.getStudyCredentials(req.body);
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully got Studyload',
-      data: out
-    });
-  } catch (status) {
-    res.status(500).json({ status: 500, message: 'Internal server error' });
-  }
-  }else{
-    res.status(400).json({ status: 400, message: 'Bad request' });    
-  }
-})
+});
 export default router;

@@ -55,7 +55,7 @@ export const addPublication = ({
   return new Promise((resolve, reject) => {
     if (start_date === '' || end_date === '') {
       const queryString = `
-          call insert_publication( ?, ?, ?, ?, ?, ?, NULL, NULL, ? );
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?);
         `;
 
       const values = [credit_units, category, subcategory, funding, title, role, emp_id];
@@ -70,7 +70,7 @@ export const addPublication = ({
       });
     } else {
       const queryString = `
-          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          INSERT INTO PUBLICATION values(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?);
         `;
 
       const values = [
@@ -308,4 +308,5 @@ export const getCoworkers = ({ id }) => {
     });
   });
 };
+
 

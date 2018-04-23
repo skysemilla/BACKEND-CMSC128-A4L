@@ -15,6 +15,7 @@ import facultygrantRouter from './entities/facultygrant/router';
 import limitedpracticeRouter from './entities/limitedpractice/router';
 import profileRouter from './entities/profile/router';
 import adminRouter from './entities/admin/router';
+import subjectRouter from './entities/subject/router';
 
 const router = Router();
 
@@ -33,5 +34,6 @@ router.use(facultygrantRouter);
 router.use(limitedpracticeRouter);
 router.use(profileRouter);
 router.use(adminRouter);
+router.use(subjectRouter);
 
 export default router;

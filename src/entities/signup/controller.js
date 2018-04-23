@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 //adds an employee
 export const addEmployee = ({
@@ -17,10 +18,6 @@ export const addEmployee = ({
   email
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
-    `;
-
     const values = [
       emp_id,
       username,
@@ -36,8 +33,14 @@ export const addEmployee = ({
       is_full_time,
       email
     ];
+    const queryString = SqlString.format(
+      `
+      CALL insert_employee(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0);
+    `,
+      values
+    );
 
-    db.query(queryString, values, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -52,16 +55,19 @@ export const addEmployee = ({
 // gets an employee
 export const getEmployee = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
           SELECT 
             *
           FROM 
             EMPLOYEE
           WHERE
             emp_id_increment = ?;
-        `;
+        `,
+      [id]
+    );
 
-    db.query(queryString, id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -69,6 +75,39 @@ export const getEmployee = ({ id }) => {
 
       if (!rows.length) {
         return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
+// gets an employee
+export const checkValid = ({ empid, username, email }) => {
+  return new Promise((resolve, reject) => {
+    const values = [empid, username, email];
+    const queryString = SqlString.format(
+      `
+          SELECT 
+            *
+          FROM 
+            EMPLOYEE
+          WHERE
+            emp_id = ? OR
+            username = ? OR
+            email = ?
+        `,
+      values
+    );
+
+    db.query(queryString, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return resolve(null);
       }
 
       return resolve(rows[0]);

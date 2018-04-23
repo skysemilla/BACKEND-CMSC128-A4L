@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 // add position
 export const addPosition = ({
@@ -9,13 +10,21 @@ export const addPosition = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [
+      office,
+      credit_units,
+      nature_of_work,
+      work_position,
+      emp_id
+    ];
+    const queryString = SqlString.format(
+      `
       CALL insert_position(?, ?, ?, ?, ?);
-    `;
+    `,
+      values
+    );
 
-    const values = [office, credit_units, nature_of_work, work_position, emp_id];
-
-    db.query(queryString, values, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err.message);
         return reject(500);
@@ -29,12 +38,15 @@ export const addPosition = ({
 // get position
 export const getPosition = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
           CALL
           view_position_by_ID(?)
-        `;
+        `,
+      [id]
+    );
 
-    db.query(queryString, [id, id], (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -74,11 +86,14 @@ export const getAllPositions = () => {
 
 export const getHisPosition = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
     SELECT * from POSITIONN where emp_id = ?
-        `;
+        `,
+      [id]
+    );
 
-    db.query(queryString, [id], (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -95,11 +110,14 @@ export const getHisPosition = ({ id }) => {
 // removes position
 export const removePosition = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
       CALL delete_position(?);
-    `;
+    `,
+      [id]
+    );
 
-    db.query(queryString, id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -124,13 +142,22 @@ export const editPosition = ({
   emp_id
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const values = [
+      position_id,
+      office,
+      credit_units,
+      nature_of_work,
+      work_position,
+      emp_id
+    ];
+    const queryString = SqlString.format(
+      `
       CALL update_position(?, ?, ?, ?, ?, ?);
-    `;
+    `,
+      values
+    );
 
-    const values = [position_id, office, credit_units, nature_of_work, work_position, emp_id];
-
-    db.query(queryString, values, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);

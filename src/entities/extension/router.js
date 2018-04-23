@@ -2,6 +2,8 @@ import { Router } from 'express';
 import * as Ctrl from './controller';
 
 const router = Router();
+const alphanumRegex = /^[a-zA-Z0-9 ]*[a-zA-Z ][a-zA-Z0-9 ]*$/;
+const numRegex = /^[0-9\s\-']+$/;
 
 // gets extension
 router.post('/api/extension/viewByID', async (req, res) => {

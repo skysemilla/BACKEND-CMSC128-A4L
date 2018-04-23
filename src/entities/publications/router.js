@@ -6,6 +6,7 @@ const router = Router();
 const alphanumRegex = /^[a-zA-Z0-9 ]*[a-zA-Z ][a-zA-Z0-9 ]*$/;
 const numRegex = /^[0-9\s\-']+$/;
 const creditRegex = /^[0-9]$/;
+const empidRegex = /^[0-9]{9}$/;
 
 // gets a publication by id
 router.post('/api/publication/view', async (req, res) => {
@@ -34,7 +35,7 @@ router.post('/api/publication/view', async (req, res) => {
 
 // gets publications
 router.post('/api/publication/viewAll', async (req, res) => {
-  if (req.body.empid) {
+  if (req.body.empid.match(empidRegex)) {
     try {
       const publications = await Ctrl.getPublications(req.body);
       res.status(200).json({
@@ -197,7 +198,7 @@ router.get('/api/publication/viewEmployees', async (req, res) => {
 
 // gets publications
 router.post('/api/publication/viewEmployeeCoworkers', async (req, res) => {
-  if (req.body.empid) {
+  if (req.body.empid.match(empidRegex)) {
     try {
       const publications = await Ctrl.getEmployeeCoworkers(req.body);
       res.status(200).json({

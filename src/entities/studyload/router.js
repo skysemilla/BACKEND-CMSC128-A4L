@@ -103,9 +103,9 @@ router.post('/api/studyload/view', async (req, res) => {
 });
 router.post('/api/studyload/viewByStudyloadId', async (req, res) => {
   console.log(req.body);
-  if (req.session.user && req.body.studyload_id) {
+  if (req.session.user && req.body) {
     try {
-      const book = await Ctrl.getStudyLoad(req.body.studyload_id);
+      const book = await Ctrl.getStudyLoad(req.body);
       res.status(200).json({
         status: 200,
         message: 'Successfully fetched study load',

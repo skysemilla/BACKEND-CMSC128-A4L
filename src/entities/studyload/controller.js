@@ -1,4 +1,5 @@
 import db from '../../database';
+var SqlString = require('sqlstring');
 
 export const addStudyLoad = (json,json2) => {
   const credits = json.credits;
@@ -50,14 +51,16 @@ start();
 
 };
 
-export const removeStudyLoadDays = (studyload_id)=>{
+export const removeStudyLoadDays = ({studyload_id})=>{
   console.log(studyload_id);
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
     DELETE FROM STUDYLOAD_DAY WHERE studyload_id = ?
-    `;
+    `, [studyload_id]
+    );
 
-    db.query(queryString, studyload_id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -73,11 +76,13 @@ export const removeStudyLoadDays = (studyload_id)=>{
 }
 export const removeStudyLoad = ({ studyload_id }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
     call delete_studyload(?)
-    `;
+    `, [studyload_id]
+    );
 
-    db.query(queryString, studyload_id, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -99,11 +104,6 @@ export const editStudyLoad = (json,emp_id) => {
     const start_time = json.start_time;
     const end_time = json.end_time;
     const school = json.school;
-  return new Promise((resolve, reject) => {
-    const queryString = `
-    call update_studyload(?,?,?,?,?,?,?)
-    `;
-
     const values = [
       studyload_id,
       credits,
@@ -113,8 +113,14 @@ export const editStudyLoad = (json,emp_id) => {
       school,
       emp_id
     ];
+  return new Promise((resolve, reject) => {
+    const queryString = SqlString.format(
+      `
+        call update_studyload(?,?,?,?,?,?,?)
+      `, values
+      );
 
-    db.query(queryString, values, (err, res) => {
+    db.query(queryString, (err, res) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -129,13 +135,15 @@ export const editStudyLoad = (json,emp_id) => {
   });
 };
 
-export const getStudyLoad = ( studyload_id ) => {
+export const getStudyLoad = ( {studyload_id} ) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    const queryString = SqlString.format(
+      `
       call view_studyload_id_studyload(?)
-        `;
+        `, [studyload_id]
+        );
 
-    db.query(queryString, studyload_id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -152,11 +160,13 @@ export const getStudyLoad = ( studyload_id ) => {
 export const getStudyEmp = ( json ) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
+    const queryString = SqlString.format(
+      `
         call view_employee_studyload(?)
-        `;
+      `, [emp_id]
+      );
 
-    db.query(queryString, [emp_id], (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -192,11 +202,13 @@ export const getAllStudyLoad = () => {
 export const getStudyCredentials = ( json ) => {
   return new Promise((resolve, reject) => {
     const emp_id = json.emp_id;
-    const queryString = `
-      SELECT * FROM STUDY_CREDENTIALS WHERE emp_id = ?
-    `;
+    const queryString = SqlString.format(
+      `
+        SELECT * FROM STUDY_CREDENTIALS WHERE emp_id = ?
+      `, [emp_id]
+      );
 
-    db.query(queryString, [emp_id], (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -223,11 +235,6 @@ export const editStudyCredentials = (json,emp_id) => {
     studyleave = true;
   }
 
-return new Promise((resolve, reject) => {
-  const queryString = `
-  call update_study_credentials(?,?,?,?,?)
-  `;
-
   const values = [
     emp_id,
     degree,
@@ -236,7 +243,16 @@ return new Promise((resolve, reject) => {
     fellowship
   ];
 
-  db.query(queryString, values, (err, res) => {
+return new Promise((resolve, reject) => {
+  const queryString = SqlString.format(
+    `
+      call update_study_credentials(?,?,?,?,?)
+    `, values
+    );
+
+  
+
+  db.query(queryString, (err, res) => {
     if (err) {
       console.log(err);
       return reject(500);
@@ -251,13 +267,15 @@ return new Promise((resolve, reject) => {
 });
 };
 
-export const getDays = ( studyload_id) => {
+export const getDays = ( {studyload_id}) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
-    Select * from STUDYLOAD_DAY WHERE studyload_id = ?
-    `;
+    const queryString = SqlString.format(
+      `
+        Select * from STUDYLOAD_DAY WHERE studyload_id = ?
+      `, [studyload_id]
+      );
 
-    db.query(queryString, studyload_id, (err, rows) => {
+    db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);
@@ -271,9 +289,13 @@ export const getDays = ( studyload_id) => {
     });
   });
 };
-export const addDays = (studyload_id,days)=>{
-  const queryString = "Insert into STUDYLOAD_DAY VALUES (?,?)"
+export const addDays = ({studyload_id,days})=>{
+  const queryString = SqlString.format(
+    "Insert into STUDYLOAD_DAY VALUES (?,?)"
+    , [studyload_id, item]
+    );
   days.forEach(item => {
-    db.query(queryString, [studyload_id, item]);
+    // db.query(queryString, [studyload_id, item]);
+    db.query(queryString);
   })
 }

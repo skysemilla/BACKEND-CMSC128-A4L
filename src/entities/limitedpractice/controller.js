@@ -101,12 +101,6 @@ export const editLimitedPractice = ({
         values
       );
 
-      const values = [
-        
-        haveApplied,
-        emp_id
-      ];
-
       db.query(queryString, values, (err, res) => {
         if (err) {
           console.log(err);

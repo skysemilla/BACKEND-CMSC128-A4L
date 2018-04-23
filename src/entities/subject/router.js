@@ -25,7 +25,28 @@ router.post('/api/subject/viewAll', async (req, res) => {
   }
 });
 
-// gets samples
+router.post('/api/subject/getsubjectid', async (req, res) => {
+  try {
+    const subject = await Ctrl.getSubjectByID(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched subject',
+      data: subject
+    }); 
+  } catch (status) {
+    let message = '';
+
+    switch (status) {
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+
+    res.status(status).json({ status, message });
+  }
+});
+
+// gets sample
 router.post('/api/subject/viewsubject', async (req, res) => {
   try {
     const subject = await Ctrl.getSubject(req.body);
@@ -49,9 +70,12 @@ router.post('/api/subject/viewsubject', async (req, res) => {
 
 // add a sample
 router.post('/api/subject/add', async (req, res) => {
+  console.log(req.body);
   if (
     req.body.subject_code &&
     req.body.section_code &&
+    req.body.isLecture &&
+    req.body.isGraduate &&
     req.body.units &&
     req.body.room &&
     req.body.start_time &&
@@ -59,12 +83,13 @@ router.post('/api/subject/add', async (req, res) => {
   ) {
     try {
       const id = await Ctrl.addSubject(req.body);
-      //const subject = await Ctrl.getSubject({ id: id });
+      // console.log(id);
+      // const subject = await Ctrl.getSubjectByID({ subject_id: id });
 
       res.status(200).json({
         status: 200,
         message: 'Successfully created subject',
-        data: subject
+        data: id
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
@@ -75,10 +100,11 @@ router.post('/api/subject/add', async (req, res) => {
 });
 
 // removes a subject
-router.delete('/api/subject/remove', async (req, res) => {
+router.post('/api/subject/delete', async (req, res) => {
+  console.log(req.body);
   try {
-    const subject = await Ctrl.getSubject(req.params);
-    await Ctrl.removeSubject(req.params);
+    const subject = await Ctrl.getSubjectByID(req.body);
+    await Ctrl.removeSubject(req.body);
 
     res.status(200).json({
       status: 200,
@@ -101,10 +127,11 @@ router.delete('/api/subject/remove', async (req, res) => {
 
 
 // edits a subject
-router.put('/api/subject/edit', async (req, res) => {
+router.post('/api/subject/edit', async (req, res) => {
+  console.log(req.body);
   try {
     await Ctrl.editSubject(req.body);
-    const subject = await Ctrl.getSubject({ id: req.body.id });
+    const subject = await Ctrl.getSubjectByID(req.body);
 
     res.status(200).json({
       status: 200,

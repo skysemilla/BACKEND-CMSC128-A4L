@@ -1,5 +1,5 @@
 Arguments: 
-  /home/vivian/.nvm/versions/node/v8.9.0/bin/node /home/vivian/.nvm/versions/node/v8.9.0/bin/yarn build
+  /home/vivian/.nvm/versions/node/v8.9.0/bin/node /home/vivian/.nvm/versions/node/v8.9.0/bin/yarn seed
 
 PATH: 
   /home/vivian/.nvm/versions/node/v8.9.0/bin:/home/vivian/bin:/home/vivian/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -4196,7 +4196,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c backpack build
+  Arguments: -c mysql -u root -p < src/database/ddl.sql
   Directory: /home/vivian/Documents/128/latest/BACKEND-CMSC128-A4L
   Output:
   

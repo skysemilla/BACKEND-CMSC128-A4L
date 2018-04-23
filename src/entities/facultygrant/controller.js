@@ -128,7 +128,9 @@ export const editFacultyGrant = ({
 
 }) => {
   return new Promise((resolve, reject) => {
-    const queryString = `
+    if(type === "Yes")
+    {
+      const queryString = `
       CALL 
       update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);
     `;
@@ -143,18 +145,42 @@ export const editFacultyGrant = ({
       start_date,
       end_date
     ];
+  
 
-    db.query(queryString, values, (err, res) => {
-      if (err) {
-        console.log(err);
-        return reject(500);
-      }
+      db.query(queryString, values, (err, res) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
 
-      if (!res.affectedRows) {
-        return reject(404);
-      }
+        if (!res.affectedRows) {
+          return reject(404);
+        }
 
-      return resolve();
-    });
+        return resolve();
+      });
+    }
+    else{
+        const queryString = `
+        CALL 
+        update_faculty_grant(?, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      `;
+
+      const values = [
+        emp_id,
+      ];
+      db.query(queryString, values, (err, res) => {
+        if (err) {
+          console.log(err);
+          return reject(500);
+        }
+
+        if (!res.affectedRows) {
+          return reject(404);
+        }
+
+        return resolve();
+      });
+    }
   });
 };

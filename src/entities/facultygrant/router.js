@@ -5,47 +5,59 @@ const router = Router();
 
 // get a faculty grant by emp id
 router.post('/api/facultygrant/viewEmp', async (req, res) => {
-  try {
-    const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body);
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully fetched faculty grant',
-      data: facultygrant
-    });
-  } catch (status) {
-    let message = '';
-    switch (status) {
-      case 404:
-        message = 'Faculty grant not found';
-        break;
-      case 500:
-        message = 'Internal server error';
-        break;
+  if(
+    req.body.id
+  ){ 
+    try {
+      const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched faculty grant',
+        data: facultygrant
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Faculty grant not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
     }
-    res.status(status).json({ status, message });
+  }else{
+    res.status(400).json({status: 400, message: 'Bad Request'})
   }
 });
 
 // gets a faculty grant by id
 router.get('/api/facultygrant/view', async (req, res) => {
-  try {
-    const facultygrant = await Ctrl.getFacultyGrant(req.body);
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully fetched faculty grant',
-      data: facultygrant
-    });
-  } catch (status) {
-    let message = '';
-    switch (status) {
-      case 404:
-        message = 'Faculty grant not found';
-        break;
-      case 500:
-        message = 'Internal server error';
-        break;
+ if(
+   req.body.id
+  ){ 
+    try {
+      const facultygrant = await Ctrl.getFacultyGrant(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched faculty grant',
+        data: facultygrant
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Faculty grant not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
     }
-    res.status(status).json({ status, message });
+  }else{
+    res.status(400).json({status: 400, message: 'Bad Request'})
   }
 });
 
@@ -124,28 +136,41 @@ router.post('/api/facultygrant/delete', async (req, res) => {
 
 // edits a facultygrant
 router.post('/api/facultygrant/edit', async (req, res) => {
-  try {
-    await Ctrl.editFacultyGrant(req.body);
-    // const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body)({
-    //   emp_id: req.body.emp_id
-    // });
+  if(
+  req.body.emp_id &&
+	req.body.type &&
+	req.body.is_approved &&
+	req.body.professional_chair &&
+	req.body.grants &&
+  req.body.grant_title &&
+	req.body.start_date &&
+	req.body.end_date
+  ){ 
+    try {
+      await Ctrl.editFacultyGrant(req.body);
+      // const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body)({
+      //   emp_id: req.body.emp_id
+      // });
 
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully edited faculty grant',
-      // data: facultygrant
-    });
-  } catch (status) {
-    let message = '';
-    switch (status) {
-      case 404:
-        message = 'Faculty grant not found';
-        break;
-      case 500:
-        message = 'Internal server error';
-        break;
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully edited faculty grant',
+        // data: facultygrant
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Faculty grant not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
     }
-    res.status(status).json({ status, message });
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
 

@@ -28,9 +28,9 @@ create table EMPLOYEE(
   email varchar(255) not null,
   is_studying boolean not null, 
   is_full_time boolean,
-  current_study_units int,
+  current_study_units float,
   max_study_units int,
-  current_teaching_units int,
+  current_teaching_units float,
   min_teaching_units int,
   is_active boolean not null,
   is_being_approved boolean not null,
@@ -740,18 +740,32 @@ DROP PROCEDURE IF EXISTS add_subject;
 DROP PROCEDURE IF EXISTS delete_subject;
 DROP PROCEDURE IF EXISTS update_subject;
 DROP PROCEDURE IF EXISTS view_subject_by_id;
+DROP PROCEDURE IF EXISTS add_subject_day;
 
 DELIMITER GO
 
 CREATE PROCEDURE view_subject_by_id( subject_id_v int )
   BEGIN
-    Select * from subject where subject_id = subject_id_v;
+    Select * from SUBJECT where subject_id = subject_id_v;
   END;
 GO
 
 CREATE PROCEDURE view_subjects()
   BEGIN
-    Select * from subject;
+    Select * from SUBJECT;
+  END;
+GO
+
+CREATE PROCEDURE view_subjects_with_day()
+  BEGIN
+    Select b.subject_id, b.subject_code, b.section_code, b.isLecture, b.isGraduate, b.units, b.room, b.start_time, b.end_time, a.day "DAY" from SUBJECT_DAY as a join SUBJECT as b on a.subject_id = b.subject_id group by b.subject_id, a.day; 
+  END;
+GO
+
+
+CREATE PROCEDURE view_subject_day( subject_id_v int )
+  BEGIN
+    Select * from SUBJECT_DAY where subject_id = subject_id_v;
   END;
 GO
 
@@ -767,6 +781,15 @@ CREATE PROCEDURE add_subject(     subject_code_insert varchar(255),
     INSERT INTO SUBJECT
     VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, isGraduate_insert, units_insert, room_insert, start_time_insert, end_time_insert);
     call insert_log(concat("Subject with code ", subject_code_insert, " and section ", section_code_insert, " has been inserted to the DATABASE"));
+  END;
+GO
+
+
+CREATE PROCEDURE add_subject_day( day_insert varchar(255),
+                                  subject_id_insert int )
+  BEGIN
+    INSERT INTO SUBJECT_DAY
+    VALUES ( day_insert, subject_id_insert );
   END;
 GO
 
@@ -1384,27 +1407,47 @@ call insert_position("office A", 2, "A committee","Member","000000006");
 call insert_position("office A", 2, "A committee","Member","000000006");
 call insert_position("office A", 2, "A committee","Member","000000000");
 
-call add_subject("cmsc 111", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 11", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 12", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 131", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 141", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 151", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 1161", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 17", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("math 170", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
-call add_subject("cmsc 125", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0'));
+call add_subject("cmsc 111", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 1);
+call add_subject_day("thurs", 1);
+call add_subject("cmsc 11", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject("cmsc 12", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 3);
+call add_subject("cmsc 131", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 4);
+call add_subject("cmsc 141", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 5);
+call add_subject("cmsc 151", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 6);
+call add_subject("cmsc 1161", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 7);
+call add_subject("cmsc 17", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 8);
+call add_subject("math 170", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 9);
+call add_subject("cmsc 125", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
+call add_subject_day("wednesday", 10);
 
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0'));
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 11);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 12);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 13);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 14);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 15);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 16);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 17);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 18);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 19);
+call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
+call add_subject_day("wednesday", 19  );
 
 call insert_teachingload(1, "000000001", 12);
 call insert_teachingload(2, "000000002", 12);

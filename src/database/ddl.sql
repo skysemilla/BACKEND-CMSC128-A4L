@@ -1111,7 +1111,7 @@ DELIMITER GO
 
 CREATE PROCEDURE view_employee_consultation(emp_id varchar(20))
   BEGIN 
-    SELECT a.consultation_id, a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.consultation_id = emp_id;
+    SELECT a.consultation_id, a.emp_id, a.consultation_start_time, a.consultation_end_time, a.consultation_place, b.day from CONSULTATION as a join CONSULTATION_DAY as b on a.consultation_id = b.consultation_id where a.emp_id = emp_id;
 END;
 GO
 

@@ -64,6 +64,7 @@ export const removeConsulHours = ({ id }) => {
 // get a consultation hour
 export const getConsultation = ({ id }) => {
   return new Promise((resolve, reject) => {
+    console.log(SqlString.escape(id));
     const queryString = SqlString.format(
       `
           CALL

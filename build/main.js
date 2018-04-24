@@ -5367,6 +5367,7 @@ router.get('/api/position/viewAll', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editPosition; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 // add position
 var addPosition = function addPosition(_ref) {
@@ -5377,11 +5378,10 @@ var addPosition = function addPosition(_ref) {
       emp_id = _ref.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL insert_position(?, ?, ?, ?, ?);\n    ';
-
     var values = [office, credit_units, nature_of_work, work_position, emp_id];
+    var queryString = SqlString.format('\n      CALL insert_position(?, ?, ?, ?, ?);\n    ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err.message);
         return reject(500);
@@ -5397,9 +5397,9 @@ var getPosition = function getPosition(_ref2) {
   var id = _ref2.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL\n          view_position_by_ID(?)\n        ';
+    var queryString = SqlString.format('\n          CALL\n          view_position_by_ID(?)\n        ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [id, id], function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5438,9 +5438,9 @@ var getHisPosition = function getHisPosition(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n    SELECT * from POSITIONN where emp_id = ?\n        ';
+    var queryString = SqlString.format('\n    SELECT * from POSITIONN where emp_id = ?\n        ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [id], function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5459,9 +5459,9 @@ var removePosition = function removePosition(_ref4) {
   var id = _ref4.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL delete_position(?);\n    ';
+    var queryString = SqlString.format('\n      CALL delete_position(?);\n    ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5486,11 +5486,10 @@ var editPosition = function editPosition(_ref5) {
       emp_id = _ref5.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL update_position(?, ?, ?, ?, ?, ?);\n    ';
-
     var values = [position_id, office, credit_units, nature_of_work, work_position, emp_id];
+    var queryString = SqlString.format('\n      CALL update_position(?, ?, ?, ?, ?, ?);\n    ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5818,6 +5817,7 @@ router.post('/api/consulHours/view', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editConsulHours; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
+var SqlString = __webpack_require__(3);
 
 var addConsulHours = function addConsulHours(_ref) {
   var consultation_start_time = _ref.consultation_start_time,
@@ -5827,11 +5827,10 @@ var addConsulHours = function addConsulHours(_ref) {
       emp_id = _ref.emp_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      CALL \n      insert_consultation(?, ?, ?, ?, ?);\n    ';
-
     var values = [consultation_start_time, consultation_end_time, consultation_place, day, emp_id];
+    var queryString = SqlString.format('\n      CALL \n      insert_consultation(?, ?, ?, ?, ?);\n    ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err.message);
         return reject(500);
@@ -5847,9 +5846,9 @@ var removeConsulHours = function removeConsulHours(_ref2) {
   var id = _ref2.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n    CALL \n    delete_consultation(?)\n     \n    ';
+    var queryString = SqlString.format('\n    CALL \n    delete_consultation(?)\n    ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, results) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, results) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5869,9 +5868,10 @@ var getConsultation = function getConsultation(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n          CALL\n          view_employee_consultation(?);\n        ';
+    console.log(SqlString.escape(id));
+    var queryString = SqlString.format('\n          CALL\n          view_employee_consultation(?);\n        ', [id]);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, id, function (err, rows) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -5913,11 +5913,10 @@ var editConsulHours = function editConsulHours(_ref4) {
       day = _ref4.day;
 
   return new Promise(function (resolve, reject) {
-    var queryString = '\n     CALL \n     update_consultation(?, ?, ?, ?, ?);\n    ';
-
     var values = [consultation_id, consultation_start_time, consultation_end_time, consultation_place, day];
+    var queryString = SqlString.format('\n     CALL \n     update_consultation(?, ?, ?, ?, ?);\n    ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);

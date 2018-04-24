@@ -31,7 +31,7 @@ router.post('/api/consulHours/delete', async (req, res) => {
   try {
     // const consultation = await Ctrl.getConsultation({ id: req.body.id });
     console.log(req.body);
-    await Ctrl.removeConsulHours({ id: req.body.consultation_id });
+    await Ctrl.removeConsulHours(req.body);
 
     res.status(200).json({
       status: 200,
@@ -57,7 +57,9 @@ router.post('/api/consulHours/edit', async (req, res) => {
   try {
     console.log(req.body);
     await Ctrl.editConsulHours(req.body);
-    const consultation = await Ctrl.getConsultation({ id: req.body.consultation_id });
+    const consultation = await Ctrl.getConsultation({
+      id: req.body.consultation_id
+    });
 
     res.status(200).json({
       status: 200,
@@ -103,6 +105,28 @@ router.get('/api/consulHours/viewAll', async (req, res) => {
 router.post('/api/consulHours/view', async (req, res) => {
   try {
     const book = await Ctrl.getConsultation(req.body);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully fetched consultation',
+      data: book
+    });
+  } catch (status) {
+    let message = '';
+    switch (status) {
+      case 404:
+        message = 'Consultation not found';
+        break;
+      case 500:
+        message = 'Internal server error';
+        break;
+    }
+    res.status(status).json({ status, message });
+  }
+});
+
+router.post('/api/consulHours/viewOne', async (req, res) => {
+  try {
+    const book = await Ctrl.getSpecificConsul(req.body);
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched consultation',

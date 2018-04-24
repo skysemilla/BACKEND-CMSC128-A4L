@@ -88,6 +88,33 @@ export const getConsultation = ({ id }) => {
   });
 };
 
+// get a consultation by id
+export const getSpecificConsul = ({ id }) => {
+  return new Promise((resolve, reject) => {
+    console.log(SqlString.escape(id));
+    const queryString = SqlString.format(
+      `
+          CALL
+          view_consultation_by_ID(?);
+        `,
+      [id]
+    );
+
+    db.query(queryString, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!rows.length) {
+        return reject(404);
+      }
+
+      return resolve(rows[0]);
+    });
+  });
+};
+
 //gets all consultation hours
 export const getAllConsulHours = () => {
   return new Promise((resolve, reject) => {

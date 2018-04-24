@@ -1106,6 +1106,7 @@ DROP PROCEDURE IF EXISTS insert_consultation;
 DROP PROCEDURE IF EXISTS view_consultation; 
 DROP PROCEDURE IF EXISTS delete_consultation;
 DROP PROCEDURE IF EXISTS update_consultation;
+DROP PROCEDURE IF EXISTS view_consultation_by_ID;
 
 DELIMITER GO
 

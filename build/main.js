@@ -625,7 +625,7 @@ router.post('/api/extension/add', function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            if (!(req.body.credit_unit >= 0 && req.body.extension_type && req.body.extension_name && req.body.no_of_participants >= 0 && req.body.extension_role && req.body.funding_agency && req.body.funding_agency.match(numRegex) === false)) {
+            if (!(parseInt(req.body.credit_unit) >= 0 && req.body.extension_type && req.body.extension_name && parseInt(req.body.no_of_participants) >= 0 && req.body.extension_role && req.body.funding_agency && !req.body.funding_agency.match(numRegex))) {
               _context4.next = 13;
               break;
             }

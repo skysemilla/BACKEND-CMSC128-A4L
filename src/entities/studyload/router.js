@@ -177,8 +177,6 @@ router.get('/api/studyload/viewStudyCredentials', async (req, res) => {
 router.post('/api/studyload/editStudyCredentials', async (req, res) => {
   console.log(req.body);
   if (
-    req.body.degree &&
-    req.body.uni &&
     req.body.studyleave &&
     req.body.fellowship &&
     req.session.user
@@ -236,7 +234,9 @@ router.post('/api/studyload/getStudyLoadCredentialsFSR',async(req,res)=>{
   if(req.body.emp_id &&
       req.session.user.emp_id
   ){
-   try{
+    console.log(req.body);
+
+    try{
     const out = await Ctrl.getStudyCredentials(req.body);
     res.status(200).json({
       status: 200,
@@ -250,4 +250,5 @@ router.post('/api/studyload/getStudyLoadCredentialsFSR',async(req,res)=>{
     res.status(400).json({ status: 400, message: 'Bad request' });    
   }
 })
+
 export default router;

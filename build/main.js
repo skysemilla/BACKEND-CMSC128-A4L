@@ -4366,7 +4366,7 @@ var getFaculty = function getFaculty(_ref) {
 // gets all faculty
 var getAllFaculty = function getAllFaculty() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      call view_employee();\n    ';
+    var queryString = '\n      SELECT * FROM EMPLOYEE WHERE type = \'FACULTY\';\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {

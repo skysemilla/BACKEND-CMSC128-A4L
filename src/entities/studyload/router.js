@@ -250,5 +250,23 @@ router.post('/api/studyload/getStudyLoadCredentialsFSR',async(req,res)=>{
     res.status(400).json({ status: 400, message: 'Bad request' });    
   }
 })
-
+router.post('/api/studyload/getDaysFSR',async(req,res)=>{
+  if(req.body.studyload_id &&
+      req.body.emp_id &&
+      req.session.user.emp_id
+  ){
+   try{
+    const out = await Ctrl.getDays(req.body.emp_id);
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully got days',
+      data: out
+    });
+  } catch (status) {
+    res.status(500).json({ status: 500, message: 'Internal server error' });
+  }
+  }else{
+    res.status(400).json({ status: 400, message: 'Bad request' });    
+  }
+})
 export default router;

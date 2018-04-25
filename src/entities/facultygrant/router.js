@@ -5,7 +5,7 @@ const router = Router();
 
 // get a faculty grant by emp id
 router.post('/api/facultygrant/viewEmp', async (req, res) => {
-  if (req.body.id) {
+  if (req.body.emp_id) {
     try {
       const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body);
       res.status(200).json({

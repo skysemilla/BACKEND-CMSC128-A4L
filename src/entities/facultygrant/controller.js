@@ -76,13 +76,13 @@ export const getFacultyGrant = ({ id }) => {
 };
 
 // gets a faculty grant by id by emp_id
-export const getAllFacultyGrantByEmp = ({ id }) => {
+export const getAllFacultyGrantByEmp = ({ emp_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = SqlString.format(
       `
           CALL view_faculty_grant_by_emp_id(?)
         `,
-      [id]
+      [emp_id]
     );
 
     db.query(queryString, (err, rows) => {

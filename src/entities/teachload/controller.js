@@ -252,7 +252,6 @@ export const getTeachEmp = (json) => {
 
 export const getTeachEmpAdmin = ({emp_id}) => {
   return new Promise((resolve, reject) => {
-    console.log("AAAA");
     // const queryString = `
     //     call view_employee_teachingload(?);
     //     `;
@@ -264,12 +263,10 @@ export const getTeachEmpAdmin = ({emp_id}) => {
     db.query(queryString, (err, rows) => {
       if (err) {
         console.log(err);
-        console.log("agik");
         return reject(500);
       }
 
       if (!rows.length) {
-        console.log("no comprehendo");
         return reject(404);
       }
 
@@ -278,7 +275,6 @@ export const getTeachEmpAdmin = ({emp_id}) => {
       var i, j;
       for(i=0;i<rows.length;i++){
         var daysArray = [];
-        console.log("ahiiiiiiiik");
         if(visitedArray.includes(rows[i].teachingload_id)){
 
         }else{
@@ -292,8 +288,8 @@ export const getTeachEmpAdmin = ({emp_id}) => {
           newArray.push(rows[i]);
         }
       }
-      console.log(rows);
-      console.log(newArray);
+
+      console.log(newArray)
       return resolve(newArray);
     });
   });

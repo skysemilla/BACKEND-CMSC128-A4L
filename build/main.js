@@ -4774,7 +4774,7 @@ router.post('/api/fsr/send', function () {
 
             _context7.prev = 1;
             _context7.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* sendToAdmin */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* sendToAdmin */](req.body);
 
           case 4:
 
@@ -4817,6 +4817,64 @@ router.post('/api/fsr/send', function () {
   };
 }());
 
+// rejects fsr
+router.post('/api/fsr/reject', function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee8(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            if (!req.body.empid.match(empidRegex)) {
+              _context8.next = 18;
+              break;
+            }
+
+            _context8.prev = 1;
+            _context8.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* rejectFSR */](req.body);
+
+          case 4:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully rejected FSR'
+            });
+            _context8.next = 18;
+            break;
+
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8['catch'](1);
+            message = '';
+            _context8.t1 = _context8.t0;
+            _context8.next = _context8.t1 === 404 ? 13 : _context8.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'FSR not found';
+            return _context8.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context8.abrupt('break', 17);
+
+          case 17:
+            res.status(_context8.t0).json({ status: _context8.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context8.stop();
+        }
+      }
+    }, _callee8, _this, [[1, 7]]);
+  }));
+
+  return function (_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -4830,7 +4888,8 @@ router.post('/api/fsr/send', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getPendingFSR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getPendingByName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getPendingById; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return sendToAdmin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return sendToAdmin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return rejectFSR; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 var SqlString = __webpack_require__(3);
@@ -4965,12 +5024,34 @@ var getPendingById = function getPendingById(_ref4) {
   });
 };
 
-// sends fsr to data
+// sends fsr to admin
 var sendToAdmin = function sendToAdmin(_ref5) {
   var empid = _ref5.empid;
 
   return new Promise(function (resolve, reject) {
     var queryString = SqlString.format('\n      UPDATE EMPLOYEE\n      SET\n        is_being_approved = 1\n      WHERE\n        emp_id = ?\n    ', [empid]);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// rejects fsr
+var rejectFSR = function rejectFSR(_ref6) {
+  var empid = _ref6.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = SqlString.format('\n      UPDATE EMPLOYEE\n      SET\n        is_being_approved = 0\n      WHERE\n        emp_id = ?\n    ', [empid]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
@@ -5919,7 +6000,6 @@ var getConsultation = function getConsultation(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    console.log(SqlString.escape(id));
     var queryString = SqlString.format('\n          CALL\n          view_employee_consultation(?);\n        ', [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {

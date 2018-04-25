@@ -30,7 +30,7 @@ export const getFaculty = ({ id }) => {
 export const getAllFaculty = () => {
   return new Promise((resolve, reject) => {
     const queryString = `
-      call view_employee();
+      SELECT * FROM EMPLOYEE WHERE type = 'FACULTY';
     `;
 
     db.query(queryString, (err, rows) => {

@@ -198,7 +198,7 @@ export const getPendingById = ({ empid }) => {
   });
 };
 
-// sends fsr to data
+// sends fsr to admin
 export const sendToAdmin = ({ empid }) => {
   return new Promise((resolve, reject) => {
     const queryString = SqlString.format(
@@ -206,6 +206,35 @@ export const sendToAdmin = ({ empid }) => {
       UPDATE EMPLOYEE
       SET
         is_being_approved = 1
+      WHERE
+        emp_id = ?
+    `,
+      [empid]
+    );
+
+    db.query(queryString, (err, res) => {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// rejects fsr
+export const rejectFSR = ({ empid }) => {
+  return new Promise((resolve, reject) => {
+    const queryString = SqlString.format(
+      `
+      UPDATE EMPLOYEE
+      SET
+        is_being_approved = 0
       WHERE
         emp_id = ?
     `,

@@ -2440,14 +2440,14 @@ router.post('/api/studyload/viewByStudyloadId', function () {
           case 0:
             console.log(req.body);
 
-            if (!(req.session.user && req.body)) {
+            if (!(req.session.user && req.body.studyload_id)) {
               _context5.next = 22;
               break;
             }
 
             _context5.prev = 2;
             _context5.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* getStudyLoad */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["i" /* getStudyLoad */](req.body.studyload_id);
 
           case 5:
             book = _context5.sent;
@@ -2848,10 +2848,10 @@ var addStudyLoad = function addStudyLoad(json, json2) {
   }
 
   function insertDays(error, results, fields) {
-    var queryString = 'Insert into STUDYLOAD_DAY VALUES (?,?)';
     var tempid = results[0].id;
     days.forEach(function (item) {
-      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, [tempid, item]);
+      var queryString = SqlString.format('Insert into STUDYLOAD_DAY VALUES (?,?)', [tempid, item]);
+      __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString);
     }, send_response);
   }
 
@@ -2863,12 +2863,12 @@ var addStudyLoad = function addStudyLoad(json, json2) {
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, insertDays);
   }
 
+  var values = [credits, courseno, emp_id, start_time, end_time, school];
   function start() {
-    var queryString = 'call insert_studyload(?, ?, ?,?,?,?)';
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, getTempID);
+    var queryString = SqlString.format('call insert_studyload(?, ?, ?,?,?,?)', values);
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, getTempID);
   }
 
-  var values = [credits, courseno, emp_id, start_time, end_time, school];
   start();
 };
 
@@ -2919,9 +2919,9 @@ var editStudyLoad = function editStudyLoad(json, emp_id) {
   var start_time = json.start_time;
   var end_time = json.end_time;
   var school = json.school;
-  var values = [studyload_id, credits, courseno, start_time, end_time, school, emp_id];
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n        call update_studyload(?,?,?,?,?,?,?)\n      ', values);
+    var values = [studyload_id, credits, courseno, start_time, end_time, school, emp_id];
+    var queryString = SqlString.format('\n    call update_studyload(?,?,?,?,?,?,?)\n    ', values);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
@@ -2938,9 +2938,7 @@ var editStudyLoad = function editStudyLoad(json, emp_id) {
   });
 };
 
-var getStudyLoad = function getStudyLoad(_ref2) {
-  var studyload_id = _ref2.studyload_id;
-
+var getStudyLoad = function getStudyLoad(studyload_id) {
   return new Promise(function (resolve, reject) {
     var queryString = SqlString.format('\n      call view_studyload_id_studyload(?)\n        ', [studyload_id]);
 
@@ -2961,7 +2959,7 @@ var getStudyLoad = function getStudyLoad(_ref2) {
 var getStudyEmp = function getStudyEmp(json) {
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = SqlString.format('\n        call view_employee_studyload(?)\n      ', [emp_id]);
+    var queryString = SqlString.format('\n        call view_employee_studyload(?)\n        ', [emp_id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -2996,7 +2994,7 @@ var getAllStudyLoad = function getAllStudyLoad() {
 var getStudyCredentials = function getStudyCredentials(json) {
   return new Promise(function (resolve, reject) {
     var emp_id = json.emp_id;
-    var queryString = SqlString.format('\n        SELECT * FROM STUDY_CREDENTIALS WHERE emp_id = ?\n      ', [emp_id]);
+    var queryString = SqlString.format('\n      SELECT * FROM STUDY_CREDENTIALS WHERE emp_id = ?\n    ', [emp_id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -3025,12 +3023,11 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
     studyleave = true;
   }
 
-  var values = [emp_id, degree, university, studyleave, fellowship];
-
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n      call update_study_credentials(?,?,?,?,?)\n    ', values);
+    var values = [emp_id, degree, university, studyleave, fellowship];
+    var queryString = SqlString.format('\n  call update_study_credentials(?,?,?,?,?)\n  ', values);
 
-    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, values, function (err, res) {
       if (err) {
         console.log(err);
         return reject(500);
@@ -3045,11 +3042,9 @@ var editStudyCredentials = function editStudyCredentials(json, emp_id) {
   });
 };
 
-var getDays = function getDays(_ref3) {
-  var studyload_id = _ref3.studyload_id;
-
+var getDays = function getDays(studyload_id) {
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n        Select * from STUDYLOAD_DAY WHERE studyload_id = ?\n      ', [studyload_id]);
+    var queryString = SqlString.format('\n    Select * from STUDYLOAD_DAY WHERE studyload_id = ?\n    ', [studyload_id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -3065,13 +3060,9 @@ var getDays = function getDays(_ref3) {
     });
   });
 };
-var addDays = function addDays(_ref4) {
-  var studyload_id = _ref4.studyload_id,
-      days = _ref4.days;
-
-  var queryString = SqlString.format('Insert into STUDYLOAD_DAY VALUES (?,?)', [studyload_id, item]);
+var addDays = function addDays(studyload_id, days) {
   days.forEach(function (item) {
-    // db.query(queryString, [studyload_id, item]);
+    var queryString = SqlString.format('Insert into STUDYLOAD_DAY VALUES (?,?)', [studyload_id, item]);
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString);
   });
 };
@@ -3323,14 +3314,14 @@ router.post('/api/teachingload/viewByTeachloadId', function () {
           case 0:
             console.log(req.body);
 
-            if (!(req.session.user && req.body.teachingload_id)) {
+            if (!req.body.teachingload_id) {
               _context4.next = 22;
               break;
             }
 
             _context4.prev = 2;
             _context4.next = 5;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["n" /* getTeachLoad */](req.body.teachingload_id);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["n" /* getTeachLoad */](req.body);
 
           case 5:
             book = _context4.sent;
@@ -3990,7 +3981,7 @@ var getTeachLoad = function getTeachLoad(_ref8) {
   var teachingload_id = _ref8.teachingload_id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n          SELECT \n            *\n          FROM \n            TEACHINGLOAD\n          WHERE\n            teachingload_id = ?;\n        ', teachingload_id);
+    var queryString = SqlString.format('\n          SELECT \n            subject_code,section_code,no_of_students\n          FROM \n            TEACHINGLOAD NATURAL JOIN SUBJECT\n          WHERE\n            teachingload_id = ?;\n        ', teachingload_id);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -4375,7 +4366,7 @@ var getFaculty = function getFaculty(_ref) {
 // gets all faculty
 var getAllFaculty = function getAllFaculty() {
   return new Promise(function (resolve, reject) {
-    var queryString = '\n      call view_employee();\n    ';
+    var queryString = '\n      SELECT * FROM EMPLOYEE WHERE type = \'FACULTY\';\n    ';
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {
@@ -4783,7 +4774,7 @@ router.post('/api/fsr/send', function () {
 
             _context7.prev = 1;
             _context7.next = 4;
-            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* sendToAdmin */](req.body);
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["h" /* sendToAdmin */](req.body);
 
           case 4:
 
@@ -4826,6 +4817,64 @@ router.post('/api/fsr/send', function () {
   };
 }());
 
+// rejects fsr
+router.post('/api/fsr/reject', function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.mark(function _callee8(req, res) {
+    var message;
+    return __WEBPACK_IMPORTED_MODULE_0__home_jasarqui_Desktop_128_Lab_BACKEND_CMSC128_A4L_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            if (!req.body.empid.match(empidRegex)) {
+              _context8.next = 18;
+              break;
+            }
+
+            _context8.prev = 1;
+            _context8.next = 4;
+            return __WEBPACK_IMPORTED_MODULE_2__controller__["g" /* rejectFSR */](req.body);
+
+          case 4:
+
+            res.status(200).json({
+              status: 200,
+              message: 'Successfully rejected FSR'
+            });
+            _context8.next = 18;
+            break;
+
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8['catch'](1);
+            message = '';
+            _context8.t1 = _context8.t0;
+            _context8.next = _context8.t1 === 404 ? 13 : _context8.t1 === 500 ? 15 : 17;
+            break;
+
+          case 13:
+            message = 'FSR not found';
+            return _context8.abrupt('break', 17);
+
+          case 15:
+            message = 'Internal server error';
+            return _context8.abrupt('break', 17);
+
+          case 17:
+            res.status(_context8.t0).json({ status: _context8.t0, message: message });
+
+          case 18:
+          case 'end':
+            return _context8.stop();
+        }
+      }
+    }, _callee8, _this, [[1, 7]]);
+  }));
+
+  return function (_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
@@ -4839,7 +4888,8 @@ router.post('/api/fsr/send', function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getPendingFSR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getPendingByName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getPendingById; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return sendToAdmin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return sendToAdmin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return rejectFSR; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__database__ = __webpack_require__(1);
 
 var SqlString = __webpack_require__(3);
@@ -4974,12 +5024,34 @@ var getPendingById = function getPendingById(_ref4) {
   });
 };
 
-// sends fsr to data
+// sends fsr to admin
 var sendToAdmin = function sendToAdmin(_ref5) {
   var empid = _ref5.empid;
 
   return new Promise(function (resolve, reject) {
     var queryString = SqlString.format('\n      UPDATE EMPLOYEE\n      SET\n        is_being_approved = 1\n      WHERE\n        emp_id = ?\n    ', [empid]);
+
+    __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
+      if (err) {
+        console.log(err);
+        return reject(500);
+      }
+
+      if (!res.affectedRows) {
+        return reject(404);
+      }
+
+      return resolve();
+    });
+  });
+};
+
+// rejects fsr
+var rejectFSR = function rejectFSR(_ref6) {
+  var empid = _ref6.empid;
+
+  return new Promise(function (resolve, reject) {
+    var queryString = SqlString.format('\n      UPDATE EMPLOYEE\n      SET\n        is_being_approved = 0\n      WHERE\n        emp_id = ?\n    ', [empid]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
       if (err) {
@@ -5252,9 +5324,12 @@ router.post('/api/position/viewHis', function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
+            if (!req.body.id) {
+              _context5.next = 19;
+              break;
+            }
 
-            console.log(req.body);
+            _context5.prev = 1;
             _context5.next = 4;
             return __WEBPACK_IMPORTED_MODULE_2__controller__["d" /* getHisPosition */](req.body);
 
@@ -5271,7 +5346,7 @@ router.post('/api/position/viewHis', function () {
 
           case 8:
             _context5.prev = 8;
-            _context5.t0 = _context5['catch'](0);
+            _context5.t0 = _context5['catch'](1);
             message = '';
             _context5.t1 = _context5.t0;
             _context5.next = _context5.t1 === 404 ? 14 : _context5.t1 === 500 ? 16 : 18;
@@ -5293,7 +5368,7 @@ router.post('/api/position/viewHis', function () {
             return _context5.stop();
         }
       }
-    }, _callee5, _this, [[0, 8]]);
+    }, _callee5, _this, [[1, 8]]);
   }));
 
   return function (_x9, _x10) {
@@ -5925,7 +6000,6 @@ var getConsultation = function getConsultation(_ref3) {
   var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    console.log(SqlString.escape(id));
     var queryString = SqlString.format('\n          CALL\n          view_employee_consultation(?);\n        ', [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
@@ -6344,7 +6418,7 @@ router.post('/api/facultygrant/edit', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            if (!(req.body.emp_id && req.body.type && req.body.is_approved && req.body.professional_chair && req.body.grants && req.body.grant_title && req.body.start_date && req.body.end_date)) {
+            if (!(req.body.emp_id && req.body.type)) {
               _context6.next = 20;
               break;
             }
@@ -6540,6 +6614,7 @@ var editFacultyGrant = function editFacultyGrant(_ref5) {
   return new Promise(function (resolve, reject) {
     if (type === 'Yes') {
       var values = [emp_id, type, is_approved, professional_chair, grants, grant_title, start_date, end_date];
+      console.log('goes here');
       var queryString = SqlString.format('\n      CALL \n      update_faculty_grant(?, ?, ?, ?, ?, ?, ?, ?);\n    ', values);
 
       __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, res) {
@@ -6555,6 +6630,7 @@ var editFacultyGrant = function editFacultyGrant(_ref5) {
         return resolve();
       });
     } else {
+      console.log('no goes here');
       var _values = [emp_id];
       var _queryString = SqlString.format('\n        CALL \n        update_faculty_grant(?, NULL, NULL, NULL, NULL, NULL, NULL, NULL);\n      ', _values);
 

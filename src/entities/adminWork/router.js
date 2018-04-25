@@ -100,25 +100,26 @@ router.post('/api/position/view', async (req, res) => {
 });
 
 router.post('/api/position/viewHis', async (req, res) => {
-  try {
-    console.log(req.body);
-    const book = await Ctrl.getHisPosition(req.body);
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully fetched position',
-      data: book
-    });
-  } catch (status) {
-    let message = '';
-    switch (status) {
-      case 404:
-        message = 'Position not found';
-        break;
-      case 500:
-        message = 'Internal server error';
-        break;
+  if(req.body.id){
+    try {
+      const book = await Ctrl.getHisPosition(req.body);
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched position',
+        data: book
+      });
+    } catch (status) {
+      let message = '';
+      switch (status) {
+        case 404:
+          message = 'Position not found';
+          break;
+        case 500:
+          message = 'Internal server error';
+          break;
+      }
+      res.status(status).json({ status, message });
     }
-    res.status(status).json({ status, message });
   }
 });
 

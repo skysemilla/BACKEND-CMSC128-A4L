@@ -97,9 +97,9 @@ router.post('/api/teachload/edit/', async (req, res) => {
 
 router.post('/api/teachingload/viewByTeachloadId', async (req, res) => {
   console.log(req.body);
-  if (req.session.user && req.body.teachingload_id) {
+  if (req.body.teachingload_id) {
     try {
-      const book = await Ctrl.getTeachLoad(req.body.teachingload_id);
+      const book = await Ctrl.getTeachLoad(req.body);
       res.status(200).json({
         status: 200,
         message: 'Successfully fetched study load',

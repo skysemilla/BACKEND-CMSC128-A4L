@@ -1389,16 +1389,16 @@ call insert_extension(3,"extension 1","type 2",5,6,"role 1",('2017-09-09'),('201
 
 
 
-call insert_consultation(('2:30:01'),('2:30:01'), "C112", "monday", "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "C114", "monday", "000000005");
-call insert_consultation(('2:30:01'),('2:30:01'), "C112", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "C113", "monday" , "000000004");
-call insert_consultation(('2:30:01'),('2:30:01'), "C113", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "C116", "monday" , "000000003");
-call insert_consultation(('2:30:01'),('2:30:01'), "C114", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "C114", "monday" , "000000002");
-call insert_consultation(('2:30:01'),('2:30:01'), "C115", "monday" , "000000000");
-call insert_consultation(('2:30:01'),('2:30:01'), "C116", "monday" , "000000001");
+call insert_consultation(('08:30:00'),('09:30:00'), "C112", "Monday", "000000000");
+call insert_consultation(('09:30:00'),('10:30:00'), "C114", "Tuesday", "000000005");
+call insert_consultation(('10:30:00'),('11:30:00'), "C112", "Wednesday" , "000000000");
+call insert_consultation(('11:30:00'),('12:30:00'), "C113", "Thursday" , "000000004");
+call insert_consultation(('12:30:00'),('13:30:00'), "C113", "Friday" , "000000000");
+call insert_consultation(('13:30:00'),('14:30:00'), "C116", "Monday" , "000000003");
+call insert_consultation(('14:30:00'),('15:30:00'), "C114", "Thursday" , "000000000");
+call insert_consultation(('15:30:00'),('16:30:00'), "C114", "Tuesday" , "000000002");
+call insert_consultation(('15:30:00'),('16:30:00'), "C115", "Wednesday" , "000000000");
+call insert_consultation(('11:30:00'),('12:30:00'), "C116", "Tuesday" , "000000001");
 
 
 call insert_position("office A", 2, "A committee","Member","000000000");
@@ -1412,58 +1412,83 @@ call insert_position("office A", 2, "A committee","Member","000000006");
 call insert_position("office A", 2, "A committee","Member","000000006");
 call insert_position("office A", 2, "A committee","Member","000000000");
 
-call add_subject("cmsc 111", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 1);
-call add_subject_day("thurs", 1);
-call add_subject("cmsc 11", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject("cmsc 12", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 3);
-call add_subject("cmsc 131", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 4);
-call add_subject("cmsc 141", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 5);
-call add_subject("cmsc 151", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 6);
-call add_subject("cmsc 1161", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 7);
-call add_subject("cmsc 17", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 8);
-call add_subject("math 170", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 9);
-call add_subject("cmsc 125", "a", 0, 0, 3, "a41", ('8:59:0'), ('9:59:0')); 
-call add_subject_day("wednesday", 10);
+call add_subject("CMSC 11","AL", 0, 0, 3, "ICS PCLAB 3", "10:00:00", "11:00:00");
+call add_subject("CMSC 11","A1L", 0, 0, 3, "ICS PCLAB 2", "16:00:00", "19:00:00");
 
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 11);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 12);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 13);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 14);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 15);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 16);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 17);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 18);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 19);
-call add_subject("CMSC 251", "A", 1, 1, 2, "PCLAB5", ('9:0:0'), ('10:0:0')); 
-call add_subject_day("wednesday", 19  );
 
-call insert_teachingload(1, "000000001", 12);
-call insert_teachingload(2, "000000002", 12);
-call insert_teachingload(3, "000000000", 12);
-call insert_teachingload(4, "000000000", 12);
-call insert_teachingload(5, "000000001", 12);
-call insert_teachingload(6, "000000003", 12);
-call insert_teachingload(7, "000000004", 12);
-call insert_teachingload(8, "000000005", 12);
-call insert_teachingload(9, "000000006", 12);
-call insert_teachingload(10, "000000007", 12);
+call add_subject_day("Friday", 1);
+call add_subject_day("Tuesday", 1);
+call add_subject_day("Wednesday", 2);
+
+call add_subject("CMSC 21","AB", 1, 0, 3, "ICS LH3", "09:00:00", "10:00:00");
+call add_subject_day("Wednesday", 3);
+call add_subject_day("Friday", 3);
+call add_subject("CMSC 21","AB1L", 0, 0, 3, "ICS PCLAB 5", "13:00:00", "16:00:00");
+call add_subject_day("Tuesday", 4);
+call add_subject("CMSC 21","AB2L", 0, 0, 3, "ICS PCLAB 6", "13:00:00", "16:00:00");
+call add_subject_day("Thursday", 5);
+
+call add_subject("CMSC 22","C", 1, 0, 3, "ICSMH", "07:00:00", "08:00:00");
+call add_subject_day("Wednesday", 6);
+call add_subject_day("Friday", 6);
+call add_subject("CMSC 22","C5L", 0, 0, 3, "ICS PCLAB 5", "13:00:00", "16:00:00");
+call add_subject_day("Tuesday", 7);
+call add_subject("CMSC 22","C6L", 0, 0, 3, "ICS PCLAB 6", "13:00:00", "16:00:00");
+call add_subject_day("Thursday", 8);
+
+call add_subject("CMSC 56","D", 1, 0, 3, "ICS LH4", "10:00:00", "11:00:00");
+call add_subject_day("Tuesday", 9);
+call add_subject_day("Thursday", 9);
+call add_subject("CMSC 56","D1L", 0, 0, 3, "ICS PCLAB 5", "16:00:00", "19:00:00");
+call add_subject_day("Tuesday", 10);
+call add_subject("CMSC 56","D1L", 0, 0, 3, "ICS PCLAB 6", "13:00:00", "16:00:00");
+call add_subject_day("Monday", 11);
+
+----
+
+call add_subject("CMSC 57","E", 1, 0, 3, "ICSMH", "07:00:00", "08:00:00");
+call add_subject_day("Tuesday", 12);
+call add_subject_day("Thursday", 12);
+call add_subject("CMSC 57","E1L", 0, 0, 3, "ICS PCLAB 3", "10:00:00", "13:00:00");
+call add_subject_day("Friday", 13);
+call add_subject("CMSC 57","E2L", 0, 0, 3, "ICS PCLAB 2", "16:00:00", "19:00:00");
+call add_subject_day("Wednesday", 14);
+
+call add_subject("CMSC 100","EA", 1, 0, 3, "ICS LH3", "09:00:00", "10:00:00");
+call add_subject_day("Wednesday", 15);
+call add_subject_day("Friday", 15);
+call add_subject("CMSC 100","EA1L", 0, 0, 3, "ICS PCLAB 5", "13:00:00", "16:00:00");
+call add_subject_day("Tuesday", 16);
+call add_subject("CMSC 100","EA2L", 0, 0, 3, "ICS PCLAB 6", "13:00:00", "16:00:00");
+call add_subject_day("Thursday", 17);
+
+call add_subject("CMSC 125","C", 1, 0, 3, "ICSMH", "07:00:00", "08:00:00");
+call add_subject_day("Wednesday", 18);
+call add_subject_day("Friday", 18);
+call add_subject("CMSC 125","C5L", 0, 0, 3, "ICS PCLAB 5", "13:00:00", "16:00:00");
+call add_subject_day("Tuesday", 19);
+call add_subject("CMSC 125","C6L", 0, 0, 3, "ICS PCLAB 6", "13:00:00", "16:00:00");
+call add_subject_day("Thursday", 20);
+
+call add_subject("CMSC 56","D", 1, 0, 3, "ICS LH4", "10:00:00", "11:00:00");
+call add_subject_day("Tuesday", 21);
+call add_subject_day("Thursday", 21);
+call add_subject("CMSC 56","D1L", 0, 0, 3, "ICS PCLAB 5", "16:00:00", "19:00:00");
+call add_subject_day("Tuesday", 22);
+call add_subject("CMSC 56","D1L", 0, 0, 3, "ICS PCLAB 6", "13:00:00", "16:00:00");
+call add_subject_day("Monday", 23);
+--
+
+call insert_teachingload(1, "000000001", 157);
+call insert_teachingload(2, "000000002", 25);
+call insert_teachingload(3, "000000000", 128);
+call insert_teachingload(4, "000000000", 31);
+call insert_teachingload(5, "000000001", 28);
+call insert_teachingload(6, "000000003", 162);
+call insert_teachingload(7, "000000004", 22);
+call insert_teachingload(8, "000000005", 29);
+call insert_teachingload(9, "000000006", 155);
+call insert_teachingload(10, "000000007", 23);
 
 call insert_studyload(3,"CMSC 200","000000001","11:00:00","11:20:00","UPD");
 call insert_studyload(3,"CMSC 210","000000001","11:00:00","11:20:00","UPD");

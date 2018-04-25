@@ -187,9 +187,9 @@ export const getTeachLoad = ({ teachingload_id }) => {
   return new Promise((resolve, reject) => {
     const queryString = SqlString.format(`
           SELECT 
-            *
+            subject_code,section_code,no_of_students
           FROM 
-            TEACHINGLOAD
+            TEACHINGLOAD NATURAL JOIN SUBJECT
           WHERE
             teachingload_id = ?;
         `,teachingload_id);

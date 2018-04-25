@@ -257,7 +257,7 @@ export const getDays = ( studyload_id) => {
     Select * from STUDYLOAD_DAY WHERE studyload_id = ?
     `;
 
-    db.query(queryString, studyload_id, (err, rows) => {
+    db.query(queryString, [studyload_id], (err, rows) => {
       if (err) {
         console.log(err);
         return reject(500);

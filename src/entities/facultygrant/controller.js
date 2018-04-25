@@ -149,6 +149,7 @@ export const editFacultyGrant = ({
         start_date,
         end_date
       ];
+      console.log('goes here');
       const queryString = SqlString.format(
         `
       CALL 
@@ -170,6 +171,7 @@ export const editFacultyGrant = ({
         return resolve();
       });
     } else {
+      console.log('no goes here');
       const values = [emp_id];
       const queryString = SqlString.format(
         `

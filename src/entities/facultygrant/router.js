@@ -5,9 +5,7 @@ const router = Router();
 
 // get a faculty grant by emp id
 router.post('/api/facultygrant/viewEmp', async (req, res) => {
-  if(
-    req.body.id
-  ){ 
+  if (req.body.id) {
     try {
       const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body);
       res.status(200).json({
@@ -27,16 +25,14 @@ router.post('/api/facultygrant/viewEmp', async (req, res) => {
       }
       res.status(status).json({ status, message });
     }
-  }else{
-    res.status(400).json({status: 400, message: 'Bad Request'})
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad Request' });
   }
 });
 
 // gets a faculty grant by id
 router.get('/api/facultygrant/view', async (req, res) => {
- if(
-   req.body.id
-  ){ 
+  if (req.body.id) {
     try {
       const facultygrant = await Ctrl.getFacultyGrant(req.body);
       res.status(200).json({
@@ -56,11 +52,10 @@ router.get('/api/facultygrant/view', async (req, res) => {
       }
       res.status(status).json({ status, message });
     }
-  }else{
-    res.status(400).json({status: 400, message: 'Bad Request'})
+  } else {
+    res.status(400).json({ status: 400, message: 'Bad Request' });
   }
 });
-
 
 // gets a faculty grant by id
 router.get('/api/facultygrant/viewAll', async (req, res) => {
@@ -87,16 +82,14 @@ router.get('/api/facultygrant/viewAll', async (req, res) => {
 
 // add a faculty grant
 router.post('/api/facultygrant/add', async (req, res) => {
-  if (
-    req.body
-  ) {
+  if (req.body) {
     try {
       const id = await Ctrl.addFacultyGrant(req.body);
-     // const facultygrant = await Ctrl.getFacultyGrant({faculty_grant_id: id});
+      // const facultygrant = await Ctrl.getFacultyGrant({faculty_grant_id: id});
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully created faculty grant',
+        message: 'Successfully created faculty grant'
         // data: facultygrant
       });
     } catch (status) {
@@ -106,8 +99,6 @@ router.post('/api/facultygrant/add', async (req, res) => {
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
-
-
 
 // removes a faculty grant
 router.post('/api/facultygrant/delete', async (req, res) => {
@@ -136,16 +127,7 @@ router.post('/api/facultygrant/delete', async (req, res) => {
 
 // edits a facultygrant
 router.post('/api/facultygrant/edit', async (req, res) => {
-  if(
-  req.body.emp_id &&
-	req.body.type &&
-	req.body.is_approved &&
-	req.body.professional_chair &&
-	req.body.grants &&
-  req.body.grant_title &&
-	req.body.start_date &&
-	req.body.end_date
-  ){ 
+  if (req.body.emp_id && req.body.type) {
     try {
       await Ctrl.editFacultyGrant(req.body);
       // const facultygrant = await Ctrl.getAllFacultyGrantByEmp(req.body)({
@@ -154,7 +136,7 @@ router.post('/api/facultygrant/edit', async (req, res) => {
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully edited faculty grant',
+        message: 'Successfully edited faculty grant'
         // data: facultygrant
       });
     } catch (status) {

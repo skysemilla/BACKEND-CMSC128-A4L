@@ -1,10 +1,10 @@
-DROP USER IF EXISTS 'skydev'@'localhost';
-CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
-GRANT SUPER ON *.* TO 'skydev'@'localhost';
-GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
-DROP DATABASE IF EXISTS skydev;
-CREATE DATABASE skydev;
-USE skydev;
+DROP USER IF EXISTS 'skydev1'@'localhost';
+CREATE USER 'skydev1'@'localhost' IDENTIFIED BY 'skydev1';
+GRANT SUPER ON *.* TO 'skydev1'@'localhost';
+GRANT ALL PRIVILEGES ON skydev1.* TO 'skydev1'@'localhost' WITH GRANT OPTION;
+DROP DATABASE IF EXISTS skydev1;
+CREATE DATABASE skydev1;
+USE skydev1;
 
 
 

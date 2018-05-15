@@ -2,9 +2,9 @@ import mysql from 'mysql';
 
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'skydev',
-  password: 'skydev',
-  db: 'skydev',
+  user: 'skydev1',
+  password: 'skydev1',
+  db: 'skydev1',
   dateStrings: true
 });
 
@@ -17,6 +17,6 @@ db.connect(err => {
   }
 });
 
-db.query('USE skydev');
+db.query('USE skydev1');
 
 export default db;

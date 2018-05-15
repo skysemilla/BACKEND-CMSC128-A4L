@@ -82,9 +82,9 @@ module.exports = require("express");
 
 var db = __WEBPACK_IMPORTED_MODULE_0_mysql___default.a.createConnection({
   host: 'localhost',
-  user: 'skydev',
-  password: 'skydev',
-  db: 'skydev',
+  user: 'skydev1',
+  password: 'skydev1',
+  db: 'skydev1',
   dateStrings: true
 });
 
@@ -97,7 +97,7 @@ db.connect(function (err) {
   }
 });
 
-db.query('USE skydev');
+db.query('USE skydev1');
 
 /* harmony default export */ __webpack_exports__["a"] = (db);
 
@@ -6169,7 +6169,7 @@ router.post('/api/facultygrant/viewEmp', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            if (!req.body.emp_id) {
+            if (!req.body.id) {
               _context.next = 21;
               break;
             }
@@ -6613,10 +6613,10 @@ var getFacultyGrant = function getFacultyGrant(_ref2) {
 
 // gets a faculty grant by id by emp_id
 var getAllFacultyGrantByEmp = function getAllFacultyGrantByEmp(_ref3) {
-  var emp_id = _ref3.emp_id;
+  var id = _ref3.id;
 
   return new Promise(function (resolve, reject) {
-    var queryString = SqlString.format('\n          CALL view_faculty_grant_by_emp_id(?)\n        ', [emp_id]);
+    var queryString = SqlString.format('\n          CALL view_faculty_grant_by_emp_id(?)\n        ', [id]);
 
     __WEBPACK_IMPORTED_MODULE_0__database__["a" /* default */].query(queryString, function (err, rows) {
       if (err) {

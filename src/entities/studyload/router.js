@@ -256,7 +256,7 @@ router.post('/api/studyload/getDaysFSR',async(req,res)=>{
       req.session.user.emp_id
   ){
    try{
-    const out = await Ctrl.getDays(req.body.emp_id);
+    const out = await Ctrl.getDays(req.body.studyload_id);
     res.status(200).json({
       status: 200,
       message: 'Successfully got days',

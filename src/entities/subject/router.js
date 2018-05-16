@@ -82,15 +82,39 @@ router.post('/api/subject/add', async (req, res) => {
     req.body.end_time
   ) {
     try {
-      const id = await Ctrl.addSubject(req.body);
-      // console.log(id);
-      // const subject = await Ctrl.getSubjectByID({ subject_id: id });
+      var id = -1;
+      var start = req.body.start_time;
+      var end = req.body.end_time;
+      var arr_start = start.split(":");
+      var arr_end = end.split(":");
+      if(Number(arr_end[0])>Number(arr_start[0])){
+        // console.log("SUCCESS");
+        id = await Ctrl.addSubject(req.body);
+      }else{
+        if(Number(arr_end[0]==Number(arr_start[0]))){
+          if(Number(arr_end[1]>Number(arr_start[1]))){
+            // console.log("Success");
+            id = await Ctrl.addSubject(req.body);
+          }else{
+            // console.log("Fail");
+            res.status(400).json({ status: 400, message: 'Bad request'});
+          }
+        }
+      }
 
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully created subject',
-        data: id
-      });
+      if(id!=-1){
+        res.status(200).json({
+          status: 200,
+          message: 'Successfully created subject',
+          data: id
+        });
+      }else{
+        res.stats(404).json({
+          status: 404,
+          message: 'Bad request'
+        });
+      }
+
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
     }

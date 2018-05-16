@@ -31,7 +31,7 @@ router.post('/api/extension/viewByID', async (req, res) => {
 });
 
 router.post('/api/extension/viewByID', async (req, res) => {
-  if(req.body.id){
+  if (req.body.id) {
     try {
       const extension = await Ctrl.getExtensionByID(req.body);
       res.status(200).json({
@@ -56,7 +56,7 @@ router.post('/api/extension/viewByID', async (req, res) => {
 
 // get a extensions
 router.post('/api/extension/view', async (req, res) => {
-  if(req.body.id){
+  if (req.body.id) {
     try {
       const extension = await Ctrl.getExtension(req.body);
       res.status(200).json({
@@ -93,41 +93,41 @@ router.post('/api/extension/view', async (req, res) => {
 // add a extension
 router.post('/api/extension/add', async (req, res) => {
   if (
-    req.body.credit_unit >= 0 &&
+    parseInt(req.body.credit_unit) >= 0 &&
     req.body.extension_type &&
     req.body.extension_name &&
-    req.body.no_of_participants >= 0 &&
+    parseInt(req.body.no_of_participants) >= 0 &&
     req.body.extension_role &&
     req.body.funding_agency &&
-    (req.body.funding_agency.match(numRegex) === false)
-  ){
+    !req.body.funding_agency.match(numRegex)
+  ) {
     try {
       const id = await Ctrl.addExtension(req.body);
       // const extensionAdded = await Ctrl.getExtension({ id: id });
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully added Extension',
+        message: 'Successfully added Extension'
         // data: extensionAdded
       });
     } catch (status) {
       res.status(500).json({ status: 500, message: 'Internal server error' });
     }
-  } else{
+  } else {
     res.status(400).json({ status: 400, message: 'Bad request' });
   }
 });
 
 // removes an extension
 router.post('/api/extension/delete', async (req, res) => {
-  if(req.body.id){
+  if (req.body.id) {
     try {
       // const extension = await Ctrl.getExtension(req.body);
       await Ctrl.removeExtension(req.body);
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully removed sample',
+        message: 'Successfully removed sample'
         // data: extension
       });
     } catch (status) {
@@ -147,14 +147,14 @@ router.post('/api/extension/delete', async (req, res) => {
 
 // edits a extension
 router.post('/api/extension/edit', async (req, res) => {
-  if(req.body.id){
+  if (req.body.id) {
     try {
       await Ctrl.editExtension(req.body);
       // const extensionEdited = await Ctrl.getExtension({ id: req.body.extension_id });
 
       res.status(200).json({
         status: 200,
-        message: 'Successfully edited extension',
+        message: 'Successfully edited extension'
         // data: extensionEdited
       });
     } catch (status) {

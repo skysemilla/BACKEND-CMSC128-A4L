@@ -38,7 +38,7 @@ router.post('/api/login', async (req, res) => {
 });
 
 router.post('/api/logout', (req, res) => {
-  req.session.user = null;
+  req.session.destroy();
   res.status(200).json({
     status: 200,
     message: 'Successfully logged out'

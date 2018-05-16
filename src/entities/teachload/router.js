@@ -127,6 +127,7 @@ router.post('/api/teachload/viewempadmin', async (req, res) => {
   if (req.body.emp_id) {
     try {
       const book = await Ctrl.getTeachEmpAdmin(req.body);
+      console.log(book);
       res.status(200).json({
         status: 200,
         message: 'Successfully fetched teach load',

@@ -1,10 +1,10 @@
-DROP USER IF EXISTS 'skydev'@'localhost';
-CREATE USER 'skydev'@'localhost' IDENTIFIED BY 'skydev';
-GRANT SUPER ON *.* TO 'skydev'@'localhost';
-GRANT ALL PRIVILEGES ON skydev.* TO 'skydev'@'localhost' WITH GRANT OPTION;
-DROP DATABASE IF EXISTS skydev;
-CREATE DATABASE skydev;
-USE skydev;
+DROP USER IF EXISTS 'skydev1'@'localhost';
+CREATE USER 'skydev1'@'localhost' IDENTIFIED BY 'skydev1';
+GRANT SUPER ON *.* TO 'skydev1'@'localhost';
+GRANT ALL PRIVILEGES ON skydev1.* TO 'skydev1'@'localhost' WITH GRANT OPTION;
+DROP DATABASE IF EXISTS skydev1;
+CREATE DATABASE skydev1;
+USE skydev1;
 
 
 
@@ -778,9 +778,11 @@ CREATE PROCEDURE add_subject(     subject_code_insert varchar(255),
                                   start_time_insert time,
                                   end_time_insert time )
   BEGIN
-    INSERT INTO SUBJECT
-    VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, isGraduate_insert, units_insert, room_insert, start_time_insert, end_time_insert);
-    call insert_log(concat("Subject with code ", subject_code_insert, " and section ", section_code_insert, " has been inserted to the DATABASE"));
+    IF end_time_insert > start_time_insert THEN
+      INSERT INTO SUBJECT
+      VALUES (NULL, subject_code_insert, section_code_insert, isLecture_insert, isGraduate_insert, units_insert, room_insert, start_time_insert, end_time_insert);
+      call insert_log(concat("Subject with code ", subject_code_insert, " and section ", section_code_insert, " has been inserted to the DATABASE"));
+    END IF;
   END;
 GO
 
@@ -1004,10 +1006,12 @@ CREATE PROCEDURE insert_studyload(
                                     end_time_insert time,
                                     school_insert varchar(255))
   BEGIN
+    IF end_time_insert > start_time_insert THEN 
       INSERT INTO STUDYLOAD
       VALUES (NULL, credits_insert, course_no_insert, emp_id_insert, start_time_insert,end_time_insert, school_insert);
       call insert_log(concat("STUDYLOAD with course_no ", course_no_insert ," has been added to the table STUDYLOAD"));
       call update_employee_studyload(emp_id_insert);
+    END IF;
   END;      
 GO
 

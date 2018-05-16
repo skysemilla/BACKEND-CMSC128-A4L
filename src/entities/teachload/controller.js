@@ -273,19 +273,19 @@ export const getTeachEmpAdmin = ({emp_id}) => {
       var newArray = [];
       var visitedArray = []; 
       var i, j;
-      for(i=0;i<rows[0].length;i++){
+      for(i=0;i<rows.length;i++){
         var daysArray = [];
-        if(visitedArray.includes(rows[0][i].teachingload_id)){
+        if(visitedArray.includes(rows[i].teachingload_id)){
 
         }else{
-          for(j=0;j<rows[0].length;j++){
-            if(rows[0][i].teachingload_id==rows[0][j].teachingload_id){
-              daysArray.push(rows[0][j].day);
+          for(j=0;j<rows.length;j++){
+            if(rows[i].teachingload_id==rows[j].teachingload_id){
+              daysArray.push(rows[j].day);
             }
           }
-          rows[0][i].day = daysArray;
-          visitedArray.push(rows[0][i].teachingload_id);
-          newArray.push(rows[0][i]);
+          rows[i].day = daysArray;
+          visitedArray.push(rows[i].teachingload_id);
+          newArray.push(rows[i]);
         }
       }
 

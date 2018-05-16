@@ -52,6 +52,23 @@ export const getSubjectByID = ({ subject_id }) => {
   });
 };
 
+
+// export const getSubjects = () =>{
+//   return new Promise((resolve, reject)) =>{
+//     const queryString = `
+//       SELECT * FROM SUBJECT;
+//     `;
+
+//     db.query(queryString, (err, rows) =>{
+//       if(err) {
+//         console.log(err);
+//         return reject(500);
+//       }
+
+//       return (rows[0]);
+//     })
+//   }
+// }
 // // gets all subjects
 export const getSubjects = () => {
   return new Promise((resolve, reject) => {
@@ -93,7 +110,7 @@ export const getSubjects = () => {
 
 
 // adds a sample
-export const addSubject = ({ subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time }) => {
+export const addSubject = ({ subject_code, section_code, isLecture,days, isGraduate, units, room, start_time, end_time }) => {
   return new Promise((resolve, reject) => {
     const values = [subject_code, section_code, isLecture, isGraduate, units, room, start_time, end_time];
     const queryString = SqlString.format(
@@ -109,6 +126,23 @@ export const addSubject = ({ subject_code, section_code, isLecture, isGraduate, 
         console.log('ERROR!!');
         return reject(500);
       }
+      const queryID=SqlString.format(`select subject_id from SUBJECT where section_code=? and subject_code=?;`,[section_code, subject_code]);
+      db.query(queryID, (err,res)=>{
+        if(err){
+          return reject(500);
+        }
+        const queryAddSubjectDay = SqlString.format(
+          `CALL add_subject_day(?,?);`, [days,res[0].subject_id]
+        );
+
+        db.query(queryAddSubjectDay, (err,result)=>{
+        if (err) {
+        console.log(err);
+        console.log('ERROR!!');
+        return reject(500);
+          }
+        });
+      });
       // console.log("CTRL: "+results.insertId);
 
       return resolve(results.insertId);
